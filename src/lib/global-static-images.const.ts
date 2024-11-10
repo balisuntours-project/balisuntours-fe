@@ -1,0 +1,1 @@
+export const BANNER_LANDING_PAGE = ["/hero-landing-1.png", "/hero-landing-2.jpg", "/hero-landing-3.jpg"];
