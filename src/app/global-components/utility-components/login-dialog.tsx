@@ -26,8 +26,8 @@ export function LoginDialog() {
 
    
     return (
-        <Dialog open={showLoginDialog} onOpenChange={() => setShowLoginDialog(false)}>
-    <DialogContent className="max-w-[400px] md:max-w-[425px] xl:max-w-[480px] rounded-lg shadow-lg p-8">
+        <Dialog open={showLoginDialog} onOpenChange={() => setShowLoginDialog(false)} modal={true}>
+    <DialogContent className="max-w-[95%] md:max-w-[425px] xl:max-w-[480px] rounded-lg shadow-lg p-8">
         {/* Header with Company Logo */}
         <DialogTitle>
         <div className="flex justify-center mb-6">

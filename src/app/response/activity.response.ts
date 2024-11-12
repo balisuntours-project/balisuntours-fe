@@ -35,3 +35,10 @@ export interface ActivityOrderInfo {
     total_ordered: number,
     total_paid: number,
 }
+
+export interface ActivityBestCategory {
+    title: string,
+    description: string,
+    image: string,
+    activities_url: string
+}

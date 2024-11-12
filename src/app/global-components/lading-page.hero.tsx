@@ -15,12 +15,13 @@ import { SearchIcon } from "lucide-react";
 import { LandingPageSearchBoxUtility } from "./utility-components/landing-page.searchbox";
 import axios from "axios";
 import { BANNER_LANDING_PAGE } from "@/lib/global-static-images.const";
+import { LandingPageMenuBar } from "./landing-page.menubar";
 
 export function LandingPageHeroSection() {
  
   return (
     <>
-      <div className="relative w-full max-w-full mx-auto">
+      <div className="relative w-full max-w-full mx-auto hidden md:block">
         <Swiper
           modules={[EffectFade, Autoplay, Navigation]}
           autoplay={{ delay: 4000, disableOnInteraction: false }}
@@ -51,6 +52,10 @@ export function LandingPageHeroSection() {
 
          {/* Box Overlay */}
         <LandingPageSearchBoxUtility />
+      </div>
+
+      <div className="block md:hidden w-full max-w-full mx-auto">
+          <LandingPageMenuBar />
       </div>
     </>
   );

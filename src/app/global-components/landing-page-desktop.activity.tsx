@@ -6,7 +6,7 @@ export function LandingPageActivityDesktopSection(props: ActivityLandingPage) {
     return (
        <>
      
-         <div className="hidden md:block md:px-5 lg:px-6 xl:px-0 ">
+         <div className="hidden md:block md:px-5 lg:px-6 xl:px-6 2xl:px-0 ">
          <h1 className="font-bold text-3xl">Popular Activities</h1>
         <Carousel
         

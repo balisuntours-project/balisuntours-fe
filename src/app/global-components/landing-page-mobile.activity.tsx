@@ -18,7 +18,7 @@ export function LandingPageActivityMobileSection(props: ActivityLandingPage) {
           <CarouselContent>
             {Array.from(props.best_deals_activity).map((activity, key) => (
               <CarouselItem
-                key={key}
+                key={activity.uuid + key}
                 className="basis-full"
               >
                 <div className="p-1">
@@ -44,7 +44,7 @@ export function LandingPageActivityMobileSection(props: ActivityLandingPage) {
       {Array.from(props.popular_activity).map((activity, index) => (
              <div className="p-1 col-span-2">
              <ActivityCard
-                key={index}
+                key={activity.uuid + index}
                activity={activity}
                tags={{
                  first_tag: "Popular",
