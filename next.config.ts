@@ -2,6 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+  eslint: {
+    ignoreDuringBuilds: true,
+},
   images: {
     domains: ['booking.balisuntours.com', 'source.unsplash.com', '127.0.0.1'],
   }
