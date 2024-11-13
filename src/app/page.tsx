@@ -3,7 +3,7 @@ import { LargeNavbar } from "./global-components/large.navbar";
 import { LandingPageHeroSection } from "./global-components/lading-page.hero";
 import { LandingPagePopularActivitySection } from "./global-components/landing-page.activity";
 import axios from "axios";
-import { Activity, ActivityBestCategory } from "./response/activity.response";
+import { Activity, ActivityBestCategory, BestActivityCategoryNameAndListActivity } from "./response/activity.response";
 import { LandingPageBenefit } from "./global-components/landing-page.benefit";
 import { LandingPageBestCategorySection } from "./global-components/landing-page.category";
 
@@ -46,29 +46,32 @@ export default async function Home() {
   const bestDeals : Array<Activity> =  await getBestDealActivity()
   const bestCategory : Array<ActivityBestCategory> =  await getBestCategory()
 
-  const getActivityFromBestCategory = async (): Promise<Record<string, Array<Activity>>> => {
-    const resultMapping: Record<string, Array<Activity>> = {};
+  const getActivityFromBestCategory = async (): Promise<Record<string, BestActivityCategoryNameAndListActivity>> => {
+    const resultMapping: Record<string, BestActivityCategoryNameAndListActivity> = {};
   
     await Promise.all(
       bestCategory.map(async (category) => {
+        
         try {
           const result = await axios.get(
-            "https://booking.balisuntours.com/customer/best/category/activity?category_name=" + category.title
+            "https://booking.balisuntours.com/customer/best/category/activity?category_name=" + encodeURIComponent(category.title)
           );
           
-          console.log(result.data)
+          
           // Masukkan hasilnya ke dalam resultMapping dengan key dari category.title
           resultMapping[category.title] = result.data.data;
         } catch (error) {
           console.log(error);
   
           // Jika terjadi error, masukkan array kosong untuk category ini
-          resultMapping[category.title] = [];
+          resultMapping[category.title] = {
+            name: "Oops something when wrong",
+            activities: []
+          };
         }
       })
     );
     console.log(resultMapping)
-  
     return resultMapping;
   };
 
@@ -83,7 +86,7 @@ export default async function Home() {
           <div className="container flex flex-col gap-11 px-3 md:px-8  pt-11 pb-11">
             <LandingPageBenefit />
           <LandingPagePopularActivitySection best_deals_activity={bestDeals} popular_activity={popularActivity} />
-          <LandingPageBestCategorySection bestCategory={bestCategory}  />
+          <LandingPageBestCategorySection best_category={bestCategory} best_category_activity={activityFromBestCategory}  />
           </div>
         </div>
       </div>

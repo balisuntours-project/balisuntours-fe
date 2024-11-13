@@ -42,3 +42,8 @@ export interface ActivityBestCategory {
     image: string,
     activities_url: string
 }
+
+export interface BestActivityCategoryNameAndListActivity {
+    name: string,
+    activities: Array<Activity>
+}

@@ -1,4 +1,4 @@
-import { Activity } from "../response/activity.response";
+import { Activity, ActivityBestCategory, BestActivityCategoryNameAndListActivity } from "../response/activity.response";
 
 export type ActivityCardProps = {
     activity: Activity;
@@ -16,4 +16,15 @@ export interface ActivityTags {
 export interface ActivityLandingPage {
     popular_activity: Array<Activity>,
     best_deals_activity: Array<Activity>,
+}
+
+export interface ActivityBestCategoryLandingPage {
+    best_category: Array<ActivityBestCategory>,
+    best_category_activity: Record<string, BestActivityCategoryNameAndListActivity>
+}
+
+export interface ActivityBestCategoryCard {
+    category: ActivityBestCategory,
+    activity:BestActivityCategoryNameAndListActivity,
+    useMobileHeight?: boolean
 }

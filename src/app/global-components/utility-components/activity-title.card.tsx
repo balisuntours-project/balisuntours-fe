@@ -1,9 +1,9 @@
 
-export function ActivityTitleCard({title}: {title: string}) {
+export function ActivityTitleCard({title, customSizeText}: {title: string, customSizeText?: string}) {
     return (
         <>
             {/* Desktop View: Truncate to 2 lines */}
-            <h2 className="text-sm md:text-xl font-semibold mt-2 md:mt-3 overflow-hidden text-ellipsis line-clamp-2">
+            <h2 className={`${!customSizeText ? 'text-sm md:text-xl' : customSizeText} font-semibold mt-2 md:mt-3 overflow-hidden text-ellipsis line-clamp-2`}>
                 {title}
             </h2>
         

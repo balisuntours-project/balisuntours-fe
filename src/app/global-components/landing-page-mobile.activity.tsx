@@ -18,7 +18,7 @@ export function LandingPageActivityMobileSection(props: ActivityLandingPage) {
           <CarouselContent>
             {Array.from(props.best_deals_activity).map((activity, key) => (
               <CarouselItem
-                key={activity.uuid + key}
+                key={key + activity.uuid}
                 className="basis-full"
               >
                 <div className="p-1">
