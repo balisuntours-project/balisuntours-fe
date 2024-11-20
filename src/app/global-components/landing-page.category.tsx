@@ -8,7 +8,7 @@ import { ExpandedButton } from "@/components/custom-ui/expanded.button";
 export function LandingPageBestCategorySection(props: ActivityBestCategoryLandingPage) {
     return (
         <>
-         <div id="best-category" className="block md:px-5 lg:px-6 xl:px-6 2xl:px-0">
+         <div id="best-category" className="block md:px-5 lg:px-6 xl:px-6 2xl:px-0 scroll-smooth">
          <h1 className="font-bold text-xl md:text-3xl">Best Category Activities</h1>
         <Carousel
         

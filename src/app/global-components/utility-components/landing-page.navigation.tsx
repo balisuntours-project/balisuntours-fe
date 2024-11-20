@@ -26,7 +26,7 @@ export function LandingPageNavigationUtility() {
         />
         <h2 className="text-xs md:text-sm">Explore Destination</h2>
       </Link>
-      <Link href={"#best-category"} className="flex flex-col items-center gap-2 col-span-1">
+      <Link href={"#best-category"} className="flex flex-col items-center gap-2 col-span-1 smootie-scroll">
         <Image
           src="/other.png"
           objectFit="cover"
@@ -48,7 +48,7 @@ export function LandingPageNavigationUtility() {
         />
         <h2 className="text-xs md:text-sm">Tour & Activity</h2>
       </Link>
-      <Link href={"#small-best-attractions"} className="flex flex-col items-center gap-2 col-span-1">
+      <Link href={"#small-best-attractions"} className="flex flex-col items-center gap-2 col-span-1 smootie-scroll">
         <Image
           src="/camera.png"
           objectFit="cover"

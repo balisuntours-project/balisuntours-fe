@@ -18,8 +18,9 @@ import ActivityBestCategoryCard from "./activity-best-category.card";
 
   
 export function BestCategoryActivityDrawer({activityList}: {activityList: BestActivityCategoryNameAndListActivity}) {
+  
     return (
-<Drawer preventScrollRestoration>
+<Drawer preventScrollRestoration={false}>
   <DrawerTrigger asChild>
   <ExpandedButton title="See activities" />
   </DrawerTrigger>

@@ -74,7 +74,7 @@ export function RegisterForm() {
                   </FormLabel>
                   <FormControl>
                     <Input
-                      className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="border text-base border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       placeholder="Your Full Name"
                       type="text"
                       {...field}
@@ -97,7 +97,7 @@ export function RegisterForm() {
                   </FormLabel>
                   <FormControl>
                     <Input
-                      className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="border text-base border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       placeholder="+628877XXXX"
                       type="text"
                       {...field}
@@ -117,7 +117,7 @@ export function RegisterForm() {
                   </FormLabel>
                   <FormControl>
                     <Input
-                      className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="border text-base border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       placeholder="alexander@gmail.com"
                       type="email"
                       {...field}
@@ -140,7 +140,7 @@ export function RegisterForm() {
                   </FormLabel>
                   <FormControl>
                     <Input
-                      className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="border text-base border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       placeholder="*****"
                       type="password"
                       {...field}
@@ -162,7 +162,7 @@ export function RegisterForm() {
                   </FormLabel>
                   <FormControl>
                     <Input
-                      className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="border text-base border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       placeholder="*****"
                       type="password"
                       {...field}
@@ -185,7 +185,7 @@ export function RegisterForm() {
                   </FormLabel>
                   <FormControl>
                     <Input
-                      className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="border text-base border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       placeholder="Australia"
                       type="text"
                       {...field}
@@ -205,7 +205,7 @@ export function RegisterForm() {
                   </FormLabel>
                   <FormControl>
                     <Input
-                      className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="border text-base border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       placeholder="Melbourne"
                       type="text"
                       {...field}

@@ -11,7 +11,7 @@ import {
 export function LandingPageBenefit() {
   return (
     <div>
-      <h1 className="text-xl md:text-3xl font-bold">Why Choose Bali Sun Tours?</h1>
+      <h1 className="text-xl md:text-3xl font-bold">Why With Us?</h1>
       <Carousel className="w-full max-w-full pt-5">
         <CarouselContent className="overflow-visible -ml-1">
           {/* Carousel Item 1 */}

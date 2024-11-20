@@ -79,7 +79,7 @@ export function LoginForm() {
                   </FormLabel>
                   <FormControl>
                     <Input
-                      className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="border text-base border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       placeholder="alejandor@gmail.com"
                       type="email"
                       {...field}
@@ -102,7 +102,7 @@ export function LoginForm() {
                   </FormLabel>
                   <FormControl>
                     <Input
-                      className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="border text-base border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       placeholder="*****"
                       type="password"
                       {...field}

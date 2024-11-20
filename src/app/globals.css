@@ -79,6 +79,13 @@
   }
 }
 
-* {
-  scroll-behavior: smooth;
+/* * {
+    scroll-behavior: smooth;
+} */
+
+/* Disable smooth scroll for specific elements */
+.no-smooth-scroll {
+  scroll-behavior: auto;
 }
+
+
