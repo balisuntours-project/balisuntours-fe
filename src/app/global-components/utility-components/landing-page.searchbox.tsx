@@ -1,5 +1,6 @@
 "use client"
 import { Input } from "@/components/ui/input";
+import api from "@/lib/axios-instance";
 import axios from "axios";
 import { SearchIcon } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -11,7 +12,7 @@ export function LandingPageSearchBoxUtility({flatPosition} : {flatPosition?: boo
 
     const getPopularActivityPlaceholder = async() : Promise<void> => {
         try {
-            const result = await axios.get("https://booking.balisuntours.com/customer/placeholder/latest/activity")
+            const result = await api.get("/customer/placeholder/latest/activity")
             console.log(result.data)
             setPlaceHolders(result.data.data)
         } catch (error) {
@@ -21,7 +22,7 @@ export function LandingPageSearchBoxUtility({flatPosition} : {flatPosition?: boo
   }
 
   useEffect(() => {
-    getPopularActivityPlaceholder()
+    //getPopularActivityPlaceholder()
 
     const interval = setInterval(() => {
         setPlaceholderIndex((prevIndex) =>

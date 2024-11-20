@@ -1,4 +1,4 @@
-
+"use client"
 import { ActivityCardProps, ActivityTags } from "@/app/paramater/activity.paramater";
 import { Activity } from "@/app/response/activity.response";
 import { Card, CardContent } from "@/components/ui/card";
@@ -7,11 +7,13 @@ import { Star } from "lucide-react";
 import Image from "next/image";
 import { FC } from "react";
 import { ActivityTitleCard } from "./activity-title.card";
+import { useRouter } from "next/navigation";
 
 
 const ActivityBestCategoryCard: FC<ActivityCardProps> = ({ activity, tags, useMobileHeight, showDesciption, showTags = true }) => {
-    return (
-      <Card className={`flex flex-col w-full max-w-[250px] md:max-h-[300px] h-[200px] md:h-[300px]`}>
+  const router = useRouter()
+  return (
+      <Card onClick={() => router.push(`${process.env.BACKEND_DOMAIN}/customer/preview/activity/${activity.slug}`)} className={`flex flex-col w-full max-w-[250px] md:max-h-[300px] h-[200px] md:h-[300px]`}>
         {/* Bagian Gambar */}
         <div className={`relative w-full h-[100px] md:h-[150px] lg:h-[130px]`}>
           <Image
@@ -46,7 +48,7 @@ const ActivityBestCategoryCard: FC<ActivityCardProps> = ({ activity, tags, useMo
             <Star className="text-yellow-500 w-4 h-4 stroke-[1.5] md:w-auto" />
             <span className="text-xs md:text-xs font-medium">{activity.rating}</span>
             <span className="text-xs md:text-xs text-gray-500">({activity.total_participant})</span>
-            <span className="hidden md:block text-xs text-gray-500">times booked</span>
+            <span className="hidden md:block text-xs text-gray-500">{activity.ordered}+ times booked</span>
           </div>
   
           {/* Spacer */}
@@ -54,7 +56,7 @@ const ActivityBestCategoryCard: FC<ActivityCardProps> = ({ activity, tags, useMo
   
           {/* From Price */}
           <div className="mt-auto pt-1 md:pt-4">
-            <span className="text-xs md:text-sm font-semibold text-green-600">From {activity.smaller_price}</span>
+            <span className="text-xs md:text-sm font-semibold text-green-600">From {GlobalUtility.IdrCurrencyFormat(activity.smaller_price)}</span>
           </div>
         </CardContent>
       </Card>

@@ -1,162 +1,258 @@
-"use client"
+"use client";
 import { useLandingPageStore } from "@/app/store/landing-page.store";
 import { AuthButton } from "@/components/custom-ui/auth.button";
-import { Button } from "@/components/ui/button"
-
-import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import { useState } from "react";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { RegisterFormSchema } from "@/app/api/auth/validation/register.validation";
+import { z } from "zod";
+import { AuthAction } from "@/app/action/action";
+import { GlobalUtility } from "@/lib/global.utility";
+import { useAuthStore } from "@/app/store/auth.store";
 
 export function RegisterForm() {
+  const RegisterForm = useForm<z.infer<typeof RegisterFormSchema>>({
+    resolver: zodResolver(RegisterFormSchema),
+    defaultValues: {
+      name: "",
+      phone: "",
+      email: "",
+      password: "",
+      password_confirmation: "",
+      country: "",
+      city: "",
+    },
+  });
 
-    const setOnLoginDialog = useLandingPageStore((state) => state.setOnLoginDialog)
-    const handleRegister = () => {
+  const setOnLoginDialog = useLandingPageStore(
+    (state) => state.setOnLoginDialog
+  );
+  const setShowLoginDialog = useLandingPageStore((state) => state.setShowLoginDialog)
+  const setShowBrowserPopupDialog = useAuthStore((state) => state.setShowBrowserPopupDialog)
 
+  const handleRegister = async (values: z.infer<typeof RegisterFormSchema>) => {
+    const action = await AuthAction.RegisterUser(values)
+
+    if(action) {
+        setShowLoginDialog(false)
+    }else{
+        window.alert("Register failed, try to sign up by google instead")
     }
+  };
 
-    const handleGoogleLogin = () => {
-        window.location.href = "https://booking.balisuntours.com/api/customer/auth/google/redirect"
-    };
+  const handleGoogleLogin = () => {
+    const url = process.env.BACKEND_DOMAIN + "/customer/auth/jwt/google/redirect" as string;
+   const data = GlobalUtility.OpenBrowserPopup(url)
+    setShowBrowserPopupDialog(data)
+};
 
-
-    return (
-        <>
-        <div className="max-w-lg mx-auto">
-    <form onSubmit={handleRegister} className="grid gap-4">
-        {/* Full Name */}
-        <div className="flex flex-col gap-1">
-            <Label htmlFor="fullName" className="text-gray-700 text-sm font-semibold">
-                Full Name
-            </Label>
-            <Input
-                id="fullName"
-                type="text"
-                // value={fullName}
-                // onChange={(e) => setFullName(e.target.value)}
-                required
-                className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Your Full Name"
+  return (
+    <>
+      <div className="max-w-lg mx-auto">
+        <Form {...RegisterForm}>
+          <form onSubmit={RegisterForm.handleSubmit(handleRegister)} className="grid gap-4">
+            {/* Full Name */}
+            <FormField
+              control={RegisterForm.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-700 text-sm font-semibold">
+                    Full Name
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Your Full Name"
+                      type="text"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-        </div>
 
-        {/* Phone and Email (Side by Side) */}
-        <div className="grid grid-cols-2 gap-4">
-            <div className="flex flex-col gap-1">
-                <Label htmlFor="phone" className="text-gray-700 text-sm font-semibold">
+            {/* Phone and Email (Side by Side) */}
+            <div className="grid grid-cols-2 gap-4">
+            <FormField
+              control={RegisterForm.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-700 text-sm font-semibold">
                     Phone
-                </Label>
-                <Input
-                    id="phone"
-                    type="tel"
-                    // value={phone}
-                    // onChange={(e) => setPhone(e.target.value)}
-                    required
-                    className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="+1234567890"
-                />
-            </div>
-            <div className="flex flex-col gap-1">
-                <Label htmlFor="email" className="text-gray-700 text-sm font-semibold">
-                    Email
-                </Label>
-                <Input
-                    id="email"
-                    type="email"
-                    // value={email}
-                    // onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="example@example.com"
-                />
-            </div>
-        </div>
-
-        {/* Password */}
-        <div className="flex flex-col gap-1">
-            <Label htmlFor="password" className="text-gray-700 text-sm font-semibold">
-                Password
-            </Label>
-            <Input
-                id="password"
-                type="password"
-                // value={password}
-                // onChange={(e) => setPassword(e.target.value)}
-                required
-                className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="********"
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="+628877XXXX"
+                      type="text"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-        </div>
-
-        {/* Confirm Password */}
-        <div className="flex flex-col gap-1">
-            <Label htmlFor="confirmPassword" className="text-gray-700 text-sm font-semibold">
-                Confirm Password
-            </Label>
-            <Input
-                id="confirmPassword"
-                type="password"
-                // value={confirmPassword}
-                // onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-                className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="********"
+              <FormField
+              control={RegisterForm.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-700 text-sm font-semibold">
+                   Email
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="alexander@gmail.com"
+                      type="email"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-        </div>
+            </div>
 
-        {/* Country and City (Side by Side) */}
-        <div className="grid grid-cols-2 gap-4">
-            <div className="flex flex-col gap-1">
-                <Label htmlFor="country" className="text-gray-700 text-sm font-semibold">
+            {/* Password */}
+            <FormField
+              control={RegisterForm.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-700 text-sm font-semibold">
+                    Password
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="*****"
+                      type="password"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Confirm Password */}
+            <FormField
+              control={RegisterForm.control}
+              name="password_confirmation"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-700 text-sm font-semibold">
+                    Password Confirmation
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="*****"
+                      type="password"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Country and City (Side by Side) */}
+            <div className="grid grid-cols-2 gap-4">
+            <FormField
+              control={RegisterForm.control}
+              name="country"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-700 text-sm font-semibold">
                     Country
-                </Label>
-                <Input
-                    id="country"
-                    type="text"
-                    // value={country}
-                    // onChange={(e) => setCountry(e.target.value)}
-                    required
-                    className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Your Country"
-                />
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Australia"
+                      type="text"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+               <FormField
+              control={RegisterForm.control}
+              name="city"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-700 text-sm font-semibold">
+                   City
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Melbourne"
+                      type="text"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             </div>
-            <div className="flex flex-col gap-1">
-                <Label htmlFor="city" className="text-gray-700 text-sm font-semibold">
-                    City
-                </Label>
-                <Input
-                    id="city"
-                    type="text"
-                    // value={city}
-                    // onChange={(e) => setCity(e.target.value)}
-                    required
-                    className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Your City"
-                />
-            </div>
+
+            {/* Register Button */}
+            <AuthButton title="Register" rouded="rounded-lg" />
+          </form>
+        </Form>
+
+        {/* Divider */}
+        <div className="flex items-center my-4">
+          <div className="flex-grow border-t border-gray-300"></div>
+          <span className="mx-4 text-gray-500 text-sm font-medium">
+            Or Login With
+          </span>
+          <div className="flex-grow border-t border-gray-300"></div>
         </div>
 
-        {/* Register Button */}
-        <AuthButton title="Register" rouded="rounded-lg" />
-    </form>
-
-    {/* Divider */}
-    <div className="flex items-center my-4">
-        <div className="flex-grow border-t border-gray-300"></div>
-        <span className="mx-4 text-gray-500 text-sm font-medium">Or Login With</span>
-        <div className="flex-grow border-t border-gray-300"></div>
-    </div>
-
-    {/* Google Register Button */}
-    <Button variant="outline" className="hover:bg-[#008000] hover:text-white border-[1px] border-[#008000] w-full">
-             Signup with Google
+        {/* Google Register Button */}
+        <Button
+         onClick={() => handleGoogleLogin()}
+          variant="outline"
+          className="hover:bg-[#008000] hover:text-white border-[1px] border-[#008000] w-full"
+        >
+          Signup with Google
         </Button>
-    {/* Footer with Login Link */}
-    <div className="mt-4 text-sm text-center">
-        <p>Already have an account? <span onClick={() => setOnLoginDialog(true)} className="text-[#008000] font-bold cursor-pointer">Log in</span> now!</p>
-    </div>
-</div>
-
-        </>
-    )
+        {/* Footer with Login Link */}
+        <div className="mt-4 text-sm text-center">
+          <p>
+            Already have an account?{" "}
+            <span
+              onClick={() => setOnLoginDialog(true)}
+              className="text-[#008000] font-bold cursor-pointer"
+            >
+              Log in
+            </span>{" "}
+            now!
+          </p>
+        </div>
+      </div>
+    </>
+  );
 }

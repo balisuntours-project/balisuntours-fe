@@ -14,17 +14,28 @@ export function BestCategoryCard(props: ActivityBestCategoryCard) {
     <Card className={`relative flex flex-col max-w-[200px] lg:max-w-[300px] max-h-[200px] h-[150px] md:h-[200px] overflow-hidden`}>
       {/* Background Image */}
       <div
-        className={`absolute inset-0 w-full h-full bg-cover bg-center`}
-        style={{
-          backgroundImage: `url(${backgroundImage})`,
-        }}
-      >
-        {/* Overlay untuk efek redup */}
-        <div className="absolute inset-0 bg-black opacity-50"></div>
-      </div>
+  className={`absolute inset-0 w-full h-full bg-cover bg-center`}
+  style={{
+    background: `
+      linear-gradient(
+        135deg,
+        #A1C4FD,  /* Biru langit pagi */
+        #C2E9FB,  /* Biru lembut langit senja */
+        #D4FC79,  /* Hijau kekuningan tropis */
+        #96E6A1,  /* Hijau pastel dedaunan */
+        #FFF6B7   /* Kuning lembut matahari pagi */
+      )
+    `,
+  }}
+>
+  {/* Overlay untuk efek redup */}
+  <div className="absolute inset-0 bg-black opacity-40"></div>
+</div>
+
+
 
       {/* Konten di atas gambar */}
-      <CardContent className="relative flex flex-col h-full p-4 text-white">
+      <CardContent className="relative flex flex-col h-full p-4">
         {/* Title */}
         <ActivityTitleCard title={props.category.title} />
 

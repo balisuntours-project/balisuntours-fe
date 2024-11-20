@@ -1,3 +1,4 @@
+"use client"
 
 import { ActivityCardProps, ActivityTags } from "@/app/paramater/activity.paramater";
 import { Activity } from "@/app/response/activity.response";
@@ -7,11 +8,14 @@ import { Star } from "lucide-react";
 import Image from "next/image";
 import { FC } from "react";
 import { ActivityTitleCard } from "./activity-title.card";
+import { useRouter } from "next/navigation";
+
 
 
 const ActivityCard: FC<ActivityCardProps> = ({ activity, tags, useMobileHeight, showDesciption, showTags = true }) => {
+  const router = useRouter()
     return (
-      <Card className={`flex flex-col max-h-[400px] ${useMobileHeight ? 'h-[250px]' : 'h-[400px]'}`}>
+      <Card onClick={() => router.push(`${process.env.BACKEND_DOMAIN}/customer/preview/activity/${activity.slug}`)} className={`flex flex-col max-h-[400px] ${useMobileHeight ? 'h-[250px]' : 'h-[400px]'}`}>
         {/* Bagian Gambar */}
         <div className={`relative w-full ${useMobileHeight ? 'h-[200px]' : 'h-[400px]'}`}>
           <Image
@@ -45,7 +49,7 @@ const ActivityCard: FC<ActivityCardProps> = ({ activity, tags, useMobileHeight, 
             <Star className="text-yellow-500 w-4 h-4 stroke-[1.5] md:w-auto md:h-auto" />
             <span className="text-xs md:text-sm font-medium">{activity.rating}</span>
             <span className="text-xs md:text-sm text-gray-500">({activity.total_participant})</span>
-            <span className="hidden md:block text-sm text-gray-500">times booked</span>
+            <span className="hidden md:block text-sm text-gray-500">{activity.ordered}+ times booked</span>
           </div>
   
           {/* Spacer */}
@@ -53,7 +57,7 @@ const ActivityCard: FC<ActivityCardProps> = ({ activity, tags, useMobileHeight, 
   
           {/* From Price */}
           <div className="mt-auto pt-4">
-            <span className="text-sm md:text-lg font-semibold text-green-600">From {activity.smaller_price}</span>
+            <span className="text-sm md:text-lg font-semibold text-green-600">From {GlobalUtility.IdrCurrencyFormat(activity.smaller_price)}</span>
           </div>
         </CardContent>
       </Card>

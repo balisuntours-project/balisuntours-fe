@@ -32,8 +32,8 @@ export function LandingPageBestCategorySection(props: ActivityBestCategoryLandin
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
+         {/*  <CarouselPrevious />
+          <CarouselNext /> */}
         </Carousel>
       </div>
         </>

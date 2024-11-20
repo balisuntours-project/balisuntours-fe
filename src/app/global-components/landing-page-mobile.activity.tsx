@@ -6,7 +6,8 @@ export function LandingPageActivityMobileSection(props: ActivityLandingPage) {
     return (
        <>
        <div className="block md:hidden">
-        <h1 className="font-bold text-xl">The One And Only</h1>
+     {props.best_deals_activity.length > 0 && <div>
+      <h1 className="font-bold text-xl">The One And Only</h1>
       <div className="pt-3  mb-11">
       <Carousel
      
@@ -37,6 +38,7 @@ export function LandingPageActivityMobileSection(props: ActivityLandingPage) {
           
         </Carousel>
       </div>
+      </div>}
        
 
       <h1 className="font-bold text-xl">Popular Activities</h1>

@@ -6,13 +6,17 @@ import axios from "axios";
 import { Activity, ActivityBestCategory, BestActivityCategoryNameAndListActivity } from "./response/activity.response";
 import { LandingPageBenefit } from "./global-components/landing-page.benefit";
 import { LandingPageBestCategorySection } from "./global-components/landing-page.category";
+import { LandingPageFooterSection } from "./global-components/landing-page.footer";
+import api from "@/lib/axios-instance";
 
 export default async function Home() {
 
   const getPopularActivity = async (): Promise<Array<Activity>> => {
     try {
-      const result = await axios.get("https://booking.balisuntours.com/homepage/activity");
+      const result = await api.get("/homepage/activity");
+      console.log(result.data)
       return result.data as Array<Activity>;
+    
     } catch (error) {
       console.error(error);
       return []; // Mengembalikan array kosong jika terjadi error
@@ -21,7 +25,7 @@ export default async function Home() {
 
   const getBestDealActivity = async() : Promise<Array<Activity>> => {
     try {
-        const result = await axios.get("https://booking.balisuntours.com/homepage/best-deals-activity")
+        const result = await api.get("/homepage/best-deals-activity")
         return result.data
     } catch (error) {
       console.log(error)
@@ -32,7 +36,7 @@ export default async function Home() {
 
   const getBestCategory = async() : Promise<Array<ActivityBestCategory>> => {
     try {
-        const result = await axios.get("https://booking.balisuntours.com/customer/most/category")
+        const result = await api.get("/customer/most/category")
         console.log(result.data.data)
         return result.data.data
     } catch (error) {
@@ -41,7 +45,7 @@ export default async function Home() {
     }
   }
 
-  
+
   const popularActivity : Array<Activity> =  await getPopularActivity()
   const bestDeals : Array<Activity> =  await getBestDealActivity()
   const bestCategory : Array<ActivityBestCategory> =  await getBestCategory()
@@ -53,8 +57,8 @@ export default async function Home() {
       bestCategory.map(async (category) => {
         
         try {
-          const result = await axios.get(
-            "https://booking.balisuntours.com/customer/best/category/activity?category_name=" + encodeURIComponent(category.title)
+          const result = await api.get(
+            "/customer/best/category/activity?category_name=" + encodeURIComponent(category.title)
           );
           
           
@@ -87,6 +91,7 @@ export default async function Home() {
             <LandingPageBenefit />
           <LandingPagePopularActivitySection best_deals_activity={bestDeals} popular_activity={popularActivity} />
           <LandingPageBestCategorySection best_category={bestCategory} best_category_activity={activityFromBestCategory}  />
+          <LandingPageFooterSection />
           </div>
         </div>
       </div>

@@ -1,3 +1,4 @@
+
 import { useLandingPageStore } from "@/app/store/landing-page.store";
 import { AuthButton } from "@/components/custom-ui/auth.button";
 import { Button } from "@/components/ui/button"
@@ -13,21 +14,55 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LoginForm } from "./login-form";
 import { RegisterForm } from "./register-form";
+import { GlobalUtility } from "@/lib/global.utility";
+import { useAuthStore } from "@/app/store/auth.store";
 
 
 export function LoginDialog() {
     const showLoginDialog = useLandingPageStore((state) => state.showLoginDialog)
     const setShowLoginDialog = useLandingPageStore((state) => state.setShowLoginDialog)
     const onLoginDialog = useLandingPageStore((state) => state.onLoginDialog)
-    const setOnLoginDialog = useLandingPageStore((state) => state.setOnLoginDialog)
+  
+    const showBrowserPopup = useAuthStore((state) => state.showBrowserPopupDialog)
+    const setShowBrowserPopupDialog = useAuthStore((state) => state.setShowBrowserPopupDialog)
+    const isLogin = useAuthStore((state) => state.isLogin)
+    const setIsLogin = useAuthStore((state) => state.setIsLogin)
 
-   
+
+     useEffect(() => {
+        let interval: NodeJS.Timeout | null = null;
+    
+        const getTheCookie = async () => {
+            try {
+                interval = setInterval(async () => {
+                    const cookie = GlobalUtility.GetLoginStatusCookie(); // Ambil cookie
+                    
+                    if (cookie) {
+                        setIsLogin(true)
+                        if (interval) clearInterval(interval); // Hentikan polling
+                        if (showBrowserPopup) showBrowserPopup.close(), setShowLoginDialog(false); // Tutup popup
+                        setShowBrowserPopupDialog(null); // Reset state
+                        
+                    }
+                }, 1000); // Periksa cookie setiap 1 detik
+            } catch (error) {
+                console.error("Error saat memeriksa cookie:", error);
+            }
+        };
+    
+        getTheCookie();
+    
+        return () => {
+            if (interval) clearInterval(interval); // Bersihkan interval saat komponen dilepas
+        };
+    }, [showBrowserPopup]);
+
     return (
-        <Dialog open={showLoginDialog} onOpenChange={() => setShowLoginDialog(false)} modal={true}>
-    <DialogContent className="max-w-[95%] md:max-w-[425px] xl:max-w-[480px] rounded-lg shadow-lg p-8">
+        <Dialog  open={showLoginDialog} onOpenChange={() => setShowLoginDialog(false)} modal={true}>
+    <DialogContent className="max-w-[95%] md:max-w-[425px] xl:max-w-[480px] rounded-lg shadow-lg p-8 overflow-y-scroll max-h-screen">
         {/* Header with Company Logo */}
         <DialogTitle>
         <div className="flex justify-center mb-6">

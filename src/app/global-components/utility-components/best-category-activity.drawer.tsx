@@ -29,7 +29,7 @@ export function BestCategoryActivityDrawer({activityList}: {activityList: BestAc
       <DrawerTitle>{activityList.name} Best Activity</DrawerTitle>
       <DrawerDescription>This action cannot be undone.</DrawerDescription>
       </div>
-      <div className="block mx-auto w-full max-w-xs  md:max-w-screen-md xl:max-w-screen-xl md:px-6 lg:px-6 xl:px-6 2xl:px-0">
+      <div className="block mx-auto w-full max-w-xs  md:max-w-screen-md xl:max-w-screen-xl px-4 md:px-6 lg:px-6 xl:px-6 2xl:px-0">
         <Carousel
          
           opts={{

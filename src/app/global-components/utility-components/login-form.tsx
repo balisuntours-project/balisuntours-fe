@@ -6,64 +6,119 @@ import { Button } from "@/components/ui/button"
 
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label";
+import axios from "axios";
 import { GoalIcon } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie"
+import api from "@/lib/axios-instance";
+import { GlobalUtility } from "@/lib/global.utility";
+import { useAuthStore } from "@/app/store/auth.store";
+import { LoginFormSchema } from "@/app/api/auth/validation/login.validation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+  } from "@/components/ui/form";
+import { AuthAction } from "@/app/action/action";
 
 export function LoginForm() {
-    const setOnLoginDialog = useLandingPageStore((state) => state.setOnLoginDialog)
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
 
-    const handleLogin = (e: React.FormEvent) => {
-        e.preventDefault();
-        // Logic untuk login
-    };
+    const LoginForm = useForm<z.infer<typeof LoginFormSchema>>({
+        resolver: zodResolver(LoginFormSchema),
+        defaultValues: {
+          email: "",
+          password: ""
+        },
+      });
+
+    const setOnLoginDialog = useLandingPageStore((state) => state.setOnLoginDialog)
+    const setShowLoginDialog = useLandingPageStore((state) => state.setShowLoginDialog)
+    
+
+    const setShowBrowserPopupDialog = useAuthStore((state) => state.setShowBrowserPopupDialog)
+
+    const handleLogin = async (values: z.infer<typeof LoginFormSchema>) => {
+        const action = await AuthAction.LoginUser(values)
+    
+        if(action) {
+            setShowLoginDialog(false)
+        }else{
+            window.alert("Data not found")
+        }
+      };
 
     const handleGoogleLogin = () => {
-        window.location.href = "https://booking.balisuntours.com/api/customer/auth/google/redirect"
+        const url = process.env.BACKEND_DOMAIN + "/customer/auth/jwt/google/redirect" as string;
+       const data = GlobalUtility.OpenBrowserPopup(url)
+        setShowBrowserPopupDialog(data)
     };
 
+  
 
     return (
         <>
+       
              <div>
-        <form onSubmit={handleLogin} className="grid gap-4">
+      <Form {...LoginForm}>
+      <form onSubmit={LoginForm.handleSubmit(handleLogin)} className="grid gap-4">
             {/* Email Input */}
-            <div className="flex flex-col gap-1">
-                <Label htmlFor="email" className="text-gray-700 text-sm font-semibold">
-                    Email
-                </Label>
-                <Input
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="example@example.com"
-                />
-            </div>
+            <FormField
+              control={LoginForm.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-700 text-sm font-semibold">
+                    Email Address
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="alejandor@gmail.com"
+                      type="email"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+               
             
             {/* Password Input */}
-            <div className="flex flex-col gap-1">
-                <Label htmlFor="password" className="text-gray-700 text-sm font-semibold">
+            <FormField
+              control={LoginForm.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-700 text-sm font-semibold">
                     Password
-                </Label>
-                <Input
-                    id="password"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="********"
-                />
-            </div>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="*****"
+                      type="password"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+               
 
             {/* Login Button */}
             <AuthButton title="Login" rouded="rounded-lg" />
+           
         </form>
+      </Form>
 
         {/* Divider */}
         <div className="flex items-center my-3">
@@ -73,7 +128,7 @@ export function LoginForm() {
         </div>
 
         {/* Google Login Button */}
-        <Button variant="outline" className="hover:bg-[#008000] hover:text-white border-[1px] border-[#008000] w-full">
+        <Button onClick={() => handleGoogleLogin()} variant="outline" className="hover:bg-[#008000] hover:text-white border-[1px] border-[#008000] w-full">
              Signup with Google
         </Button>
        

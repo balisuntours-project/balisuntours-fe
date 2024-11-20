@@ -3,6 +3,7 @@ import { ActivityStatusEnum } from "../enum/activity.enum";
 export interface Activity {
     uuid:string,
     title: string,
+    slug: string,
     sub_title: string|null,
     ordered: string|null,
     hightlight: string|null,
