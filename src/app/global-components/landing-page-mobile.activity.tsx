@@ -41,7 +41,7 @@ export function LandingPageActivityMobileSection(props: ActivityLandingPage) {
       </div>}
        
 
-      <h1 className="font-bold text-xl">Popular Activities</h1>
+      <h1 id="small-best-attractions" className="font-bold text-xl">Popular Activities</h1>
       <div className="grid grid-cols-4 gap-2 pt-3">
       {Array.from(props.popular_activity).map((activity, index) => (
              <div className="p-1 col-span-2">

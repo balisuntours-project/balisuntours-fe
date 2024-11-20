@@ -14,13 +14,15 @@ export function LandingPageFooterSection() {
 
     return (
         <>
+        
        <div>
+        <hr />
        <div className="py-10">
         <div className="w-[90%] px-0 sm:px-6 text-gray-800 sm:grid md:grid-cols-4 sm:grid-cols-2 mx-auto">
-          <div className="ps-5 pb-5 md:pt-5 md:ps-0 md:pb-0 flex items-center md:block">
+          <div className="md:pt-5 md:ps-0 md:pb-0 flex items-start w-[140px] md:w-[180px] h-[140px] md:h-[180px] md:block">
             
           <div
-              className="ps-5 pb-5 md:pt-5 md:ps-0 md:pb-0"
+              className="md:pt-5 md:ps-0 md:pb-0"
               id="tripadvisor-widget"
              
             >

@@ -11,7 +11,7 @@ import {
 export function LandingPageBenefit() {
   return (
     <div>
-      <h1 className="text-xl md:text-3xl font-bold">Why With Us?</h1>
+      <h1 className="text-xl md:text-3xl font-bold">Why Choose Bali Sun Tours?</h1>
       <Carousel className="w-full max-w-full pt-5">
         <CarouselContent className="overflow-visible -ml-1">
           {/* Carousel Item 1 */}
@@ -25,10 +25,10 @@ export function LandingPageBenefit() {
                 className="h-[35px] w-[35px] md:h-[50px] md:w-[50px]"
                 alt="benefit-svg"
               />
-              <h2 className="text-base md:text-lg font-bold">Tailored Experiences</h2>
+              <h2 className="text-base md:text-lg font-bold">Tailored Just for You</h2>
               <p className="text-xs md:text-sm">
-                Bali Sun Tours offers customized travel itineraries to fit your unique interests and preferences.
-                Whether you're into serene beach getaways or cultural explorations, we curate the perfect trip for you.
+                Get a customized Bali itinerary that matches your interests—whether it’s adventure, culture, or relaxation.
+                We design your perfect Bali escape.
               </p>
             </div>
           </CarouselItem>
@@ -44,10 +44,9 @@ export function LandingPageBenefit() {
                 className="h-[35px] w-[35px] md:h-[50px] md:w-[50px]"
                 alt="benefit-svg"
               />
-              <h2 className="text-base md:text-lg font-bold">Unmatched Comfort</h2>
+              <h2 className="text-base md:text-lg font-bold">Ultimate Comfort</h2>
               <p className="text-xs md:text-sm">
-                Enjoy the utmost comfort with fully air-conditioned vehicles and top-notch services. Let us take care of all
-                the details, so you can focus on enjoying Bali to the fullest!
+                Relax in luxury with air-conditioned transport and VIP services, letting you enjoy Bali without a worry.
               </p>
             </div>
           </CarouselItem>
@@ -63,10 +62,9 @@ export function LandingPageBenefit() {
                 className="h-[35px] w-[35px] md:h-[50px] md:w-[50px]"
                 alt="benefit-svg"
               />
-              <h2 className="text-base md:text-lg font-bold">Expert Local Guides</h2>
+              <h2 className="text-base md:text-lg font-bold">Insider Knowledge</h2>
               <p className="text-xs md:text-sm">
-                Our local guides have an intimate knowledge of Bali’s hidden gems. With their insider tips and unique insights,
-                you’ll experience Bali in a way most tourists never will.
+                Our expert local guides will show you the best of Bali—from hidden gems to must-see spots—ensuring you experience the island like a local.
               </p>
             </div>
           </CarouselItem>
@@ -82,10 +80,9 @@ export function LandingPageBenefit() {
                 className="h-[35px] w-[35px] md:h-[50px] md:w-[50px]"
                 alt="benefit-svg"
               />
-              <h2 className="text-base md:text-lg font-bold">Memorable Adventures</h2>
+              <h2 className="text-base md:text-lg font-bold">Unforgettable Moments</h2>
               <p className="text-xs md:text-sm">
-                From thrilling water sports to tranquil moments on Bali’s stunning beaches, we offer experiences that will
-                create memories you’ll cherish forever.
+                From adrenaline-pumping water sports to relaxing beach days, we offer unforgettable experiences that make Bali unforgettable.
               </p>
             </div>
           </CarouselItem>

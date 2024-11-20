@@ -47,7 +47,7 @@ export function LargeNavbar() {
                     <span className="hidden md:block">Bookings</span>
                     <TicketCheck className="block md:hidden w-5 h-5 stroke-[1.5]" />
                   </NavigationMenuTrigger>
-                  <NavigationMenuContent>
+                  <NavigationMenuContent >
                     <ul className="grid gap-3 p-3 md:p-6 w-[180px] max-w-[180px] md:max-w-max md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                     <div className="flex flex-col gap-2 md:hidden">
                       <div onClick={() => router.push(`${process.env.BACKEND_DOMAIN}/customer/order/transaction`)} className="flex items-center gap-2 text-xs md:text-base  cursor-pointer hover:text-blue-500">
