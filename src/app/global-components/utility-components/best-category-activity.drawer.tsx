@@ -19,7 +19,7 @@ import ActivityBestCategoryCard from "./activity-best-category.card";
   
 export function BestCategoryActivityDrawer({activityList}: {activityList: BestActivityCategoryNameAndListActivity}) {
     return (
-<Drawer>
+<Drawer preventScrollRestoration>
   <DrawerTrigger asChild>
   <ExpandedButton title="See activities" />
   </DrawerTrigger>
@@ -27,7 +27,7 @@ export function BestCategoryActivityDrawer({activityList}: {activityList: BestAc
     <DrawerHeader>
       <div className="text-center">
       <DrawerTitle>{activityList.name} Best Activity</DrawerTitle>
-      <DrawerDescription>This action cannot be undone.</DrawerDescription>
+      <DrawerDescription>We have this recomendation for you!</DrawerDescription>
       </div>
       <div className="block mx-auto w-full max-w-xs  md:max-w-screen-md xl:max-w-screen-xl px-4 md:px-6 lg:px-6 xl:px-6 2xl:px-0">
         <Carousel

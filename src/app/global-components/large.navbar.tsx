@@ -74,9 +74,7 @@ export function LargeNavbar() {
                               Before Book
                             </div>
                             <p className="text-xs md:text-sm leading-tight text-muted-foreground">
-                              Beautifully designed components that you can copy
-                              and paste into your apps. Accessible.
-                              Customizable. Open Source.
+                            Check activity details, schedule, and policies to ensure it fits your needs. Happy travelling!
                             </p>
                           </a>
                         </NavigationMenuLink>

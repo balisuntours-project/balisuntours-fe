@@ -50,6 +50,7 @@ const ActivityCard: FC<ActivityCardProps> = ({ activity, tags, useMobileHeight, 
             <span className="text-xs md:text-sm font-medium">{activity.rating}</span>
             <span className="text-xs md:text-sm text-gray-500">({activity.total_participant})</span>
             <span className="hidden md:block text-sm text-gray-500">{activity.ordered}+ times booked</span>
+            <span className="block md:hidden text-xs md:text-sm text-gray-500">{activity.ordered}+</span>
           </div>
   
           {/* Spacer */}
