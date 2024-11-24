@@ -1,4 +1,4 @@
-"use client"
+
 import { ActivityCardProps, ActivityTags } from "@/app/paramater/activity.paramater";
 import { Activity } from "@/app/response/activity.response";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,12 +8,13 @@ import Image from "next/image";
 import { FC } from "react";
 import { ActivityTitleCard } from "./activity-title.card";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 
 const ActivityBestCategoryCard: FC<ActivityCardProps> = ({ activity, tags, useMobileHeight, showDesciption, showTags = true }) => {
-  const router = useRouter()
   return (
-      <Card onClick={() => router.push(`${process.env.BACKEND_DOMAIN}/customer/preview/activity/${activity.slug}`)} className={`flex flex-col w-full max-w-[250px] md:max-h-[300px] h-[200px] md:h-[300px]`}>
+    <Link href={`${process.env.BACKEND_DOMAIN}/customer/preview/activity/${activity.slug}`} target="__blank">
+        <Card className={`flex flex-col w-full max-w-[250px] md:max-h-[300px] h-[200px] md:h-[300px]`}>
         {/* Bagian Gambar */}
         <div className={`relative w-full h-[100px] md:h-[150px] lg:h-[130px]`}>
           <Image
@@ -60,6 +61,7 @@ const ActivityBestCategoryCard: FC<ActivityCardProps> = ({ activity, tags, useMo
           </div>
         </CardContent>
       </Card>
+    </Link>
     );
   }
 

@@ -1,4 +1,3 @@
-"use client"
 
 import { ActivityCardProps, ActivityTags } from "@/app/paramater/activity.paramater";
 import { Activity } from "@/app/response/activity.response";
@@ -9,15 +8,18 @@ import Image from "next/image";
 import { FC } from "react";
 import { ActivityTitleCard } from "./activity-title.card";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 
 
 const ActivityCard: FC<ActivityCardProps> = ({ activity, tags, useMobileHeight, showDesciption, showTags = true }) => {
-  const router = useRouter()
+ 
     return (
-      <Card onClick={() => router.push(`${process.env.BACKEND_DOMAIN}/customer/preview/activity/${activity.slug}`)} className={`flex flex-col max-h-[400px] ${useMobileHeight ? 'h-[250px]' : 'h-[400px]'}`}>
-        {/* Bagian Gambar */}
-        <div className={`relative w-full ${useMobileHeight ? 'h-[200px]' : 'h-[400px]'}`}>
+      <Link href={`${process.env.BACKEND_DOMAIN}/customer/preview/activity/${activity.slug}`} target="__blank">
+      <Card className={`flex flex-col max-h-[400px] ${useMobileHeight ? 'h-[250px]' : 'h-[400px]'}`}>
+       
+              {/* Bagian Gambar */}
+              <div className={`relative w-full ${useMobileHeight ? 'h-[200px]' : 'h-[400px]'}`}>
           <Image
             src={activity.image}
             alt={activity.title}
@@ -61,7 +63,9 @@ const ActivityCard: FC<ActivityCardProps> = ({ activity, tags, useMobileHeight, 
             <span className="text-sm md:text-lg font-semibold text-green-600">From {GlobalUtility.IdrCurrencyFormat(activity.smaller_price)}</span>
           </div>
         </CardContent>
+       
       </Card>
+      </Link>
     );
   }
 

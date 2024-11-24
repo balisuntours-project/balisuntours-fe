@@ -46,7 +46,7 @@ export function LandingPageActivityMobileSection(props: ActivityLandingPage) {
       {Array.from(props.popular_activity).map((activity, index) => (
              <div className="p-1 col-span-2">
              <ActivityCard
-                key={activity.uuid + index}
+                key={activity.uuid + index + "mb"}
                activity={activity}
                tags={{
                  first_tag: "Popular",
