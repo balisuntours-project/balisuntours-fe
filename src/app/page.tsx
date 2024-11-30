@@ -91,6 +91,11 @@ export default async function Home() {
             <LandingPageBenefit />
           <LandingPagePopularActivitySection best_deals_activity={bestDeals} popular_activity={popularActivity} />
           <LandingPageBestCategorySection best_category={bestCategory} best_category_activity={activityFromBestCategory}  />
+         
+          </div>
+          <hr />
+          <div className="container flex flex-col gap-11 px-3 md:px-8  pt-11 pb-11">
+          
           <LandingPageFooterSection />
           </div>
         </div>

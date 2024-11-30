@@ -37,7 +37,7 @@ export function LoginButtonNavbar() {
             return (
                 <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                <Avatar className="w-6 h-6 md:w-16 md:h-16">
+                <Avatar className="w-6 h-6 md:w-12 md:h-12 cursor-pointer">
             <AvatarImage src="https://github.com/shadcn.png" />
             <AvatarFallback>BST</AvatarFallback>
             </Avatar>
