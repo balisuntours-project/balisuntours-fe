@@ -1,6 +1,7 @@
 services:
-  nextjs:
+  balisunt_fe:
     image: balisunt/private:ecommerce-fe-latest-prod
+    container_name: balisunt_fe
     ports:
       - "3000:3000"
     environment:
