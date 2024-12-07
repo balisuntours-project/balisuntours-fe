@@ -14,6 +14,7 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
 },
+  output: 'standalone',
   images: {
     domains: ['booking.balisuntours.com', 'source.unsplash.com', 'localhost', 'images.unsplash.com'],
   }
