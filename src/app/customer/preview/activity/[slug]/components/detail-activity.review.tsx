@@ -8,7 +8,7 @@ import { BlankBlackDialog } from "@/app/global-components/utility-components/bla
 import { CommentReviewer } from "../../utility-components/comment.reviewer";
 
 export function DetailActivityReviews(props: DetailActivityReviewParamater) {
-  const maxTextShow = 350;
+ 
   return (
     <>
       <div className="mt-6">
