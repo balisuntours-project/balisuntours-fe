@@ -21,6 +21,7 @@ import { z } from "zod";
 import { AuthAction } from "@/app/action/action";
 import { GlobalUtility } from "@/lib/global.utility";
 import { useAuthStore } from "@/app/store/auth.store";
+import { useAuthPopupStore } from "@/app/store/auth-popup.store";
 
 export function RegisterForm() {
   const RegisterForm = useForm<z.infer<typeof RegisterFormSchema>>({
@@ -41,12 +42,15 @@ export function RegisterForm() {
   );
   const setShowLoginDialog = useLandingPageStore((state) => state.setShowLoginDialog)
   const setShowBrowserPopupDialog = useAuthStore((state) => state.setShowBrowserPopupDialog)
+  const setShowAuthPopup = useAuthPopupStore((state) => state.setShowAuthPopup);
 
   const handleRegister = async (values: z.infer<typeof RegisterFormSchema>) => {
+    values.password = btoa(values.password)
     const action = await AuthAction.RegisterUser(values)
 
     if(action) {
         setShowLoginDialog(false)
+        setShowAuthPopup(false)
     }else{
         window.alert("Register failed, try to sign up by google instead")
     }

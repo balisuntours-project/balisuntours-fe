@@ -1,0 +1,26 @@
+/* Desktop dan tablet (default posisi dari DOM) */
+@media (min-width: 768px) {
+    .md\:order-1 {
+      order: 1;
+    }
+    .md\:order-2 {
+      order: 2;
+    }
+    .md\:order-3 {
+      order: 3;
+    }
+  }
+  
+  /* Mobile (ubah posisi dengan Flexbox) */
+  @media (max-width: 767px) {
+    .order-1 {
+      order: 1;
+    }
+    .order-2 {
+      order: 3;
+    }
+    .order-3 {
+      order: 2;
+    }
+  }
+  

@@ -1,0 +1,1 @@
+export const WITA_TIMEZONE = 'Asia/Makassar';

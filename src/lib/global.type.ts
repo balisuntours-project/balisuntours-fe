@@ -6,6 +6,7 @@ export type BaseButtonProps = {
 export type CookieResponseType = {
     access_token: CookieValueResponseType,
     refresh_token: CookieValueResponseType,
+    session_token: CookieValueResponseType,
     "google-login": CookieValueResponseType,
 }
 
@@ -15,5 +16,10 @@ export type CookieValueResponseType = {
     value: string,
     ttl: number,
     http_only?: boolean,
-    secure?: boolean
+    secure?: boolean,
+    name?: string
+}
+
+export type ButtonActionProps = {
+    onClick?: () => void
 }

@@ -14,27 +14,43 @@ api.interceptors.request.use((config) => {
     if (token) {
         config.headers['Authorization'] = `Bearer ${token}`; // Tambahkan header Authorization
     }
+    config.headers['FROM_NEXT'] = `true` //customer header
     return config;
 });
+
+// Flag untuk menghindari looping
+let isRefreshing = false;
 
 // Interceptor untuk menangani response (termasuk token expired)
 api.interceptors.response.use(
     (response) => response, // Jika respons sukses, langsung kembalikan
     async (error) => {
-        if (error.response && error.response.status == 401) {
+    
+        const originalRequest = error.config;
+
+         if (error.response?.status === 401 && !originalRequest._retry) {
+            if (isRefreshing) {
+                // Jika refresh token sedang berjalan, tolak request ini
+                return Promise.reject(error);
+            }
+
             try {
-                // Panggil fungsi untuk refresh token
+                isRefreshing = true;
+                originalRequest._retry = true; // Tandai agar tidak masuk loop
                 const newToken = await AuthAction.RefreshToken();
 
                 // Update header Authorization pada request yang gagal
-                error.config.headers['Authorization'] = `Bearer ${newToken}`;
+                originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
 
                 // Kirim ulang request yang gagal
-                return api.request(error.config);
+                return api.request(originalRequest);
             } catch (refreshError) {
                 console.error('Failed to refresh token:', refreshError);
-                // Redirect ke login jika refresh token gagal
-               // window.location.href = '/login';
+
+                // Jika refresh token gagal, arahkan ke halaman login
+                return Promise.reject(refreshError);
+            } finally {
+                isRefreshing = false;
             }
         }
 

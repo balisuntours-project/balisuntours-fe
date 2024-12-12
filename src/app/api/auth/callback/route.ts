@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
     try {
         const response = await api.get(`/customer/auth/jwt/google/callback?code=${code}&scope=${scope}&authuser=${authuser}&prompt=${prompt}`);
       
-        console.log(response.data)
+        //console.log(response.data)
 
         const result : CookieResponseType = response.data
         cookieStore.set("assec", result.access_token.value, {
@@ -34,6 +34,13 @@ export async function GET(req: NextRequest) {
             maxAge: result.refresh_token.ttl,
             httpOnly: result.refresh_token.http_only ? true : false,
             secure: result.refresh_token.secure ? true : false,
+            sameSite: "lax"
+          });
+          cookieStore.set(result.session_token.name ?? "bali_sun_tours_session", result.session_token.value, {
+            path: "/",
+            maxAge: result.session_token.ttl,
+            httpOnly: result.session_token.http_only ? true : false,
+            secure: result.session_token.secure ? true : false,
             sameSite: "lax"
           });
 
