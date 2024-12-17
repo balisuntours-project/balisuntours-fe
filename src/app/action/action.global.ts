@@ -1,12 +1,15 @@
-import api from "@/lib/axios-instance";
+import { api }from "@/lib/axios-instance";
 import { Activity } from "../responses/activity/response";
 
 export class ActionGlobalHomePage {
     static async GetPopularActivity() {
         try {
-            const result = await api.get("/homepage/activity");
-           console.log(result.data)
-            return result.data as Array<Activity>;
+            const result = await api("/homepage/activity", {
+              method: "GET"
+            });
+            const finalResult = await result.json()
+          
+            return finalResult.data as Array<Activity>;
           
           } catch (error) {
             console.error(error);

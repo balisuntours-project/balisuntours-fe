@@ -7,16 +7,19 @@ import { ActivityBestCategory, BestActivityCategoryNameAndListActivity } from ".
 import { LandingPageBenefit } from "./global-components/landing-page.benefit";
 import { LandingPageBestCategorySection } from "./global-components/landing-page.category";
 import { LandingPageFooterSection } from "./global-components/landing-page.footer";
-import api from "@/lib/axios-instance";
+import { api }from "@/lib/axios-instance";
 import { Activity } from "./responses/activity/response";
 
 export default async function Home() {
 
   const getPopularActivity = async (): Promise<Array<Activity>> => {
     try {
-      const result = await api.get("/homepage/activity");
-      console.log(result.data)
-      return result.data as Array<Activity>;
+      const result = await api("/homepage/activity", {
+        method: "GET"
+      });
+      const finalResult = await result.json()
+      console.log(finalResult)
+      return finalResult as Array<Activity>;
     
     } catch (error) {
       console.error(error);
@@ -26,8 +29,11 @@ export default async function Home() {
 
   const getBestDealActivity = async() : Promise<Array<Activity>> => {
     try {
-        const result = await api.get("/homepage/best-deals-activity")
-        return result.data
+        const result = await api("/homepage/best-deals-activity", {
+          method: "GET"
+        })
+        const finalResult = await result.json()
+        return finalResult
     } catch (error) {
       console.log(error)
       return []
@@ -37,9 +43,11 @@ export default async function Home() {
 
   const getBestCategory = async() : Promise<Array<ActivityBestCategory>> => {
     try {
-        const result = await api.get("/customer/most/category")
-        console.log(result.data.data)
-        return result.data.data
+        const result = await api("/customer/most/category", {
+          method: "GET"
+        })
+        const finalResult = await result.json()
+        return finalResult.data
     } catch (error) {
       console.log(error)
       return []
@@ -58,13 +66,16 @@ export default async function Home() {
       bestCategory.map(async (category) => {
         
         try {
-          const result = await api.get(
-            "/customer/best/category/activity?category_name=" + encodeURIComponent(category.title)
+          const result = await api(
+            "/customer/best/category/activity?category_name=" + encodeURIComponent(category.title),
+            {
+              method: "GET"
+            }
           );
           
-          
+          const finalResult = await result.json()
           // Masukkan hasilnya ke dalam resultMapping dengan key dari category.title
-          resultMapping[category.title] = result.data.data;
+          resultMapping[category.title] = finalResult.data;
         } catch (error) {
           console.log(error);
   

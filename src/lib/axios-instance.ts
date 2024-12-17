@@ -1,61 +1,104 @@
-import { AuthAction } from '@/app/action/action';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import { AuthAction } from "@/app/action/action";
+import Cookies from "js-cookie";
 
-// Buat instance Axios
-const api = axios.create({
-    baseURL: process.env.BACKEND_DOMAIN,
-    withCredentials: true, // Cookie otomatis dilampirkan
-});
+interface FetchOptions extends RequestInit {
+  headers?: { [key: string]: string };
+}
 
-// Interceptor untuk menyisipkan Authorization header
-api.interceptors.request.use((config) => {
-    const token = Cookies.get('assec'); // Baca access token dari cookie
-    if (token) {
-        config.headers['Authorization'] = `Bearer ${token}`; // Tambahkan header Authorization
+interface ResponseError {
+  status: number;
+  message: string;
+}
+
+// Menambahkan baseURL (pastikan ini sesuai dengan URL backend Anda)
+const baseURL = process.env.BACKEND_DOMAIN || "http://localhost:8000";
+
+const api = async (url: string, options: FetchOptions = {}): Promise<Response> => {
+    const token = Cookies.get("assec"); // Ambil token dari cookie
+    const headers: { [key: string]: string } = {
+      ...options.headers,
+      "FROM_NEXT": "true", // custom header
+      ...(token && { "Authorization": `Bearer ${token}` }), // jika ada token, tambahkan Authorization header
+    };
+  
+    // Menggabungkan baseURL dengan url yang diberikan
+    const fullUrl = `${baseURL}${url}`;
+  
+    headers["Content-Type"] = "application/json";
+  
+    // Opsi default untuk fetch
+    const config: FetchOptions = {
+      method: options.method || "GET",
+      headers,
+      credentials: "include", // Kirim cookie
+      ...options, // Merge dengan opsi tambahan
+    };
+  
+    try {
+      const response = await fetch(fullUrl, config);
+  
+      // Jika berhasil (status 2xx)
+      if (response.ok) {
+        return response;
+      }
+  
+      // Jika token expired (401), coba refresh token
+      if (response.status === 401) {
+        return handleUnauthorizedError(fullUrl, config, response);
+      }
+  
+      // Untuk status lain, kembalikan response
+      return response;
+    } catch (error) {
+      console.error(error);
+      throw error; // Tetap lempar error untuk exception network
     }
-    config.headers['FROM_NEXT'] = `true` //customer header
-    return config;
-});
+  };
+  
 
-// Flag untuk menghindari looping
+// Flag untuk menghindari looping refresh token
 let isRefreshing = false;
 
-// Interceptor untuk menangani response (termasuk token expired)
-api.interceptors.response.use(
-    (response) => response, // Jika respons sukses, langsung kembalikan
-    async (error) => {
-    
-        const originalRequest = error.config;
-
-         if (error.response?.status === 401 && !originalRequest._retry) {
-            if (isRefreshing) {
-                // Jika refresh token sedang berjalan, tolak request ini
-                return Promise.reject(error);
-            }
-
-            try {
-                isRefreshing = true;
-                originalRequest._retry = true; // Tandai agar tidak masuk loop
-                const newToken = await AuthAction.RefreshToken();
-
-                // Update header Authorization pada request yang gagal
-                originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
-
-                // Kirim ulang request yang gagal
-                return api.request(originalRequest);
-            } catch (refreshError) {
-                console.error('Failed to refresh token:', refreshError);
-
-                // Jika refresh token gagal, arahkan ke halaman login
-                return Promise.reject(refreshError);
-            } finally {
-                isRefreshing = false;
-            }
-        }
-
-        return Promise.reject(error); // Jika bukan 401 atau gagal refresh token
+// Tangani error 401 dan refresh token
+const handleUnauthorizedError = async (
+    url: string,
+    originalConfig: FetchOptions,
+    oldResponse: Response
+  ): Promise<Response> => {
+    if (isRefreshing) {
+      // Jika refresh token sedang berlangsung, tolak request
+      return Promise.reject(new Error("Token refresh is in progress."));
     }
-);
+  
+    try {
+      isRefreshing = true;
+      const newToken = await AuthAction.RefreshToken(); // Panggil refresh token
+      
+      // Update header Authorization dengan token baru
+      originalConfig.headers = {
+        ...originalConfig.headers,
+        Authorization: `Bearer ${newToken}`,
+      };
+  
+      // Kirim ulang request yang gagal
+      const retriedResponse = await fetch(url, originalConfig);
+  
+      // Jika berhasil, kembalikan response
+      if (retriedResponse.ok) {
+        return retriedResponse;
+      }
+  
+      // Jika retried response gagal (selain 401), kembalikan ke pemanggil
+      return retriedResponse;
+    } catch (refreshError) {
+      console.error("Failed to refresh token:", refreshError);
+  
+      // Jika refresh token juga gagal (401 atau lainnya), kembalikan response asli
+      return oldResponse; // Kembalikan response asli ke pemanggil
+    } finally {
+      isRefreshing = false;
+    }
+  };
+  
 
-export default api;
+export { api };

@@ -8,6 +8,7 @@ import { FC } from "react";
 import { ActivityTitleCard } from "./activity-title.card";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { ImageWithLoader } from "./with-loader.image";
 
 
 
@@ -15,16 +16,20 @@ const ActivityCard: FC<ActivityCardProps> = ({ activity, tags, useMobileHeight, 
  
     return (
       <Link href={`/customer/preview/activity/${activity.slug}`} target="__blank">
-      <Card className={`flex flex-col max-h-[400px] ${useMobileHeight ? 'h-[250px]' : 'h-[400px]'}`}>
+      <Card className={`flex flex-col max-h-[400px] h-[250px] md:h-[400px]`}>
        
               {/* Bagian Gambar */}
-              <div className={`relative w-full ${useMobileHeight ? 'h-[200px]' : 'h-[400px]'}`}>
-          <Image
+              <div className={`relative w-full h-[250px] md:h-[400px] `}>
+         <ImageWithLoader
             src={activity.image}
             alt={activity.title}
+            fallbackSrc="/fallback-image.png"
+            classNameProp="rounded-t-lg"
+            skeletonClassName="rounded-t-lg"
+            priority={false}
             layout="fill"
             objectFit="cover"
-            className="rounded-t-lg"
+           
           />
         </div>
   
@@ -36,14 +41,14 @@ const ActivityCard: FC<ActivityCardProps> = ({ activity, tags, useMobileHeight, 
           {showDesciption && <p className="text-sm mt-2">{showDesciption}</p>}
 
               {/* Tag Popular */}
-        {showTags && <div className="flex gap-2">
+              <div className=" gap-2 hidden md:flex">
         <div className="mt-1 inline-block bg-red-300 text-white text-[10px] md:text-xs font-normal py-1 px-2 rounded-lg">
           {tags.first_tag}
         </div>
         <div className="mt-1 inline-block bg-red-300 text-white text-[10px] md:text-xs font-normal py-1 px-2 rounded-lg">
          {tags.second_tag}
         </div>
-        </div>}
+        </div>
 
           {/* Rating dan Total Booking */}
           <div className="flex items-center gap-1 mt-2">

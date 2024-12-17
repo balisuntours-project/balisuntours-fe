@@ -68,6 +68,7 @@ export function CommentReviewer(props: {review: ActivityReviewResponse, forPopUp
                             alt={`Beautifull Moment`}
                             fallbackSrc="/fallback-image.png"
                             classNameProp="rounded-md w-[250px] h-[120px] md:h-[150px] object-cover"
+                            skeletonClassName="rounded-md"
                             priority={false} // Gambar ini tidak diberi prioritas
                             width={250}
                             height={150}

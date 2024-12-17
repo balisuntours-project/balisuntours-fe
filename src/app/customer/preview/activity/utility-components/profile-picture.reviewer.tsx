@@ -2,7 +2,7 @@
 
     import { ImageWithLoader } from "@/app/global-components/utility-components/with-loader.image";
     import { ActivityReviewResponse } from "@/app/responses/activity-review/response";
-    import api from "@/lib/axios-instance";
+    import { api }from "@/lib/axios-instance";
     import Image from "next/image";
     import { useEffect, useState } from "react";
 
@@ -19,6 +19,7 @@
                 src={review.user?.avatar?.url || (review.fake_profile as string)}
                 alt={`profile-pic ${review.name + 1}`}
                 classNameProp="w-12 h-12 md:w-14 md:h-14 lg:w-12 lg:h-12 rounded-full object-cover"
+                skeletonClassName="rounded-full"
                 fallbackSrc="/fallback-image.png"
                 priority={false} // Gambar ini tidak diberi prioritas
                 width={48}

@@ -1,10 +1,13 @@
+import { AllActivitiesParamater } from "@/app/paramaters/activity/paramater";
 import {
+  Activity,
   ActivityDetailResponse,
   ActivityDetailSitemap,
   ActivityTitleAndSlugResponse,
 } from "@/app/responses/activity/response";
-import api from "@/lib/axios-instance";
+import { api } from "@/lib/axios-instance";
 import { AxiosError } from "axios";
+import { unstable_cache } from "next/cache";
 
 export interface ActivityActionResponse<T> {
   success: boolean;
@@ -26,11 +29,14 @@ interface ErrorServerObject {
 }
 
 export class ActivityAction {
-  private static handleResponse<T>(response: any): ActivityActionResponse<T> {
+  private static async handleResponse<T>(
+    response: Response
+  ): Promise<ActivityActionResponse<T>> {
+    const finalResponse = await response.json();
     return {
       success: true,
       status_code: response.status,
-      data: response.data?.data ?? response.data,
+      data: finalResponse.data ?? finalResponse,
     };
   }
 
@@ -71,7 +77,9 @@ export class ActivityAction {
     ActivityActionResponse<Array<ActivityTitleAndSlugResponse>>
   > {
     try {
-      const action = await api.get("/customer/searchbox/title/activity");
+      const action = await api("/customer/searchbox/title/activity", {
+        method: "GET",
+      });
 
       return this.handleResponse<Array<ActivityTitleAndSlugResponse>>(action);
     } catch (error) {
@@ -86,7 +94,9 @@ export class ActivityAction {
     ActivityActionResponse<Array<ActivityDetailSitemap>>
   > {
     try {
-      const action = await api.get("/customer/sitemap/activity");
+      const action = await api("/customer/sitemap/activity", {
+        method: "GET",
+      });
 
       return this.handleResponse<Array<ActivityDetailSitemap>>(action);
     } catch (error) {
@@ -101,12 +111,53 @@ export class ActivityAction {
     slug: string
   ): Promise<ActivityActionResponse<ActivityDetailResponse>> {
     try {
-      const action = await api.get(`/api/customer/preview/activity/${slug}`);
+      const action = await api(`/api/customer/preview/activity/${slug}`, {
+        method: "GET",
+      });
 
       return this.handleResponse<ActivityDetailResponse>(action);
     } catch (error) {
       console.error(error);
       return this.handleError<ActivityDetailResponse>(
+        error as AxiosError<ErrorServerObject>
+      );
+    }
+  }
+
+  static async GetAllActivities(
+    title?: string,
+    categoriesUuid?: string
+  ): Promise<ActivityActionResponse<Array<AllActivitiesParamater>>> {
+    try {
+      const action = await api(`/api/customer/search/activity`, {
+        method: "GET",
+        cache: "force-cache",
+        next: {
+          revalidate: 60
+        }
+      });
+
+      return this.handleResponse<Array<AllActivitiesParamater>>(action);
+    } catch (error) {
+      console.error(error);
+      return this.handleError<Array<AllActivitiesParamater>>(
+        error as AxiosError<ErrorServerObject>
+      );
+    }
+  }
+
+  static async GetRecomendedLatestsActivity(): Promise<
+    ActivityActionResponse<Array<Activity>>
+  > {
+    try {
+      const action = await api(`/customer/recomendation/activity`, {
+        method: "GET",
+      });
+
+      return this.handleResponse<Array<Activity>>(action);
+    } catch (error) {
+      console.error(error);
+      return this.handleError<Array<Activity>>(
         error as AxiosError<ErrorServerObject>
       );
     }
