@@ -1,6 +1,5 @@
 
-import { ActivityCardProps, ActivityTags } from "@/app/paramater/activity.paramater";
-import { Activity } from "@/app/response/activity.response";
+import { ActivityCardProps, ActivityTags } from "@/app/paramaters/activity/paramater";
 import { Card, CardContent } from "@/components/ui/card";
 import { GlobalUtility } from "@/lib/global.utility";
 import { Star } from "lucide-react";
@@ -15,7 +14,7 @@ import Link from "next/link";
 const ActivityCard: FC<ActivityCardProps> = ({ activity, tags, useMobileHeight, showDesciption, showTags = true }) => {
  
     return (
-      <Link href={`${process.env.BACKEND_DOMAIN}/customer/preview/activity/${activity.slug}`} target="__blank">
+      <Link href={`/customer/preview/activity/${activity.slug}`} target="__blank">
       <Card className={`flex flex-col max-h-[400px] ${useMobileHeight ? 'h-[250px]' : 'h-[400px]'}`}>
        
               {/* Bagian Gambar */}

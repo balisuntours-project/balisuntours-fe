@@ -1,5 +1,5 @@
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { ActivityLandingPage } from "../paramater/activity.paramater";
+import { ActivityLandingPage } from "../paramaters/activity/paramater";
 import ActivityCard from "./utility-components/activity.card";
 
 export function LandingPageActivityDesktopSection(props: ActivityLandingPage) {

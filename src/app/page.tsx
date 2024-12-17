@@ -3,11 +3,12 @@ import { LargeNavbar } from "./global-components/large.navbar";
 import { LandingPageHeroSection } from "./global-components/lading-page.hero";
 import { LandingPagePopularActivitySection } from "./global-components/landing-page.activity";
 import axios from "axios";
-import { Activity, ActivityBestCategory, BestActivityCategoryNameAndListActivity } from "./response/activity.response";
+import { ActivityBestCategory, BestActivityCategoryNameAndListActivity } from "./response/activity.response";
 import { LandingPageBenefit } from "./global-components/landing-page.benefit";
 import { LandingPageBestCategorySection } from "./global-components/landing-page.category";
 import { LandingPageFooterSection } from "./global-components/landing-page.footer";
 import api from "@/lib/axios-instance";
+import { Activity } from "./responses/activity/response";
 
 export default async function Home() {
 

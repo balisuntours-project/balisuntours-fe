@@ -57,10 +57,10 @@ export class AuthAction {
     static async LoginUser(payload: LoginParamater) {
         try {
             const result = await api.post("/api/customer/auth/login" , payload)
-            console.log(result.data)
+           
             return result.data
         } catch (error) {
-            console.log(error)
+           // console.log(error)
             console.error(error)
             return false
         }

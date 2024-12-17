@@ -15,9 +15,11 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "@/components/ui/command";
-import { Activity } from "@/app/response/activity.response";
+
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { Activity } from "@/app/responses/activity/response";
+import { ActivityAction } from "@/app/actions/activity/action";
 
 export function LandingPageSearchBoxUtility({
   flatPosition,
@@ -51,13 +53,9 @@ export function LandingPageSearchBoxUtility({
   };
 
   const getAllActivitiesTitle = async (): Promise<void> => {
-    try {
-      const result = await api.get("/customer/searchbox/title/activity");
-      console.log(result.data);
-      setActivityTitles(result.data.data);
-    } catch (error) {
-      console.log(error);
-    }
+    const result = await ActivityAction.GetActivityTitleWithSlug()
+    console.log(result.data);
+    setActivityTitles(result.data);
   };
 
   const toAllActivity = () => {

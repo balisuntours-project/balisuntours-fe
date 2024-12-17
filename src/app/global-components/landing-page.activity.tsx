@@ -2,7 +2,7 @@
 
 import { ExpandedButton } from "@/components/custom-ui/expanded.button";
 import ActivityCard from "./utility-components/activity.card";
-import { ActivityLandingPage } from "../paramater/activity.paramater";
+import { ActivityLandingPage } from "../paramaters/activity/paramater";
 import { LandingPageActivityMobileSection } from "./landing-page-mobile.activity";
 import { LandingPageActivityDesktopSection } from "./landing-page-desktop.activity";
 import Link from "next/link";

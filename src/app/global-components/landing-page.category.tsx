@@ -1,6 +1,6 @@
 import { ActivityBestCategory, BestActivityCategoryNameAndListActivity } from "../response/activity.response";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { ActivityBestCategoryLandingPage, ActivityLandingPage } from "../paramater/activity.paramater";
+import { ActivityBestCategoryLandingPage, ActivityLandingPage } from "../paramaters/activity/paramater";
 import ActivityCard from "./utility-components/activity.card";
 import { BestCategoryCard } from "./utility-components/category.card";
 import { ExpandedButton } from "@/components/custom-ui/expanded.button";

@@ -14,3 +14,16 @@ export enum ActivityPackageSelfConfirmationStatus {
   self = "1",
   waiting = "0",
 }
+
+export enum ActivityItineraryTypeEnum {
+  departure = "Departure",
+  dropoff = "Dropoff",
+  attraction = "Attractions",
+  meal = "Meals"
+}
+
+
+export enum IncrementDecrementEnum {
+  increment = "plus",
+  decrement = "mines"
+}

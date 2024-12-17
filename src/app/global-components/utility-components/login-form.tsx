@@ -27,6 +27,7 @@ import {
     FormMessage,
   } from "@/components/ui/form";
 import { AuthAction } from "@/app/action/action";
+import { useAuthPopupStore } from "@/app/store/auth-popup.store";
 
 export function LoginForm() {
 
@@ -43,12 +44,15 @@ export function LoginForm() {
     
 
     const setShowBrowserPopupDialog = useAuthStore((state) => state.setShowBrowserPopupDialog)
+    const setShowAuthPopup = useAuthPopupStore((state) => state.setShowAuthPopup);
 
     const handleLogin = async (values: z.infer<typeof LoginFormSchema>) => {
+      values.password = btoa(values.password)
         const action = await AuthAction.LoginUser(values)
     
         if(action) {
             setShowLoginDialog(false)
+            setShowAuthPopup(false)
         }else{
             window.alert("Data not found")
         }

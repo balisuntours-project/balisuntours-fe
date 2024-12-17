@@ -1,0 +1,12 @@
+# Allow all search engines
+User-agent: *
+Disallow: /api/
+Disallow: /_next/
+Disallow: /private/
+Disallow: /admin/
+
+# Allow everything else
+Allow: /
+
+# Sitemap location
+Sitemap: http://localhost:3000/sitemap.xml

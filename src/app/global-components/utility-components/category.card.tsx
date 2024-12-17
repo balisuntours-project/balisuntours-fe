@@ -4,7 +4,7 @@ import Image from "next/image";
 import { ActivityTitleCard } from "./activity-title.card";
 import { ExpandedButton } from "@/components/custom-ui/expanded.button";
 import { BestCategoryActivityDrawer } from "./best-category-activity.drawer";
-import { ActivityBestCategoryCard } from "@/app/paramater/activity.paramater";
+import { ActivityBestCategoryCard } from "@/app/paramaters/activity/paramater";
 
 export function BestCategoryCard(props: ActivityBestCategoryCard) {
   // Placeholder image dari API eksternal
