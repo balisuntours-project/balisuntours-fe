@@ -1,13 +1,13 @@
+import { ActivityCategoryParamater } from "@/app/paramaters/activity-category/paramater";
 import {
   ActivityDetailResponse,
   ActivityDetailSitemap,
   ActivityTitleAndSlugResponse,
 } from "@/app/responses/activity/response";
 import { api } from "@/lib/axios-instance";
-import axios, { AxiosError } from "axios";
-import { cookies } from "next/headers";
+import { AxiosError } from "axios";
 
-export interface ActivityActionResponse<T> {
+export interface ActivityCategoryActionResponse<T> {
   success: boolean;
   status_code: number;
   data: T;
@@ -26,10 +26,10 @@ interface ErrorServerObject {
     | string;
 }
 
-export class ActivityActionServer {
+export class ActivityCategoryAction {
   private static async handleResponse<T>(
     response: Response
-  ): Promise<ActivityActionResponse<T>> {
+  ): Promise<ActivityCategoryActionResponse<T>> {
     const finalResponse = await response.json();
     return {
       success: true,
@@ -40,7 +40,7 @@ export class ActivityActionServer {
 
   private static handleError<T>(
     error: AxiosError<ErrorServerObject>
-  ): ActivityActionResponse<T> {
+  ): ActivityCategoryActionResponse<T> {
     let message: string = "An unknown error occurred";
     if (error.response?.data?.errors) {
       const errorMessageRaw = error.response.data.errors;
@@ -71,36 +71,18 @@ export class ActivityActionServer {
     };
   }
 
-  static async GetPreviewDetailActivity(
-    slug: string
-  ): Promise<ActivityActionResponse<ActivityDetailResponse>> {
+  static async GetActivityCategories(): Promise<
+    ActivityCategoryActionResponse<Array<ActivityCategoryParamater>>
+  > {
     try {
-      const cookieStore = await cookies();
-      const cookie = cookieStore.toString(); // Serialize cookies
-      const token = cookieStore.get("assec");
-     
-      const action = await api(`/customer/preview/activity/${slug}`, {
+      const action = await api(`/customer/categories`, {
         method: "GET",
-        headers: {
-          Cookie: cookie,
-          ...(token ? { Authorization: "Bearer " + token.value} : {}),
-          FROM_NEXT: "true",
-        },
       });
-      
 
-      //dengan axios hanya perlu melakukan ini
-      // const action = await api.get(`/customer/preview/activity/${slug}`, {
-      //   headers: {
-      //     Cookie: cookie
-      //   }
-      // })
-
-      console.log(action);
-      return this.handleResponse<ActivityDetailResponse>(action);
+      return this.handleResponse<Array<ActivityCategoryParamater>>(action);
     } catch (error) {
       console.error(error);
-      return this.handleError<ActivityDetailResponse>(
+      return this.handleError<Array<ActivityCategoryParamater>>(
         error as AxiosError<ErrorServerObject>
       );
     }

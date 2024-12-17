@@ -3,7 +3,7 @@ import {
   ActivityDetailSitemap,
   ActivityTitleAndSlugResponse,
 } from "@/app/responses/activity/response";
-import api from "@/lib/axios-instance";
+import { api }from "@/lib/axios-instance";
 import { CurrencyListEnum } from "@/lib/global.enum";
 import { AxiosError } from "axios";
 
@@ -27,11 +27,12 @@ interface ErrorServerObject {
 }
 
 export class CurrencyAction {
-  private static handleResponse<T>(response: any): CurrencyActionResponse<T> {
+  private static async handleResponse<T>(response: Response): Promise<CurrencyActionResponse<T>> {
+    const finalResponse = await response.json();
     return {
       success: true,
       status_code: response.status,
-      data: response.data?.data ?? response.data,
+      data: finalResponse.data ?? finalResponse,
     };
   }
 
@@ -72,7 +73,9 @@ export class CurrencyAction {
     currency: CurrencyListEnum = CurrencyListEnum.usd
   ): Promise<CurrencyActionResponse<number>> {
     try {
-      const action = await api.get(`/api/currency/${currency}`);
+      const action = await api(`/api/currency/${currency}`, {
+        method: "GET"
+      });
 
       return this.handleResponse<number>(action);
     } catch (error) {

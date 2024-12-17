@@ -179,4 +179,8 @@ export class GlobalUtility {
     // Cek apakah lebar layar kurang dari atau sama dengan breakpoint
     return window.innerWidth <= mobileBreakpoint;
   }
+
+  static CountMaxPaginationPage(totalItem: number, itemPerpage: number) : number {
+    return Math.ceil(totalItem / itemPerpage)
+  }
 }

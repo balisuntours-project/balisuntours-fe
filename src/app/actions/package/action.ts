@@ -3,7 +3,7 @@ import {
   ActivityDetailSitemap,
   ActivityTitleAndSlugResponse,
 } from "@/app/responses/activity/response";
-import api from "@/lib/axios-instance";
+import { api } from "@/lib/axios-instance";
 import { AxiosError } from "axios";
 
 export interface ActivityPackageActionResponse<T> {
@@ -26,13 +26,14 @@ interface ErrorServerObject {
 }
 
 export class ActivityPackageAction {
-  private static handleResponse<T>(
-    response: any
-  ): ActivityPackageActionResponse<T> {
+  private static async handleResponse<T>(
+    response: Response
+  ): Promise<ActivityPackageActionResponse<T>> {
+    const finalResponse = await response.json();
     return {
       success: true,
       status_code: response.status,
-      data: response.data?.data ?? response.data,
+      data: finalResponse.data ?? finalResponse,
     };
   }
 
@@ -73,8 +74,11 @@ export class ActivityPackageAction {
     uuid: string
   ): Promise<ActivityPackageActionResponse<number>> {
     try {
-      const action = await api.get(
-        `/customer/activity/package/check-diff-days/${uuid}`
+      const action = await api(
+        `/customer/activity/package/check-diff-days/${uuid}`,
+        {
+          method: "GET",
+        }
       );
 
       return this.handleResponse<number>(action);

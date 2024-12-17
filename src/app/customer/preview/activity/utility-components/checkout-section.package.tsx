@@ -169,7 +169,7 @@ export function CheckoutSectionPackage(props: {
     setIsLoading(true);
 
     const storeCart = await storeCartAction();
-
+    
     if (storeCart.status_code == HttpStatus.CREATED) {
       const stringCartPayload = JSON.stringify(storeCart.data);
       const checkForFreeTourValidation = await CartAction.FreeTourValidation(
@@ -177,7 +177,7 @@ export function CheckoutSectionPackage(props: {
       );
 
       setIsLoading(false);
-
+      
       if (checkForFreeTourValidation.status_code == HttpStatus.OK) {
         router.push(
           `${process.env.BACKEND_DOMAIN}/customer/checkout?cart_data=${stringCartPayload}`

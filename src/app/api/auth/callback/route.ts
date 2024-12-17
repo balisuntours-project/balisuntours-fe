@@ -1,4 +1,4 @@
-import api from '@/lib/axios-instance';
+import { api }from '@/lib/axios-instance';
 import { CookieResponseType } from '@/lib/global.type';
 import axios from 'axios';
 import { cookies } from 'next/headers';
@@ -16,11 +16,13 @@ export async function GET(req: NextRequest) {
     const cookieStore = await cookies()
    
     try {
-        const response = await api.get(`/customer/auth/jwt/google/callback?code=${code}&scope=${scope}&authuser=${authuser}&prompt=${prompt}`);
+      const response = await api(`/customer/auth/jwt/google/callback?code=${code}&scope=${scope}&authuser=${authuser}&prompt=${prompt}`, {
+        method: "GET",
+        cache: "no-store"
+      });
       
-        //console.log(response.data)
-
-        const result : CookieResponseType = response.data
+  
+        const result : CookieResponseType = await response.json()
         cookieStore.set("assec", result.access_token.value, {
             path: "/",
             maxAge: result.access_token.ttl,
@@ -57,6 +59,6 @@ export async function GET(req: NextRequest) {
     }
     
     
-    return NextResponse.json({ message: 'Success login', data: "ok" }, { status: 200 });
+    return NextResponse.json({ message: "Success login", data: "ok" }, { status: 200 });
 }
 

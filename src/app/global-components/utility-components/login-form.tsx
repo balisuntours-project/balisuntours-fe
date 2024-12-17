@@ -11,7 +11,7 @@ import { GoalIcon } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie"
-import api from "@/lib/axios-instance";
+import { api }from "@/lib/axios-instance";
 import { GlobalUtility } from "@/lib/global.utility";
 import { useAuthStore } from "@/app/store/auth.store";
 import { LoginFormSchema } from "@/app/api/auth/validation/login.validation";

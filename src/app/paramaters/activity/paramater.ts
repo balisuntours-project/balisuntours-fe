@@ -10,6 +10,8 @@ import {
 } from "../../responses/activity/response";
 import { ActivityPackagePriceResponse } from "@/app/responses/activity-package-price/response";
 import { IncrementDecrementEnum } from "@/app/enum/activity.enum";
+import { ActivityCategoryResponse } from "@/app/responses/activity-category/response";
+import React from "react";
 
 export type ActivityCardProps = {
   activity: Activity;
@@ -45,6 +47,13 @@ export interface ActivityBestCategoryCard {
 
 export interface DetailActivityParamater {
   slug: string;
+}
+
+export interface ActivityDrawerParamater {
+  activities: Array<Activity>,
+  title: string,
+  description: string,
+  children: React.ReactNode
 }
 
 export interface DetailActivityTitleParamater
@@ -98,4 +107,8 @@ export interface CalculateTotalPriceParamater {
     price: number,
     current_total_price: number,
     action: IncrementDecrementEnum
+}
+
+export interface AllActivitiesParamater extends Activity {
+  activity_categories: Array<ActivityCategoryResponse>
 }

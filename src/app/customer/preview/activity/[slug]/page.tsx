@@ -10,8 +10,8 @@ import { DetailActivityPackage } from "./components/detail-activity.package";
 import { DetailActivityReviews } from "./components/detail-activity.review";
 import { LandingPageFooterSection } from "@/app/global-components/landing-page.footer";
 
-export { generateMetadata };
-
+/* export { generateMetadata };
+ */
 export default async function PreviewActivity({
   params,
 }: {
@@ -22,6 +22,7 @@ export default async function PreviewActivity({
   const data = await ActivityActionServer.GetPreviewDetailActivity(slug);
 
   if (!data.success) {
+    console.log(data)
     notFound();
   }
 

@@ -32,6 +32,7 @@ export function DetailActivityHero(props: DetailActivityHeroParamater) {
             alt={props.activity_main_photo.description ?? "banner"}
             fallbackSrc="/fallback-image.png"
             classNameProp="w-full sm:h-[400px] lg:h-[500px] bg-gray-500 rounded-lg object-cover cursor-pointer"
+            skeletonClassName="rounded-lg"
             priority={false}
             width={500}
             height={500}
@@ -43,6 +44,7 @@ export function DetailActivityHero(props: DetailActivityHeroParamater) {
             alt={props.activity_galleries[0].title ?? "gallery-1"}
             fallbackSrc="/fallback-image.png"
             classNameProp="row-span-1 w-full h-[100%] bg-gray-500 rounded-lg object-cover cursor-pointer"
+            skeletonClassName="rounded-lg"
             priority={false}
             width={500}
             height={500}
@@ -53,6 +55,7 @@ export function DetailActivityHero(props: DetailActivityHeroParamater) {
             alt={props.activity_galleries[1].title ?? "gallery-2"}
             fallbackSrc="/fallback-image.png"
             classNameProp="row-span-1 w-full h-[100%] bg-gray-500 rounded-lg object-cover cursor-pointer"
+            skeletonClassName="rounded-lg"
             priority={false}
             width={500}
             height={500}
