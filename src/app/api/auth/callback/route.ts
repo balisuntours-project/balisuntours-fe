@@ -18,7 +18,6 @@ export async function GET(req: NextRequest) {
     try {
       const response = await api(`/customer/auth/jwt/google/callback?code=${code}&scope=${scope}&authuser=${authuser}&prompt=${prompt}`, {
         method: "GET",
-        cache: "no-store"
       });
       
   
@@ -59,6 +58,6 @@ export async function GET(req: NextRequest) {
     }
     
     
-    return NextResponse.json({ message: "Success login", data: "ok" }, { status: 200 });
+    return NextResponse.json({ message: "Success login", status_code: 200 }, { status: 200 });
 }
 

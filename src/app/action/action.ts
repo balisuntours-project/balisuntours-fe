@@ -51,7 +51,11 @@ export class AuthAction {
         body: JSON.stringify(payload),
       });
       const finalResult = await result.json();
-      return finalResult.data;
+      if(result.ok) {
+        return finalResult.data;
+      }else{
+        return false
+      }
     } catch (error) {
       console.error(error);
       return false;
@@ -66,7 +70,11 @@ export class AuthAction {
       });
 
       const finalResult = await result.json();
-      return finalResult.data;
+      if(result.ok) {
+        return finalResult.data;
+      }else {
+        return false
+      }
     } catch (error) {
       // console.log(error)
       console.error(error);

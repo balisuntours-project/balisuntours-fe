@@ -183,4 +183,12 @@ export class GlobalUtility {
   static CountMaxPaginationPage(totalItem: number, itemPerpage: number) : number {
     return Math.ceil(totalItem / itemPerpage)
   }
+
+  static TriggerExceptionFetchApi(response: Response) {
+    throw {
+      status: response.status,
+      statusText: response.statusText,
+      response: response,
+    };
+  }
 }
