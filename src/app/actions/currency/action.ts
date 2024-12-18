@@ -3,8 +3,9 @@ import {
   ActivityDetailSitemap,
   ActivityTitleAndSlugResponse,
 } from "@/app/responses/activity/response";
-import { api }from "@/lib/axios-instance";
+import { api } from "@/lib/axios-instance";
 import { CurrencyListEnum } from "@/lib/global.enum";
+import { GlobalUtility } from "@/lib/global.utility";
 import { AxiosError } from "axios";
 
 export interface CurrencyActionResponse<T> {
@@ -16,23 +17,58 @@ export interface CurrencyActionResponse<T> {
 interface ErrorServerObject {
   errors?:
     | {
-        [key: string]: string; //Dynamic properties with string values
+        [key: string]: string | string[]; //Mendukung string atau array string sebagai nilai
       }
     | string;
   data?:
     | {
-        [key: string]: string; //Dynamic properties with string values
+        [key: string]: string | string[]; //Mendukung string atau array string sebagai nilai
       }
     | string;
 }
 
 export class CurrencyAction {
-  private static async handleResponse<T>(response: Response): Promise<CurrencyActionResponse<T>> {
+  private static async handleResponse<T>(
+    response: Response
+  ): Promise<CurrencyActionResponse<T>> {
     const finalResponse = await response.json();
     return {
-      success: true,
+      success: response.ok,
       status_code: response.status,
       data: finalResponse.data ?? finalResponse,
+    };
+  }
+
+  private static async handleFetchError<T>(
+    response: Response
+  ): Promise<CurrencyActionResponse<T>> {
+    const finalResponse = (await response.json()) as ErrorServerObject; // Parsing response JSON ke ErrorServerObject
+
+    let message = "Unknown error occurred";
+
+    // Tangani kasus errors
+    if (finalResponse?.errors) {
+      if (typeof finalResponse.errors === "string") {
+        message = finalResponse.errors; // Jika errors adalah string
+      } else if (typeof finalResponse.errors === "object") {
+        // Jika errors adalah objek, gabungkan semua nilai menjadi string
+        message = Object.values(finalResponse.errors).flat().join("\n");
+      }
+    }
+    // Tangani kasus data
+    else if (finalResponse?.data) {
+      if (typeof finalResponse.data === "string") {
+        message = finalResponse.data; // Jika data adalah string
+      } else if (typeof finalResponse.data === "object") {
+        // Jika data adalah objek, gabungkan semua nilai menjadi string
+        message = Object.values(finalResponse.data).flat().join("\n");
+      }
+    }
+
+    return {
+      success: response.ok,
+      status_code: response.status,
+      data: message as T, // Gabungkan semua pesan error/data
     };
   }
 
@@ -74,13 +110,17 @@ export class CurrencyAction {
   ): Promise<CurrencyActionResponse<number>> {
     try {
       const action = await api(`/api/currency/${currency}`, {
-        method: "GET"
+        method: "GET",
       });
 
+      if(!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action)
+      }
+
       return this.handleResponse<number>(action);
-    } catch (error) {
+    } catch (error : any) {
       console.error(error);
-      return this.handleError<number>(error as AxiosError<ErrorServerObject>);
+      return this.handleFetchError<number>(error.response || error);
     }
   }
 }

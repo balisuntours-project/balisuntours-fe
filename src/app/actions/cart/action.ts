@@ -6,6 +6,7 @@ import {
 } from "@/app/responses/activity/response";
 import { api } from "@/lib/axios-instance";
 import { CurrencyListEnum } from "@/lib/global.enum";
+import { GlobalUtility } from "@/lib/global.utility";
 import { AxiosError } from "axios";
 
 export interface CartActionResponse<T> {
@@ -18,14 +19,14 @@ export interface CartActionResponse<T> {
 interface ErrorServerObject {
   errors?:
     | {
-        [key: string]: string | string[]; // Mendukung string atau array string sebagai nilai
+        [key: string]: string | string[]; //Mendukung string atau array string sebagai nilai
       }
-    | string; // Bisa juga berupa string biasa
+    | string;
   data?:
     | {
-        [key: string]: string | string[]; // Mendukung string atau array string sebagai nilai
+        [key: string]: string | string[]; //Mendukung string atau array string sebagai nilai
       }
-    | string; // Bisa juga berupa string biasa
+    | string;
 }
 
 export class CartAction {
@@ -116,11 +117,7 @@ export class CartAction {
       });
 
       if (!action.ok) {
-        throw {
-          status: action.status,
-          statusText: action.statusText,
-          response: action,
-        };
+       GlobalUtility.TriggerExceptionFetchApi(action)
       }
 
       const result = this.handleResponse<Array<string> | string>(action);
@@ -146,11 +143,7 @@ export class CartAction {
 
         
       if (!action.ok) {
-        throw {
-          status: action.status,
-          statusText: action.statusText,
-          response: action,
-        };
+        GlobalUtility.TriggerExceptionFetchApi(action)
       }
 
       return this.handleResponse<boolean>(action);

@@ -5,6 +5,7 @@ import {
   ActivityTitleAndSlugResponse,
 } from "@/app/responses/activity/response";
 import { api } from "@/lib/axios-instance";
+import { GlobalUtility } from "@/lib/global.utility";
 import { AxiosError } from "axios";
 
 export interface ActivityCategoryActionResponse<T> {
@@ -16,12 +17,12 @@ export interface ActivityCategoryActionResponse<T> {
 interface ErrorServerObject {
   errors?:
     | {
-        [key: string]: string; //Dynamic properties with string values
+        [key: string]: string | string[]; //Mendukung string atau array string sebagai nilai
       }
     | string;
   data?:
     | {
-        [key: string]: string; //Dynamic properties with string values
+        [key: string]: string | string[]; //Mendukung string atau array string sebagai nilai
       }
     | string;
 }
@@ -32,9 +33,42 @@ export class ActivityCategoryAction {
   ): Promise<ActivityCategoryActionResponse<T>> {
     const finalResponse = await response.json();
     return {
-      success: true,
+      success: response.ok,
       status_code: response.status,
       data: finalResponse.data ?? finalResponse,
+    };
+  }
+
+  private static async handleFetchError<T>(
+    response: Response
+  ): Promise<ActivityCategoryActionResponse<T>> {
+    const finalResponse = (await response.json()) as ErrorServerObject; // Parsing response JSON ke ErrorServerObject
+
+    let message = "Unknown error occurred";
+
+    // Tangani kasus errors
+    if (finalResponse?.errors) {
+      if (typeof finalResponse.errors === "string") {
+        message = finalResponse.errors; // Jika errors adalah string
+      } else if (typeof finalResponse.errors === "object") {
+        // Jika errors adalah objek, gabungkan semua nilai menjadi string
+        message = Object.values(finalResponse.errors).flat().join("\n");
+      }
+    }
+    // Tangani kasus data
+    else if (finalResponse?.data) {
+      if (typeof finalResponse.data === "string") {
+        message = finalResponse.data; // Jika data adalah string
+      } else if (typeof finalResponse.data === "object") {
+        // Jika data adalah objek, gabungkan semua nilai menjadi string
+        message = Object.values(finalResponse.data).flat().join("\n");
+      }
+    }
+
+    return {
+      success: response.ok,
+      status_code: response.status,
+      data: message as T, // Gabungkan semua pesan error/data
     };
   }
 
@@ -79,11 +113,15 @@ export class ActivityCategoryAction {
         method: "GET",
       });
 
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
+      }
+
       return this.handleResponse<Array<ActivityCategoryParamater>>(action);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      return this.handleError<Array<ActivityCategoryParamater>>(
-        error as AxiosError<ErrorServerObject>
+      return this.handleFetchError<Array<ActivityCategoryParamater>>(
+        error.response || error
       );
     }
   }
