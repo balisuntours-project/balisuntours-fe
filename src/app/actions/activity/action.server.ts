@@ -4,6 +4,7 @@ import {
   ActivityTitleAndSlugResponse,
 } from "@/app/responses/activity/response";
 import { api } from "@/lib/axios-instance";
+import { apiServer } from "@/lib/axios-instance.server";
 import { GlobalUtility } from "@/lib/global.utility";
 import axios, { AxiosError } from "axios";
 import { cookies } from "next/headers";
@@ -27,7 +28,6 @@ interface ErrorServerObject {
     | string;
 }
 
-
 export class ActivityActionServer {
   private static async handleResponse<T>(
     response: Response
@@ -44,7 +44,7 @@ export class ActivityActionServer {
     response: Response
   ): Promise<ActivityActionResponse<T>> {
     const finalResponse = (await response.json()) as ErrorServerObject; // Parsing response JSON ke ErrorServerObject
-    
+
     let message = "Unknown error occurred";
 
     // Tangani kasus errors
@@ -110,19 +110,9 @@ export class ActivityActionServer {
     slug: string
   ): Promise<ActivityActionResponse<ActivityDetailResponse>> {
     try {
-      const cookieStore = await cookies();
-      const cookie = cookieStore.toString(); // Serialize cookies
-      const token = cookieStore.get("assec");
-     
-      const action = await api(`/customer/preview/activity/${slug}`, {
+      const action = await apiServer(`/customer/preview/activity/${slug}`, {
         method: "GET",
-        headers: {
-          Cookie: cookie,
-          ...(token ? { Authorization: "Bearer " + token.value} : {}),
-          FROM_NEXT: "true",
-        },
       });
-      
 
       //dengan axios hanya perlu melakukan ini
       // const action = await api.get(`/customer/preview/activity/${slug}`, {
@@ -131,12 +121,12 @@ export class ActivityActionServer {
       //   }
       // })
 
-      if(!action.ok) {
-        GlobalUtility.TriggerExceptionFetchApi(action)
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
       }
 
       return this.handleResponse<ActivityDetailResponse>(action);
-    } catch (error : any) {
+    } catch (error: any) {
       console.error(error);
       return this.handleFetchError<ActivityDetailResponse>(
         error.response || error

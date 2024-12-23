@@ -4,7 +4,7 @@ import { CurrencyAction } from "@/app/actions/currency/action";
 import {
   ActivityPackageTypeEnum,
   IncrementDecrementEnum,
-} from "@/app/enum/activity.enum";
+} from "@/app/enums/activity/activity.enum";
 import { PriceListsParamater } from "@/app/paramaters/activity/paramater";
 import { PriceListSkeleton } from "@/app/skeletons-component/price-list.skeleton";
 import { useDetailActivityStore } from "@/app/store/detail-activity.store";
@@ -14,6 +14,7 @@ import { CurrencyListEnum } from "@/lib/global.enum";
 import { GlobalUtility } from "@/lib/global.utility";
 import { Minus, MinusSquare, Plus, PlusSquare } from "lucide-react";
 import { useActivityDate } from "../[slug]/provider/activity-booking-date.provider";
+import { QtyPlusMinusSection } from "@/app/global-components/utility-components/qty-plus-minus.section";
 
 export function PriceListPackage() {
   const selectPackageLoadStatus = useDetailActivityStore(
@@ -39,6 +40,7 @@ export function PriceListPackage() {
     action: IncrementDecrementEnum
   ) => {
     let newQty = 1;
+    let canUpdatedTotalPrice = false;
     let priceData: PriceListsParamater = {} as PriceListsParamater;
     setSelectedPrices((prevPrices) =>
       prevPrices!.map((price) => {
@@ -60,14 +62,19 @@ export function PriceListPackage() {
             ? Math.min(price.qty + newQty, price.maximum_qty)
             : Math.max(price.qty - newQty, 0);
 
-
-           //hilangkan validation book dulu jika increment
-           if(isIncrement) {
+          //hilangkan validation book dulu jika increment
+          if (isIncrement) {
             if (priceQtyEmptyRef.current) {
-                priceQtyEmptyRef.current.classList.remove("block");
-                priceQtyEmptyRef.current.classList.add("hidden");
-              }
-           } 
+              priceQtyEmptyRef.current.classList.remove("block");
+              priceQtyEmptyRef.current.classList.add("hidden");
+            }
+
+            if (price.qty < price.maximum_qty) canUpdatedTotalPrice = true;
+          } else if (!isIncrement && price.qty > 0) {
+            canUpdatedTotalPrice = true;
+          } else {
+            canUpdatedTotalPrice = false;
+          }
 
           return {
             ...price, // Salin properti objek asli
@@ -80,15 +87,18 @@ export function PriceListPackage() {
     );
 
     //atur total price
-    const newTotalPrice = ActivityUtility.CalculateTotalPrice({
-      new_qty: newQty,
-      price: priceData.price,
-      current_total_price: totalPrice,
-      action: action,
-    });
 
-    setTotalPrice(newTotalPrice);
-    formattedPriceAction(newTotalPrice);
+    if (canUpdatedTotalPrice) {
+      const newTotalPrice = ActivityUtility.CalculateTotalPrice({
+        new_qty: newQty,
+        price: priceData.price,
+        current_total_price: totalPrice,
+        action: action,
+      });
+
+      setTotalPrice(newTotalPrice);
+      formattedPriceAction(newTotalPrice);
+    }
   };
 
   let debounceTimeoutGetFormattedPrice: NodeJS.Timeout | undefined;
@@ -118,8 +128,8 @@ export function PriceListPackage() {
     }, 100); // Adjust the debounce delay (in milliseconds) as needed
   };
 
-    //diambil dari context provider
-    const { priceQtyEmptyRef } = useActivityDate();
+  //diambil dari context provider
+  const { priceQtyEmptyRef } = useActivityDate();
   return (
     <>
       {selectedPackage && (
@@ -131,8 +141,11 @@ export function PriceListPackage() {
               <span className="text-base text-gray-500">Booking For</span>
               <span className="text-base text-gray-500 ms-auto">Quantity</span>
             </div>
-            <p className="qty-activity text-sm text-red-500 hidden" ref={priceQtyEmptyRef}>
-           Hold on, add to at least one price below!
+            <p
+              className="qty-activity text-sm text-red-500 hidden"
+              ref={priceQtyEmptyRef}
+            >
+              Hold on, add to at least one price below!
             </p>
           </div>
 
@@ -157,7 +170,13 @@ export function PriceListPackage() {
                       </span>
                     </div>
                     <div className="col-span-6">
-                      <div className="flex justify-end gap-4">
+                      <QtyPlusMinusSection
+                        qty={price.qty}
+                        onClick={(action) =>
+                          incrementDecrementQty(price.uuid, action)
+                        }
+                      />
+                      {/*  <div className="flex justify-end gap-4">
                         <Button
                           onClick={() =>
                             incrementDecrementQty(
@@ -189,7 +208,7 @@ export function PriceListPackage() {
                         >
                           <Plus className="text-[#EB5E00]" />
                         </Button>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
 

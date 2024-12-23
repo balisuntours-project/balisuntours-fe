@@ -1,4 +1,4 @@
-import { IncrementDecrementEnum } from "@/app/enum/activity.enum";
+import { IncrementDecrementEnum } from "@/app/enums/activity/activity.enum";
 import {
   CalculateTotalPriceParamater,
   PriceListsParamater,

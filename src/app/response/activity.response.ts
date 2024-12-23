@@ -1,4 +1,4 @@
-import { ActivityStatusEnum } from "../enum/activity.enum";
+import { ActivityStatusEnum } from "../enums/activity/activity.enum";
 import { Activity } from "../responses/activity/response";
 
 export interface ActivityBestCategory {

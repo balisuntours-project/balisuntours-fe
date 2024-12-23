@@ -1,4 +1,4 @@
-import { ActivityPackageSelfConfirmationStatus, ActivityPackageTypeEnum } from "@/app/enum/activity.enum";
+import { ActivityPackageSelfConfirmationStatus, ActivityPackageTypeEnum } from "@/app/enums/activity/activity.enum";
 import { ActivityItineraryResponse } from "../activity-itinerary/response";
 import { ActivityPackagePriceResponse } from "../activity-package-price/response";
 

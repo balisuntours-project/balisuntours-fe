@@ -9,7 +9,7 @@ import {
   ActivityOrderInfoResponse,
 } from "../../responses/activity/response";
 import { ActivityPackagePriceResponse } from "@/app/responses/activity-package-price/response";
-import { IncrementDecrementEnum } from "@/app/enum/activity.enum";
+import { IncrementDecrementEnum } from "@/app/enums/activity/activity.enum";
 import { ActivityCategoryResponse } from "@/app/responses/activity-category/response";
 import React from "react";
 

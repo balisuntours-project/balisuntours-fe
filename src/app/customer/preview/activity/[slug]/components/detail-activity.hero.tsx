@@ -13,7 +13,7 @@ import "../../../../../styles/landing-page.hero.css";
 import { EffectFade, Autoplay, Navigation, Pagination } from "swiper/modules";
 import { BANNER_LANDING_PAGE } from "@/lib/global-static-images.const";
 import { ImageWithLoader } from "@/app/global-components/utility-components/with-loader.image";
-import { ActivityStatusEnum } from "@/app/enum/activity.enum";
+import { ActivityStatusEnum } from "@/app/enums/activity/activity.enum";
 import {
   Tooltip,
   TooltipContent,

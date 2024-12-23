@@ -1,5 +1,5 @@
 
-import { ActivityItineraryTypeEnum } from "../../enum/activity.enum";
+import { ActivityItineraryTypeEnum } from "../../enums/activity/activity.enum";
 import { ActivityCoordinateResponse } from "../activity/response";
 
 export interface ActivityItineraryResponse {

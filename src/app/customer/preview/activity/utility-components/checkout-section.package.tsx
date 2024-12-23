@@ -1,6 +1,6 @@
 "use client";
 
-import { ActivityStatusEnum } from "@/app/enum/activity.enum";
+import { ActivityStatusEnum } from "@/app/enums/activity/activity.enum";
 import { CartButton } from "@/app/global-components/utility-components/cart.button";
 import { CheckoutButton } from "@/app/global-components/utility-components/checkout.button";
 import { useDatePickerStore } from "@/app/store/date-picker.store";
