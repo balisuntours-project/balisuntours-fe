@@ -13,6 +13,7 @@ import {
   parseISO,
   isSameYear,
   startOfMonth,
+  subDays,
 } from "date-fns";
 import { CurrencyListEnum, CurrencyListSymbolEnum } from "./global.enum";
 
@@ -77,7 +78,6 @@ export class GlobalUtility {
       expires: new Date(0),
     });
 
-
     if (withReloadPage) {
       window.location.reload();
     }
@@ -120,6 +120,12 @@ export class GlobalUtility {
     });
 
     return currencyResult;
+  }
+
+  static SetFormattedStandartDate(date: string|Date): Date {
+    const utcDate = startOfDay(date);
+    const formattedDate = format(utcDate, "yyyy-MM-dd"); // Format tanggal ke string UTC
+    return new Date(formattedDate);
   }
 
   static AllowedDates(date: Date, diffDaysAllowedDate: number): boolean {
@@ -172,16 +178,27 @@ export class GlobalUtility {
     return selectedDate;
   }
 
+  static IsValidDaysBefore(selectedDate: string | Date, diffDays: number = 1) {
+    const today = startOfDay(new Date()); // Reset waktu menjadi awal hari
+    const allowedDays = addDays(today, diffDays);
+    const selected = startOfDay(new Date(selectedDate)); // Reset waktu untuk tanggal yang dipilih
+
+    return isBefore(selected, allowedDays); // Cek apakah tanggal yang dipilih lebih awal dari bbrapa hari lalu
+  }
+
   static CheckScreenOnMobile = () => {
     // Tentukan breakpoint untuk mobile (misalnya, 640px)
     const mobileBreakpoint = 640;
-    
+
     // Cek apakah lebar layar kurang dari atau sama dengan breakpoint
     return window.innerWidth <= mobileBreakpoint;
-  }
+  };
 
-  static CountMaxPaginationPage(totalItem: number, itemPerpage: number) : number {
-    return Math.ceil(totalItem / itemPerpage)
+  static CountMaxPaginationPage(
+    totalItem: number,
+    itemPerpage: number
+  ): number {
+    return Math.ceil(totalItem / itemPerpage);
   }
 
   static TriggerExceptionFetchApi(response: Response) {

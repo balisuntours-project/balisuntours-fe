@@ -17,6 +17,7 @@ import { ArrowRight, BadgeDollarSign, CarTaxiFront, CircleDollarSign, CircleUser
 import Image from "next/image";
 import { LoginButtonNavbar } from "./utility-components/login-button.navbar";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 
 export function LargeNavbar() {
@@ -27,16 +28,16 @@ export function LargeNavbar() {
       <div className="max-w-full mx-auto px-4 py-4 md:px-6 lg:px-28 lg:py-4">
         <div className="flex justify-between items-center sm:py-5 lg:py-3">
           {/* Left - Company Icon */}
-          <div className="flex-shrink-0">
+          <Link href="/" className="flex-shrink-0">
             <Image
               src="/bst-logo.png"
-              alt="logo be hati"
+              alt="best-travell-agent-bali-sun-tours"
               width="135"
               height="58"
               objectFit="cover"
              className="w-[100px] h-[35px] md:w-[135px] md:h-[45px]"
             />
-          </div>
+          </Link>
 
           {/* Right - Nav Links and Login Button */}
           <div className="flex md:flex md:space-x-8 items-center">

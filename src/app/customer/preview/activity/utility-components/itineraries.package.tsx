@@ -3,7 +3,7 @@
 import {
   ActivityItineraryTypeEnum,
   ActivityPackageSelfConfirmationStatus,
-} from "@/app/enum/activity.enum";
+} from "@/app/enums/activity/activity.enum";
 import { GoogleMapDialogComponent } from "@/app/global-components/utility-components/google-map.dialog";
 import { useDetailActivityStore } from "@/app/store/detail-activity.store";
 import {

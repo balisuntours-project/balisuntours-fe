@@ -1,13 +1,16 @@
-import { StoreCartParamater, UpdateCartParamater } from "@/app/paramaters/cart/paramater";
+import { StoreCartParamater } from "@/app/paramaters/cart/paramater";
 import {
   ActivityDetailResponse,
   ActivityDetailSitemap,
   ActivityTitleAndSlugResponse,
 } from "@/app/responses/activity/response";
+import { CartItemsResponse } from "@/app/responses/cart/response";
 import { api } from "@/lib/axios-instance";
+import { apiServer } from "@/lib/axios-instance.server";
 import { CurrencyListEnum } from "@/lib/global.enum";
 import { GlobalUtility } from "@/lib/global.utility";
 import { AxiosError } from "axios";
+import { cookies } from "next/headers";
 
 export interface CartActionResponse<T> {
   success: boolean;
@@ -28,15 +31,18 @@ interface ErrorServerObject {
     | string;
 }
 
-export class CartAction {
+export class CartServerAction {
   private static async handleResponse<T>(
     response: Response
   ): Promise<CartActionResponse<T>> {
     const finalResponse = await response.json();
+
     return {
       success: response.ok,
       status_code: response.status,
-      data: finalResponse.data ?? finalResponse,
+      data: Object.prototype.hasOwnProperty.call(finalResponse, "data")
+        ? finalResponse.data
+        : finalResponse,
     };
   }
 
@@ -44,7 +50,7 @@ export class CartAction {
     response: Response
   ): Promise<CartActionResponse<T>> {
     const finalResponse = (await response.json()) as ErrorServerObject; // Parsing response JSON ke ErrorServerObject
-    
+
     let message = "Unknown error occurred";
 
     // Tangani kasus errors
@@ -106,117 +112,23 @@ export class CartAction {
     };
   }
 
-  static async StoreToCart(
-    payload: StoreCartParamater
-  ): Promise<CartActionResponse<Array<string> | string>> {
+  static async GetCartData(): Promise<
+    CartActionResponse<CartItemsResponse | null>
+  > {
     try {
-      const action = await api(`/api/customer/cart`, {
-        method: "POST",
-        body: JSON.stringify(payload),
+      const action = await apiServer(`/api/customer/cart`, {
+        method: "GET",
       });
 
       if (!action.ok) {
-       GlobalUtility.TriggerExceptionFetchApi(action)
+        GlobalUtility.TriggerExceptionFetchApi(action);
       }
 
-      const result = this.handleResponse<Array<string> | string>(action);
+      const result = this.handleResponse<CartItemsResponse | null>(action);
 
       return result;
     } catch (error: any) {
-      return this.handleFetchError<Array<string> | string>(
-        error.response || error
-      );
-    }
-  }
-
-  static async UpdateCart(
-    payload: UpdateCartParamater
-  ): Promise<CartActionResponse<Omit<UpdateCartParamater, 'type'>>> {
-    try {
-      const action = await api(`/api/customer/cart/order/edit`, {
-        method: "PUT",
-        body: JSON.stringify(payload),
-      });
-
-      if (!action.ok) {
-       GlobalUtility.TriggerExceptionFetchApi(action)
-      }
-
-      const result = this.handleResponse<Omit<UpdateCartParamater, 'type'>>(action);
-
-      return result;
-    } catch (error: any) {
-      return this.handleFetchError<Omit<UpdateCartParamater, 'type'>>(
-        error.response || error
-      );
-    }
-  }
-
-  static async DestroySingleCart(
-    orderId: string
-  ): Promise<CartActionResponse<string>> {
-    try {
-      const action = await api(`/api/customer/cart/order/delete?temporary_order_id=${orderId}`, {
-        method: "DELETE",
-      });
-
-      if (!action.ok) {
-       GlobalUtility.TriggerExceptionFetchApi(action)
-      }
-
-      const result = this.handleResponse<string>(action);
-
-      return result;
-    } catch (error: any) {
-      return this.handleFetchError<string>(
-        error.response || error
-      );
-    }
-  }
-
-  static async DestroyAllCart(
-    orderIds: Array<string>
-  ): Promise<CartActionResponse<string>> {
-    try {
-      const stringOrderIds = JSON.stringify(orderIds)
-      const action = await api(`/api/customer/cart/orders/delete?temporary_order_ids=${stringOrderIds}`, {
-        method: "DELETE",
-      });
-
-      if (!action.ok) {
-       GlobalUtility.TriggerExceptionFetchApi(action)
-      }
-
-      const result = this.handleResponse<string>(action);
-
-      return result;
-    } catch (error: any) {
-      return this.handleFetchError<string>(
-        error.response || error
-      );
-    }
-  }
-
-  static async FreeTourValidation(
-    payload: string
-  ): Promise<CartActionResponse<boolean>> {
-    try {
-      const action = await api(
-        `/api/customer/free-tour-validation?cart_data=${[payload]}`,
-        {
-          method: "POST",
-        }
-      );
-
-        
-      if (!action.ok) {
-        GlobalUtility.TriggerExceptionFetchApi(action)
-      }
-
-      return this.handleResponse<boolean>(action);
-    } catch (error : any) {
-      console.log(error);
-      return this.handleFetchError<boolean>(
+      return this.handleFetchError<CartItemsResponse | null>(
         error.response || error
       );
     }

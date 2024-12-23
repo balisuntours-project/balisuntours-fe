@@ -25,6 +25,7 @@ const api = async (url: string, options: FetchOptions = {}): Promise<Response> =
     const fullUrl = `${baseURL}${url}`;
   
     headers["Content-Type"] = "application/json";
+    headers["Accept"] = "application/json";
   
     // Opsi default untuk fetch
     const config: FetchOptions = {

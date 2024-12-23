@@ -1,4 +1,4 @@
-import { ActivityStatusEnum } from "@/app/enum/activity.enum"
+import { ActivityStatusEnum } from "@/app/enums/activity/activity.enum"
 import { ActivityCategoryResponse } from "../activity-category/response"
 import { ActivityGalleryResponse } from "../activity-gallery/response"
 import { ActivityMainPhotoResponse } from "../activity-main-photo/response"
