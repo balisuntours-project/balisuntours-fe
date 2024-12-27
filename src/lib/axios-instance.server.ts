@@ -11,7 +11,8 @@ const baseURL = process.env.BACKEND_DOMAIN || "http://localhost:8000";
 
 const apiServer = async (
   url: string,
-  options: FetchOptions = {}
+  options: FetchOptions = {},
+  jsonType: boolean = true  
 ): Promise<Response> => {
   const cookieStore = await cookies();
   const cookie = cookieStore.toString(); // Serialize cookies
@@ -21,12 +22,15 @@ const apiServer = async (
     Cookie: cookie,
     ...(token ? { Authorization: "Bearer " + token.value } : {}),
     FROM_NEXT: "true",
+    ...options.headers
   };
 
   // Menggabungkan baseURL dengan url yang diberikan
   const fullUrl = `${baseURL}${url}`;
 
-  headers["Content-Type"] = "application/json";
+  if(jsonType) {
+    headers["Content-Type"] = "application/json";
+  }
   headers["Accept"] = "application/json";
 
   // Opsi default untuk fetch

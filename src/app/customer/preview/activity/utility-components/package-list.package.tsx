@@ -11,12 +11,13 @@ import { ActivityPackagePreviewDetailResponse } from "@/app/responses/activity-p
 import { useDatePickerStore } from "@/app/store/date-picker.store";
 import { useDetailActivityStore } from "@/app/store/detail-activity.store";
 import { GlobalUtility } from "@/lib/global.utility";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 export function PackageListPackage(props: {
   packages: Array<ActivityPackagePreviewDetailResponse>;
 }) {
-
-    /* detail activity state */
+  /* detail activity state */
   const setSelectedPackage = useDetailActivityStore(
     (state) => state.setSelectedPackage
   );
@@ -32,11 +33,12 @@ export function PackageListPackage(props: {
   const setSelectPackageLoadStatus = useDetailActivityStore(
     (state) => state.setSelectPackageLoadStatus
   );
-  const setTotalPrice = useDetailActivityStore(
-    (state) => state.setTotalPrice
-  );
+  const setTotalPrice = useDetailActivityStore((state) => state.setTotalPrice);
   const setTotalPriceInFormattedCurrency = useDetailActivityStore(
     (state) => state.setTotalPriceInFormattedCurrency
+  );
+  const setAutoSelectOnPackageSearchParam = useDetailActivityStore(
+    (state) => state.setAutoSelectOnPackageSearchParam
   );
 
   /* Date picker state */
@@ -67,9 +69,8 @@ export function PackageListPackage(props: {
     itinerary: ItineraryListsParamater
   ) => {
     //set to default total price and formated total price
-    setTotalPrice(0)
-    setTotalPriceInFormattedCurrency(undefined)
-
+    setTotalPrice(0);
+    setTotalPriceInFormattedCurrency(undefined);
 
     if (packageData.uuid != selectedPackage?.uuid) {
       setSelectedPackage(packageData);
@@ -88,6 +89,34 @@ export function PackageListPackage(props: {
       setSelectedPrices(() => undefined);
     }
   };
+
+  //jika ada query param
+  const searchParam = useSearchParams();
+  const packageParam = searchParam.get("package");
+  useEffect(() => {
+    const handleGetValidDiffDay = async (packageUuid: string) => {
+      const getValidBookDate =
+        await ActivityPackageAction.GetPackageValidDateToBook(packageUuid);
+      setDiffDaysNumber(getValidBookDate.data ?? 1);
+    };
+
+    if (packageParam) {
+      props.packages.map((item, _) => {
+        if (
+          GlobalUtility.StringToSlugEncodedString(item.title) == packageParam
+        ) {
+          handleGetValidDiffDay(item.uuid);
+          setAutoSelectOnPackageSearchParam(true);
+          setSelectedPackage(item);
+          setSelectedItinerary({
+            itineraries: item.itineraries,
+          });
+          setCleanCalender(true);
+          initiatetePricesFromSelectedPackage(item.prices);
+        }
+      });
+    }
+  }, [packageParam]);
 
   return (
     <>

@@ -25,7 +25,7 @@ const ActivityBestCategoryCard: FC<ActivityCardProps> = ({
         className={`flex flex-col w-full max-w-[250px] md:max-h-[300px] h-[200px] md:h-[300px]`}
       >
         {/* Bagian Gambar */}
-        <div className={`relative w-full h-[100px] md:h-[150px] lg:h-[130px]`}>
+        <div className={`relative w-full h-[100px] md:h-[150px] lg:h-[150px]`}>
           <ImageWithLoader
             src={activity.image}
             alt={activity.title}

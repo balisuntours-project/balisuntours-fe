@@ -1,9 +1,4 @@
-import { StoreCartParamater } from "@/app/paramaters/cart/paramater";
-import {
-  ActivityDetailResponse,
-  ActivityDetailSitemap,
-  ActivityTitleAndSlugResponse,
-} from "@/app/responses/activity/response";
+
 import { CartItemsResponse } from "@/app/responses/cart/response";
 import { api } from "@/lib/axios-instance";
 import { apiServer } from "@/lib/axios-instance.server";

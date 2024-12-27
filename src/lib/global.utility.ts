@@ -122,7 +122,7 @@ export class GlobalUtility {
     return currencyResult;
   }
 
-  static SetFormattedStandartDate(date: string|Date): Date {
+  static SetFormattedStandartDate(date: string | Date): Date {
     const utcDate = startOfDay(date);
     const formattedDate = format(utcDate, "yyyy-MM-dd"); // Format tanggal ke string UTC
     return new Date(formattedDate);
@@ -207,5 +207,32 @@ export class GlobalUtility {
       statusText: response.statusText,
       response: response,
     };
+  }
+
+  static StringToSlug(string: string) {
+    // Mengubah huruf menjadi huruf kecil
+    let slug = string.toLowerCase();
+    // Mengganti spasi dengan tanda strip (-)
+    slug = slug.replace(/\s+/g, "-");
+    // Menghilangkan tanda strip di awal dan akhir string
+    slug = slug.replace(/^-+|-+$/g, "");
+    return slug;
+  }
+
+  static StringToSlugEncodedString(string: string) {
+    // Mengencode string untuk menghindari karakter yang mengganggu
+    let encodedString = encodeURIComponent(string);
+    // Mengubah huruf menjadi huruf kecil
+    let slug = encodedString.toLowerCase();
+    // Mengganti karakter yang tidak diinginkan dengan tanda strip (-)
+    slug = slug.replace(/%20/g, "-"); // Mengganti spasi yang di-encode
+    slug = slug.replace(/[^a-z0-9-]/g, ""); // Menghapus karakter yang tidak diinginkan
+    // Menghilangkan tanda strip di awal dan akhir string
+    slug = slug.replace(/^-+|-+$/g, "");
+    return slug;
+  }
+
+  static generateRandom4DigitsNumber() {
+    return Math.floor(1000 + Math.random() * 9000).toString();
   }
 }

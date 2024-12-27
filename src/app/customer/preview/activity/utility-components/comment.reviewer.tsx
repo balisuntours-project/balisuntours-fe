@@ -30,14 +30,16 @@ export function CommentReviewer(props: {review: ActivityReviewResponse, forPopUp
                       </span>
                     </div>
                     <div className="flex pt-1">
+                     
                       {[...Array(5)].map((_, index) => (
                         <Star
                         key={index}
                           className={` w-4 h-4 stroke-[1.5] ${
-                            index <= props.review.total_star
-                              ? "text-yellow-500 "
-                              : "text-[#d1d5db]"
+                            index < props.review.total_star
+                              ? "text-yellow-500"
+                              : "text-gray-400"
                           }`}
+                          fill={index < props.review.total_star ? "currentColor" : "none"}
                         />
                       ))}
                     </div>

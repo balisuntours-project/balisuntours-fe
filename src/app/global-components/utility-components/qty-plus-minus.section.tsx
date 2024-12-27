@@ -14,7 +14,7 @@ export function QtyPlusMinusSection({ onClick, qty }: ActionProps) {
     <div className="flex justify-end gap-4">
       <Button
         onClick={() => onClick(IncrementDecrementEnum.decrement)} // Panggil dengan aksi "decrement"
-        className="h-7 w-7"
+        className="h-7 w-7 my-auto"
         variant="outline"
         size="icon"
       >
@@ -27,7 +27,7 @@ export function QtyPlusMinusSection({ onClick, qty }: ActionProps) {
 
       <Button
         onClick={() => onClick(IncrementDecrementEnum.increment)} // Panggil dengan aksi "increment"
-        className="h-7 w-7"
+        className="h-7 w-7 my-auto"
         variant="outline"
         size="icon"
       >
