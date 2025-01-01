@@ -1,3 +1,4 @@
+import { AddReviewParamater } from "@/app/paramaters/activity-review/paramater";
 import { AllActivitiesParamater } from "@/app/paramaters/activity/paramater";
 import {
   Activity,
@@ -29,7 +30,6 @@ interface ErrorServerObject {
     | string;
 }
 
-
 export class ActivityAction {
   private static async handleResponse<T>(
     response: Response
@@ -46,7 +46,7 @@ export class ActivityAction {
     response: Response
   ): Promise<ActivityActionResponse<T>> {
     const finalResponse = (await response.json()) as ErrorServerObject; // Parsing response JSON ke ErrorServerObject
-    
+
     let message = "Unknown error occurred";
 
     // Tangani kasus errors
@@ -116,12 +116,12 @@ export class ActivityAction {
         method: "GET",
       });
 
-      if(!action.ok) {
-        GlobalUtility.TriggerExceptionFetchApi(action)
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
       }
 
       return this.handleResponse<Array<ActivityTitleAndSlugResponse>>(action);
-    } catch (error : any) {
+    } catch (error: any) {
       console.error(error);
       return this.handleFetchError<Array<ActivityTitleAndSlugResponse>>(
         error.response || error
@@ -137,12 +137,12 @@ export class ActivityAction {
         method: "GET",
       });
 
-      if(!action.ok){
-        GlobalUtility.TriggerExceptionFetchApi(action)
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
       }
 
       return this.handleResponse<Array<ActivityDetailSitemap>>(action);
-    } catch (error : any) {
+    } catch (error: any) {
       console.error(error);
       return this.handleFetchError<Array<ActivityDetailSitemap>>(
         error.response || error
@@ -158,12 +158,12 @@ export class ActivityAction {
         method: "GET",
       });
 
-      if(!action.ok) {
-        GlobalUtility.TriggerExceptionFetchApi(action)
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
       }
 
       return this.handleResponse<ActivityDetailResponse>(action);
-    } catch (error : any) {
+    } catch (error: any) {
       console.error(error);
       return this.handleFetchError<ActivityDetailResponse>(
         error.response || error
@@ -180,16 +180,16 @@ export class ActivityAction {
         method: "GET",
         cache: "force-cache",
         next: {
-          revalidate: 3600 // 1hour
-        }
+          revalidate: 3600, // 1hour
+        },
       });
 
-      if(!action.ok) {
-        GlobalUtility.TriggerExceptionFetchApi(action)
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
       }
 
       return this.handleResponse<Array<AllActivitiesParamater>>(action);
-    } catch (error : any) {
+    } catch (error: any) {
       console.error(error);
       return this.handleFetchError<Array<AllActivitiesParamater>>(
         error.response || error
@@ -205,16 +205,60 @@ export class ActivityAction {
         method: "GET",
       });
 
-      if(!action.ok) {
-        GlobalUtility.TriggerExceptionFetchApi(action)
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
       }
 
       return this.handleResponse<Array<Activity>>(action);
-    } catch (error : any) {
+    } catch (error: any) {
       console.error(error);
-      return this.handleFetchError<Array<Activity>>(
-        error.response || error
-      );
+      return this.handleFetchError<Array<Activity>>(error.response || error);
+    }
+  }
+
+  static async PostReview(
+    payload: AddReviewParamater
+  ): Promise<ActivityActionResponse<void>> {
+    try {
+      const formData = new FormData();
+      formData.append("order_id", payload.order_id);
+
+      Object.entries(payload.reviews).forEach(([key, review]) => {
+        formData.append(`reviews[${key}][activity_uuid]`, review.activity_uuid);
+        formData.append(`reviews[${key}][name]`, review.name);
+        formData.append(`reviews[${key}][comment]`, review.comment);
+        formData.append(
+          `reviews[${key}][total_star]`,
+          String(review.total_star)
+        );
+
+        Object.entries(review.review_galleries || {}).forEach(
+          ([galleryKey, gallery]) => {
+            formData.append(
+              `reviews[${key}][review_galleries][${galleryKey}][file]`,
+              gallery.file
+            );
+            formData.append(
+              `reviews[${key}][review_galleries][${galleryKey}][title]`,
+              gallery.title || ""
+            );
+          }
+        );
+      });
+
+      const action = await api(`/api/customer/activity/review`, {
+        method: "POST",
+        body: formData,
+      }, false);
+
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
+      }
+
+      return this.handleResponse<void>(action);
+    } catch (error: any) {
+      console.error(error);
+      return this.handleFetchError<void>(error.response || error);
     }
   }
 }

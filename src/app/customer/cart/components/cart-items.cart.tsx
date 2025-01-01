@@ -17,9 +17,7 @@ import { TextLoader } from "@/app/global-components/utility-components/text-load
 import { CartAction } from "@/app/actions/cart/action";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import {EmptyContent} from "@/app/global-components/utility-components/empty-content.page";
-import Link from "next/link";
-import { ShoppingCart } from "lucide-react";
+
 import { CartEmptyContent } from "../utility-components/cart-empty.content";
 
 export function CartItemsList({ items }: { items: CartItemsResponse | null }) {

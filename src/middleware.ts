@@ -6,12 +6,12 @@ import { AuthActionServer } from "./app/action/action.server";
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
   // Cocokkan route yang perlu login dan memakai SSR untuk fetch api
-  if (request.nextUrl.pathname == "/customer/cart") {
+  if (request.nextUrl.pathname == "/customer/cart" || request.nextUrl.pathname == "/customer/booking/transaction") {
     const token = request.cookies.get("assec")?.value;
 
     if (!token) {
       const result = await AuthActionServer.RefreshToken();
-
+       
       if (result.access_token) {
         response.cookies.set("assec", result.access_token.value, {
           path: "/",

@@ -389,7 +389,7 @@ export function ItemSection({
           <div className="flex flex-col gap-2 mt-4 md:mt-0 md:ml-auto md:col-span-5 lg:col-span-2 ">
             {localManipulatePrice.map((price, key) => (
               <div key={key} className="flex justify-between gap-4">
-                <span className="text-sm md:text-base lg:text-end">
+                <span className="text-sm md:text-base lg:text-end ms-auto">
                   {price.title}
                 </span>
                 <QtyPlusMinusSection

@@ -19,6 +19,7 @@ import {
   TreePalm,
   Utensils,
 } from "lucide-react";
+import { useEffect, useRef } from "react";
 
 export function PackageItineraries() {
   const selectedPackage = useDetailActivityStore(
@@ -27,6 +28,23 @@ export function PackageItineraries() {
   const selectedItinerary = useDetailActivityStore(
     (state) => state.selectedItinerary
   );
+
+  const autoSelectOnPackageSearchParam = useDetailActivityStore(
+    (state) => state.autoSelectOnPackageSearchParam
+  );
+
+  const itinerarySectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (autoSelectOnPackageSearchParam) {
+      if (itinerarySectionRef.current) {
+        itinerarySectionRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
+    }
+  }, [autoSelectOnPackageSearchParam]);
 
   function ItineraryIcon({
     itineraryType,
@@ -67,7 +85,7 @@ export function PackageItineraries() {
   return (
     <>
       {selectedPackage && (
-        <div className="h-auto w-full md:mt-11">
+        <div ref={itinerarySectionRef} className="h-auto w-full md:mt-11">
           <span className="text-xl font-semibold text-black">
             Package Details
           </span>
@@ -96,7 +114,6 @@ export function PackageItineraries() {
             <div className="py-2">
               <Accordion
                 type="multiple"
-              
                 defaultValue={["itinerary"]}
                 className="border-0"
               >

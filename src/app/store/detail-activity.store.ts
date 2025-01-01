@@ -18,6 +18,8 @@ interface DetailActivityStore {
   disabledCheckoutButton: boolean;
   totalPrice: number;
   totalPriceInFormattedCurrency: string | undefined;
+
+  autoSelectOnPackageSearchParam: boolean
 }
 
 interface DetailActivityStoreAction {
@@ -34,6 +36,7 @@ interface DetailActivityStoreAction {
   setDisabledCheckutButton: (status: boolean) => void;
   setTotalPrice: (total: number) => void;
   setTotalPriceInFormattedCurrency: (formatted: string | undefined) => void;
+  setAutoSelectOnPackageSearchParam: (status: boolean) => void;
 }
 
 export const useDetailActivityStore = create<
@@ -69,4 +72,8 @@ export const useDetailActivityStore = create<
   totalPriceInFormattedCurrency: undefined,
   setTotalPriceInFormattedCurrency: (formatted: string | undefined) =>
     set({ totalPriceInFormattedCurrency: formatted }),
+
+  autoSelectOnPackageSearchParam: false,
+  setAutoSelectOnPackageSearchParam: (status: boolean) =>
+    set({ autoSelectOnPackageSearchParam: status }),
 }));

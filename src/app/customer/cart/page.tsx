@@ -1,13 +1,12 @@
 
 import { LandingPageFooterSection } from "@/app/global-components/landing-page.footer";
 import { LargeNavbar } from "@/app/global-components/large.navbar";
-import { CartItemsList } from "./components/cart-items.cart";
+
 import { CartAction } from "@/app/actions/cart/action";
 import { CartServerAction } from "@/app/actions/cart/action.server";
-import {EmptyContent} from "@/app/global-components/utility-components/empty-content.page";
-import { ShoppingCart } from "lucide-react";
-import Link from "next/link";
+import { CartItemsList } from "./components/cart-items.cart";
 import { CartEmptyContent } from "./utility-components/cart-empty.content";
+
 
 
 

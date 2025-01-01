@@ -13,7 +13,7 @@ interface ResponseError {
 // Menambahkan baseURL (pastikan ini sesuai dengan URL backend Anda)
 const baseURL = process.env.BACKEND_DOMAIN || "http://localhost:8000";
 
-const api = async (url: string, options: FetchOptions = {}): Promise<Response> => {
+const api = async (url: string, options: FetchOptions = {}, jsonType: boolean = true): Promise<Response> => {
     const token = Cookies.get("assec"); // Ambil token dari cookie
     const headers: { [key: string]: string } = {
       ...options.headers,
@@ -24,7 +24,9 @@ const api = async (url: string, options: FetchOptions = {}): Promise<Response> =
     // Menggabungkan baseURL dengan url yang diberikan
     const fullUrl = `${baseURL}${url}`;
   
-    headers["Content-Type"] = "application/json";
+    if(jsonType) {
+      headers["Content-Type"] = "application/json";
+    }
     headers["Accept"] = "application/json";
   
     // Opsi default untuk fetch

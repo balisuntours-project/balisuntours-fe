@@ -19,3 +19,7 @@ export interface CartPriceResponse
   cart_uuid: string;
   qty: number;
 }
+
+export interface BookingPriceResponse extends Pick<ActivityPackagePriceResponse, "price" | "price_information" | "title"> {
+    qty: number
+}

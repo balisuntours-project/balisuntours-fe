@@ -13,7 +13,7 @@ export function GoogleMapViewComponent() {
 
 
     const mapOptions = {
-        zoom: mapPayload.zoom,
+        zoom: mapPayload.zoom ?? 18,
         center: mapCoordinate,
         mapTypeId: 'terrain',
     };
