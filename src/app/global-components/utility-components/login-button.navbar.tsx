@@ -26,7 +26,7 @@ export function LoginButtonNavbar() {
    
     useEffect(() => {
         const loginStatus = GlobalUtility.GetLoginStatusCookie()
-        console.log(loginStatus)
+        //console.log(loginStatus)
         setIsLogin(loginStatus ? true : false)
     }, [])
 

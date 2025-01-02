@@ -1,11 +1,13 @@
 import { LandingPageFooterSection } from "@/app/global-components/landing-page.footer";
 import { LargeNavbar } from "@/app/global-components/large.navbar";
-import { BookingDetail } from "./components/booking-detail.booking";
+
 import { BookingServerAction } from "@/app/actions/booking/action.server";
-import { GoodToKnowFlying } from "./utility-components/good-to-know-flying.button";
+
 import { EmptyContent } from "@/app/global-components/utility-components/empty-content.page";
 import Link from "next/link";
 import { Car, ListOrdered } from "lucide-react";
+import { GoodToKnowFlying } from "./utility-components/good-to-know-flying.button";
+import { BookingDetail } from "./components/booking-detail.booking";
 
 export default async function BookingTransaction() {
   const data = await BookingServerAction.GetTransactionBookingData();

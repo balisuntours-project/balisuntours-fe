@@ -58,7 +58,6 @@ const apiServer = async (
     // Untuk status lain, kembalikan response
     return response;
   } catch (error) {
-    console.error(error);
     throw error; // Tetap lempar error untuk exception network
   }
 };

@@ -26,7 +26,7 @@ export default async function PreviewActivity({
   }
 
   const activity = data.data;
-  console.log(activity);
+ 
   return (
     <>
       <LargeNavbar />

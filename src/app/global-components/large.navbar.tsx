@@ -13,7 +13,7 @@ import {
   navigationMenuTriggerStyle,
   NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
-import { ArrowRight, BadgeDollarSign, CarTaxiFront, CircleDollarSign, CircleUserRound, Currency, LogIn, LucideCurrency, ShoppingBagIcon, ShoppingCart, TicketCheck, Trees } from "lucide-react";
+import { ArrowRight, ShoppingCart, TicketCheck } from "lucide-react";
 import Image from "next/image";
 import { LoginButtonNavbar } from "./utility-components/login-button.navbar";
 import { useRouter } from "next/navigation";
@@ -35,7 +35,7 @@ export function LargeNavbar() {
               width="135"
               height="58"
               objectFit="cover"
-             className="w-[100px] h-[35px] md:w-[135px] md:h-[45px]"
+             className="w-[150px] h-[35px] md:w-[200px] md:h-[45px]"
             />
           </Link>
 
@@ -51,13 +51,13 @@ export function LargeNavbar() {
                   <NavigationMenuContent >
                     <ul className="grid gap-3 p-3 md:p-6 w-[180px] max-w-[180px] md:max-w-max md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                     <div className="flex flex-col gap-2 md:hidden">
-                      <div onClick={() => router.push(`${process.env.BACKEND_DOMAIN}/customer/order/transaction`)} className="flex items-center gap-2 text-xs md:text-base  cursor-pointer hover:text-blue-500">
+                      <div onClick={() => router.push(`/customer/booking/transaction`)} className="flex items-center gap-2 text-xs md:text-base  cursor-pointer hover:text-blue-500">
                         <ArrowRight className="w-3 h-3" />
                       <span>
                          Your Booking
                       </span>
                       </div>
-                      <div onClick={() => router.push(`${process.env.BACKEND_DOMAIN}/customer/order/waiting`)}  className="flex items-center gap-2 text-xs md:text-base cursor-pointer hover:text-blue-500">
+                      <div onClick={() => router.push(`/customer/booking/waiting`)}  className="flex items-center gap-2 text-xs md:text-base cursor-pointer hover:text-blue-500">
                         <ArrowRight className="w-3 h-3" />
                       <span>
                          Unconfirmed Booking
@@ -81,13 +81,13 @@ export function LargeNavbar() {
                         </NavigationMenuLink>
                       </li>
                       <div className="hidden md:block">
-                      <div onClick={() => router.push(`${process.env.BACKEND_DOMAIN}/customer/order/transaction`)} className="flex items-center gap-2 text-sm md:text-base  cursor-pointer hover:text-blue-500">
+                      <div onClick={() => router.push(`/customer/booking/transaction`)} className="flex items-center gap-2 text-sm md:text-base  cursor-pointer hover:text-blue-500">
                         <ArrowRight className="w-3 h-3" />
                       <span>
                          Your Booking
                       </span>
                       </div>
-                      <div onClick={() => router.push(`${process.env.BACKEND_DOMAIN}/customer/order/waiting`)} className="flex items-center gap-2 text-sm md:text-base cursor-pointer hover:text-blue-500">
+                      <div onClick={() => router.push(`/customer/booking/waiting`)} className="flex items-center gap-2 text-sm md:text-base cursor-pointer hover:text-blue-500">
                         <ArrowRight className="w-3 h-3" />
                       <span>
                          Unconfirmed Booking
@@ -108,7 +108,7 @@ export function LargeNavbar() {
                 </NavigationMenuItem> */}
 
                 <NavigationMenuItem>
-                  <NavigationMenuLink onClick={() => router.push(`${process.env.BACKEND_DOMAIN}/customer/cart`)} className={navigationMenuTriggerStyle()}>
+                  <NavigationMenuLink onClick={() => router.push(`/customer/cart`)} className={navigationMenuTriggerStyle()}>
                     <ShoppingCart className="w-5 h-5 md:w-auto md:h-auto stroke-[1.5]" />
                   </NavigationMenuLink>
                 </NavigationMenuItem>

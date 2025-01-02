@@ -12,66 +12,28 @@ import { LandingPageBestCategorySection } from "./global-components/landing-page
 import { LandingPageFooterSection } from "./global-components/landing-page.footer";
 import { api } from "@/lib/axios-instance";
 import { Activity } from "./responses/activity/response";
+import { ActivityAction } from "./actions/activity/action";
+import { ActivityCategoryAction } from "./actions/category/action";
 
 export default async function Home() {
-  const getPopularActivity = async (): Promise<Array<Activity>> => {
-    try {
-      const result = await api("/homepage/activity", {
-        method: "GET",
-      });
-      const finalResult = await result.json();
-      console.log(finalResult);
-      return finalResult as Array<Activity>;
-    } catch (error) {
-      console.error(error);
-      return []; // Mengembalikan array kosong jika terjadi error
-    }
-  };
-
-  const getBestDealActivity = async (): Promise<Array<Activity>> => {
-    try {
-      const result = await api("/homepage/best-deals-activity", {
-        method: "GET",
-      });
-      const finalResult = await result.json();
-      return finalResult;
-    } catch (error) {
-      console.log(error);
-      return [];
-    }
-  };
-
-  const getBestCategory = async (): Promise<Array<ActivityBestCategory>> => {
-    try {
-      const result = await api("/customer/most/category", {
-        method: "GET",
-      });
-      const finalResult = await result.json();
-      return finalResult.data;
-    } catch (error) {
-      console.log(error);
-      return [];
-    }
-  };
-
   const batchResult = await Promise.allSettled([
-    getPopularActivity(),
-    getBestDealActivity(),
-    getBestCategory(),
+    ActivityAction.GetPopularActivity(),
+    ActivityAction.GetBestDealActivity(),
+    ActivityCategoryAction.GetBestActivityCategories(),
   ]);
 
-  const popularActivityResult = batchResult[0];
-  const bestDealsResult = batchResult[1];
-  const bestCategoryResult = batchResult[2];
+  batchResult.forEach((result, index) => {
+    if (result.status === "rejected") {
+      console.error(`Error in promise ${index + 1}:`, result.reason);
+    }
+  });
 
   const popularActivity: Array<Activity> =
-    popularActivityResult.status === "fulfilled"
-      ? popularActivityResult.value
-      : [];
+    batchResult[0].status === "fulfilled" ? batchResult[0].value.data : [];
   const bestDeals: Array<Activity> =
-    bestDealsResult.status === "fulfilled" ? bestDealsResult.value : [];
+    batchResult[1].status === "fulfilled" ? batchResult[1].value.data : [];
   const bestCategory: Array<ActivityBestCategory> =
-    bestCategoryResult.status === "fulfilled" ? bestCategoryResult.value : [];
+    batchResult[2].status === "fulfilled" ? batchResult[2].value.data : [];
 
   const getActivityFromBestCategory = async (): Promise<
     Record<string, BestActivityCategoryNameAndListActivity>
@@ -83,22 +45,12 @@ export default async function Home() {
 
     await Promise.all(
       bestCategory.map(async (category) => {
-        try {
-          const result = await api(
-            "/customer/best/category/activity?category_name=" +
-              encodeURIComponent(category.title),
-            {
-              method: "GET",
-            }
-          );
-
-          const finalResult = await result.json();
-          // Masukkan hasilnya ke dalam resultMapping dengan key dari category.title
+        const finalResult = await ActivityAction.GetBestCategoryActivities(
+          category.title
+        );
+        if (finalResult.success) {
           resultMapping[category.title] = finalResult.data;
-        } catch (error) {
-          console.log(error);
-
-          // Jika terjadi error, masukkan array kosong untuk category ini
+        } else {
           resultMapping[category.title] = {
             name: "Oops something when wrong",
             activities: [],
@@ -106,7 +58,6 @@ export default async function Home() {
         }
       })
     );
-    console.log(resultMapping);
     return resultMapping;
   };
 

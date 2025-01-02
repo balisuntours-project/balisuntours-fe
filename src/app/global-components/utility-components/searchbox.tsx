@@ -60,15 +60,8 @@ export function SearchBoxComponent({
   };
 
   const getPopularActivityPlaceholder = async (): Promise<void> => {
-    try {
-      const result = await api("/customer/placeholder/latest/activity", {
-        method: "GET"
-      });
-      const finalResult = await result.json()
+    const finalResult = await ActivityAction.GetPopularActivityTitleForPlaceholder()
       setPlaceHolders(finalResult.data);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const getAllActivitiesTitle = async (): Promise<void> => {
@@ -81,7 +74,7 @@ export function SearchBoxComponent({
       return;
     }
     router.push(
-      `${process.env.BACKEND_DOMAIN}/customer/activities?title=${isShowList}`
+      `/customer/activities?title=${isShowList}`
     );
   };
 

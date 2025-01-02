@@ -1,3 +1,4 @@
+import { ActivityAction } from "@/app/actions/activity/action";
 import { DetailActivityParamater } from "@/app/paramaters/activity/paramater";
 import { api }from "@/lib/axios-instance";
 import { Metadata } from "next";
@@ -8,11 +9,9 @@ export async function generateMetadata({
     const slug = (await params).slug
   
     // Fetch product data from API
-    const response = await api("/customer/test-meta", {
-      method : "GET"
-    });
+    const response = await ActivityAction.GetPreviewActivityMetadata()
    
-    const product = await response.json()
+    const product = response.data
     return {
       title: product.title,
       description: product.description,

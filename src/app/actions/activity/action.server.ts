@@ -110,7 +110,7 @@ export class ActivityActionServer {
     slug: string
   ): Promise<ActivityActionResponse<ActivityDetailResponse>> {
     try {
-      const action = await apiServer(`/customer/preview/activity/${slug}`, {
+      const action = await apiServer(`/api/customer/preview/activity/${slug}`, {
         method: "GET",
       });
 

@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { poppins } from "@/lib/global.font";
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/toaster";
 
 
 export const metadata: Metadata = {
@@ -20,7 +21,10 @@ export default function RootLayout({
       <body
        className={cn(" font-sans antialiased", poppins.variable)}
       >
-        {children}
+       <div className="relative min-h-[100vh]">
+       <Toaster />
+       {children}
+       </div>
       </body>
     </html>
   );

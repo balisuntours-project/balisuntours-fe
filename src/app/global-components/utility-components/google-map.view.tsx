@@ -1,37 +1,140 @@
-"use client"
+"use client";
 
-import { useGoogleMapStore } from '@/app/store/google-map.store';
-import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
-import { useEffect, useMemo } from 'react';
+import { GoogleMapViewParamater } from "@/app/paramaters/google-map/paramater";
+import {
+  defaultScopedMapCoordinate,
+  useGoogleMapStore,
+} from "@/app/store/google-map.store";
+import { Input } from "@/components/ui/input";
+import {
+  GoogleMap,
+  Marker,
+  StandaloneSearchBox,
+  useLoadScript,
+} from "@react-google-maps/api";
+import { X } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
-export function GoogleMapViewComponent() {
-    const { isLoaded } = useLoadScript({
-        googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY as string
-    });
-    const mapPayload = useGoogleMapStore((state) => state.mapPayload);
-    const mapCoordinate = useMemo(() => ({ lat: mapPayload.lat, lng: mapPayload.lng }), [mapPayload]);
+export function GoogleMapViewComponent({
+  scopedId,
+  withSearchAutoComplete,
+}: {
+  scopedId?: string;
+  withSearchAutoComplete?: boolean;
+}) {
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY as string,
+    libraries: ["places"],
+  });
 
+  const scopedMapState = useGoogleMapStore(
+    (state) => state.mapScopedState[scopedId!] || defaultScopedMapCoordinate
+  );
+  const setScopedMapState = useGoogleMapStore((state) => state.setScopedState);
 
-    const mapOptions = {
-        zoom: mapPayload.zoom ?? 18,
-        center: mapCoordinate,
-        mapTypeId: 'terrain',
-    };
+  const mapPayload = useGoogleMapStore((state) => state.mapPayload);
+  const [searchInput, setSearchInput] = useState<string>("");
 
-    const markerIcon = 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'; // URL Icon marker
+  const [zoom, setZoom] = useState(
+    (scopedId ? scopedMapState?.mapScopedPayload?.zoom : mapPayload.zoom) ?? 18
+  ); // Default zoom
+  const mapCoordinate = useMemo(() => {
+    if (scopedMapState.mapScopedPayload) {
+      return scopedMapState.mapScopedPayload;
+    } else {
+      return { lat: mapPayload.lat, lng: mapPayload.lng };
+    }
+  }, [mapPayload, scopedMapState.mapScopedPayload]);
 
-    if (!isLoaded) return <div>Loading...</div>;
+  const mapOptions = {
+    zoom: zoom,
+    center: mapCoordinate,
+    mapTypeId: "terrain",
+  };
 
-    return (
-        <GoogleMap
-           /*  mapContainerStyle={{
-                width: '100%',
-                height: '70vh', // Menyesuaikan tinggi peta dengan persentase viewport
-            }} */
-           mapContainerClassName="map-container"
-            {...mapOptions}
-        >
-            <Marker position={mapCoordinate} icon={markerIcon} />
-        </GoogleMap>
-    );
+  const searchBoxRef = useRef<google.maps.places.SearchBox | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handlePlaceChanged = () => {
+    if (searchBoxRef.current) {
+      const places = searchBoxRef.current.getPlaces();
+
+      if (places && places.length > 0) {
+        const location = places[0].geometry?.location;
+        const name = places[0].name;
+
+        if (location) {
+          if (inputRef.current) {
+            setSearchInput(inputRef.current.value);
+          }
+
+          if (scopedId) {
+            setScopedMapState(scopedId, "mapScopedPayload", {
+              lat: location.lat(),
+              lng: location.lng(),
+              zoom: 18,
+              name: name,
+            });
+          }
+          setZoom(18);
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (!searchInput) {
+      if (scopedId) {
+        setScopedMapState(scopedId, "mapScopedPayload", undefined);
+      }
+
+      setZoom(9);
+    }
+  }, [searchInput]);
+
+  const markerIcon = "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"; // URL Icon marker
+
+  if (!isLoaded) return <div>Loading...</div>;
+
+  return (
+    <div className="w-full h-full">
+      {withSearchAutoComplete && (
+        <div className="relative w-full mb-2">
+          {/* Search Box */}
+          <StandaloneSearchBox
+            onLoad={(ref) => (searchBoxRef.current = ref)}
+            onPlacesChanged={handlePlaceChanged}
+          >
+            <div className="relative">
+              <Input
+                ref={inputRef}
+                type="text"
+                placeholder="Find address to get coordinates"
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 pr-10" // Tambahkan padding kanan untuk memberi ruang pada ikon
+                value={searchInput} // Bind dengan state
+                onChange={(e) => setSearchInput(e.target.value)} // Update state saat input berubah
+              />
+              {searchInput && (
+                <X
+                  onClick={() => setSearchInput("")} // Bersihkan input saat ikon diklik
+                  className="absolute inset-y-0 right-2 top-2 w-4 h-4 cursor-pointer flex items-center justify-center text-gray-500 hover:text-gray-700"
+                />
+              )}
+            </div>
+          </StandaloneSearchBox>
+        </div>
+      )}
+
+      <GoogleMap
+         mapContainerStyle={scopedId ? {
+            width: '100%',
+            height: '50vh', // Menyesuaikan tinggi peta dengan persentase viewport
+        }: {}}
+        mapContainerClassName="map-container"
+        {...mapOptions}
+      >
+        <Marker position={mapCoordinate} icon={markerIcon} />
+      </GoogleMap>
+    </div>
+  );
 }

@@ -66,3 +66,13 @@ export interface ActivityDetailSitemap extends ActivityTitleAndSlugResponse {
         path: string
 }>
 }
+
+export interface CheckoutDataActivityResponse {
+    departure_city: string,
+    description: string,
+    main_photo: string,
+    title: string,
+    uuid: string,
+    packages: Array<string>
+}
+

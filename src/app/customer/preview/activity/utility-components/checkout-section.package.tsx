@@ -134,7 +134,7 @@ export function CheckoutSectionPackage(props: {
 
     if (storeCart.status_code == HttpStatus.CREATED) {
       setIsLoading(false);
-      router.push(`${process.env.BACKEND_DOMAIN}/customer/cart`);
+      router.push(`/customer/cart`);
     } else {
       setIsLoading(false);
       if (storeCart.status_code == HttpStatus.FORBIDDEN) {
