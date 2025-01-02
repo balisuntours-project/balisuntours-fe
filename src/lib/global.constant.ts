@@ -1,0 +1,3 @@
+export const DEFAULT_LAT = -8.40642924613043;
+export const DEFAULT_LNG = 115.17312394523029
+export const DEFAULT_ZOOM = 9

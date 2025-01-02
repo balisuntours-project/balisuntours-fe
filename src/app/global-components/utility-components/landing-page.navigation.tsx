@@ -15,7 +15,7 @@ export function LandingPageNavigationUtility() {
          <Card className="w-[90%] mx-auto">
       <CardHeader>
       <div className="grid grid-cols-4 gap-4 text-center">
-      <Link href={`${process.env.BACKEND_DOMAIN}/customer/activities`} className="flex flex-col items-center gap-2 col-span-1">
+      <Link href={`/customer/activities`} className="flex flex-col items-center gap-2 col-span-1">
         <Image
           src="/destination.png"
           objectFit="cover"
@@ -37,7 +37,7 @@ export function LandingPageNavigationUtility() {
         />
         <h2 className="text-xs md:text-sm">Best Category</h2>
       </Link>
-      <Link href={`${process.env.BACKEND_DOMAIN}/customer/activities`} className="flex flex-col items-center gap-2 col-span-1">
+      <Link href={`/customer/activities`} className="flex flex-col items-center gap-2 col-span-1">
         <Image
           src="/tour-bus.png"
           objectFit="cover"

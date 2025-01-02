@@ -22,8 +22,11 @@ import { AuthAction } from "@/app/action/action";
 import { GlobalUtility } from "@/lib/global.utility";
 import { useAuthStore } from "@/app/store/auth.store";
 import { useAuthPopupStore } from "@/app/store/auth-popup.store";
+import { useToast } from "@/hooks/use-toast";
+import { DisabledButton } from "@/components/custom-ui/disabled.buttont";
 
 export function RegisterForm() {
+  const {toast} = useToast()
   const RegisterForm = useForm<z.infer<typeof RegisterFormSchema>>({
     resolver: zodResolver(RegisterFormSchema),
     defaultValues: {
@@ -43,16 +46,21 @@ export function RegisterForm() {
   const setShowLoginDialog = useLandingPageStore((state) => state.setShowLoginDialog)
   const setShowBrowserPopupDialog = useAuthStore((state) => state.setShowBrowserPopupDialog)
   const setShowAuthPopup = useAuthPopupStore((state) => state.setShowAuthPopup);
-
+  const [onLoadRegister, setOnLoadRegister] = useState(false)
   const handleRegister = async (values: z.infer<typeof RegisterFormSchema>) => {
+    setOnLoadRegister(true)
     values.password = btoa(values.password)
     const action = await AuthAction.RegisterUser(values)
+    setOnLoadRegister(false)
 
     if(action) {
         setShowLoginDialog(false)
         setShowAuthPopup(false)
     }else{
-        window.alert("Register failed, try to sign up by google instead")
+      toast({
+        description: `Something went wrong, try signup with google instead!`,
+        variant: "danger",
+      });
     }
   };
 
@@ -222,7 +230,11 @@ export function RegisterForm() {
             </div>
 
             {/* Register Button */}
-            <AuthButton title="Register" rouded="rounded-lg" />
+            {!onLoadRegister ? (
+              <AuthButton title="Register" rouded="rounded-lg" />
+            ) : (
+              <DisabledButton rouded="rounded-lg" title="Registering..." />
+            )}
           </form>
         </Form>
 
@@ -237,7 +249,7 @@ export function RegisterForm() {
 
         {/* Google Register Button */}
         <Button
-         onClick={() => handleGoogleLogin()}
+         onClick={() => !onLoadRegister ? handleGoogleLogin() : undefined}
           variant="outline"
           className="hover:bg-[#008000] hover:text-white border-[1px] border-[#008000] w-full"
         >
@@ -248,7 +260,7 @@ export function RegisterForm() {
           <p>
             Already have an account?{" "}
             <span
-              onClick={() => setOnLoginDialog(true)}
+              onClick={() => !onLoadRegister ? setOnLoginDialog(true) : undefined}
               className="text-[#008000] font-bold cursor-pointer"
             >
               Log in

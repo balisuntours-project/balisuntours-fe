@@ -1,7 +1,8 @@
 import { BookingPaymentStatusEnum } from "@/app/enums/booking/booking.enum"
-import { ActivityCoordinateResponse } from "../activity/response"
+import { ActivityCoordinateResponse, CheckoutDataActivityResponse } from "../activity/response"
 import { ActivityPackageTypeEnum } from "@/app/enums/activity/activity.enum"
 import { BookingPriceResponse } from "../activity-package-price/response"
+import { CheckoutDataPackageResponse } from "../activity-package/response"
 
 export interface BookingResponse {
     bookings: Array<BookingDetailResponse>,
@@ -64,4 +65,24 @@ export interface BookingPackageDetailResponse {
 export interface CheckoutUnconfirmedBookingResponse {
     message: string,
     next_url: string
+}
+
+export interface CheckoutDataResponse {
+    activity: Array<CheckoutDataActivityResponse>,
+    package: Array<CheckoutDataPackageResponse>,
+    user_data: CheckoutUserDataRespnse,
+    min_cost: number,
+    cart_data: string
+
+}
+
+export interface CheckoutUserDataRespnse {
+    avatar_id: number,
+    city: string,
+    country: string,
+    country_id: null|string|number,
+    email: string,
+    name: string,
+    phone: string,
+    uuid: string,
 }

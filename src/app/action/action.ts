@@ -77,7 +77,7 @@ export class AuthAction {
       }
     } catch (error) {
       // console.log(error)
-      console.error(error);
+      console.log(error);
       return false;
     }
   }

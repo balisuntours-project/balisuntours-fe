@@ -3,12 +3,11 @@ import { LargeNavbar } from "@/app/global-components/large.navbar";
 import { BookingServerAction } from "@/app/actions/booking/action.server";
 import { EmptyContent } from "@/app/global-components/utility-components/empty-content.page";
 import Link from "next/link";
-import { Car, ListOrdered } from "lucide-react";
 import { UnconfirmedGoodToKnowFlying } from "./utility-components/unconfirmed-good-to-know-flying.button";
 import { BookingDetailUnconfirmed } from "./components/booking-detail-unconfirmed.booking";
 import { UnconfirmedEmptyContent } from "./utility-components/unconfirmed-empty-content.booking";
 
-export default async function BookingTransaction() {
+export default async function UnconfirmedBookingTransaction() {
   const data = await BookingServerAction.GetWaitingBookingData();
 
   const bookingItems = data.data;

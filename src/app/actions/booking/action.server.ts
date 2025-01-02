@@ -1,4 +1,4 @@
-import { BookingResponse } from "@/app/responses/booking/response";
+import { BookingResponse, CheckoutDataResponse } from "@/app/responses/booking/response";
 import { CartItemsResponse } from "@/app/responses/cart/response";
 import { api } from "@/lib/axios-instance";
 import { apiServer } from "@/lib/axios-instance.server";
@@ -44,7 +44,17 @@ export class BookingServerAction {
   private static async handleFetchError<T>(
     response: Response
   ): Promise<BookingActionResponse<T>> {
-    const finalResponse = (await response.json()) as ErrorServerObject; // Parsing response JSON ke ErrorServerObject
+    let finalResponse: any = {};
+  
+     //lakukan ini karena jika tidak bada build runtime akan error (karena cookie next header tidak dapat dirender static, page ini static karena /customer/booking tidaka da dynamic param seperti slug)
+     if (response instanceof Response) {
+        try {
+          finalResponse = await response.json();
+        } catch {
+          finalResponse = {};
+        }
+      }
+  
 
     let message = "Unknown error occurred";
 
@@ -144,6 +154,28 @@ export class BookingServerAction {
       return result;
     } catch (error: any) {
       return this.handleFetchError<BookingResponse>(error.response || error);
+    }
+  }
+
+
+  static async GetBookingCheckoutData(stringCartUuids: string): Promise<
+    BookingActionResponse<CheckoutDataResponse>
+  > {
+    try {
+      const action = await apiServer(`/api/customer/checkout?cart_data=${stringCartUuids}`, {
+        method: "GET",
+      });
+
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
+      }
+
+      const result = this.handleResponse<CheckoutDataResponse>(action);
+
+      return result;
+    } catch (error: any) {
+      
+      return this.handleFetchError<CheckoutDataResponse>(error.response || error);
     }
   }
 }

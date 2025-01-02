@@ -23,3 +23,14 @@ export interface CartPriceResponse
 export interface BookingPriceResponse extends Pick<ActivityPackagePriceResponse, "price" | "price_information" | "title"> {
     qty: number
 }
+
+export interface CheckoutActivityPackagePriceResponse {
+    activity_date: string,
+    maximum_qty:number,
+    minimum_qty: number,
+    qty: number,
+    price: number,
+    total_price: number,
+    title: string,
+
+}

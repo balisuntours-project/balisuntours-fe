@@ -16,7 +16,7 @@ export function LandingPagePopularActivitySection(props: ActivityLandingPage) {
       {/* Large */}
       <LandingPageActivityDesktopSection popular_activity={props.popular_activity} best_deals_activity={props.best_deals_activity} />
       <div className="pt-8 mx-auto w-3/4 md:w-1/3 ">
-      <Link href={`${process.env.BACKEND_DOMAIN}/customer/activities`} >
+      <Link href={`/customer/activities`} >
         <ExpandedButton title="See More" />
       </Link>
       </div>

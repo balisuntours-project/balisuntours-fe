@@ -109,7 +109,7 @@ export class ActivityPackageAction {
   ): Promise<ActivityPackageActionResponse<number>> {
     try {
       const action = await api(
-        `/customer/activity/package/check-diff-days/${uuid}`,
+        `/api/customer/activity/package/check-diff-days/${uuid}`,
         {
           method: "GET",
         }

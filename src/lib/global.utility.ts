@@ -123,8 +123,13 @@ export class GlobalUtility {
   }
 
   static SetFormattedStandartDate(date: string | Date): Date {
-    const utcDate = startOfDay(date);
+    const parsedDate = typeof date === "string" ? new Date(date) : date;
+    console.log(date, "wakuwakuwaku")
+    console.log(parsedDate)
+    const utcDate = startOfDay(parsedDate);
+    console.log(utcDate)
     const formattedDate = format(utcDate, "yyyy-MM-dd"); // Format tanggal ke string UTC
+    console.log(formattedDate)
     return new Date(formattedDate);
   }
 
@@ -202,6 +207,8 @@ export class GlobalUtility {
   }
 
   static TriggerExceptionFetchApi(response: Response) {
+    console.log(response)
+    console.log("KAAKAKAKAKAKAK")
     throw {
       status: response.status,
       statusText: response.statusText,

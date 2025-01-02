@@ -292,12 +292,12 @@ export function ItemSection({
             <Checkbox
               className="data-[state=checked]:bg-[#EB5E00]"
               disabled={
-                GlobalUtility.AllowedDates(
-                  GlobalUtility.SetFormattedStandartDate(
-                    scopedState.selectedDate || item.activity_date
-                  ),
-                  item.diff_days
-                ) || item.is_fully_booked_until ? true : false
+                (scopedState.selectedDate || item.activity_date ? GlobalUtility.AllowedDates(
+                    GlobalUtility.SetFormattedStandartDate(
+                      scopedState.selectedDate || item.activity_date
+                    ),
+                    item.diff_days
+                  ) : true) || item.is_fully_booked_until ? true : false
               }
               onCheckedChange={(e) => checkedAction(e)}
               checked={

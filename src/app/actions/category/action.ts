@@ -1,4 +1,5 @@
 import { ActivityCategoryParamater } from "@/app/paramaters/activity-category/paramater";
+import { ActivityBestCategory } from "@/app/response/activity.response";
 import {
   ActivityDetailResponse,
   ActivityDetailSitemap,
@@ -105,11 +106,33 @@ export class ActivityCategoryAction {
     };
   }
 
+
+  static async GetBestActivityCategories(): Promise<
+    ActivityCategoryActionResponse<Array<ActivityBestCategory>>
+  > {
+    try {
+      const action = await api("/api/customer/most/category", {
+        method: "GET",
+      });
+
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
+      }
+
+      return this.handleResponse<Array<ActivityBestCategory>>(action);
+    } catch (error: any) {
+      console.error(error);
+      return this.handleFetchError<Array<ActivityBestCategory>>(
+        error.response || error
+      );
+    }
+  }
+
   static async GetActivityCategories(): Promise<
     ActivityCategoryActionResponse<Array<ActivityCategoryParamater>>
   > {
     try {
-      const action = await api(`/customer/categories`, {
+      const action = await api(`/api/customer/categories`, {
         method: "GET",
       });
 

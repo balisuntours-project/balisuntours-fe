@@ -1,5 +1,6 @@
 import { AddReviewParamater } from "@/app/paramaters/activity-review/paramater";
 import { AllActivitiesParamater } from "@/app/paramaters/activity/paramater";
+import { BestActivityCategoryNameAndListActivity } from "@/app/response/activity.response";
 import {
   Activity,
   ActivityDetailResponse,
@@ -108,11 +109,114 @@ export class ActivityAction {
     };
   }
 
+  static async GetPopularActivity(): Promise<
+    ActivityActionResponse<Array<Activity>>
+  > {
+    try {
+      const action = await api("/api/homepage/activity", {
+        method: "GET",
+      });
+
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
+      }
+
+      return this.handleResponse<Array<Activity>>(action);
+    } catch (error: any) {
+      console.error(error);
+      return this.handleFetchError<Array<Activity>>(error.response || error);
+    }
+  }
+
+  static async GetBestDealActivity(): Promise<
+    ActivityActionResponse<Array<Activity>>
+  > {
+    try {
+      const action = await api("/api/homepage/best-deals-activity", {
+        method: "GET",
+      });
+
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
+      }
+
+      return this.handleResponse<Array<Activity>>(action);
+    } catch (error: any) {
+      console.error(error);
+      return this.handleFetchError<Array<Activity>>(error.response || error);
+    }
+  }
+
+  static async GetBestCategoryActivities(
+    categoryTitle: string
+  ): Promise<ActivityActionResponse<BestActivityCategoryNameAndListActivity>> {
+    try {
+      const action = await api(
+        "/api/customer/best/category/activity?category_name=" +
+          encodeURIComponent(categoryTitle),
+        {
+          method: "GET",
+        }
+      );
+
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
+      }
+
+      return this.handleResponse<BestActivityCategoryNameAndListActivity>(
+        action
+      );
+    } catch (error: any) {
+      console.error(error);
+      return this.handleFetchError<BestActivityCategoryNameAndListActivity>(
+        error.response || error
+      );
+    }
+  }
+
+  static async GetPopularActivityTitleForPlaceholder(): Promise<
+    ActivityActionResponse<Array<string>>
+  > {
+    try {
+      const action = await api("/api/customer/placeholder/latest/activity", {
+        method: "GET",
+      });
+
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
+      }
+
+      return this.handleResponse<Array<string>>(action);
+    } catch (error: any) {
+      console.error(error);
+      return this.handleFetchError<Array<string>>(error.response || error);
+    }
+  }
+
+  static async GetPreviewActivityMetadata(): Promise<
+    ActivityActionResponse<any>
+  > {
+    try {
+      const action = await api("/api/customer/test-meta", {
+        method: "GET",
+      });
+
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
+      }
+
+      return this.handleResponse<any>(action);
+    } catch (error: any) {
+      console.error(error);
+      return this.handleFetchError<any>(error.response || error);
+    }
+  }
+
   static async GetActivityTitleWithSlug(): Promise<
     ActivityActionResponse<Array<ActivityTitleAndSlugResponse>>
   > {
     try {
-      const action = await api("/customer/searchbox/title/activity", {
+      const action = await api("/api/customer/searchbox/title/activity", {
         method: "GET",
       });
 
@@ -133,7 +237,7 @@ export class ActivityAction {
     ActivityActionResponse<Array<ActivityDetailSitemap>>
   > {
     try {
-      const action = await api("/customer/sitemap/activity", {
+      const action = await api("/api/customer/sitemap/activity", {
         method: "GET",
       });
 
@@ -201,7 +305,7 @@ export class ActivityAction {
     ActivityActionResponse<Array<Activity>>
   > {
     try {
-      const action = await api(`/customer/recomendation/activity`, {
+      const action = await api(`/api/customer/recomendation/activity`, {
         method: "GET",
       });
 
@@ -246,10 +350,14 @@ export class ActivityAction {
         );
       });
 
-      const action = await api(`/api/customer/activity/review`, {
-        method: "POST",
-        body: formData,
-      }, false);
+      const action = await api(
+        `/api/customer/activity/review`,
+        {
+          method: "POST",
+          body: formData,
+        },
+        false
+      );
 
       if (!action.ok) {
         GlobalUtility.TriggerExceptionFetchApi(action);
