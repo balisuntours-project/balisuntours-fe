@@ -1,5 +1,6 @@
 import { AddReviewParamater } from "@/app/paramaters/activity-review/paramater";
 import { AllActivitiesParamater } from "@/app/paramaters/activity/paramater";
+import { CheckoutFinalPayloadParamater } from "@/app/paramaters/booking/paramater";
 import { BestActivityCategoryNameAndListActivity } from "@/app/response/activity.response";
 import {
   Activity,
@@ -369,4 +370,27 @@ export class ActivityAction {
       return this.handleFetchError<void>(error.response || error);
     }
   }
+
+
+  static async CheckoutBooking(payload: CheckoutFinalPayloadParamater): Promise<
+  ActivityActionResponse<Array<Activity>>
+> {
+  console.log(payload)
+  try {
+    const action = await api(`/api/customer/payment`, {
+      method: "POST",
+      body: JSON.stringify(payload)
+    });
+
+    console.log(action)
+    if (!action.ok) {
+      GlobalUtility.TriggerExceptionFetchApi(action);
+    }
+
+    return this.handleResponse<Array<Activity>>(action);
+  } catch (error: any) {
+    console.error(error);
+    return this.handleFetchError<Array<Activity>>(error.response || error);
+  }
+}
 }

@@ -14,13 +14,13 @@ export function CheckoutFormTypeMechanism({
   minCost,
 }: {
   itemPackage: CheckoutMappedPackageDataParamater,
-  minCost: number
+  minCost: number,
 
 }) {
   if (itemPackage.package_type == ActivityPackageTypeEnum.freeTour) {
     return (
       <>
-        <CheckoutFormFreeTourType minCost={minCost} finalPrice={itemPackage.final_price} totalQty={itemPackage.total_qty_for_free_tour} priceInformation={itemPackage.price_information_for_free_tour} baseUuid={itemPackage.base_uuid} pickupTimeList={itemPackage.default_pickup_time} />
+        <CheckoutFormFreeTourType minCost={minCost} finalPrice={itemPackage.final_price} totalQty={itemPackage.total_qty_for_free_tour} priceInformation={itemPackage.price_information_for_free_tour} baseUuid={itemPackage.base_uuid} pickupTimeList={itemPackage.default_pickup_time} defaultTravellerSpend={itemPackage.free_tour_traveller_spend} />
       </>
     );
   } else if (itemPackage.package_type == ActivityPackageTypeEnum.pickupTimeByTeam) {

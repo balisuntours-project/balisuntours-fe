@@ -16,9 +16,11 @@ import { X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 export function GoogleMapViewComponent({
+  readonlyMap = true,
   scopedId,
   withSearchAutoComplete,
 }: {
+  readonlyMap?: boolean;
   scopedId?: string;
   withSearchAutoComplete?: boolean;
 }) {
@@ -30,21 +32,40 @@ export function GoogleMapViewComponent({
   const scopedMapState = useGoogleMapStore(
     (state) => state.mapScopedState[scopedId!] || defaultScopedMapCoordinate
   );
+
+ 
   const setScopedMapState = useGoogleMapStore((state) => state.setScopedState);
 
   const mapPayload = useGoogleMapStore((state) => state.mapPayload);
   const [searchInput, setSearchInput] = useState<string>("");
 
   const [zoom, setZoom] = useState(
-    (scopedId ? scopedMapState?.mapScopedPayload?.zoom : mapPayload.zoom) ?? 18
+    (mapPayload && !scopedId
+      ? mapPayload.zoom
+      : scopedMapState.mapScopedPayload?.zoom) ?? 18
   ); // Default zoom
-  const mapCoordinate = useMemo(() => {
+
+  const [mapCoordinate, setMapCoordinate] =
+    useState<Omit<GoogleMapViewParamater, "zoom">>();
+
+  useEffect(() => {
     if (scopedMapState.mapScopedPayload) {
-      return scopedMapState.mapScopedPayload;
+      setMapCoordinate({
+        lat: scopedMapState.mapScopedPayload.lat,
+        lng: scopedMapState.mapScopedPayload.lng,
+      });
+    } else if (mapPayload && !scopedId) {
+      setMapCoordinate({
+        lat: mapPayload.lat,
+        lng: mapPayload.lng,
+      });
     } else {
-      return { lat: mapPayload.lat, lng: mapPayload.lng };
+      setMapCoordinate({
+        lat: mapPayload.lat,
+        lng: mapPayload.lng,
+      });
     }
-  }, [mapPayload, scopedMapState.mapScopedPayload]);
+  }, [scopedMapState.mapScopedPayload, mapPayload, scopedId]);
 
   const mapOptions = {
     zoom: zoom,
@@ -68,15 +89,15 @@ export function GoogleMapViewComponent({
             setSearchInput(inputRef.current.value);
           }
 
-          if (scopedId) {
+          if (scopedId && !readonlyMap) {
             setScopedMapState(scopedId, "mapScopedPayload", {
               lat: location.lat(),
               lng: location.lng(),
               zoom: 18,
               name: name,
             });
+            setZoom(18);
           }
-          setZoom(18);
         }
       }
     }
@@ -84,11 +105,12 @@ export function GoogleMapViewComponent({
 
   useEffect(() => {
     if (!searchInput) {
-      if (scopedId) {
+      if (scopedId && !readonlyMap) {
+        console.log(scopedId);
+        console.log(readonlyMap);
+        setZoom(9);
         setScopedMapState(scopedId, "mapScopedPayload", undefined);
       }
-
-      setZoom(9);
     }
   }, [searchInput]);
 
@@ -126,14 +148,18 @@ export function GoogleMapViewComponent({
       )}
 
       <GoogleMap
-         mapContainerStyle={scopedId ? {
-            width: '100%',
-            height: '50vh', // Menyesuaikan tinggi peta dengan persentase viewport
-        }: {}}
+        mapContainerStyle={
+          scopedId
+            ? {
+                width: "100%",
+                height: "50vh", // Menyesuaikan tinggi peta dengan persentase viewport
+              }
+            : {}
+        }
         mapContainerClassName="map-container"
         {...mapOptions}
       >
-        <Marker position={mapCoordinate} icon={markerIcon} />
+        <Marker position={mapCoordinate!} icon={markerIcon} />
       </GoogleMap>
     </div>
   );

@@ -1,15 +1,16 @@
 import { create } from "zustand";
 import { BookingPackageDynamicPropertyResponse } from "../responses/booking/response";
 import { ReviewDataParamater } from "../paramaters/activity-review/paramater";
-import { CheckoutDataPackageResponse } from "../responses/activity-package/response";
 import { CheckoutMappedPackageDataParamater } from "../paramaters/booking/paramater";
+import { CheckoutDataActivityResponse } from "../responses/activity/response";
+import { CheckoutDataPackageResponse } from "../responses/activity-package/response";
 
 export const defaultBookingScopedState: BookingScopedState = {
   checkoutPayload: undefined,
 };
 
 export interface BookingScopedState {
-  checkoutPayload: Array<CheckoutMappedPackageDataParamater> | undefined;
+  checkoutPayload: CheckoutMappedPackageDataParamater | undefined;
 }
 
 interface BookingStoreState {
@@ -22,13 +23,21 @@ interface BookingStoreState {
   isOnSubmit: boolean;
 
   checkoutPackageBookingData: Array<CheckoutMappedPackageDataParamater>;
+
+  currencyValue: number|undefined,
+
+  checkoutAmount: number,
+
+  checkoutActivities: Array<CheckoutDataActivityResponse>,
+  checkoutPackages: Array<CheckoutDataPackageResponse> 
+  checkoutCartData: Array<string> 
 }
 
 interface BookingStoreStateAction {
-  setScopedState: (
+  setScopedState: <K extends keyof BookingScopedState>(
     id: string,
-    key: keyof BookingScopedState,
-    value: any
+    key: K,
+    value: BookingScopedState[K]
   ) => void;
   getScopedState: (id: string) => BookingScopedState;
   resetScopedState: (id: string) => void;
@@ -46,6 +55,13 @@ interface BookingStoreStateAction {
   setCheckoutPackageBookingData: (
     packages: Array<CheckoutMappedPackageDataParamater>
   ) => void;
+
+  setCurrencyValue: (currency: number|undefined) => void;
+  setCheckoutAmount: (amount: number) => void;
+
+  setCheckoutActivities: (activities: Array<CheckoutDataActivityResponse>) => void;
+  setCheckoutPackages: (packages: Array<CheckoutDataPackageResponse>) => void;
+  setCheckoutCartData: (carts: Array<string>) => void;
 }
 
 export const useBookingStore = create<
@@ -95,4 +111,30 @@ export const useBookingStore = create<
   setCheckoutPackageBookingData: (
     packages: Array<CheckoutMappedPackageDataParamater>
   ) => set({ checkoutPackageBookingData: packages }),
+
+  
+  currencyValue: undefined,
+  setCurrencyValue: (
+    currency: number | undefined
+  ) => set({ currencyValue: currency }),
+
+  checkoutAmount: 0,
+  setCheckoutAmount: (
+    amount: number
+  ) => set({ checkoutAmount: amount }),
+
+  checkoutActivities: [],
+  setCheckoutActivities: (
+    activities: Array<CheckoutDataActivityResponse>
+  ) => set({ checkoutActivities: activities }),
+
+  checkoutPackages: [],
+  setCheckoutPackages: (
+    packages: Array<CheckoutDataPackageResponse>
+  ) => set({ checkoutPackages: packages }),
+
+  checkoutCartData: [],
+  setCheckoutCartData: (
+    carts: Array<string>
+  ) => set({ checkoutCartData: carts }),
 }));

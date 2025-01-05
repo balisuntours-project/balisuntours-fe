@@ -8,22 +8,27 @@ import { useBookingStore } from "@/app/store/booking.store";
 import { DEFAULT_LAT, DEFAULT_LNG, DEFAULT_ZOOM } from "@/lib/global.constant";
 import { CurrencyListEnum } from "@/lib/global.enum";
 import { GlobalUtility } from "@/lib/global.utility";
-import { format } from "date-fns";
 import { CheckCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { CheckoutFormTypeMechanism } from "./checkout-form-type-condition.checkout";
 import { useGoogleMapStore } from "@/app/store/google-map.store";
 import { CheckoutDataActivityResponse } from "@/app/responses/activity/response";
-import { ImageWithLoader } from "@/app/global-components/utility-components/with-loader.image";
+import { CheckoutAmountSection } from "./checkout-amount-section.checkout";
+import { CheckoutUserDataRespnse } from "@/app/responses/booking/response";
+import { CheckoutForm } from "./checkout-form-checkout";
 
 export function CheckoutDetail({
-  checkoutActivity,
+  checkoutActivities,
   checkoutPackages,
   minCost,
+  userData,
+  cartData,
 }: {
-  checkoutActivity: Array<CheckoutDataActivityResponse>;
+  checkoutActivities: Array<CheckoutDataActivityResponse>;
   checkoutPackages: Array<CheckoutDataPackageResponse>;
-  minCost: number
+  minCost: number;
+  userData: CheckoutUserDataRespnse;
+  cartData: Array<string>
 }) {
   const setCheckoutPackageBookingData = useBookingStore(
     (state) => state.setCheckoutPackageBookingData
@@ -31,10 +36,30 @@ export function CheckoutDetail({
   const checkoutPackageBookingData = useBookingStore(
     (state) => state.checkoutPackageBookingData
   );
-  const setMapScopedState = useGoogleMapStore((state) => state.setScopedState);
+  const setCheckoutActivities = useBookingStore(
+    (state) => state.setCheckoutActivities
+  );
+  const setCheckoutPackages = useBookingStore(
+    (state) => state.setCheckoutPackages
+  );
+  const setCheckoutCartData = useBookingStore(
+    (state) => state.setCheckoutCartData
+  );
+  const setCurrencyValue = useBookingStore((state) => state.setCurrencyValue);
+  const setBookingScopedState = useBookingStore(
+    (state) => state.setScopedState
+  );
 
-  const [currencyValue, setCurrencyValue] = useState<number>();
-  const [amount, setAmount] = useState<number>();
+  const setScopedMapState = useGoogleMapStore((state) => state.setScopedState);
+
+  const setCheckoutAmount = useBookingStore((state) => state.setCheckoutAmount);
+
+
+  useEffect(() => {
+    setCheckoutActivities(checkoutActivities)
+    setCheckoutPackages(checkoutPackages)
+    setCheckoutCartData(cartData)
+  }, [checkoutActivities, checkoutPackages, cartData])
 
   const handleFetchCurrency = async () => {
     const result = await CurrencyAction.GetCurrency(
@@ -45,6 +70,7 @@ export function CheckoutDetail({
       setCurrencyValue(result.data);
     }
   };
+  
 
   const handleSetTotalAmount = () => {
     if (checkoutPackages) {
@@ -53,7 +79,7 @@ export function CheckoutDetail({
         countAmount += itemPackage.final_price;
       });
 
-      setAmount(countAmount);
+      setCheckoutAmount(countAmount);
     }
   };
 
@@ -94,7 +120,7 @@ export function CheckoutDetail({
             freeTourTravellerSpend = item.final_price ?? null;
           }
 
-          packageMappedDataBowl.push({
+          const payload = {
             base_uuid: item.base_uuid,
             activity_package_uuid: item.activity_package_uuid,
             cart_uuids: item.cart_uuids,
@@ -130,13 +156,32 @@ export function CheckoutDetail({
             zoom: DEFAULT_ZOOM,
             auto_complete_value: null,
             input_id: `${GlobalUtility.StringToSlug(item.package_title)}`,
-          });
+          };
 
-          setMapScopedState(item.base_uuid, "mapScopedPayload", {
-            lat: DEFAULT_LAT,
-            lng: DEFAULT_LNG,
-            zoom: DEFAULT_ZOOM,
-          });
+          packageMappedDataBowl.push(payload);
+          setBookingScopedState(item.base_uuid, "checkoutPayload", payload);
+          if (
+            item.package_type == ActivityPackageTypeEnum.pickupTimeByTeam ||
+            item.package_type == ActivityPackageTypeEnum.pickupTimeByTraveller
+          ) {
+            setScopedMapState(item.base_uuid, "mapScopedPayload", {
+              lat: DEFAULT_LAT,
+              lng: DEFAULT_LNG,
+              zoom: DEFAULT_ZOOM,
+            });
+          } else if (
+            item.package_type == ActivityPackageTypeEnum.basicItinerary
+          ) {
+            setScopedMapState(item.base_uuid, "mapScopedPayload", {
+              lat: item.departure?.departure_map_coordinate
+                ? item.departure.departure_map_coordinate.lat
+                : DEFAULT_LAT,
+              lng: item.departure?.departure_map_coordinate
+                ? item.departure.departure_map_coordinate.lng
+                : DEFAULT_LNG,
+              zoom: 18,
+            });
+          }
         }
       });
 
@@ -167,281 +212,23 @@ export function CheckoutDetail({
                   )}
                 </span>
 
-                <CheckoutFormTypeMechanism minCost={minCost} itemPackage={itemPackage} />
+                <CheckoutFormTypeMechanism
+                  minCost={minCost}
+                  itemPackage={itemPackage}
+                />
               </div>
             ))}
 
-            <form
-              action="#"
-              method="POST"
-              /* @submit.prevent="handleToPayment" */
-            >
-              <div className="mt-6">
-                <span className="text-bold text-black text-lg font-bold">
-                  Contact Info
-                </span>
-                <p className="text-sm sm:text-base text-gray-500">
-                  We'll only contact you if there's any updates to your booking
-                </p>
-                <div className="mt-4 p-5 border-2 rounded-lg flex flex-col gap-2 sm:grid sm:grid-cols-2 sm:gap-4">
-                  <div className="flex flex-col col-span-2">
-                    <label htmlFor="firstname" className="font-bold">
-                      Your Name
-                    </label>
-                    <input
-                      placeholder="Enter your name"
-                      required
-                      v-model="paymentOrder.firstName"
-                      className="px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-                    />
-                  </div>
-
-                  <div className="flex flex-col">
-                    <label htmlFor="phone" className="font-bold">
-                      Phone Number
-                    </label>
-                    <input
-                      placeholder="+62xxx"
-                      required
-                      v-model="paymentOrder.phone"
-                      /* @input="handlePhoneChange" */
-                      className="px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <label htmlFor="email" className="font-bold">
-                      Email
-                    </label>
-                    <input
-                      placeholder="Enter email"
-                      required
-                      v-model="paymentOrder.email"
-                      className="px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-4 mt-6">
-                <div className="hidden sm:hidden lg:flex gap-4 items-start">
-                  <span className="w-3/4 text-gray-500">
-                    Your booking will be submitted once you continue to the next
-                    step. (You can choose your payment method in the next step)
-                  </span>
-                  <button
-                    /*  @submit.prevent="handleToPayment"
-                                        :disabled="processingPayment" */
-                    className="ml-auto w-auto px-5 py-3 bg-gradient-to-r bg-[#EB5E00] text-white font-bold rounded-lg transition-transform transform-gpu hover:-translate-y-1 hover:shadow-lg"
-                  >
-                    Go to payment
-                  </button>
-                </div>
-              </div>
-            </form>
+            {/* Travaeller information section */}
+            <CheckoutForm userData={userData} />
           </div>
         </div>
 
         {/* Amount secntion */}
-        <div
-          id="amountSection"
-          className="flex flex-col gap-6 lg:flex lg:flex-col lg:gap-6 lg:col-span-4 lg:sticky lg:top-5 shadow-lg"
-        >
-          <div className="amount-section bg-white rounded-lg p-5 lg:block">
-            <div className="mb-6 mt-3">
-              <div
-                /*    color="#E1EFFE" */
-                /*    density="compact" */
-                /*    theme="dark" */
-                /*    elevation="0" */
-                className="text-sm sm:text-base !text-[#1A56DB]"
-              >
-                Free cancellation (depend on each package)
-              </div>
-            </div>
-            {checkoutActivity.map((activity, key) => (
-              <div
-                v-for="(activity, index) in props.activity.data"
-                key={key}
-                className="flex gap-3 my-5"
-              >
-                <ImageWithLoader
-                  fillAllView={false}
-                  src={activity.main_photo}
-                  alt={`Activity banner`}
-                  fallbackSrc="/fallback-image.png"
-                  classNameProp="rounded-lg w-28 h-20 object-cover"
-                  skeletonClassName="rounded-lg w-20 h-20"
-                  priority={false} // Gambar ini tidak diberi prioritas
-                  width={100}
-                  height={100}
-                />
-
-                <div className=" max-w-auto w-full items-start">
-                  <span className="text-black text-lg lg:text-xl font-bold">
-                    {activity.title}
-                  </span>
-                  {activity.packages.map((packageName, index) => (
-                    <div key={index}>
-                      <p className="text-sm sm:text-base lg:text-base">
-                        {packageName}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-            <hr />
-            {checkoutPackages.map((itemPackage, key) => (
-              <div
-                v-for="(pack, index) in props.package.data"
-                key={key}
-                className="mt-3 mb-5 sm:flex sm:flex-col sm:gap-1 lg:block"
-              >
-                <div className="flex flex-col gap-2">
-                  <span className="text-black font-bold text-lg">
-                    {itemPackage.activity_title}
-                  </span>
-
-                  <div className="flex flex-col">
-                    <span className="text-gray-500">
-                      - {itemPackage.package_title}
-                    </span>
-                    <span className="text-gray-500">
-                      - Free cancellation ({itemPackage.cancellation_policy})
-                    </span>
-                   {!itemPackage.self_confirmation && (
-                     <span
-                     v-show="pack.self_confirmation == false"
-                     className="text-red-500"
-                   >
-                     - Need confirmation ({itemPackage.confirmation_time}){" "}
-                     before book
-                   </span>
-                   )}
-                  </div>
-
-                  <hr />
-                </div>
-
-                {itemPackage.prices.map((price, index) => (
-                  <div
-                    v-for="(price, index) in pack.prices"
-                    key={index}
-                    className="flex flex-col gap-2 mt-5"
-                  >
-                    <div className="flex gap-6">
-                      <span className="text-gray-500 text-sm">Quantity</span>
-
-                      <div className="ml-auto flex flex-col">
-                        <p className="text-black text-end text-sm">
-                          {price.title} x {price.qty}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex gap-6 w-full">
-                      <span className="text-gray-500 text-sm">Date</span>
-
-                      <div className="ms-auto text-end">
-                        <span className="text-black text-sm">
-                          {GlobalUtility.FormatBeautifullDate(
-                            price.activity_date
-                          )}
-                        </span>
-                      </div>
-                    </div>
-                    <hr />
-                  </div>
-                ))}
-
-                <div className="flex gap-2 mt-3">
-                  <span className="text-gray-500 text-sm">Total</span>
-                  <span className="ml-auto text-black text-end font-bold text-sm">
-                    {GlobalUtility.IdrCurrencyFormat(itemPackage.final_price)}{" "}
-                    {currencyValue &&
-                      `(${GlobalUtility.ConvertionCurrencyFormat(
-                        itemPackage.final_price,
-                        currencyValue,
-                        CurrencyListEnum.usd
-                      )})`}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/*  <!-- Sticky total big screen/PC--> */}
-          <div className="hidden lg:block total-amount-section bg-gray-50 p-5">
-            <div className="flex gap-2">
-              <span className="text-gray-500">Amount</span>
-              {amount && (
-                <span className="ml-auto text-[#EB5E00] text-end text-xl font-extrabold">
-                  {GlobalUtility.IdrCurrencyFormat(amount)}{" "}
-                  {currencyValue &&
-                    `(${GlobalUtility.ConvertionCurrencyFormat(
-                      amount,
-                      currencyValue,
-                      CurrencyListEnum.usd
-                    )})`}
-                </span>
-              )}
-            </div>
-          </div>
-
-          {/*   <!-- Sticky total Tablet--> */}
-          <div className="hidden sm:block lg:hidden total-amount-section bg-gray-200 bg-opacity-20 rounded-xl sticky top-24 p-5">
-            <div className="flex gap-2 w-1/4 mx-auto mb-3">
-              <span className="text-gray-500 text-lg">Amount</span>
-              <span className="ml-auto text-end font-bold text-lg text-[#EB5E00]">
-                {/* {{ idrCurrencyFormat(amount)
-                                }}{{
-                                    amountUsd > 0 ? `($${amountUsd})` : ""
-                                }} */}
-              </span>
-            </div>
-            <hr />
-            <div className="hidden sm:flex sm:flex-col lg:hidden gap-4 items-start mt-3">
-              <span className="w-full">
-                Your booking will be submitted once you continue to the next
-                step. (You can choose your payment method in the next step)
-              </span>
-              <button
-                /* @click="handleToPayment" */
-                className="ml-auto w-auto px-8 py-2 bg-gradient-to-r bg-[#EB5E00] text-white font-bold rounded-lg transition-transform transform-gpu hover:-translate-y-1 hover:shadow-lg"
-              >
-                Go to payment
-              </button>
-            </div>
-          </div>
-          {/* <!-- Payment checkout mobile view --> */}
-          <div
-            id="mobileCheckout"
-            className="hidden sm:hidden h-auto p-5 elevation-4 sticky bottom-0 left-0 right-0 bg-white"
-          >
-            <div className="flex gap-4 w-full mb-2">
-              <span className="text-gray-500 text-lg">Amount</span>
-              <span className="ml-auto text-[#EB5E00] text-end font-bold text-lg">
-                {/* {{ idrCurrencyFormat(amount)
-                                }}{{
-                                    amountUsd > 0 ? `($${amountUsd})` : ""
-                                }} */}
-              </span>
-            </div>
-            <hr />
-            <div className="flex flex-col gap-4 items-start mt-4">
-              <span className="w-full font-bold text-xs">
-                Your booking will be submitted once you continue to the next
-                step. (You can choose your payment method in the next step)
-              </span>
-              <button
-                /*   @click="handleToPayment"
-                                :disabled="processingPayment" */
-                className="mx-auto w-auto px-8 py-2 bg-gradient-to-r bg-[#EB5E00] text-white font-bold rounded-lg transition-transform transform-gpu hover:-translate-y-1 hover:shadow-lg"
-              >
-                Go to payment
-              </button>
-            </div>
-          </div>
-        </div>
+        <CheckoutAmountSection
+          checkoutActivities={checkoutActivities}
+          checkoutPackages={checkoutPackages}
+        />
       </div>
     </>
   );
