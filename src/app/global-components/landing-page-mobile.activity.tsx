@@ -24,6 +24,7 @@ export function LandingPageActivityMobileSection(props: ActivityLandingPage) {
               >
                 <div className="p-1">
                   <ActivityCard
+                  useMobileHeight={false}
                     activity={activity}
                     tags={{
                       first_tag: "One and Only",

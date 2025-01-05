@@ -14,16 +14,18 @@ import { useEffect } from "react";
 import { GoogleMapViewComponent } from "./google-map.view";
 
 // Komponen yang menerima children
-export function GoogleMapDialogComponent(props: GoogleMapViewParamater & { children: React.ReactNode }) {
+export function GoogleMapDialogComponent(props: Partial<GoogleMapViewParamater> & { children: React.ReactNode, readonlyMap?: boolean, scopedId?: string }) {
     const setMapPayload = useGoogleMapStore((state) => state.setMapPayload);
 
     useEffect(() => {
-       
-        setMapPayload({
-            lat: props.lat,
-            lng: props.lng,
-            zoom: props.zoom,
-        });
+        
+        if(props.lat && props.lng) {
+            setMapPayload({
+                lat: props.lat,
+                lng: props.lng,
+                zoom: props.zoom,
+            });
+        }
     }, [props, setMapPayload]);
 
     return (
@@ -40,7 +42,7 @@ export function GoogleMapDialogComponent(props: GoogleMapViewParamater & { child
                        
                     </DialogTitle>
                     {/* Menampilkan komponen peta */}
-                    <GoogleMapViewComponent />
+                    <GoogleMapViewComponent readonlyMap={props.readonlyMap} scopedId={props.scopedId} />
                 </DialogHeader>
             </DialogContent>
         </Dialog>

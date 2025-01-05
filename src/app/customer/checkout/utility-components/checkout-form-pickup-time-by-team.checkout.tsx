@@ -1,7 +1,6 @@
 "use client";
 
 import { GoogleMapViewComponent } from "@/app/global-components/utility-components/google-map.view";
-import { GoogleMapViewParamater } from "@/app/paramaters/google-map/paramater";
 import {
   defaultBookingScopedState,
   useBookingStore,
@@ -35,7 +34,7 @@ export function CheckoutFormPickupTimeByTeamType({
         <div className="flex flex-col">
           <Label
             htmlFor="map-input"
-            className="text-xs mb-1 sm:text-sm text-gray-500"
+            className="text-xs mb-1 md:text-md text-gray-500"
           >
             *Pickup location & map
             <span className="italic">
@@ -50,12 +49,29 @@ export function CheckoutFormPickupTimeByTeamType({
               <GoogleMapViewComponent
                 scopedId={baseUuid}
                 withSearchAutoComplete={true}
+                readonlyMap={false}
               />
             </div>
           </div>
         </div>
 
-        <div className="mt-4 p-5 border-2 rounded-lg flex flex-col gap-2 sm:grid sm:grid-cols-2 sm:gap-4">
+        <div className="mt-4 p-5 border-2 rounded-lg flex flex-col gap-2 md:grid md:grid-cols-2 md:gap-4">
+        <div className="flex flex-col gap-1 col-span-2">
+            <Label htmlFor="planned-place" className="font-bold">
+              *Fill out your planning itinerary
+            </Label>
+            <Textarea
+              required
+              placeholder="Your planning itinerary, example: &#10;Monkey forest,&#10;Rice Terrace,&#10;Uluwatu Temple,&#10;etc,"
+              onChange={(e) =>
+                setBookingScopedState(baseUuid, "checkoutPayload", scopedBookingState.checkoutPayload ? {
+                    ...scopedBookingState.checkoutPayload,
+                    planned_place_to_visit: e.target.value,
+                  } : undefined)
+              }
+              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            ></Textarea>
+          </div>
           <div className="flex flex-col gap-1">
             <Label htmlFor="pickup-time" className="font-bold">
               *Pickup Time
@@ -65,38 +81,26 @@ export function CheckoutFormPickupTimeByTeamType({
               placeholder="Pickup time"
               required
               onChange={(e) =>
-                setBookingScopedState(baseUuid, "checkoutPayload", {
-                  pickup_time: e.target.value,
-                })
+                setBookingScopedState(baseUuid, "checkoutPayload", scopedBookingState.checkoutPayload ? {
+                    ...scopedBookingState.checkoutPayload,
+                    pickup_time: e.target.value,
+                  } : undefined)
               }
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              className=" py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
             />
           </div>
-          <div className="flex flex-col gap-1">
-            <Label htmlFor="planned-place" className="font-bold">
-              *Fill out your planning itinerary
-            </Label>
-            <Textarea
-              required
-              placeholder="Your planning itinerary, example: &#10;Monkey forest,&#10;Rice Terrace,&#10;Uluwatu Temple,&#10;etc,"
-              onChange={(e) =>
-                setBookingScopedState(baseUuid, "checkoutPayload", {
-                  planned_place_to_visit: e.target.value,
-                })
-              }
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-            ></Textarea>
-          </div>
+        
 
-          <div className="flex flex-col gap-1 col-span-2">
+          <div className="flex flex-col gap-1">
             <Label htmlFor="note" className="font-bold">
               Note
             </Label>
             <Textarea
               onChange={(e) =>
-                setBookingScopedState(baseUuid, "checkoutPayload", {
-                  note: e.target.value,
-                })
+                setBookingScopedState(baseUuid, "checkoutPayload", scopedBookingState.checkoutPayload ? {
+                    ...scopedBookingState.checkoutPayload,
+                    note: e.target.value,
+                  } : undefined)
               }
               className="px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               id="note"

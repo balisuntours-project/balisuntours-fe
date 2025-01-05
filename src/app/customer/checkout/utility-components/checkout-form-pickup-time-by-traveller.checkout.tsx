@@ -29,9 +29,10 @@ export function CheckoutFormPickupTimeByTravellerType({
     const setBookingScopedState = useBookingStore((state) => state.setScopedState)
 
     const changeValue = (value: string) => {
-        setBookingScopedState(baseUuid, 'checkoutPayload' , {
+        setBookingScopedState(baseUuid, 'checkoutPayload' , scopedBookingState.checkoutPayload ? {
+            ...scopedBookingState.checkoutPayload,
             pickup_time: value
-        })
+        } : undefined)
     }
 
     useEffect(() => {
@@ -61,6 +62,7 @@ export function CheckoutFormPickupTimeByTravellerType({
               <GoogleMapViewComponent
                 scopedId={baseUuid}
                 withSearchAutoComplete={true}
+                readonlyMap={false}
               />
             </div>
           </div>

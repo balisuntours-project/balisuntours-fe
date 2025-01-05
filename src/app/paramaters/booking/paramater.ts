@@ -1,5 +1,9 @@
 import { ActivityPackageTypeEnum } from "@/app/enums/activity/activity.enum";
-import { CheckoutDepartureResponse } from "@/app/responses/activity-package/response";
+import {
+  CheckoutDataPackageResponse,
+  CheckoutDepartureResponse,
+} from "@/app/responses/activity-package/response";
+import { CheckoutDataActivityResponse } from "@/app/responses/activity/response";
 import {
   BookingDetailResponse,
   BookingPackageDetailResponse,
@@ -50,11 +54,49 @@ export interface CheckoutMappedPackageDataParamater {
   input_id: string;
 }
 
+export interface CheckoutPackageOrderDataPayload
+  extends Pick<
+    CheckoutMappedPackageDataParamater,
+    | "base_uuid"
+    | "cart_uuids"
+    | "activity_package_uuid"
+    | "activity_date"
+    | "departure_title"
+    | "pickup_coordinate"
+    | "pickup_location"
+    | "pickup_time"
+    | "planned_place_to_visit"
+    | "note"
+    | "free_tour_traveller_spend"
+  > {}
+
+export interface CheckoutFinalPayloadParamater {
+  firstName: string;
+  lastName: string;
+  cartData: Array<string>;
+  phone: string;
+  email: string;
+  activity: Array<CheckoutDataActivityResponse>;
+  package: Array<CheckoutDataPackageResponse>;
+  packageOrderData: Array<CheckoutPackageOrderDataPayload>;
+}
+
 export interface CheckoutFreeTourTypeViewParamater {
   pickupTimeList: Array<string>;
   baseUuid: string;
   minCost: number;
   finalPrice: number;
-  totalQty: number|null;
-  priceInformation: string|null;
+  defaultTravellerSpend: number | null;
+  totalQty: number | null;
+  priceInformation: string | null;
+}
+
+export interface CheckoutBasicItineraryPayloadData {
+  lat: number;
+  lng: number;
+  zoom: number;
+  departure_title: string;
+  departure_map_location: string;
+  departure_additional_information: string;
+  pickup_time_list: Array<string>;
 }

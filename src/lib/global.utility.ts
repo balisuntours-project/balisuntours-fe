@@ -242,4 +242,9 @@ export class GlobalUtility {
   static generateRandom4DigitsNumber() {
     return Math.floor(1000 + Math.random() * 9000).toString();
   }
+
+  static InputFormatterForPhoneAllowNumberAndPlus(phone: string) {
+    const filteredValue = phone.replace(/[^0-9+]/g, '');
+    return filteredValue;
+  }
 }

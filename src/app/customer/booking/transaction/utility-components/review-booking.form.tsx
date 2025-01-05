@@ -49,7 +49,6 @@ export function ReviewBookingForm({
   const setDraggableScopedState = useDraggableStore(
     (state) => state.setScopedState
   );
-  const reviewItems = useBookingStore((state) => state.reviewItems);
   const setReviewItems = useBookingStore((state) => state.setReviewItems);
   const isOnSubmit = useBookingStore((state) => state.isOnSubmit);
   const setIsOnSubmit = useBookingStore((state) => state.setIsOnSubmit);
