@@ -22,19 +22,28 @@ const ActivityBestCategoryCard: FC<ActivityCardProps> = ({
   return (
     <Link href={`/customer/preview/activity/${activity.slug}`} target="__blank">
       <Card
-        className={`flex flex-col w-full max-w-[250px] md:max-h-[300px] h-[200px] md:h-[300px]`}
+      /*   className={`flex flex-col w-full max-w-[250px] md:max-h-[300px] h-[200px] md:h-[300px]`} */
+        className={`flex flex-col w-full max-w-[250px] ${
+          useMobileHeight == false
+            ? "max-h-[300px] h-[300px]"
+            : "max-h-[300px] h-[200px] md:h-[300px]"
+        }`}
       >
         {/* Bagian Gambar */}
-        <div className={`relative w-full h-[100px] md:h-[150px] lg:h-[150px]`}>
+        <div className={`relative w-full`}>
           <ImageWithLoader
             src={activity.image}
             alt={activity.title}
             fallbackSrc="/fallback-image.png"
-            classNameProp="rounded-t-lg"
-            skeletonClassName="rounded-t-lg"
+           /*  classNameProp="rounded-t-lg"
+            skeletonClassName="rounded-t-lg" */
+            classNameProp={`rounded-t-lg w-full ${
+              useMobileHeight == false ? "h-[140px] max-h-[140px]" : "h-[100px] md:h-[140px] lg:h-[140px]"
+            } object-cover`}
+            skeletonClassName={`rounded-t-lg w-full ${
+              useMobileHeight == false ? "h-[140px] max-h-[140px]" : "h-[100px] md:h-[140px] lg:h-[140px]"
+            }`}
             priority={false}
-            layout="fill"
-            objectFit="cover"
             quality={100}
           />
         </div>
@@ -50,7 +59,7 @@ const ActivityBestCategoryCard: FC<ActivityCardProps> = ({
           {showDesciption && <p className="text-sm mt-2">{showDesciption}</p>}
 
           {/* Tag Popular */}
-          <div className="hidden md:flex gap-2">
+          <div className={`hidden md:flex gap-2`}>
             <div className="mt-1 inline-block bg-red-300 text-white text-[7px] md:text-[8px] font-normal py-1 px-2 rounded-lg">
               {tags.first_tag}
             </div>

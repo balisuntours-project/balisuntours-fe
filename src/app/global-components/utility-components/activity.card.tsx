@@ -31,9 +31,6 @@ const ActivityCard: FC<ActivityCardProps> = ({
         {/* Bagian Gambar */}
         <div
           className={`relative w-full`}
-         /*  className={`relative w-full ${
-            useMobileHeight == false ? "h-[400px] max-h-[400px]" : "h-[250px] md:h-[400px] max-h-[250px] md:max-h-[400px]"
-          } `} */
         >
           <ImageWithLoader
             src={activity.image}
@@ -53,7 +50,7 @@ const ActivityCard: FC<ActivityCardProps> = ({
           />
         </div>
 
-        <CardContent className="flex flex-col h-full p-4 bg-red-500">
+        <CardContent className="flex flex-col h-full p-4">
           {/* Title */}
           <ActivityTitleCard title={activity.title} />
 
@@ -61,7 +58,7 @@ const ActivityCard: FC<ActivityCardProps> = ({
           {showDesciption && <p className="text-sm mt-2">{showDesciption}</p>}
 
           {/* Tag Popular */}
-          <div className=" gap-2 hidden md:flex">
+          <div className={`${showTags ? "flex gap-2" : "hidden"}`}>
             <div className="mt-1 inline-block bg-red-300 text-white text-[10px] md:text-xs font-normal py-1 px-2 rounded-lg">
               {tags.first_tag}
             </div>
@@ -71,7 +68,7 @@ const ActivityCard: FC<ActivityCardProps> = ({
           </div>
 
           {/* Rating dan Total Booking */}
-          <div className="flex items-center gap-1 mt-2 w-full bg-blue-500">
+          <div className="flex items-center gap-1 mt-2 w-full">
             <Star className="text-yellow-500 w-4 h-4 stroke-[1.5] md:w-auto md:h-auto" />
             <span className="text-xs md:text-sm font-medium">
               {activity.rating}

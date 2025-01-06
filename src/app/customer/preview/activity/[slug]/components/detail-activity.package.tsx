@@ -64,7 +64,7 @@ export function DetailActivityPackage(props: DetailActivityPackageParamater) {
           {/* End Description & Itinerary section */}
 
           <div className="col-span-5">
-            <div className="border  border-gray-300 rounded-lg p-6 md:sticky top-[18%] max-h-[550px] overflow-auto">
+            <div className="border  border-gray-300 rounded-lg p-6 md:sticky top-[18%] max-h-[550px] overflow-auto ">
               <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-black mb-3">
                 Package Options
               </h2>
