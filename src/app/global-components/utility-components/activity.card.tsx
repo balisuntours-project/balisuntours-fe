@@ -52,7 +52,7 @@ const ActivityCard: FC<ActivityCardProps> = ({
           />
         </div>
 
-        <CardContent className="flex flex-col h-full p-4">
+        <CardContent className="flex flex-col h-full p-4 bg-red-500">
           {/* Title */}
           <ActivityTitleCard title={activity.title} />
 
@@ -70,7 +70,7 @@ const ActivityCard: FC<ActivityCardProps> = ({
           </div>
 
           {/* Rating dan Total Booking */}
-          <div className="flex items-center gap-1 mt-2">
+          <div className="flex items-center gap-1 mt-2 w-full bg-blue-500">
             <Star className="text-yellow-500 w-4 h-4 stroke-[1.5] md:w-auto md:h-auto" />
             <span className="text-xs md:text-sm font-medium">
               {activity.rating}
