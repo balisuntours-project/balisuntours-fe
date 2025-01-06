@@ -53,7 +53,7 @@ export function RegisterForm() {
     values.password_confirmation = btoa(values.password_confirmation)
     const action = await AuthAction.RegisterUser(values)
     setOnLoadRegister(false)
-
+    console.log(action)
     if(action) {
         setShowLoginDialog(false)
         setShowAuthPopup(false)
