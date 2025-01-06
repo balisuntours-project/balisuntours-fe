@@ -87,7 +87,7 @@ export function LoginDialog() {
               width="135"
               height="58"
               objectFit="cover"
-              className="w-[140px] h-[60px] md:w-[150px] md:h-[45px]"
+              className="w-[180px] h-[45px] md:w-[200px] md:h-[45px]"
             />
           </div>
         </DialogTitle>

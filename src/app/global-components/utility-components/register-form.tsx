@@ -50,6 +50,7 @@ export function RegisterForm() {
   const handleRegister = async (values: z.infer<typeof RegisterFormSchema>) => {
     setOnLoadRegister(true)
     values.password = btoa(values.password)
+    values.password_confirmation = btoa(values.password_confirmation)
     const action = await AuthAction.RegisterUser(values)
     setOnLoadRegister(false)
 
