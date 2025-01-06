@@ -31,7 +31,7 @@ const ActivityCard: FC<ActivityCardProps> = ({
         {/* Bagian Gambar */}
         <div
           className={`relative w-full ${
-            useMobileHeight == false ? "h-[400px]" : "h-[250px] md:h-[400px]"
+            useMobileHeight == false ? "h-[400px] max-h-[400px]" : "h-[250px] md:h-[400px] max-h-[250px] md:max-h-[400px]"
           } `}
         >
           <ImageWithLoader
@@ -39,13 +39,13 @@ const ActivityCard: FC<ActivityCardProps> = ({
             alt={activity.title}
             fallbackSrc="/fallback-image.png"
             classNameProp={`rounded-t-lg w-full ${
-              useMobileHeight == false ? "h-[200px]" : "h-[120px] md:h-[200px]"
+              useMobileHeight == false ? "h-[200px] max-h-[200px]" : "h-[120px] md:h-[200px] max-h-[120px] md:max-h-[200px]"
             } object-cover`}
             skeletonClassName={`rounded-t-lg w-full ${
-              useMobileHeight == false ? "h-[200px]" : "h-[120px] md:h-[200px]"
+              useMobileHeight == false ? "h-[200px] max-h-[200px]" : "h-[120px] md:h-[200px] max-h-[120px] md:max-h-[200px]"
             }`}
             priority={false}
-            objectFit="cover"
+          /*   objectFit="cover" */
             width={500}
             height={200}
             quality={100}
