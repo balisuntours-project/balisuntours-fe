@@ -30,9 +30,10 @@ const ActivityCard: FC<ActivityCardProps> = ({
       >
         {/* Bagian Gambar */}
         <div
-          className={`relative w-full ${
+          className={`relative w-full`}
+         /*  className={`relative w-full ${
             useMobileHeight == false ? "h-[400px] max-h-[400px]" : "h-[250px] md:h-[400px] max-h-[250px] md:max-h-[400px]"
-          } `}
+          } `} */
         >
           <ImageWithLoader
             src={activity.image}
