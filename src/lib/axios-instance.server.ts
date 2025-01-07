@@ -21,7 +21,7 @@ const apiServer = async (
   const headers: { [key: string]: string } = {
     Cookie: cookie,
     ...(token ? { Authorization: "Bearer " + token.value } : {}),
-    FROM_NEXT: "true",
+    "from-next": "allowed",
     ...options.headers
   };
 

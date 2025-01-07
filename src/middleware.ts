@@ -15,6 +15,7 @@ export async function middleware(request: NextRequest) {
       if (result.access_token) {
         response.cookies.set("assec", result.access_token.value, {
           path: "/",
+          domain: process.env.TOP_LEVEL_DOMAIN,
           maxAge: result.access_token.ttl,
           httpOnly: result.access_token.http_only ? true : false,
           secure: result.access_token.secure ? true : false,
@@ -22,6 +23,7 @@ export async function middleware(request: NextRequest) {
         });
         response.cookies.set("refresh", result.refresh_token.value, {
           path: "/",
+          domain: process.env.TOP_LEVEL_DOMAIN,
           maxAge: result.refresh_token.ttl,
           httpOnly: result.access_token.http_only ? true : false,
           secure: result.access_token.secure ? true : false,

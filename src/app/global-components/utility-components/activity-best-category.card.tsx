@@ -48,7 +48,7 @@ const ActivityBestCategoryCard: FC<ActivityCardProps> = ({
           />
         </div>
 
-        <CardContent className="flex flex-col h-[110px] md:h-[150px] lg:h-[200px] p-2 md:p-4 text-start">
+        <CardContent className="flex flex-col h-full p-2 md:p-4 text-start">
           {/* Title */}
           <ActivityTitleCard
             title={activity.title}
