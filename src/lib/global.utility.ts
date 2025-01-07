@@ -70,11 +70,13 @@ export class GlobalUtility {
 
     Cookies.set("assec", "", {
       path: "/",
+      domain: process.env.TOP_LEVEL_DOMAIN,
       expires: new Date(0),
     });
 
     Cookies.set("google-login", "", {
       path: "/",
+      domain: process.env.TOP_LEVEL_DOMAIN,
       expires: new Date(0),
     });
 
