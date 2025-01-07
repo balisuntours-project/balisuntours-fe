@@ -15,6 +15,7 @@ export async function POST(req: NextRequest) {
         // Set cookie dengan token JWT yang diterima
         cookieStore.set("assec" as string, token, {
             path: "/",
+            domain: process.env.TOP_LEVEL_DOMAIN,
             maxAge : 86400,
           }); 
 

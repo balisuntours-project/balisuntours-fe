@@ -28,7 +28,7 @@ const RegisterFormSchema = z
       return data.password === data.password_confirmation;
     },
     {
-      message: "Password confirmation tidak sesuai",
+      message: "Password confirmation not match",
       path: ["password_confirmation"],
     }
   );

@@ -17,7 +17,7 @@ const api = async (url: string, options: FetchOptions = {}, jsonType: boolean = 
     const token = Cookies.get("assec"); // Ambil token dari cookie
     const headers: { [key: string]: string } = {
       ...options.headers,
-      "FROM_NEXT": "true", // custom header
+      "from-next": "allowed", // custom header
       ...(token && { "Authorization": `Bearer ${token}` }), // jika ada token, tambahkan Authorization header
     };
   
