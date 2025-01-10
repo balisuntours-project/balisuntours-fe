@@ -1,6 +1,14 @@
-
-import { CancelBookingParamater, CheckoutUnconfirmedBookingParamater } from "@/app/paramaters/booking/paramater";
-import { BookingResponse, CheckoutUnconfirmedBookingResponse } from "@/app/responses/booking/response";
+import {
+  CancelBookingParamater,
+  CheckoutFinalPayloadParamater,
+  CheckoutUnconfirmedBookingParamater,
+} from "@/app/paramaters/booking/paramater";
+import { Activity } from "@/app/responses/activity/response";
+import {
+  BookingResponse,
+  CheckoutBookingResponse,
+  CheckoutUnconfirmedBookingResponse,
+} from "@/app/responses/booking/response";
 import { CartItemsResponse } from "@/app/responses/cart/response";
 import { api } from "@/lib/axios-instance";
 import { apiServer } from "@/lib/axios-instance.server";
@@ -109,14 +117,18 @@ export class BookingAction {
     };
   }
 
-  static async CancelBooking(bookingUuid: string, payload: CancelBookingParamater): Promise<
-    BookingActionResponse<void>
-  > {
+  static async CancelBooking(
+    bookingUuid: string,
+    payload: CancelBookingParamater
+  ): Promise<BookingActionResponse<void>> {
     try {
-      const action = await api(`/api/customer/order/waiting/cancel/${bookingUuid}`, {
-        method: "PUT",
-        body: JSON.stringify(payload),
-      });
+      const action = await api(
+        `/api/customer/order/waiting/cancel/${bookingUuid}`,
+        {
+          method: "PUT",
+          body: JSON.stringify(payload),
+        }
+      );
 
       if (!action.ok) {
         GlobalUtility.TriggerExceptionFetchApi(action);
@@ -126,32 +138,51 @@ export class BookingAction {
 
       return result;
     } catch (error: any) {
-      return this.handleFetchError<void>(
+      return this.handleFetchError<void>(error.response || error);
+    }
+  }
+
+  static async CheckoutUnconfirmedBooking(
+    payload: CheckoutUnconfirmedBookingParamater
+  ): Promise<BookingActionResponse<CheckoutUnconfirmedBookingResponse>> {
+    try {
+      const action = await api(`/api/customer/order/waiting/checkout`, {
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
+
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
+      }
+
+      const result =
+        this.handleResponse<CheckoutUnconfirmedBookingResponse>(action);
+
+      return result;
+    } catch (error: any) {
+      return this.handleFetchError<CheckoutUnconfirmedBookingResponse>(
         error.response || error
       );
     }
   }
 
-  static async CheckoutUnconfirmedBooking(payload: CheckoutUnconfirmedBookingParamater): Promise<
-  BookingActionResponse<CheckoutUnconfirmedBookingResponse>
-> {
-  try {
-    const action = await api(`/api/customer/order/waiting/checkout`, {
-      method: "POST",
-      body: JSON.stringify(payload),
-    });
-    
-    if (!action.ok) {
-      GlobalUtility.TriggerExceptionFetchApi(action);
+  static async CheckoutBooking(
+    payload: CheckoutFinalPayloadParamater
+  ): Promise<BookingActionResponse<CheckoutBookingResponse|string>> {
+    try {
+      const action = await api(`/api/customer/payment`, {
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
+
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
+      }
+
+      return this.handleResponse<CheckoutBookingResponse|string>(action);
+    } catch (error: any) {
+      console.error(error);
+      return this.handleFetchError<CheckoutBookingResponse|string>(error.response || error);
     }
-
-    const result = this.handleResponse<CheckoutUnconfirmedBookingResponse>(action);
-
-    return result;
-  } catch (error: any) {
-    return this.handleFetchError<CheckoutUnconfirmedBookingResponse>(
-      error.response || error
-    );
   }
-}
 }

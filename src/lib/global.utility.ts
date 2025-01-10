@@ -194,8 +194,8 @@ export class GlobalUtility {
   }
 
   static CheckScreenOnMobile = () => {
-    // Tentukan breakpoint untuk mobile (misalnya, 640px)
-    const mobileBreakpoint = 640;
+    // Tentukan breakpoint untuk mobile (misalnya, 767px)
+    const mobileBreakpoint = 767;
 
     // Cek apakah lebar layar kurang dari atau sama dengan breakpoint
     return window.innerWidth <= mobileBreakpoint;
@@ -209,8 +209,6 @@ export class GlobalUtility {
   }
 
   static TriggerExceptionFetchApi(response: Response) {
-    console.log(response)
-    console.log("KAAKAKAKAKAKAK")
     throw {
       status: response.status,
       statusText: response.statusText,

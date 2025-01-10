@@ -30,7 +30,8 @@ interface BookingStoreState {
 
   checkoutActivities: Array<CheckoutDataActivityResponse>,
   checkoutPackages: Array<CheckoutDataPackageResponse> 
-  checkoutCartData: Array<string> 
+  checkoutCartData: Array<string> ,
+  isCheckoutButtonTriggered: boolean
 }
 
 interface BookingStoreStateAction {
@@ -62,6 +63,7 @@ interface BookingStoreStateAction {
   setCheckoutActivities: (activities: Array<CheckoutDataActivityResponse>) => void;
   setCheckoutPackages: (packages: Array<CheckoutDataPackageResponse>) => void;
   setCheckoutCartData: (carts: Array<string>) => void;
+  setIsCheckoutButtonTriggered: (status: boolean) => void;
 }
 
 export const useBookingStore = create<
@@ -137,4 +139,9 @@ export const useBookingStore = create<
   setCheckoutCartData: (
     carts: Array<string>
   ) => set({ checkoutCartData: carts }),
+
+  isCheckoutButtonTriggered: false,
+  setIsCheckoutButtonTriggered: (
+    status: boolean
+  ) => set({ isCheckoutButtonTriggered: status  }),
 }));

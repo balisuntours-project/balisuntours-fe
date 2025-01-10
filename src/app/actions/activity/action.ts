@@ -371,26 +371,4 @@ export class ActivityAction {
     }
   }
 
-
-  static async CheckoutBooking(payload: CheckoutFinalPayloadParamater): Promise<
-  ActivityActionResponse<Array<Activity>>
-> {
-  console.log(payload)
-  try {
-    const action = await api(`/api/customer/payment`, {
-      method: "POST",
-      body: JSON.stringify(payload)
-    });
-
-    console.log(action)
-    if (!action.ok) {
-      GlobalUtility.TriggerExceptionFetchApi(action);
-    }
-
-    return this.handleResponse<Array<Activity>>(action);
-  } catch (error: any) {
-    console.error(error);
-    return this.handleFetchError<Array<Activity>>(error.response || error);
-  }
-}
 }

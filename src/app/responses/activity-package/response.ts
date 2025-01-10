@@ -55,7 +55,7 @@ export interface CheckoutDataPackageResponse {
     package_title: string,
     price_information_for_free_tour: string|null,
     prices: Array<CheckoutActivityPackagePriceResponse>,
-    self_confirmation: boolean,
+    self_confirmation: ActivityPackageSelfConfirmationStatus,
     total_qty_for_free_tour: number|null,
     
 }

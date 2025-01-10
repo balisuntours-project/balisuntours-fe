@@ -12,6 +12,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { CurrencyListEnum } from "@/lib/global.enum";
 import { GlobalUtility } from "@/lib/global.utility";
 import { FormEvent, useEffect, useState } from "react";
+import { useCheckoutBookingProvider } from "../provider/checkout-booking.provider";
+import { CHECKOUT_INPUT_STYLE } from "@/lib/global.constant";
 
 export function CheckoutFormFreeTourType({
   pickupTimeList,
@@ -32,6 +34,10 @@ export function CheckoutFormFreeTourType({
   const currencyValue = useBookingStore((state) => state.currencyValue);
   const checkoutAmount = useBookingStore((state) => state.checkoutAmount);
   const setCheckoutAmount = useBookingStore((state) => state.setCheckoutAmount);
+  const isCheckoutButtonTriggered = useBookingStore(
+    (state) => state.isCheckoutButtonTriggered
+  );
+  const setIsCheckoutButtonTriggered = useBookingStore((state) => state.setIsCheckoutButtonTriggered);
 
   const [minimumSpendMessage, setMinimumSpendMessage] = useState("");
   const validateInputFlatPrice = (event: FormEvent<HTMLInputElement>) => {
@@ -71,8 +77,71 @@ export function CheckoutFormFreeTourType({
     }
   };
 
+  //diambil dari context provider
+  const { planningItineraryRef, pickupTimeRef, freeTourServiceRef } =
+    useCheckoutBookingProvider();
+
   useEffect(() => {
-    console.log(scopedBookingState.checkoutPayload);
+    if (isCheckoutButtonTriggered) {
+        setIsCheckoutButtonTriggered(false)
+      if (
+        planningItineraryRef.current &&
+        !scopedBookingState.checkoutPayload?.planned_place_to_visit
+      ) {
+        planningItineraryRef.current.classList.remove("hidden");
+        planningItineraryRef.current.classList.add("block");
+        planningItineraryRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
+
+      if (
+        freeTourServiceRef.current &&
+        (!scopedBookingState.checkoutPayload?.free_tour_traveller_spend ||
+          (scopedBookingState.checkoutPayload.free_tour_traveller_spend &&
+            scopedBookingState.checkoutPayload.free_tour_traveller_spend <
+              minCost))
+      ) {
+        freeTourServiceRef.current.classList.remove("hidden");
+        freeTourServiceRef.current.classList.add("block");
+        freeTourServiceRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
+
+      if (
+        pickupTimeRef.current &&
+        !scopedBookingState.checkoutPayload?.pickup_time
+      ) {
+        pickupTimeRef.current.classList.remove("hidden");
+        pickupTimeRef.current.classList.add("block");
+        pickupTimeRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
+    }
+  }, [isCheckoutButtonTriggered]);
+
+  useEffect(() => {
+    if (scopedBookingState.checkoutPayload) {
+      if (scopedBookingState.checkoutPayload.pickup_time && pickupTimeRef.current) {
+        pickupTimeRef.current.classList.add("hidden");
+        pickupTimeRef.current.classList.remove("block");
+      }
+
+      if (scopedBookingState.checkoutPayload.planned_place_to_visit && planningItineraryRef.current) {
+        planningItineraryRef.current.classList.add("hidden");
+        planningItineraryRef.current.classList.remove("block");
+      }
+
+      if (scopedBookingState.checkoutPayload.free_tour_traveller_spend && scopedBookingState.checkoutPayload.free_tour_traveller_spend > minCost && freeTourServiceRef.current) {
+        freeTourServiceRef.current.classList.add("hidden");
+        freeTourServiceRef.current.classList.remove("block");
+      }
+    }
   }, [scopedBookingState.checkoutPayload]);
 
   return (
@@ -109,8 +178,14 @@ export function CheckoutFormFreeTourType({
                     : undefined
                 )
               }
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              className={CHECKOUT_INPUT_STYLE}
             ></Textarea>
+            <p
+              className="activity-date-info text-xs md:text-sm text-red-500 hidden"
+              ref={planningItineraryRef}
+            >
+              Oh, you did'nt fill planning yet!
+            </p>
           </div>
 
           <div className="flex flex-col gap-1">
@@ -122,7 +197,7 @@ export function CheckoutFormFreeTourType({
               required
               onChange={(e) => validateInputFlatPrice(e)}
               placeholder="700000"
-              className="flex-grow w-full px-4 py-2 focus:outline-none min-h-full"
+              className="flex-grow w-full px-4 py-2 text-base md:text-sm focus:outline-none min-h-full"
               startAdornment={
                 <span className="bg-[#5FA22A] text-white rounded-l-md text-xs sm:text-sm px-4 flex items-center justify-center h-full w-auto">
                   Rp
@@ -152,6 +227,12 @@ export function CheckoutFormFreeTourType({
             ) : (
               <p className="text-xs text-red-400">{minimumSpendMessage}</p>
             )}
+            <p
+              className="activity-date-info text-xs md:text-sm text-red-500 hidden"
+              ref={freeTourServiceRef}
+            >
+              how much it worth?!
+            </p>
           </div>
 
           <div className="flex flex-col gap-1">
@@ -174,8 +255,14 @@ export function CheckoutFormFreeTourType({
                     : undefined
                 )
               }
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              className={CHECKOUT_INPUT_STYLE}
             />
+            <p
+              className="activity-date-info text-xs md:text-sm text-red-500 hidden"
+              ref={pickupTimeRef}
+            >
+              Oh, you did'nt pick a time yet!
+            </p>
           </div>
 
           <div className="flex flex-col gap-1 col-span-2">
@@ -195,7 +282,7 @@ export function CheckoutFormFreeTourType({
                     : undefined
                 )
               }
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              className={CHECKOUT_INPUT_STYLE}
               id="note"
               placeholder="Leave note for us..."
             ></Textarea>

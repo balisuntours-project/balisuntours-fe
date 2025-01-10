@@ -25,6 +25,7 @@ export type CookieValueResponseType = {
 
 export type ButtonActionProps = {
   onClick?: () => void;
+  onClickCancel?: () => void;
 };
 
 

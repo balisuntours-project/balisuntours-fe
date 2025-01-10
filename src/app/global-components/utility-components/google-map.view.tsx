@@ -16,10 +16,12 @@ import { X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 export function GoogleMapViewComponent({
+  mapStyle,
   readonlyMap = true,
   scopedId,
   withSearchAutoComplete,
 }: {
+    mapStyle: string,
   readonlyMap?: boolean;
   scopedId?: string;
   withSearchAutoComplete?: boolean;
@@ -132,7 +134,7 @@ export function GoogleMapViewComponent({
                 ref={inputRef}
                 type="text"
                 placeholder="Find address to get coordinates"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 pr-10" // Tambahkan padding kanan untuk memberi ruang pada ikon
+                className="w-full px-4 py-2 text-base md:text-sm border rounded-lg focus:outline-none focus:ring focus:border-blue-300 pr-10" // Tambahkan padding kanan untuk memberi ruang pada ikon
                 value={searchInput} // Bind dengan state
                 onChange={(e) => setSearchInput(e.target.value)} // Update state saat input berubah
               />
@@ -148,15 +150,8 @@ export function GoogleMapViewComponent({
       )}
 
       <GoogleMap
-        mapContainerStyle={
-          scopedId
-            ? {
-                width: "100%",
-                height: "50vh", // Menyesuaikan tinggi peta dengan persentase viewport
-              }
-            : {}
-        }
-        mapContainerClassName="map-container"
+        
+        mapContainerClassName={mapStyle}
         {...mapOptions}
       >
         <Marker position={mapCoordinate!} icon={markerIcon} />
