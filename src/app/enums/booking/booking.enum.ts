@@ -12,3 +12,4 @@ export enum ReviewValidPayloadEnum {
   minCharacterName = 3,
   minCharacterComment = 25,
 }
+

@@ -23,11 +23,11 @@ export function CheckoutAmountSection({
     <>
       <div
         id="amountSection"
-        className="flex flex-col gap-6 lg:flex lg:flex-col lg:gap-6 lg:col-span-4 lg:sticky lg:top-5 shadow-lg"
+        className="flex flex-col gap-6 mb-44 md:mb-0 mt-4 md:mt-0 lg:flex lg:flex-col lg:gap-6 lg:col-span-4 lg:sticky lg:top-5 shadow-lg"
       >
         <div className="amount-section bg-white rounded-lg p-5 lg:block">
-          <div className="mb-6 mt-3">
-            <div className="text-sm sm:text-base !text-[#1A56DB]">
+          <div className="mb-6 mt-3 bg-[#5FA22A] p-4 rounded-md">
+            <div className="text-sm sm:text-base  text-white">
               Free cancellation (depend on each package)
             </div>
           </div>
@@ -161,61 +161,6 @@ export function CheckoutAmountSection({
                   )})`}
               </span>
             )}
-          </div>
-        </div>
-
-        {/*   <!-- Sticky total Tablet--> */}
-        <div className="hidden sm:block lg:hidden total-amount-section bg-gray-200 bg-opacity-20 rounded-xl sticky top-24 p-5">
-          <div className="flex gap-2 w-1/4 mx-auto mb-3">
-            <span className="text-gray-500 text-lg">Amount</span>
-            <span className="ml-auto text-end font-bold text-lg text-[#EB5E00]">
-              {/* {{ idrCurrencyFormat(amount)
-                                }}{{
-                                    amountUsd > 0 ? `($${amountUsd})` : ""
-                                }} */}
-            </span>
-          </div>
-          <hr />
-          <div className="hidden sm:flex sm:flex-col lg:hidden gap-4 items-start mt-3">
-            <span className="w-full">
-              Your booking will be submitted once you continue to the next step.
-              (You can choose your payment method in the next step)
-            </span>
-            <button
-              /* @click="handleToPayment" */
-              className="ml-auto w-auto px-8 py-2 bg-gradient-to-r bg-[#EB5E00] text-white font-bold rounded-lg transition-transform transform-gpu hover:-translate-y-1 hover:shadow-lg"
-            >
-              Go to payment
-            </button>
-          </div>
-        </div>
-        {/* <!-- Payment checkout mobile view --> */}
-        <div
-          id="mobileCheckout"
-          className="hidden sm:hidden h-auto p-5 elevation-4 sticky bottom-0 left-0 right-0 bg-white"
-        >
-          <div className="flex gap-4 w-full mb-2">
-            <span className="text-gray-500 text-lg">Amount</span>
-            <span className="ml-auto text-[#EB5E00] text-end font-bold text-lg">
-              {/* {{ idrCurrencyFormat(amount)
-                                }}{{
-                                    amountUsd > 0 ? `($${amountUsd})` : ""
-                                }} */}
-            </span>
-          </div>
-          <hr />
-          <div className="flex flex-col gap-4 items-start mt-4">
-            <span className="w-full font-bold text-xs">
-              Your booking will be submitted once you continue to the next step.
-              (You can choose your payment method in the next step)
-            </span>
-            <button
-              /*   @click="handleToPayment"
-                                :disabled="processingPayment" */
-              className="mx-auto w-auto px-8 py-2 bg-gradient-to-r bg-[#EB5E00] text-white font-bold rounded-lg transition-transform transform-gpu hover:-translate-y-1 hover:shadow-lg"
-            >
-              Go to payment
-            </button>
           </div>
         </div>
       </div>

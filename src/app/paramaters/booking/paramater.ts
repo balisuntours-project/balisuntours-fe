@@ -1,4 +1,4 @@
-import { ActivityPackageTypeEnum } from "@/app/enums/activity/activity.enum";
+import { ActivityPackageSelfConfirmationStatus, ActivityPackageTypeEnum } from "@/app/enums/activity/activity.enum";
 import {
   CheckoutDataPackageResponse,
   CheckoutDepartureResponse,
@@ -30,6 +30,7 @@ export interface CheckoutMappedPackageDataParamater {
   activity_package_uuid: string;
   activity_date: string;
   cart_uuids: Array<string>;
+  self_confirmation: ActivityPackageSelfConfirmationStatus;
   package_title: string;
   package_type: ActivityPackageTypeEnum;
   final_price: number;
@@ -58,6 +59,8 @@ export interface CheckoutPackageOrderDataPayload
   extends Pick<
     CheckoutMappedPackageDataParamater,
     | "base_uuid"
+    | "self_confirmation"
+    | "package_title"
     | "cart_uuids"
     | "activity_package_uuid"
     | "activity_date"

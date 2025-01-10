@@ -42,7 +42,7 @@ export function GoogleMapDialogComponent(props: Partial<GoogleMapViewParamater> 
                        
                     </DialogTitle>
                     {/* Menampilkan komponen peta */}
-                    <GoogleMapViewComponent readonlyMap={props.readonlyMap} scopedId={props.scopedId} />
+                    <GoogleMapViewComponent mapStyle="w-full h-[200px] md:h-[450px]" readonlyMap={props.readonlyMap} scopedId={props.scopedId} />
                 </DialogHeader>
             </DialogContent>
         </Dialog>

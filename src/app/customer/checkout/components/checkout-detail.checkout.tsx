@@ -90,7 +90,7 @@ export function CheckoutDetail({
 
       const packageMappedDataBowl: Array<CheckoutMappedPackageDataParamater> =
         [];
-      const mappingData = checkoutPackages.forEach((item, key) => {
+      checkoutPackages.forEach((item, _) => {
         const activityDate = item.prices[0].activity_date; // ambil satu date untuk mapping dipakai pada package yang sesuai
         const sameActivityDateAndPackage = packageMappedDataBowl.find(
           (data) =>
@@ -122,6 +122,7 @@ export function CheckoutDetail({
 
           const payload = {
             base_uuid: item.base_uuid,
+            self_confirmation: item.self_confirmation,
             activity_package_uuid: item.activity_package_uuid,
             cart_uuids: item.cart_uuids,
             package_title: item.package_title,
@@ -189,13 +190,20 @@ export function CheckoutDetail({
     }
   }, [checkoutPackages]);
 
+  const [isPackageStateLoaded, setIsPackageStateLoaded] = useState<boolean>(false)
+  useEffect(() => {
+    if(checkoutPackageBookingData) {
+      setIsPackageStateLoaded(true)
+    }
+  }, [checkoutPackageBookingData])
+
   return (
     <>
       <div className="lg:grid lg:grid-cols-12 lg:gap-6 items-start">
         <div className="col-span-8 bg-white rounded-lg h-auto shadow-lg sm:mb-6">
           <div className="p-5 sm:p-5 lg:p-8">
-            <div className="flex gap-3 text-sm sm:text-base bg-[#5FA22A] text-white !py-3 p-4 rounded-md">
-              <CheckCircle />
+            <div className="flex gap-3 items-center text-sm sm:text-base bg-[#5FA22A] text-white !py-3 p-4 rounded-md">
+            <CheckCircle className="w-6 h-6 flex-shrink-0" />
               <p>
                 {" "}
                 Please enter your info carefully. Once submitted it cannot be
@@ -220,7 +228,7 @@ export function CheckoutDetail({
             ))}
 
             {/* Travaeller information section */}
-            <CheckoutForm userData={userData} />
+            <CheckoutForm minCost={minCost} userData={userData} />
           </div>
         </div>
 

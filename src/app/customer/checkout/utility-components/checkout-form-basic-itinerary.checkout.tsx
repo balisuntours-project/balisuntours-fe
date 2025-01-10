@@ -9,7 +9,7 @@ import {
 import { AdormentInput } from "@/components/ui/adorment-input";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { DEFAULT_LAT, DEFAULT_LNG, DEFAULT_ZOOM } from "@/lib/global.constant";
+import { CHECKOUT_INPUT_STYLE, DEFAULT_LAT, DEFAULT_LNG, DEFAULT_ZOOM } from "@/lib/global.constant";
 import {
   Select,
   SelectContent,
@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/select";
 import { useGoogleMapStore } from "@/app/store/google-map.store";
 import { useEffect } from "react";
+import { useCheckoutBookingProvider } from "../provider/checkout-booking.provider";
 
 export function CheckoutFormBasicItineraryType({
   pickupTimeList,
@@ -35,6 +36,7 @@ export function CheckoutFormBasicItineraryType({
   const setBookingScopedState = useBookingStore(
     (state) => state.setScopedState
   );
+  const setIsCheckoutButtonTriggered = useBookingStore((state) => state.setIsCheckoutButtonTriggered);
 
   const dataPayload: CheckoutBasicItineraryPayloadData = scopedBookingState
     .checkoutPayload?.departure
@@ -78,6 +80,39 @@ export function CheckoutFormBasicItineraryType({
     );
   };
 
+  const isCheckoutButtonTriggered = useBookingStore(
+    (state) => state.isCheckoutButtonTriggered
+  );
+
+  //diambil dari context provider
+  const { pickupTimeRef } = useCheckoutBookingProvider();
+
+  useEffect(() => {
+    if (isCheckoutButtonTriggered) {
+        setIsCheckoutButtonTriggered(false)
+      if (
+        pickupTimeRef.current &&
+        !scopedBookingState.checkoutPayload?.pickup_time
+      ) {
+        pickupTimeRef.current.classList.remove("hidden");
+        pickupTimeRef.current.classList.add("block");
+        pickupTimeRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
+    }
+  }, [isCheckoutButtonTriggered]);
+
+  useEffect(() => {
+    if (scopedBookingState.checkoutPayload) {
+      if (scopedBookingState.checkoutPayload.pickup_time && pickupTimeRef.current) {
+        pickupTimeRef.current.classList.add("hidden");
+        pickupTimeRef.current.classList.remove("block");
+      }
+    }
+  }, [scopedBookingState.checkoutPayload]);
+
   return (
     <>
       <div className="mt-2 lg:mt-4">
@@ -97,7 +132,7 @@ export function CheckoutFormBasicItineraryType({
               readOnly
               required
               value={dataPayload.departure_title}
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              className={CHECKOUT_INPUT_STYLE}
             />
           </div>
           <div className="flex flex-col gap-1">
@@ -105,7 +140,7 @@ export function CheckoutFormBasicItineraryType({
               *Select meet up time
             </Label>
             <Select onValueChange={changeValue}>
-              <SelectTrigger className="px-4 py-2">
+              <SelectTrigger className="px-4 py-2 text-base md:text-sm">
                 <SelectValue placeholder="Select a time" />
               </SelectTrigger>
               <SelectContent>
@@ -120,6 +155,12 @@ export function CheckoutFormBasicItineraryType({
                 </SelectGroup>
               </SelectContent>
             </Select>
+            <p
+              className="activity-date-info text-xs md:text-sm text-red-500 hidden"
+              ref={pickupTimeRef}
+            >
+              What time we meet up?
+            </p>
           </div>
 
           <div className="flex flex-col gap-1 col-span-2">
@@ -133,7 +174,7 @@ export function CheckoutFormBasicItineraryType({
                   placeholder="Departure Location"
                   readOnly
                   required
-                  className="pl-10 pr-4 py-2 border cursor-pointer rounded-lg focus:outline-none focus:ring focus:border-blue-300 w-full"
+                  className="pl-10 pr-4 py-2 text-base md:text-sm border cursor-pointer rounded-lg focus:outline-none focus:ring focus:border-blue-300 w-full"
                   value={dataPayload.departure_map_location}
                   startAdornment={
                     <i className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">

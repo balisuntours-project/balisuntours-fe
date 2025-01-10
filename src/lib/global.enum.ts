@@ -67,3 +67,9 @@ export enum CurrencyListSymbolEnum {
   yen = "JP¥", // Japanese Yen
   ruble = "₽", // Russian Ruble
 }
+
+
+export enum PaymentGatewayEnum {
+  IPAYMU = "ipaymu",
+  IPAY88 = "ipay88",
+}

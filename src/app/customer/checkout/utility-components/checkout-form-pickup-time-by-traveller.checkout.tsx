@@ -1,7 +1,10 @@
 "use client";
 
 import { GoogleMapViewComponent } from "@/app/global-components/utility-components/google-map.view";
-import { defaultBookingScopedState, useBookingStore } from "@/app/store/booking.store";
+import {
+  defaultBookingScopedState,
+  useBookingStore,
+} from "@/app/store/booking.store";
 
 import { Label } from "@/components/ui/label";
 import {
@@ -14,6 +17,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useEffect } from "react";
+import { useCheckoutBookingProvider } from "../provider/checkout-booking.provider";
+import { defaultScopedMapCoordinate, useGoogleMapStore } from "@/app/store/google-map.store";
 
 export function CheckoutFormPickupTimeByTravellerType({
   pickupTimeList,
@@ -22,24 +27,86 @@ export function CheckoutFormPickupTimeByTravellerType({
   pickupTimeList: Array<string>;
   baseUuid: string;
 }) {
+  const scopedBookingState = useBookingStore(
+    (state) => state.bookingScopedState[baseUuid] || defaultBookingScopedState
+  );
+  const scopedMapState = useGoogleMapStore(
+    (state) => state.mapScopedState[baseUuid] || defaultScopedMapCoordinate
+  );
+  const setBookingScopedState = useBookingStore(
+    (state) => state.setScopedState
+  );
+  const setIsCheckoutButtonTriggered = useBookingStore((state) => state.setIsCheckoutButtonTriggered);
 
-    const scopedBookingState = useBookingStore(
-        (state) => state.bookingScopedState[baseUuid] || defaultBookingScopedState
-      );
-    const setBookingScopedState = useBookingStore((state) => state.setScopedState)
-
-    const changeValue = (value: string) => {
-        setBookingScopedState(baseUuid, 'checkoutPayload' , scopedBookingState.checkoutPayload ? {
+  const changeValue = (value: string) => {
+    setBookingScopedState(
+      baseUuid,
+      "checkoutPayload",
+      scopedBookingState.checkoutPayload
+        ? {
             ...scopedBookingState.checkoutPayload,
-            pickup_time: value
-        } : undefined)
+            pickup_time: value,
+          }
+        : undefined
+    );
+  };
+
+  const isCheckoutButtonTriggered = useBookingStore(
+    (state) => state.isCheckoutButtonTriggered
+  );
+
+  const { pickupTimeRef, mapLocationRef } = useCheckoutBookingProvider();
+
+  useEffect(() => {
+    if (isCheckoutButtonTriggered) {
+        setIsCheckoutButtonTriggered(false)
+      if (
+        mapLocationRef.current &&
+        !scopedMapState.mapScopedPayload?.name
+      ) {
+        mapLocationRef.current.classList.remove("hidden");
+        mapLocationRef.current.classList.add("block");
+        mapLocationRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
+
+      if (
+        pickupTimeRef.current &&
+        !scopedBookingState.checkoutPayload?.pickup_time
+      ) {
+        pickupTimeRef.current.classList.remove("hidden");
+        pickupTimeRef.current.classList.add("block");
+        pickupTimeRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
+    }
+  }, [isCheckoutButtonTriggered]);
+
+  useEffect(() => {
+    if(scopedMapState.mapScopedPayload) {
+        if (
+            scopedMapState.mapScopedPayload.name &&
+            mapLocationRef.current
+          ) {
+            mapLocationRef.current.classList.add("hidden");
+            mapLocationRef.current.classList.remove("block");
+          }
     }
 
-    useEffect(() => {
-           if(scopedBookingState.checkoutPayload){
-                console.log(scopedBookingState.checkoutPayload)
-            }
-    }, [scopedBookingState.checkoutPayload])
+    if (scopedBookingState.checkoutPayload) {
+      if (
+        scopedBookingState.checkoutPayload.pickup_time &&
+        pickupTimeRef.current
+      ) {
+        pickupTimeRef.current.classList.add("hidden");
+        pickupTimeRef.current.classList.remove("block");
+      }
+    }
+  }, [scopedBookingState.checkoutPayload, scopedMapState.mapScopedPayload]);
 
   return (
     <>
@@ -52,14 +119,21 @@ export function CheckoutFormPickupTimeByTravellerType({
             *Pickup location & map
             <span className="italic">
               (NOTE: Pick-up points outside the
-              <span className="font-bold">(Coverage Pickup Location)</span>
+              <span className="font-bold">{" "}(Coverage Pickup Location){" "}</span>
               areas will incur additional charges)
             </span>
           </Label>
 
           <div className="relative">
             <div className="w-full h-[250px] lg:h-[400px] mt-2">
+              <p
+                className="activity-date-info text-xs md:text-sm text-red-500 hidden"
+                ref={mapLocationRef}
+              >
+                Where we will pick you up?
+              </p>
               <GoogleMapViewComponent
+              mapStyle="w-full h-[200px] md:h-[350px]"
                 scopedId={baseUuid}
                 withSearchAutoComplete={true}
                 readonlyMap={false}
@@ -70,47 +144,31 @@ export function CheckoutFormPickupTimeByTravellerType({
           <div className="mt-auto p-5 border-2 rounded-lg flex flex-col gap-2 sm:grid sm:grid-cols-2 sm:gap-4">
             <div className="relative col-span-2">
               <Label htmlFor="pickup-time" className="font-bold">
-                *Select Pickup Time (Required)
+                *Select Pickup Time
               </Label>
               <Select onValueChange={changeValue}>
-                <SelectTrigger className="px-4 py-2">
+                <SelectTrigger className="px-4 py-2 text base md:text-sm">
                   <SelectValue placeholder="Select a time" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel>Pickup time</SelectLabel>
-                        {pickupTimeList.length > 0 && pickupTimeList.map((time, key) => (
-                            <SelectItem key={key} value={time}>{time}</SelectItem>
-                        ))}
+                    {pickupTimeList.length > 0 &&
+                      pickupTimeList.map((time, key) => (
+                        <SelectItem key={key} value={time}>
+                          {time}
+                        </SelectItem>
+                      ))}
                   </SelectGroup>
                 </SelectContent>
               </Select>
-              {/*   <select
-              v-model="
-                                                packageOrderData[index]
-                                                    .pickup_time
-                                            "
-              required
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-            >
-              <option value="" disabled selected>
-                Select a time
-              </option>
-              <option
-                v-if="
-                                                    packageOrderData[index]
-                                                        ?.default_pickup_time
-                                                "
-                v-for="(
-                                                    time, key
-                                                ) in packageOrderData[index]
-                                                    .default_pickup_time"
-                :key="key"
-                                                :value="time"
+              <p
+                className="activity-date-info text-xs md:text-sm text-red-500 hidden"
+                ref={pickupTimeRef}
               >
-                 {{ time }}
-              </option>
-            </select> */}
+                What time we should pick you up?
+              </p>
+            
             </div>
           </div>
         </div>

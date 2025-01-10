@@ -3,6 +3,7 @@ import { ActivityCoordinateResponse, CheckoutDataActivityResponse } from "../act
 import { ActivityPackageTypeEnum } from "@/app/enums/activity/activity.enum"
 import { BookingPriceResponse } from "../activity-package-price/response"
 import { CheckoutDataPackageResponse } from "../activity-package/response"
+import { PaymentGatewayEnum } from "@/lib/global.enum"
 
 export interface BookingResponse {
     bookings: Array<BookingDetailResponse>,
@@ -85,4 +86,19 @@ export interface CheckoutUserDataRespnse {
     name: string,
     phone: string,
     uuid: string,
+}
+
+export interface CheckoutBookingResponse{
+    payment_gateway : PaymentGatewayEnum,
+    payload: CheckoutBookingIpay88Response | CheckoutBookingIpaymuResponse
+}
+
+export interface CheckoutBookingIpaymuResponse {
+    next_url : string
+}
+
+export interface CheckoutBookingIpay88Response {
+    checkout_id: string,
+    signature: string,
+    checkout_url: string,
 }
