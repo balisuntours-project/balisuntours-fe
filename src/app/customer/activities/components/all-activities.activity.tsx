@@ -12,13 +12,14 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import ActivityCardSkeleton from "@/app/skeletons-component/activity-card.skeleton";
+
 import { useAllActivityStore } from "@/app/store/all-activity.store";
 import { AllActivitiesParamater } from "@/app/paramaters/activity/paramater";
 import { GlobalUtility } from "@/lib/global.utility";
 import { ExpandedButton } from "@/components/custom-ui/expanded.button";
 import { AllActivityRecomendationWhenFilterNone } from "./all-activity-recomendation.none";
 import { ActivityAction } from "@/app/actions/activity/action";
+import { ActivityCardSkeleton } from "@/app/skeletons-component/activity-card.skeleton";
 
 export function AllActivitiesList({
   activities,
@@ -217,7 +218,7 @@ export function AllActivitiesList({
         {!onChangePage && !onFiltering ? (
           <ActivityCardList />
         ) : (
-          [...Array(12)].map((_, index) => <ActivityCardSkeleton key={index} />)
+          [...Array(12)].map((_, index) => <ActivityCardSkeleton withStyledConfig={true} key={index} />)
         )}
       </div>
 

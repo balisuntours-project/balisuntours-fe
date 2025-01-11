@@ -53,7 +53,7 @@ export function HeroBannerComponent({
     if (swiperRef.current) {
       const currentSlideIndex = swiperRef.current.realIndex;
       const currentItem = BANNER_LANDING_PAGE[currentSlideIndex];
-      const isVideo = currentItem.endsWith(".mp4");
+      const isVideo = currentItem?.endsWith(".mp4");
 
       clearVideoTimer(); // Bersihkan timer sebelumnya
 
@@ -123,7 +123,7 @@ export function HeroBannerComponent({
           className="w-full h-[500px] md:h-[650px] lg:h-[600px]"
         >
           {BANNER_LANDING_PAGE.map((item, index) => {
-            const isVideo = item.endsWith(".mp4");
+            const isVideo = item?.endsWith(".mp4");
             return (
               <SwiperSlide key={index}>
                 <div className="flex items-center justify-center p-0 h-full">
@@ -132,7 +132,7 @@ export function HeroBannerComponent({
                       ref={(el) => {
                         if (el) videoRefs.current[index] = el; // Simpan reference video
                       }}
-                      poster="/banner-3.jpg"
+                      poster="/banner-thumbnail.jpg"
                       preload="none"
                       autoPlay
                       muted

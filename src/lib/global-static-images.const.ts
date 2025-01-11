@@ -1,1 +1,1 @@
-export const BANNER_LANDING_PAGE = [ "/baner-video.mp4", "/banner-1.jpg", "/banner-2.jpg", "/banner-3.jpg"];
+export const BANNER_LANDING_PAGE = [ "/banner-video.mp4", "/banner-1.jpg", "/banner-2.jpg", "/banner-3.jpg"];
