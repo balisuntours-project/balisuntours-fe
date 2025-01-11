@@ -16,7 +16,7 @@ export function LandingPageFooterSection() {
       <div>
         
         <div className="">
-          <div className="w-full md:w-[90%] px-0 sm:px-6 text-gray-800 sm:grid md:grid-cols-4 sm:grid-cols-2 mx-auto">
+          <div className="w-full md:w-[90%] px-0 sm:px-6 text-gray-800 sm:grid md:grid-cols-3  sm:grid-cols-2 mx-auto">
             <div className=" md:ps-0 md:pb-0 flex items-start w-[140px] md:w-[180px] h-[140px] md:h-[180px] md:block">
               <div className=" md:ps-0 md:pb-0" id="tripadvisor-widget">
                 <div
@@ -41,7 +41,7 @@ export function LandingPageFooterSection() {
                 </div>
               </div>
             </div>
-            <div className="px-5 py-3 md:px-0 md:py-5 md:ps-20 md:pe-5">
+          {/*   <div className="px-5 py-3 md:px-0 md:py-5 md:ps-20 md:pe-5">
               <div className="footer-menu mb-2 md:mb-0 text-xs md:text-sm uppercase font-bold">
                 Our Services
               </div>
@@ -96,7 +96,7 @@ export function LandingPageFooterSection() {
               </a>
              
              </div>
-            </div>
+            </div> */}
             <div className="px-5 py-3 md:px-0 md:py-5 md:ps-10 md:pe-5">
               <div className="mb-2 md:mb-0 text-xs md:text-sm uppercase font-bold">Support Help</div>
              <div className="flex md:flex-col flex-wrap">
@@ -188,7 +188,7 @@ export function LandingPageFooterSection() {
               </a>
              </div>
 
-              <div className="text-[#65AD2E] font-extrabold text-[10px] md:text-xs mt-3">
+             {/*  <div className="text-[#65AD2E] font-extrabold text-[10px] md:text-xs mt-3">
                 Booking
               </div>
             <div className="flex md:flex-col flex-wrap">
@@ -209,7 +209,7 @@ export function LandingPageFooterSection() {
                 <span className="font-black">Email :</span>{" "}
                 booking@balisuntours.com
               </a>
-            </div>
+            </div> */}
 
               <div className="mb-2 md:mb-0 text-xs md:text-sm uppercase font-bold mt-8">Follow Us</div>
               <div className="md:flex-auto mt-3 flex-row flex">

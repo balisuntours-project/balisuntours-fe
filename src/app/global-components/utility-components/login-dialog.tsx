@@ -82,7 +82,7 @@ export function LoginDialog() {
         <DialogTitle>
           <div className="flex justify-center mb-6">
             <Image
-              src="/bst-logo.png"
+              src="/bst-logo-black.png"
               alt="BST LOGO"
               width="135"
               height="58"

@@ -16,7 +16,7 @@ export function LandingPageSearchBoxUtility({
       >
         {!flatPosition && (
           <h1 className="text-2xl md:text-5xl font-semibold text-white">
-            Sleep Doesn’t Help If Your Soul That’s Tired,
+            Exceed Your Needs,
           </h1>
         )}
         {!flatPosition && (

@@ -30,7 +30,7 @@ export function LargeNavbar() {
           {/* Left - Company Icon */}
           <Link href="/" className="flex-shrink-0">
             <Image
-              src="/bst-logo.png"
+              src="/bst-logo-black.png"
               alt="best-travell-agent-bali-sun-tours"
               width="135"
               height="58"
