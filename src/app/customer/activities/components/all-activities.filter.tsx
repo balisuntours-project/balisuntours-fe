@@ -29,7 +29,7 @@ export function AllActivitiesFilterBox() {
                 <MultiSelectFilter />
                 </div>
                 <div className="col-span-12 md:col-span-6 lg:col-span-5">
-                <SearchBoxComponent className="w-full rounded-md border" inputClassName="w-full bg-white h-12 rounded-lg text-xs md:text-sm line-clamp-1" listClassName="absolute top-full w-full bg-white border border-gray-200 z-50 max-h-[200px] scrollbar-hide overflow-y-auto text-xs" showSearchIcon={false} />
+                <SearchBoxComponent className="w-full rounded-md border" inputClassName="w-full bg-white h-12 rounded-lg text-base md:text-sm line-clamp-1" listClassName="absolute top-full w-full bg-white border border-gray-200 z-50 max-h-[200px] scrollbar-hide overflow-y-auto text-xs" showSearchIcon={false} />
                 </div>
             </div>
         </div>

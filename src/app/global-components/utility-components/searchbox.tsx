@@ -130,7 +130,7 @@ export function SearchBoxComponent({
             placeholder={currentPlaceholder}
             className={`${
               inputClassName ??
-              "pr-20 w-full bg-white h-12 rounded-lg text-xs md:text-sm"
+              "pr-20 w-full bg-white h-12 rounded-lg text-base md:text-sm"
             }`}
           />
           {showSearchIcon && (
@@ -144,7 +144,7 @@ export function SearchBoxComponent({
         </div>
         <CommandList
           className={`${isShowList.length > 0 ? "block" : "hidden"} ${
-            listClassName ?? "max-h-[200px] overflow-y-scroll scrollbar-hide"
+            listClassName ?? "max-h-[200px] overflow-y-scroll  w-full text-start scrollbar-hide"
           }`}
         >
           <CommandEmpty>No activities found.</CommandEmpty>
