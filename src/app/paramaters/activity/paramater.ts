@@ -19,6 +19,7 @@ export type ActivityCardProps = {
   useMobileHeight?: boolean;
   showDesciption?: string;
   showTags?: boolean;
+  withStyledConfig?: boolean;
 };
 
 export interface ActivityTags {

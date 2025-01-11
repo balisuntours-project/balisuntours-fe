@@ -176,6 +176,7 @@ export function AllActivitiesList({
                     first_tag: "Popular",
                     second_tag: "Best Experience",
                   }}
+                  withStyledConfig={true}
                 />
               </div>
             ))
@@ -200,6 +201,7 @@ export function AllActivitiesList({
                   first_tag: "Popular",
                   second_tag: "Best Experience",
                 }}
+                withStyledConfig={true}
               />
             </div>
           ))}
