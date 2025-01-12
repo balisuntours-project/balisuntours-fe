@@ -25,7 +25,7 @@ export function AllActivityRecomendationWhenFilterNone({children} : {children: R
 
     return (
         <>
-        <div className="flex flex-col col-span-4 items-center justify-center h-full p-4 text-center mx-auto">
+        <div className="flex flex-col col-span-4 items-center justify-center p-4 text-center mx-auto">
               <TentTree strokeWidth={2.75} className="h-14 w-14 md:h-9 md:w-9 text-gray-400 mb-4" />
               <h2 className="text-xl font-semibold text-gray-800">
                 No Activities Found

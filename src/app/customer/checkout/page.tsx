@@ -1,6 +1,7 @@
 import { BookingServerAction } from "@/app/actions/booking/action.server";
 import { SmallNavbar } from "@/app/global-components/small.navbar";
 import { CheckoutDetail } from "./components/checkout-detail.checkout";
+import { notFound } from "next/navigation";
 
 export default async function CheckoutBooking({
   searchParams,
@@ -13,9 +14,17 @@ export default async function CheckoutBooking({
     const result = await BookingServerAction.GetBookingCheckoutData(
       cartUuidsParam as string
     );
+
+    if(!result.success) {
+      notFound()
+    }
+
     data = result.data
   }
   
+  
+
+
   return (
     <>
       <SmallNavbar />

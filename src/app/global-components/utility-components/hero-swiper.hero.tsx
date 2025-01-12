@@ -26,7 +26,7 @@ export function HeroBannerComponent({
 
   // Fungsi untuk memulai autoplay
   const startAutoplay = () => {
-    if (swiperRef.current && swiperRef.current.params.autoplay) {
+    if (swiperRef.current && swiperRef.current.params?.autoplay) {
       swiperRef.current.params.autoplay = {
         delay: 4000,
         //disableOnInteraction: true
