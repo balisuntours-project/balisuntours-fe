@@ -9,4 +9,4 @@ Disallow: /admin/
 Allow: /
 
 # Sitemap location
-Sitemap: http://localhost:3000/sitemap.xml
+Sitemap: https://featour.com/sitemap.xml

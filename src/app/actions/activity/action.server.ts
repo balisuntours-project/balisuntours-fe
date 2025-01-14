@@ -106,6 +106,27 @@ export class ActivityActionServer {
     };
   }
 
+    static async GetActivityDetailSitemap(): Promise<
+      ActivityActionResponse<Array<ActivityDetailSitemap>>
+    > {
+      try {
+        const action = await apiServer("/api/customer/sitemap/activity", {
+          method: "GET",
+        });
+  
+        if (!action.ok) {
+          GlobalUtility.TriggerExceptionFetchApi(action);
+        }
+  
+        return this.handleResponse<Array<ActivityDetailSitemap>>(action);
+      } catch (error: any) {
+        console.error(error);
+        return this.handleFetchError<Array<ActivityDetailSitemap>>(
+          error.response || error
+        );
+      }
+    }
+
   static async GetPreviewDetailActivity(
     slug: string
   ): Promise<ActivityActionResponse<ActivityDetailResponse>> {
