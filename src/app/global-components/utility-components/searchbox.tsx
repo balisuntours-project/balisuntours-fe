@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
-import { api }from "@/lib/axios-instance";
-import { SearchIcon } from "lucide-react";
+import { api } from "@/lib/axios-instance";
+import { Search, SearchIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import {
   Command,
@@ -60,8 +60,9 @@ export function SearchBoxComponent({
   };
 
   const getPopularActivityPlaceholder = async (): Promise<void> => {
-    const finalResult = await ActivityAction.GetPopularActivityTitleForPlaceholder()
-      setPlaceHolders(finalResult.data);
+    const finalResult =
+      await ActivityAction.GetPopularActivityTitleForPlaceholder();
+    setPlaceHolders(finalResult.data);
   };
 
   const getAllActivitiesTitle = async (): Promise<void> => {
@@ -73,9 +74,7 @@ export function SearchBoxComponent({
     if (isShowList.length < 1) {
       return;
     }
-    router.push(
-      `/customer/activities?title=${isShowList}`
-    );
+    router.push(`/customer/activities?title=${isShowList}`);
   };
 
   useEffect(() => {
@@ -136,15 +135,18 @@ export function SearchBoxComponent({
           {showSearchIcon && (
             <button
               onClick={() => toAllActivity()}
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-[#008000] text-white px-4 py-2 rounded-lg font-semibold text-xs md:text-sm"
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-[#008000] text-white px-2 md:px-4 py-2 rounded-full md:rounded-lg font-semibold text-xs md:text-sm"
             >
-              Search
+              <span className="hidden md:block">Search</span>
+              <Search className="block md:hidden" size={16} />
             </button>
+          
           )}
         </div>
         <CommandList
           className={`${isShowList.length > 0 ? "block" : "hidden"} ${
-            listClassName ?? "max-h-[200px] overflow-y-scroll  w-full text-start scrollbar-hide"
+            listClassName ??
+            "max-h-[200px] overflow-y-scroll  w-full text-start scrollbar-hide"
           }`}
         >
           <CommandEmpty>No activities found.</CommandEmpty>

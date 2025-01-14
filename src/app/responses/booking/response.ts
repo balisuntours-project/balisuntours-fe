@@ -42,6 +42,7 @@ export interface BookingPackageDetailResponse {
     activity_date: string,
     activity_id: number,
     activity_title: string,
+    activity_slug: string,
     activity_uuid: string,
     additional_information: string|null,
     eligibility: string|null,

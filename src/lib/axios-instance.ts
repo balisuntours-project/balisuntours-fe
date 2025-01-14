@@ -95,7 +95,10 @@ const handleUnauthorizedError = async (
       return retriedResponse;
     } catch (refreshError) {
       console.error("Failed to refresh token:", refreshError);
-  
+      //remove cookie2 yang membandel
+      Cookies.remove("assec", { path: "/", domain: process.env.TOP_LEVEL_DOMAIN });
+      Cookies.remove("google-login", { path: "/", domain: process.env.TOP_LEVEL_DOMAIN });
+
       // Jika refresh token juga gagal (401 atau lainnya), kembalikan response asli
       return oldResponse; // Kembalikan response asli ke pemanggil
     } finally {

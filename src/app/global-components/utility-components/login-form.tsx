@@ -24,7 +24,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { DisabledButton } from "@/components/custom-ui/disabled.buttont";
 
-export function LoginForm() {
+export function LoginForm({onClick} : {onClick?: () => void}) {
   const { toast } = useToast();
 
   const LoginForm = useForm<z.infer<typeof LoginFormSchema>>({
@@ -47,12 +47,15 @@ export function LoginForm() {
   );
   const setShowAuthPopup = useAuthPopupStore((state) => state.setShowAuthPopup);
   const [onLoadLogin, setOnLoadLogin] = useState(false)
+  const setIsLogin = useAuthStore((state) => state.setIsLogin);
+
   const handleLogin = async (values: z.infer<typeof LoginFormSchema>) => {
     setOnLoadLogin(true)
     values.password = btoa(values.password);
     const action = await AuthAction.LoginUser(values);
     setOnLoadLogin(false)
     if (action) {
+      setIsLogin(true)
       setShowLoginDialog(false);
       setShowAuthPopup(false);
     } else {
@@ -153,7 +156,7 @@ export function LoginForm() {
           <p>
             Don't have an account?{" "}
             <span
-              onClick={() => !onLoadLogin ? setOnLoginDialog(false) : undefined}
+              onClick={onClick ? onClick : () => !onLoadLogin ? setOnLoginDialog(false) : undefined}
               className="text-[#008000] font-bold cursor-pointer"
             >
               Sign up

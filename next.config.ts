@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
 },
   output: 'standalone',
   images: {
-    domains: ['booking.balisuntours.com', 'source.unsplash.com', 'localhost', 'images.unsplash.com', 'ui-avatars.com', 'be.featour.com'],
+    domains: ['booking.balisuntours.com', 'source.unsplash.com', 'localhost', 'images.unsplash.com', 'ui-avatars.com', 'be.featour.com', '0640-103-190-47-55.ngrok-free.app'],
   }
 };
 

@@ -39,7 +39,7 @@ export function DetailActivityReviews(props: DetailActivityReviewParamater) {
           </p>
         )}
 
-        {props.more_reviews_url ? (
+        {props.more_reviews_url && GlobalUtility.IsValidUrl(props.more_reviews_url) ? (
           <div className="flex justify-center items-center mt-8">
             <Link
               href={props.more_reviews_url}

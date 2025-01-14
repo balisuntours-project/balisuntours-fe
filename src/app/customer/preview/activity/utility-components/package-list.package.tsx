@@ -61,7 +61,7 @@ export function PackageListPackage(props: {
     setSelectedPrices(() => newPricesData);
     setTimeout(() => {
       setSelectPackageLoadStatus(false);
-    }, 2000);
+    }, 500);
   };
 
   const selectPackageAction = async (

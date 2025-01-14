@@ -1,17 +1,24 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { AuthActionServer } from "./app/action/action.server";
+import { cookies } from "next/headers";
+
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
   // Cocokkan route yang perlu login dan memakai SSR untuk fetch api
-  if (request.nextUrl.pathname == "/customer/cart" || request.nextUrl.pathname == "/customer/booking/transaction") {
+  if (
+    request.nextUrl.pathname == "/customer/cart" ||
+    request.nextUrl.pathname == "/customer/booking/transaction" ||
+    request.nextUrl.pathname == "/customer/booking/unconfirmed" ||
+    request.nextUrl.pathname == "/customer/checkout"
+  ) {
     const token = request.cookies.get("assec")?.value;
 
     if (!token) {
       const result = await AuthActionServer.RefreshToken();
-       
+
       if (result.access_token) {
         response.cookies.set("assec", result.access_token.value, {
           path: "/",
@@ -32,9 +39,28 @@ export async function middleware(request: NextRequest) {
 
         return response;
       } else {
+        //hapus cookie2
+        const cookieStore = await cookies();
+        cookieStore.delete("assec")
+        cookieStore.delete("refresh")
+        cookieStore.delete("google-login")
+        
         // Jika refresh token gagal, redirect ke halaman login
         return NextResponse.redirect(new URL("/", request.url));
       }
+    }
+  }
+
+  if (
+    request.nextUrl.pathname == "/customer/signup" ||
+    request.nextUrl.pathname == "/customer/signin"
+  ) {
+    const token = request.cookies.get("assec")?.value;
+
+    if (token) {
+      return NextResponse.redirect(new URL("/", request.url));
+    } else {
+      return response;
     }
   }
 

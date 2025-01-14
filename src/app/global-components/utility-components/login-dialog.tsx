@@ -19,6 +19,7 @@ import { RegisterForm } from "./register-form";
 import { GlobalUtility } from "@/lib/global.utility";
 import { useAuthStore } from "@/app/store/auth.store";
 import { useAuthPopupStore } from "@/app/store/auth-popup.store";
+import { PollingLoginDialogPopUpToken } from "./polling-login-dialog.popup";
 
 export function LoginDialog() {
   const showLoginDialog = useLandingPageStore((state) => state.showLoginDialog);
@@ -33,45 +34,46 @@ export function LoginDialog() {
   const setShowBrowserPopupDialog = useAuthStore(
     (state) => state.setShowBrowserPopupDialog
   );
-  const isLogin = useAuthStore((state) => state.isLogin);
+
   const setIsLogin = useAuthStore((state) => state.setIsLogin);
 
   const setShowAuthPopup = useAuthPopupStore((state) => state.setShowAuthPopup);
   const showAuthPopup = useAuthPopupStore((state) => state.showAuthPopup);
 
-  useEffect(() => {
-    let interval: NodeJS.Timeout | null = null;
+  // useEffect(() => {
+  //   let interval: NodeJS.Timeout | null = null;
 
-    const getTheCookie = async () => {
-      try {
-        interval = setInterval(async () => {
-          const cookie = GlobalUtility.GetLoginStatusCookie(); // Ambil cookie
+  //   const getTheCookie = async () => {
+  //     try {
+  //       interval = setInterval(async () => {
+  //         const cookie = GlobalUtility.GetLoginStatusCookie(); // Ambil cookie
             
-          if (cookie) {
-            setIsLogin(true);
-            if (interval) clearInterval(interval); // Hentikan polling
-            if (showBrowserPopup)
-              showBrowserPopup.close(), setShowAuthPopup(false) , setShowLoginDialog(false); // Tutup popup
-            setShowBrowserPopupDialog(null); // Reset state
-          }
-        }, 1000); // Periksa cookie setiap 1 detik
-      } catch (error) {
-        console.error("Error saat memeriksa cookie:", error);
-      }
-    };
+  //         if (cookie) {
+  //           setIsLogin(true);
+  //           if (interval) clearInterval(interval); // Hentikan polling
+  //           if (showBrowserPopup)
+  //             showBrowserPopup.close(), setShowAuthPopup(false) , setShowLoginDialog(false); // Tutup popup
+  //           setShowBrowserPopupDialog(null); // Reset state
+  //         }
+  //       }, 1000); // Periksa cookie setiap 1 detik
+  //     } catch (error) {
+  //       console.error("Error saat memeriksa cookie:", error);
+  //     }
+  //   };
 
-    getTheCookie();
+  //   getTheCookie();
 
-    return () => {
-      if (interval) clearInterval(interval); // Bersihkan interval saat komponen dilepas
-    };
-  }, [showBrowserPopup]);
+  //   return () => {
+  //     if (interval) clearInterval(interval); // Bersihkan interval saat komponen dilepas
+  //   };
+  // }, [showBrowserPopup]);
 
-  useEffect(() => {
-    console.log(showAuthPopup)
-}, [showAuthPopup])
+
+  
 
   return (
+  <>
+  <PollingLoginDialogPopUpToken />
     <Dialog
       open={showLoginDialog || showAuthPopup}
       onOpenChange={() => (setShowLoginDialog(false), setShowAuthPopup(false))}
@@ -82,7 +84,7 @@ export function LoginDialog() {
         <DialogTitle>
           <div className="flex justify-center mb-6">
             <Image
-              src="/bst-logo-black.png"
+              src="/bst-logo.png"
               alt="BST LOGO"
               width="135"
               height="58"
@@ -96,5 +98,6 @@ export function LoginDialog() {
         {!onLoginDialog && <RegisterForm />}
       </DialogContent>
     </Dialog>
+  </>
   );
 }

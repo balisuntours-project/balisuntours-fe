@@ -25,8 +25,8 @@ import { useAuthPopupStore } from "@/app/store/auth-popup.store";
 import { useToast } from "@/hooks/use-toast";
 import { DisabledButton } from "@/components/custom-ui/disabled.buttont";
 
-export function RegisterForm() {
-  const {toast} = useToast()
+export function RegisterForm({ onClick }: { onClick?: () => void }) {
+  const { toast } = useToast();
   const RegisterForm = useForm<z.infer<typeof RegisterFormSchema>>({
     resolver: zodResolver(RegisterFormSchema),
     defaultValues: {
@@ -43,21 +43,28 @@ export function RegisterForm() {
   const setOnLoginDialog = useLandingPageStore(
     (state) => state.setOnLoginDialog
   );
-  const setShowLoginDialog = useLandingPageStore((state) => state.setShowLoginDialog)
-  const setShowBrowserPopupDialog = useAuthStore((state) => state.setShowBrowserPopupDialog)
+  const setShowLoginDialog = useLandingPageStore(
+    (state) => state.setShowLoginDialog
+  );
+  const setShowBrowserPopupDialog = useAuthStore(
+    (state) => state.setShowBrowserPopupDialog
+  );
   const setShowAuthPopup = useAuthPopupStore((state) => state.setShowAuthPopup);
-  const [onLoadRegister, setOnLoadRegister] = useState(false)
+  const [onLoadRegister, setOnLoadRegister] = useState(false);
+  const setIsLogin = useAuthStore((state) => state.setIsLogin);
+
   const handleRegister = async (values: z.infer<typeof RegisterFormSchema>) => {
-    setOnLoadRegister(true)
-    values.password = btoa(values.password)
-    values.password_confirmation = btoa(values.password_confirmation)
-    const action = await AuthAction.RegisterUser(values)
-    setOnLoadRegister(false)
-    console.log(action)
-    if(action) {
-        setShowLoginDialog(false)
-        setShowAuthPopup(false)
-    }else{
+    setOnLoadRegister(true);
+    values.password = btoa(values.password);
+    values.password_confirmation = btoa(values.password_confirmation);
+    const action = await AuthAction.RegisterUser(values);
+    setOnLoadRegister(false);
+
+    if (action) {
+      setIsLogin(true);
+      setShowLoginDialog(false);
+      setShowAuthPopup(false);
+    } else {
       toast({
         description: `Something went wrong, try signup with google instead!`,
         variant: "danger",
@@ -66,16 +73,20 @@ export function RegisterForm() {
   };
 
   const handleGoogleLogin = () => {
-    const url = process.env.BACKEND_DOMAIN + "/customer/auth/jwt/google/redirect" as string;
-   const data = GlobalUtility.OpenBrowserPopup(url)
-    setShowBrowserPopupDialog(data)
-};
+    const url = (process.env.BACKEND_DOMAIN +
+      "/customer/auth/jwt/google/redirect") as string;
+    const data = GlobalUtility.OpenBrowserPopup(url);
+    setShowBrowserPopupDialog(data);
+  };
 
   return (
     <>
       <div className="max-w-lg mx-auto">
         <Form {...RegisterForm}>
-          <form onSubmit={RegisterForm.handleSubmit(handleRegister)} className="grid gap-4">
+          <form
+            onSubmit={RegisterForm.handleSubmit(handleRegister)}
+            className="grid gap-4"
+          >
             {/* Full Name */}
             <FormField
               control={RegisterForm.control}
@@ -100,46 +111,46 @@ export function RegisterForm() {
 
             {/* Phone and Email (Side by Side) */}
             <div className="grid grid-cols-2 gap-4">
-            <FormField
-              control={RegisterForm.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-700 text-sm font-semibold">
-                    Phone
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      className="border text-base border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="+628877XXXX"
-                      type="text"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
               <FormField
-              control={RegisterForm.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-700 text-sm font-semibold">
-                   Email
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      className="border text-base border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="alexander@gmail.com"
-                      type="email"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                control={RegisterForm.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-gray-700 text-sm font-semibold">
+                      Phone
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className="border text-base border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="+628877XXXX"
+                        type="text"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={RegisterForm.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-gray-700 text-sm font-semibold">
+                      Email
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className="border text-base border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="alexander@gmail.com"
+                        type="email"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
 
             {/* Password */}
@@ -188,46 +199,46 @@ export function RegisterForm() {
 
             {/* Country and City (Side by Side) */}
             <div className="grid grid-cols-2 gap-4">
-            <FormField
-              control={RegisterForm.control}
-              name="country"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-700 text-sm font-semibold">
-                    Country
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      className="border text-base border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="Australia"
-                      type="text"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-               <FormField
-              control={RegisterForm.control}
-              name="city"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-700 text-sm font-semibold">
-                   City
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      className="border text-base border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="Melbourne"
-                      type="text"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={RegisterForm.control}
+                name="country"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-gray-700 text-sm font-semibold">
+                      Country
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className="border text-base border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Australia"
+                        type="text"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={RegisterForm.control}
+                name="city"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-gray-700 text-sm font-semibold">
+                      City
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className="border text-base border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Melbourne"
+                        type="text"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
 
             {/* Register Button */}
@@ -250,7 +261,7 @@ export function RegisterForm() {
 
         {/* Google Register Button */}
         <Button
-         onClick={() => !onLoadRegister ? handleGoogleLogin() : undefined}
+          onClick={() => (!onLoadRegister ? handleGoogleLogin() : undefined)}
           variant="outline"
           className="hover:bg-[#008000] hover:text-white border-[1px] border-[#008000] w-full"
         >
@@ -261,7 +272,11 @@ export function RegisterForm() {
           <p>
             Already have an account?{" "}
             <span
-              onClick={() => !onLoadRegister ? setOnLoginDialog(true) : undefined}
+              onClick={
+                onClick
+                  ? onClick
+                  : () => (!onLoadRegister ? setOnLoginDialog(true) : undefined)
+              }
               className="text-[#008000] font-bold cursor-pointer"
             >
               Log in
