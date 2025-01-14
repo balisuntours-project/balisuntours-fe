@@ -247,4 +247,9 @@ export class GlobalUtility {
     const filteredValue = phone.replace(/[^0-9+]/g, '');
     return filteredValue;
   }
+
+  static IsValidUrl (url: string) {
+    const urlPattern = /^(https?:\/\/|www\.)[^\s/$.?#].[^\s]*$/i;
+    return urlPattern.test(url);
+  };
 }

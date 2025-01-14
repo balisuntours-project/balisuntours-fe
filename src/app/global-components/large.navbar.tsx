@@ -30,7 +30,7 @@ export function LargeNavbar() {
           {/* Left - Company Icon */}
           <Link href="/" className="flex-shrink-0">
             <Image
-              src="/bst-logo-black.png"
+              src="/bst-logo.png"
               alt="best-travell-agent-bali-sun-tours"
               width="135"
               height="58"
@@ -57,7 +57,7 @@ export function LargeNavbar() {
                          Your Booking
                       </span>
                       </div>
-                      <div onClick={() => router.push(`/customer/booking/waiting`)}  className="flex items-center gap-2 text-xs md:text-base cursor-pointer hover:text-blue-500">
+                      <div onClick={() => router.push(`/customer/booking/unconfirmed`)}  className="flex items-center gap-2 text-xs md:text-base cursor-pointer hover:text-blue-500">
                         <ArrowRight className="w-3 h-3" />
                       <span>
                          Unconfirmed Booking

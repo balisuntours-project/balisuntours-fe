@@ -49,6 +49,15 @@ export function CheckoutSectionPackage(props: {
   const { activityDateRef, priceQtyEmptyRef } = useActivityDate();
 
   const makeSureDateAndQtyNotEmpty = (): boolean => {
+    if(!selectedPackage) {
+      toast({
+          description: `Please select a package first!`,
+          variant: "info",
+        });
+
+        return false
+  }
+
     const validSelectedDate = GlobalUtility.checkDateInput(selectedDate);
 
     if (!validSelectedDate) {
@@ -64,14 +73,14 @@ export function CheckoutSectionPackage(props: {
       return false;
     }
 
-    if(!selectedPackage) {
-        toast({
-            description: `Please select a package first!`,
-            variant: "info",
-          });
+    // if(!selectedPackage) {
+    //     toast({
+    //         description: `Please select a package first!`,
+    //         variant: "info",
+    //       });
 
-          return false
-    }
+    //       return false
+    // }
 
     let allPriceEmpty: boolean = true;
     if (selectedPrices) {
@@ -180,7 +189,7 @@ export function CheckoutSectionPackage(props: {
       
       if (checkForFreeTourValidation.status_code == HttpStatus.OK) {
         router.push(
-          `${process.env.BACKEND_DOMAIN}/customer/checkout?cart_data=${stringCartPayload}`
+          `/customer/checkout?cart_data=${stringCartPayload}`
         );
       } else {
         toast({

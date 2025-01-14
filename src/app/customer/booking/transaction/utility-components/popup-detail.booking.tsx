@@ -59,9 +59,7 @@ function PackageTypeMechanism({
           </span>
           <Link
             target="__blank"
-            href={`/customer/preview/activity/${GlobalUtility.StringToSlug(
-              item.activity_title
-            )}?package=${GlobalUtility.StringToSlugEncodedString(
+            href={`/customer/preview/activity/${item.activity_slug}?package=${GlobalUtility.StringToSlugEncodedString(
               item.package_title
             )}&target=itinerary`}
             className="text-black underline cursor-pointer text-sm"
@@ -115,9 +113,7 @@ function PackageTypeMechanism({
 
           <Link
             target="__blank"
-            href={`/customer/preview/activity/${GlobalUtility.StringToSlug(
-              item.activity_title
-            )}?package=${GlobalUtility.StringToSlugEncodedString(
+            href={`/customer/preview/activity/${item.activity_slug}?package=${GlobalUtility.StringToSlugEncodedString(
               item.package_title
             )}&target=itinerary`}
             className="text-black underline cursor-pointer text-sm"
@@ -152,9 +148,7 @@ function PackageTypeMechanism({
 
           <Link
             target="__blank"
-            href={`/customer/preview/activity/${GlobalUtility.StringToSlug(
-              item.activity_title
-            )}?package=${GlobalUtility.StringToSlugEncodedString(
+            href={`/customer/preview/activity/${item.activity_slug}?package=${GlobalUtility.StringToSlugEncodedString(
               item.package_title
             )}&target=itinerary`}
             className="text-black underline cursor-pointer text-sm"
@@ -209,9 +203,7 @@ function PackageTypeMechanism({
           </span>
           <Link
             target="__blank"
-            href={`/customer/preview/activity/${GlobalUtility.StringToSlug(
-              item.activity_title
-            )}?package=${GlobalUtility.StringToSlugEncodedString(
+            href={`/customer/preview/activity/${item.activity_slug}?package=${GlobalUtility.StringToSlugEncodedString(
               item.package_title
             )}&target=itinerary`}
             className="text-black underline cursor-pointer text-sm"

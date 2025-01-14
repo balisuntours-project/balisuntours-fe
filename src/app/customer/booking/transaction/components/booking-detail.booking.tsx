@@ -13,7 +13,6 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { DynamicDialog } from "@/app/global-components/utility-components/dynamic-content.dialog";
-import { PopupDetailBooking } from "../utility-components/popup-detail.booking";
 import { useBookingStore } from "@/app/store/booking.store";
 import { DetailsBooking } from "../utility-components/details.booking";
 import { ReviewBookingForm } from "../utility-components/review-booking.form";
