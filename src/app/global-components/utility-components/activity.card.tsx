@@ -1,3 +1,4 @@
+"use client"
 import {
   ActivityCardProps,
   ActivityTags,
@@ -6,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { GlobalUtility } from "@/lib/global.utility";
 import { Star } from "lucide-react";
 import Image from "next/image";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { ActivityTitleCard } from "./activity-title.card";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -20,6 +21,12 @@ const ActivityCard: FC<ActivityCardProps> = ({
   showTags = true,
   withStyledConfig = false
 }) => {
+  
+  useEffect(() => {
+    console.log(activity)
+    console.log(activity.slug)
+  }, [activity])
+
   return (
     <Link href={`/customer/preview/activity/${activity.slug}`} target="__blank">
       <Card
