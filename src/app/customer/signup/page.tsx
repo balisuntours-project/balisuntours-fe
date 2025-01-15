@@ -44,7 +44,7 @@ export default function CustomerSignUp() {
             <div className="mx-auto max-w-[448px]">
               <Link href="/" className="flex justify-center mb-6 md:mb-12">
                 <Image
-                  src="/bst-logo.png"
+                  src="/bst-logo-dark-green.png"
                   alt="best-travell-agent-bali-sun-tours"
                   width="135"
                   height="58"

@@ -9,7 +9,7 @@ export default function NotFound() {
       {/* Logo sebagai latar belakang */}
       <div className="absolute inset-0 flex justify-center items-center opacity-10 pointer-events-none">
         <Image
-          src="/bst-logo.png" // Ganti dengan path logo perusahaan Anda
+          src="/bst-logo-dark-green.png" // Ganti dengan path logo perusahaan Anda
           alt="Balisuntours Logo"
           width={500} // Ukuran logo besar
           height={500}
