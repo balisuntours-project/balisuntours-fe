@@ -24,11 +24,13 @@ export function SearchBoxComponent({
   inputClassName,
   listClassName,
   showSearchIcon = true,
+  showListResult = true
 }: {
   className?: string;
   inputClassName?: string;
   listClassName?: string;
   showSearchIcon?: boolean;
+  showListResult?: boolean;
 }) {
   const [placeHolders, setPlaceHolders] = useState<Array<string>>([]);
   const [currentPlaceholder, setCurrentPlaceholder] = useState<string>(
@@ -143,25 +145,27 @@ export function SearchBoxComponent({
           
           )}
         </div>
-        <CommandList
-          className={`${isShowList.length > 0 ? "block" : "hidden"} ${
-            listClassName ??
-            "max-h-[200px] overflow-y-scroll  w-full text-start scrollbar-hide"
-          }`}
-        >
-          <CommandEmpty>No activities found.</CommandEmpty>
-          {activityTitles?.length > 0 &&
-            activityTitles.map((activity) => (
-              <CommandItem key={activity.uuid} asChild>
-                <Link
-                  href={`/customer/preview/activity/${activity.slug}`}
-                  target="_blank"
-                >
-                  {activity.title}
-                </Link>
-              </CommandItem>
-            ))}
-        </CommandList>
+       {showListResult && (
+         <CommandList
+         className={`${isShowList.length > 0 ? "block" : "hidden"} ${
+           listClassName ??
+           "max-h-[200px] overflow-y-scroll  w-full text-start scrollbar-hide"
+         }`}
+       >
+         <CommandEmpty>No activities found.</CommandEmpty>
+         {activityTitles?.length > 0 &&
+           activityTitles.map((activity) => (
+             <CommandItem key={activity.uuid} asChild>
+               <Link
+                 href={`/customer/preview/activity/${activity.slug}`}
+                 target="_blank"
+               >
+                 {activity.title}
+               </Link>
+             </CommandItem>
+           ))}
+       </CommandList>
+       )}
       </Command>
     </div>
   );

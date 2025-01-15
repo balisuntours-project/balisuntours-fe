@@ -1,15 +1,9 @@
-"use client"
-import {
-  ActivityCardProps,
-  ActivityTags,
-} from "@/app/paramaters/activity/paramater";
+import { ActivityCardProps } from "@/app/paramaters/activity/paramater";
 import { Card, CardContent } from "@/components/ui/card";
 import { GlobalUtility } from "@/lib/global.utility";
 import { Star } from "lucide-react";
-import Image from "next/image";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { ActivityTitleCard } from "./activity-title.card";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ImageWithLoader } from "./with-loader.image";
 
@@ -19,51 +13,41 @@ const ActivityCard: FC<ActivityCardProps> = ({
   useMobileHeight,
   showDesciption,
   showTags = true,
-  withStyledConfig = false
+  withStyledConfig = false,
 }) => {
-  
-  useEffect(() => {
-    console.log(activity)
-    console.log(activity.slug)
-  }, [activity])
-
   return (
     <Link href={`/customer/preview/activity/${activity.slug}`} target="__blank">
       <Card
         className={`flex flex-col ${
-          !withStyledConfig ? (
-            useMobileHeight == false
-            ? "max-h-[400px] h-[400px]"
+          !withStyledConfig
+            ? useMobileHeight == false
+              ? "max-h-[400px] h-[400px]"
+              : "max-h-[400px] h-[250px] md:h-[400px]"
             : "max-h-[400px] h-[250px] md:h-[400px]"
-          ) : (
-            "max-h-[400px] h-[250px] md:h-[400px]"
-          )
         }`}
       >
         {/* Bagian Gambar */}
-        <div
-          className={`relative w-full`}
-        >
+        <div className={`relative w-full`}>
           <ImageWithLoader
             src={activity.image}
             alt={activity.title}
             fallbackSrc="/fallback-image.png"
             classNameProp={`rounded-t-lg w-full ${
-              !withStyledConfig ? (
-                useMobileHeight == false ? "h-[200px] max-h-[200px]" : "h-[120px] md:h-[200px] max-h-[120px] md:max-h-[200px]"
-              ) : (
-                "h-[120px] md:h-[200px] max-h-[120px] md:max-h-[200px]"
-              )
+              !withStyledConfig
+                ? useMobileHeight == false
+                  ? "h-[200px] max-h-[200px]"
+                  : "h-[120px] md:h-[200px] max-h-[120px] md:max-h-[200px]"
+                : "h-[120px] md:h-[200px] max-h-[120px] md:max-h-[200px]"
             } object-cover`}
             skeletonClassName={`rounded-t-lg w-full ${
-              !withStyledConfig ? (
-                useMobileHeight == false ? "h-[200px] max-h-[200px]" : "h-[120px] md:h-[200px] max-h-[120px] md:max-h-[200px]"
-              ) : (
-                "h-[120px] md:h-[200px] max-h-[120px] md:max-h-[200px]"
-              )
+              !withStyledConfig
+                ? useMobileHeight == false
+                  ? "h-[200px] max-h-[200px]"
+                  : "h-[120px] md:h-[200px] max-h-[120px] md:max-h-[200px]"
+                : "h-[120px] md:h-[200px] max-h-[120px] md:max-h-[200px]"
             }`}
             priority={false}
-          /*   objectFit="cover" */
+            /*   objectFit="cover" */
             width={500}
             height={200}
             quality={100}
@@ -78,7 +62,15 @@ const ActivityCard: FC<ActivityCardProps> = ({
           {showDesciption && <p className="text-sm mt-2">{showDesciption}</p>}
 
           {/* Tag Popular */}
-          <div className={`${!withStyledConfig ? (showTags ? "flex gap-2" : "hidden") : ("hidden md:flex gap-2")}`}>
+          <div
+            className={`${
+              !withStyledConfig
+                ? showTags
+                  ? "flex gap-2"
+                  : "hidden"
+                : "hidden md:flex gap-2"
+            }`}
+          >
             <div className="mt-1 inline-block bg-red-300 text-white text-[10px] md:text-xs font-normal py-1 px-2 rounded-lg">
               {tags.first_tag}
             </div>

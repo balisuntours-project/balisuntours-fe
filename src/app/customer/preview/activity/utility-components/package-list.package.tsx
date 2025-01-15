@@ -80,6 +80,7 @@ export function PackageListPackage(props: {
 
       const getValidBookDate =
         await ActivityPackageAction.GetPackageValidDateToBook(packageData.uuid);
+      console.log(getValidBookDate)
 
       setDiffDaysNumber(getValidBookDate.data ?? 1);
     } else {
