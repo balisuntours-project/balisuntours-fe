@@ -2,6 +2,7 @@ import { AddReviewParamater } from "@/app/paramaters/activity-review/paramater";
 import { AllActivitiesParamater } from "@/app/paramaters/activity/paramater";
 import { CheckoutFinalPayloadParamater } from "@/app/paramaters/booking/paramater";
 import { BestActivityCategoryNameAndListActivity } from "@/app/response/activity.response";
+import { ActivityMetaDataResponse } from "@/app/responses/activity-metadata/response";
 import {
   Activity,
   ActivityDetailResponse,
@@ -194,11 +195,11 @@ export class ActivityAction {
     }
   }
 
-  static async GetPreviewActivityMetadata(): Promise<
-    ActivityActionResponse<any>
+  static async GetPreviewActivityMetadata(slug: string): Promise<
+    ActivityActionResponse<ActivityMetaDataResponse>
   > {
     try {
-      const action = await api("/api/customer/test-meta", {
+      const action = await api(`/api/customer/preview/activity/metadata/${slug}`, {
         method: "GET",
       });
 
@@ -206,10 +207,10 @@ export class ActivityAction {
         GlobalUtility.TriggerExceptionFetchApi(action);
       }
 
-      return this.handleResponse<any>(action);
+      return this.handleResponse<ActivityMetaDataResponse>(action);
     } catch (error: any) {
       console.error(error);
-      return this.handleFetchError<any>(error.response || error);
+      return this.handleFetchError<ActivityMetaDataResponse>(error.response || error);
     }
   }
 
