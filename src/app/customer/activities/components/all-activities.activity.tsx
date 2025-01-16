@@ -32,6 +32,10 @@ export function AllActivitiesList({
   const [filteredActivity, setFilteredActivity] = useState<
     Array<AllActivitiesParamater> | undefined
   >(undefined); // Halaman aktif
+  const [
+    filteredActivityWithoutPagination,
+    setFilteredActivityWithoutPagination,
+  ] = useState<Array<AllActivitiesParamater> | undefined>(undefined); // Halaman aktif
 
   const itemsPerPage = 12; // Jumlah item per halaman
 
@@ -47,8 +51,12 @@ export function AllActivitiesList({
 
   const onFiltering = useAllActivityStore((state) => state.onFiltering);
   const searchBoxValue = useAllActivityStore((state) => state.searchBoxValue);
-  const setSearchBoxValue = useAllActivityStore((state) => state.setSearchBoxValue);
-  const setSelectedCategories = useAllActivityStore((state) => state.setSelectedCategories);
+  const setSearchBoxValue = useAllActivityStore(
+    (state) => state.setSearchBoxValue
+  );
+  const setSelectedCategories = useAllActivityStore(
+    (state) => state.setSelectedCategories
+  );
   const setRecomendedActivities = useAllActivityStore(
     (state) => state.setRecomendedActivities
   );
@@ -61,12 +69,12 @@ export function AllActivitiesList({
 
   // Fungsi untuk mengganti halaman
   const handlePageChange = (page: number, event: React.MouseEvent) => {
-    if(page < 1) {
-        event.preventDefault(); 
-        return
-    }else if (page > totalPages) {
-        event.preventDefault();
-        return
+    if (page < 1) {
+      event.preventDefault();
+      return;
+    } else if (page > totalPages) {
+      event.preventDefault();
+      return;
     }
 
     setOnChangePage(true);
@@ -75,6 +83,14 @@ export function AllActivitiesList({
       setOnChangePage(true); // Tampilkan efek loading
       setTimeout(() => {
         setCurrentPage(page); // Ubah halaman setelah delay
+        if (filteredActivityWithoutPagination) {
+          const paginatedData = filteredActivityWithoutPagination.slice(
+            (page - 1) * itemsPerPage,
+            page * itemsPerPage
+          );
+
+          setFilteredActivity(paginatedData);
+        }
         setOnChangePage(false); // Sembunyikan efek loading
       }, 500);
     }
@@ -104,13 +120,14 @@ export function AllActivitiesList({
   const resetAllToDefault = (withCleanFilter?: boolean) => {
     setFilteredActivity(undefined);
     setTotalFilteredActivity(undefined);
+    setFilteredActivityWithoutPagination(undefined);
     setTotalPages(
       GlobalUtility.CountMaxPaginationPage(activities.length, itemsPerPage)
     );
 
-    if(withCleanFilter) {
-        setSelectedCategories(undefined)
-        setSearchBoxValue(undefined)
+    if (withCleanFilter) {
+      setSelectedCategories(undefined);
+      setSearchBoxValue(undefined);
     }
   };
 
@@ -152,6 +169,7 @@ export function AllActivitiesList({
       setTotalPages(
         GlobalUtility.CountMaxPaginationPage(filteredData.length, itemsPerPage)
       );
+      setFilteredActivityWithoutPagination(filteredData);
       setFilteredActivity(paginatedData);
     } else {
       resetAllToDefault();
@@ -218,7 +236,9 @@ export function AllActivitiesList({
         {!onChangePage && !onFiltering ? (
           <ActivityCardList />
         ) : (
-          [...Array(12)].map((_, index) => <ActivityCardSkeleton withStyledConfig={true} key={index} />)
+          [...Array(12)].map((_, index) => (
+            <ActivityCardSkeleton withStyledConfig={true} key={index} />
+          ))
         )}
       </div>
 

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useLandingPageStore } from "@/app/store/landing-page.store";
 import { AuthButton } from "@/components/custom-ui/auth.button";
@@ -9,74 +9,83 @@ import { useEffect, useState } from "react";
 import { useAuthStore } from "@/app/store/auth.store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-  } from "@/components/ui/dropdown-menu"
-  
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-export function LoginButtonNavbar() {
-    const setShowLoginDialog = useLandingPageStore((state) => state.setShowLoginDialog)
-    const showLoginDialog = useLandingPageStore((state) => state.showLoginDialog)
-    const isLogin = useAuthStore((state) => state.isLogin)
-    const setIsLogin = useAuthStore((state) => state.setIsLogin)
-   
-    useEffect(() => {
-        const loginStatus = GlobalUtility.GetLoginStatusCookie()
-        //console.log(loginStatus)
-        setIsLogin(loginStatus ? true : false)
-    }, [])
+export function LoginButtonNavbar({ forAdmin }: { forAdmin?: boolean }) {
+  const setShowLoginDialog = useLandingPageStore(
+    (state) => state.setShowLoginDialog
+  );
+  const isLogin = useAuthStore((state) => state.isLogin);
+  const setIsLogin = useAuthStore((state) => state.setIsLogin);
 
-    
+  useEffect(() => {
+    const loginStatus = GlobalUtility.GetLoginStatusCookie();
+    //console.log(loginStatus)
+    setIsLogin(loginStatus ? true : false);
+  }, []);
 
-    function ShowLoginButtonOrProfilePicture() {
-        if(isLogin) {
-            return (
-                <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                <Avatar className="w-6 h-6 md:w-12 md:h-12 cursor-pointer">
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>BST</AvatarFallback>
+  function ShowLoginButtonOrProfilePicture() {
+    if (isLogin) {
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Avatar className="w-6 h-6 md:w-12 md:h-12 cursor-pointer">
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>BST</AvatarFallback>
             </Avatar>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                    <DropdownMenuLabel>Hi, Traveller</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>Profile</DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => GlobalUtility.DestroyAllCookie()} >Log out</DropdownMenuItem>
-                </DropdownMenuContent>
-                </DropdownMenu>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>
+              Hi, {!forAdmin ? "Traveller" : "Officer"}
+            </DropdownMenuLabel>
 
-           
-                
-            )
-        }else{
-            return (
-                <div>
-                    <div className="hidden md:block" onClick={() => setShowLoginDialog(true)}>
-                <AuthButton title="LOGIN" />
-                </div>
-                <CircleUserRound className="block md:hidden w-5 h-5 stroke-[1.5]" onClick={() => setShowLoginDialog(true)} />
-                </div>
-            )
-        }
+            {!forAdmin && (
+              <>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Profile</DropdownMenuItem>
+              </>
+            )}
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => GlobalUtility.DestroyAllCookie()}>
+              Log out
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    } else {
+      return (
+        <div>
+          <div
+            className="hidden md:block"
+            onClick={() => setShowLoginDialog(true)}
+          >
+            <AuthButton title="LOGIN" />
+          </div>
+          <CircleUserRound
+            className="block md:hidden w-5 h-5 stroke-[1.5]"
+            onClick={() => setShowLoginDialog(true)}
+          />
+        </div>
+      );
     }
+  }
 
-    return (
-        <>
-            <LoginDialog />
-            <div className="flex items-center space-x-4 md:space-x-11">
-              {/* Divider */}
-              <div className="border-r-2 border-gray-300 h-6" />
+  return (
+    <>
+      <LoginDialog />
+      <div className="flex items-center space-x-4 md:space-x-11">
+        {/* Divider */}
+        <div className="border-r-2 border-gray-300 h-6" />
 
-              {/* Login Button */}
-                <ShowLoginButtonOrProfilePicture />
-
-            </div>
-        </>
-    )
+        {/* Login Button */}
+        <ShowLoginButtonOrProfilePicture />
+      </div>
+    </>
+  );
 }
