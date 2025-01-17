@@ -184,7 +184,7 @@ export function CheckoutFormFreeTourType({
               className="activity-date-info text-xs md:text-sm text-red-500 hidden"
               ref={planningItineraryRef}
             >
-              Oh, you did'nt fill planning yet!
+             Where is your planning?
             </p>
           </div>
 
@@ -231,7 +231,7 @@ export function CheckoutFormFreeTourType({
               className="activity-date-info text-xs md:text-sm text-red-500 hidden"
               ref={freeTourServiceRef}
             >
-              how much it worth?!
+              How much it worth?!
             </p>
           </div>
 
@@ -261,7 +261,7 @@ export function CheckoutFormFreeTourType({
               className="activity-date-info text-xs md:text-sm text-red-500 hidden"
               ref={pickupTimeRef}
             >
-              Oh, you did'nt pick a time yet!
+              What time we pick you up?
             </p>
           </div>
 

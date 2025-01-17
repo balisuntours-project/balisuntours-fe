@@ -130,7 +130,7 @@ export function CheckoutFormPickupTimeByTravellerType({
                 className="activity-date-info text-xs md:text-sm text-red-500 hidden"
                 ref={mapLocationRef}
               >
-                Where we will pick you up?
+                Where will we pick you up?
               </p>
               <GoogleMapViewComponent
               mapStyle="w-full h-[200px] md:h-[350px]"
@@ -166,7 +166,7 @@ export function CheckoutFormPickupTimeByTravellerType({
                 className="activity-date-info text-xs md:text-sm text-red-500 hidden"
                 ref={pickupTimeRef}
               >
-                What time we should pick you up?
+                What time should we pick you up?
               </p>
             
             </div>
