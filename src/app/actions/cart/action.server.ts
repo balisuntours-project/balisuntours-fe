@@ -45,7 +45,7 @@ export class CartServerAction {
   ): Promise<CartActionResponse<T>> {
     let finalResponse: any = {};
 
-    //lakukan ini karena jika tidak bada build runtime akan error (karena cookie next header tidak dapat dirender static, page ini static karena /customer/cart tidaka da dynamic param seperti slug)
+    //lakukan ini karena jika tidak, bada build runtime akan error (karena cookie next header tidak dapat dirender static, page ini static karena /customer/cart tidak ada dynamic param seperti slug)
     if (response instanceof Response) {
       try {
         finalResponse = await response.json();
