@@ -18,10 +18,10 @@ export function LandingPageBenefit() {
           <CarouselItem className="pl-4 basis-[40%] md:basis-[29%] lg:basis-1/4">
             <div className="flex flex-col gap-3">
               <Image
-                src="/tailor.svg"
+                src="/tailored.png"
                 objectFit="cover"
-                width={50}
-                height={50}
+                width={100}
+                height={100}
                 className="h-[35px] w-[35px] md:h-[50px] md:w-[50px]"
                 alt="benefit-svg"
               />
@@ -37,10 +37,10 @@ export function LandingPageBenefit() {
           <CarouselItem className="pl-4 basis-[40%] md:basis-[29%] lg:basis-1/4">
             <div className="flex flex-col gap-3">
               <Image
-                src="/comfort.svg"
+                src="/ultimate-comfort.png"
                 objectFit="cover"
-                width={50}
-                height={50}
+                width={100}
+                height={100}
                 className="h-[35px] w-[35px] md:h-[50px] md:w-[50px]"
                 alt="benefit-svg"
               />
@@ -55,10 +55,10 @@ export function LandingPageBenefit() {
           <CarouselItem className="pl-4 basis-[40%] md:basis-[29%] lg:basis-1/4">
             <div className="flex flex-col gap-3">
               <Image
-                src="/guide.svg"
+                src="/insider-knowledge.png"
                 objectFit="cover"
-                width={50}
-                height={50}
+                width={100}
+                height={100}
                 className="h-[35px] w-[35px] md:h-[50px] md:w-[50px]"
                 alt="benefit-svg"
               />
@@ -73,10 +73,10 @@ export function LandingPageBenefit() {
           <CarouselItem className="pl-4 basis-[40%] md:basis-[29%] lg:basis-1/4 -mr-8">
             <div className="flex flex-col gap-3">
               <Image
-                src="/adventure.svg"
+                src="/unforgetable-moment.png"
                 objectFit="cover"
-                width={50}
-                height={50}
+                width={100}
+                height={100}
                 className="h-[35px] w-[35px] md:h-[50px] md:w-[50px]"
                 alt="benefit-svg"
               />
