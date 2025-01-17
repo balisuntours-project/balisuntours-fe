@@ -51,21 +51,21 @@ export function MetaDataListTable({
   );
 
   // Data yang akan ditampilkan berdasarkan halaman aktif
-  const paginatedLists = metaDataLists.slice(
+  const paginatedLists = metaDataLists.length > 0 ? metaDataLists.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
-  );
+  ) : []
 
   const [filteredLists, setFilteredLists] = useState<
     Array<ActivityMetaDataResponse> | undefined
-  >(undefined); // Halaman aktif
+  >([]); // Halaman aktif
   const [filteredListsWithoutPagination, setFilteredListsWithoutPagination] =
     useState<Array<ActivityMetaDataResponse> | undefined>(undefined); // Halaman aktif
 
   const resetAllToDefault = (withCleanFilter?: boolean) => {
     setOnChangePage(true);
   
-    setFilteredLists(undefined);
+    setFilteredLists([]);
     setFilteredListsWithoutPagination(undefined);
     setTotalPage(
       GlobalUtility.CountMaxPaginationPage(metaDataLists.length, itemsPerPage)
@@ -240,7 +240,7 @@ export function MetaDataListTable({
         <>
           {!onChangePage ? (
             <TableBody>
-              {paginatedLists.map((metadata, key) => (
+              {(paginatedLists && paginatedLists.length > 0) && paginatedLists.map((metadata, key) => (
                 <TableRow key={metadata.uuid}>
                   <TableCell className="p-2 border border-gray-300 text-center">
                     {key + 1 + (currentPage - 1) * itemsPerPage}

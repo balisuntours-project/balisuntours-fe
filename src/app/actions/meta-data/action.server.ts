@@ -1,6 +1,5 @@
 
   import { ActivityMetaDataResponse } from "@/app/responses/activity-metadata/response";
-import { api } from "@/lib/axios-instance";
   import { apiServer } from "@/lib/axios-instance.server";
   import { GlobalUtility } from "@/lib/global.utility";
   import axios, { AxiosError } from "axios";
@@ -40,8 +39,17 @@ import { api } from "@/lib/axios-instance";
     private static async handleFetchError<T>(
       response: Response
     ): Promise<MetaDataResponse<T>> {
-      const finalResponse = (await response.json()) as ErrorServerObject; // Parsing response JSON ke ErrorServerObject
+        let finalResponse: any = {};
   
+        //lakukan ini karena jika tidak bada build runtime akan error (karena cookie next header tidak dapat dirender static, page ini static karena /customer/meta-data tidak ada dynamic param seperti slug)
+        if (response instanceof Response) {
+           try {
+             finalResponse = await response.json();
+           } catch {
+             finalResponse = {};
+           }
+         }
+     
       let message = "Unknown error occurred";
   
       // Tangani kasus errors
@@ -117,7 +125,7 @@ import { api } from "@/lib/axios-instance";
     
           return this.handleResponse<Array<ActivityMetaDataResponse>>(action);
         } catch (error: any) {
-          console.error(error);
+         // console.error(error);
           return this.handleFetchError<Array<ActivityMetaDataResponse>>(
             error.response || error
           );
