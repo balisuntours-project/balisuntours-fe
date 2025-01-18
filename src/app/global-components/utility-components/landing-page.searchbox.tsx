@@ -16,7 +16,7 @@ export function LandingPageSearchBoxUtility({
       >
         {!flatPosition && (
           <h1 className="text-2xl md:text-5xl font-semibold text-white">
-            Exceed Your Needs,
+            Exceed Your Needs
           </h1>
         )}
         {!flatPosition && (
