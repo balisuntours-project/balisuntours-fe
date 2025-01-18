@@ -9,7 +9,7 @@ export function LandingPageBestCategorySection(props: ActivityBestCategoryLandin
     return (
         <>
          <div id="best-category" className="block md:px-5 lg:px-6 xl:px-6 2xl:px-0 scroll-smooth">
-         <h1 className="font-bold text-xl md:text-3xl">Best Category Activities</h1>
+         <h1 className="font-bold text-xl md:text-3xl">Tours and Activities Category</h1>
         <Carousel
         
           opts={{
