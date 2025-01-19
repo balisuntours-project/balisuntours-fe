@@ -58,14 +58,14 @@ export function MetaDataListTable({
 
   const [filteredLists, setFilteredLists] = useState<
     Array<ActivityMetaDataResponse> | undefined
-  >([]); // Halaman aktif
+  >(undefined); // Halaman aktif
   const [filteredListsWithoutPagination, setFilteredListsWithoutPagination] =
     useState<Array<ActivityMetaDataResponse> | undefined>(undefined); // Halaman aktif
 
   const resetAllToDefault = (withCleanFilter?: boolean) => {
     setOnChangePage(true);
   
-    setFilteredLists([]);
+    setFilteredLists(undefined);
     setFilteredListsWithoutPagination(undefined);
     setTotalPage(
       GlobalUtility.CountMaxPaginationPage(metaDataLists.length, itemsPerPage)
@@ -161,7 +161,7 @@ export function MetaDataListTable({
         <>
           {!onChangePage ? (
             <TableBody>
-              {filteredLists.length > 0 ? (
+              {Array.isArray(filteredLists) && filteredLists.length > 0 ? (
                 filteredLists.map((metadata, key) => (
                   <TableRow key={metadata.uuid}>
                     <TableCell className="p-2 border border-gray-300 text-center">
@@ -240,7 +240,7 @@ export function MetaDataListTable({
         <>
           {!onChangePage ? (
             <TableBody>
-              {(paginatedLists && paginatedLists.length > 0) && paginatedLists.map((metadata, key) => (
+              {(Array.isArray(paginatedLists) && paginatedLists.length > 0) && paginatedLists.map((metadata, key) => (
                 <TableRow key={metadata.uuid}>
                   <TableCell className="p-2 border border-gray-300 text-center">
                     {key + 1 + (currentPage - 1) * itemsPerPage}

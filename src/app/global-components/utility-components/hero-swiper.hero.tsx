@@ -59,7 +59,7 @@ export function HeroBannerComponent({
 
       if (isVideo) {
         stopAutoplay(); // Matikan autoplay
-        const videoDuration = 31; // Dapatkan durasi video (35 - 4 (4 detik durasi delay))
+        const videoDuration = 19300; // Dapatkan durasi video (24 - 4 (4 detik durasi delay))
 
         // Mulai ulang video dari awal
         const videoElement = videoRefs.current[currentSlideIndex];
@@ -71,7 +71,7 @@ export function HeroBannerComponent({
         // Atur timer untuk mulai autoplay setelah video selesai
         videoTimers.current = setTimeout(() => {
           startAutoplay();
-        }, videoDuration * 1000); // Konversi durasi ke milidetik
+        }, videoDuration /* * 1000 */); // Konversi durasi ke milidetik
       } else {
         startAutoplay(); // Aktifkan autoplay untuk slide gambar
       }
@@ -105,6 +105,12 @@ export function HeroBannerComponent({
     }
   }, []);
 
+  const [isVideoLoaded, setIsVideoLoaded] = useState(
+    new Array(BANNER_LANDING_PAGE.length).fill(false) // Default: semua video belum siap
+  );
+
+  const isSSR = typeof window === "undefined";
+
   return (
     <>
       <div className="relative w-full max-w-full mx-auto hidden md:block">
@@ -128,20 +134,43 @@ export function HeroBannerComponent({
               <SwiperSlide key={index}>
                 <div className="flex items-center justify-center p-0 h-full">
                   {isVideo ? (
-                    <video
-                      ref={(el) => {
-                        if (el) videoRefs.current[index] = el; // Simpan reference video
-                      }}
-                      poster="/banner-thumbnail.jpg"
-                      preload="none"
-                      autoPlay
-                      muted
-                      loop={true} // Video tetap di-loop
-                      className="w-full h-full object-cover"
-                      onPlay={stopAutoplay}
-                    >
-                      {isVisible && <source src={item} type="video/mp4" />}
-                    </video>
+                    <div className="relative w-full h-full">
+                      {!isVideoLoaded[index] && (
+                        // Loader ditampilkan sampai video siap
+                        <Image
+                          src="/banner-thumbnail.jpg"
+                          alt={`Image ${index + 1}`}
+                          layout="fill"
+                          objectFit="cover"
+                          priority
+                          className="zoom-animation brightness-75"
+                        />
+                      )}
+                      <video
+                        ref={(el) => {
+                          if (el) videoRefs.current[index] = el; // Simpan reference video
+                        }}
+                        poster="/banner-thumbnail.jpg"
+                        preload="none"
+                        autoPlay
+                        muted
+                        loop={true} // Video tetap di-loop
+                        className={`w-full h-full object-cover ${
+                          isVideoLoaded[index] ? "opacity-100" : "opacity-0"
+                        } transition-opacity duration-500`}
+                        onCanPlayThrough={() => {
+                          // Video sudah siap diputar
+                          setIsVideoLoaded((prev) => {
+                            const updated = [...prev];
+                            updated[index] = true;
+                            return updated;
+                          });
+                        }}
+                        onPlay={stopAutoplay}
+                      >
+                        {isVisible && <source src={item} type="video/mp4" />}
+                      </video>
+                    </div>
                   ) : (
                     <Image
                       src={item}
