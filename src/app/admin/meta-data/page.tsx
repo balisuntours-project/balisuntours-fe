@@ -10,6 +10,7 @@ export default async function MetaDataActivity() {
         notFound()
     }
 
+    console.log(data)
     const metaDataLists = data.data
   return (
     <>
