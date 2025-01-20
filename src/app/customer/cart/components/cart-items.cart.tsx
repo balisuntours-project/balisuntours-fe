@@ -70,6 +70,7 @@ export function CartItemsList({ items }: { items: CartItemsResponse | null }) {
 
   const handlebookingAction = async () => {
     if (selectedCarts.length > 0) {
+      console.log(selectedCarts)
       setIsLoading(true);
       const selectedUuidCarts: Array<string> = selectedCarts.flatMap(
         (cart) => cart.temporary_items
@@ -78,13 +79,16 @@ export function CartItemsList({ items }: { items: CartItemsResponse | null }) {
       const checkForFreeTourValidation = await CartAction.FreeTourValidation(
         stringCartPayload
       );
-
+      console.log(checkForFreeTourValidation)
+      console.log(selectedUuidCarts)
+      setIsLoading(false);
       if (checkForFreeTourValidation.status_code == HttpStatus.OK) {
         router.push(
-          `${process.env.BACKEND_DOMAIN}/customer/checkout?cart_data=${stringCartPayload}`
+          `/customer/checkout?cart_data=${stringCartPayload}`
         );
+
       } else {
-        setIsLoading(false);
+
         toast({
           description: `${checkForFreeTourValidation.data}`,
           variant: "warning",

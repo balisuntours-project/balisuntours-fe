@@ -126,12 +126,12 @@ export class GlobalUtility {
 
   static SetFormattedStandartDate(date: string | Date): Date {
     const parsedDate = typeof date === "string" ? new Date(date) : date;
-    console.log(date, "wakuwakuwaku")
-    console.log(parsedDate)
+    // console.log(date, "wakuwakuwaku")
+    //console.log(parsedDate)
     const utcDate = startOfDay(parsedDate);
-    console.log(utcDate)
+    //console.log(utcDate)
     const formattedDate = format(utcDate, "yyyy-MM-dd"); // Format tanggal ke string UTC
-    console.log(formattedDate)
+    //console.log(formattedDate)
     return new Date(formattedDate);
   }
 

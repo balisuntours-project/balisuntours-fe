@@ -115,7 +115,7 @@ export function CheckoutForm({
       return false;
     }
 
-    if (payload.package_type == ActivityPackageTypeEnum.pickupTimeByTeam) {
+    if (payload.package_type == ActivityPackageTypeEnum.pickupTimeByTraveller) {
       if (
         !payload.planned_place_to_visit ||
         !payload.pickup_time ||
@@ -127,7 +127,7 @@ export function CheckoutForm({
       return false;
     }
 
-    if (payload.package_type == ActivityPackageTypeEnum.pickupTimeByTraveller) {
+    if (payload.package_type == ActivityPackageTypeEnum.pickupTimeByTeam) {
       if (!payload.pickup_time || !mapPayload?.name) {
         return true;
       }
@@ -232,12 +232,13 @@ export function CheckoutForm({
     };
 
     setFinalBookingPayload(postPayload);
-
+   
     if (checkIsThereAnyNeedConfirmationPackage(mappingPackageOrderpayload)) {
       setWaitingPackageAvailable(true);
       return;
     }
 
+   
     setIsLoading(true);
     const result = await BookingAction.CheckoutBooking(postPayload);
     

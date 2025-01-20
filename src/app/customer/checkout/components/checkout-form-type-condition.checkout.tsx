@@ -2,12 +2,11 @@
 
 import { ActivityPackageTypeEnum } from "@/app/enums/activity/activity.enum";
 import { CheckoutFormBasicItineraryType } from "../utility-components/checkout-form-basic-itinerary.checkout";
-import { CheckoutFormPickupTimeByTeamType } from "../utility-components/checkout-form-pickup-time-by-team.checkout";
 import { CheckoutFormFreeTourType } from "../utility-components/checkout-form-free-tour.checkout";
-import { CheckoutFormPickupTimeByTravellerType } from "../utility-components/checkout-form-pickup-time-by-traveller.checkout";
-import { GoogleMapViewParamater } from "@/app/paramaters/google-map/paramater";
 import { CheckoutMappedPackageDataParamater } from "@/app/paramaters/booking/paramater";
 import { CheckoutBookingProvider } from "../provider/checkout-booking.provider";
+import { CheckoutFormPickupTimeByTeamType } from "../utility-components/checkout-form-pickup-time-by-team.checkout";
+import { CheckoutFormPickupTimeByTravellerType } from "../utility-components/checkout-form-pickup-time-by-traveller.checkout";
 
 export function CheckoutFormTypeMechanism({
 

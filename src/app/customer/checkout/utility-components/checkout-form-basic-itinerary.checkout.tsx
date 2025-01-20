@@ -52,7 +52,7 @@ export function CheckoutFormBasicItineraryType({
           scopedBookingState.checkoutPayload.departure.departure_map_location ??
           "Venue",
         pickup_time_list:
-          scopedBookingState.checkoutPayload.default_pickup_time,
+          scopedBookingState.checkoutPayload?.default_pickup_time ?? [],
         departure_additional_information:
           scopedBookingState.checkoutPayload.departure.departure_description ??
           "No additional informations",

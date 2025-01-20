@@ -5,8 +5,8 @@ export enum ActivityStatusEnum {
 
 export enum ActivityPackageTypeEnum {
   basicItinerary = "1",
-  pickupTimeByTeam = "2",
-  pickupTimeByTraveller = "3",
+  pickupTimeByTeam = "3",
+  pickupTimeByTraveller = "2",
   freeTour = "4",
 }
 
