@@ -142,6 +142,7 @@ export function CheckoutSectionPackage(props: {
     const storeCart = await storeCartAction();
 
     if (storeCart.status_code == HttpStatus.CREATED) {
+    
       setIsLoading(false);
       router.push(`/customer/cart`);
     } else {

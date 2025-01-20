@@ -12,7 +12,7 @@ function PackageTypeMechanism({
 }: {
   item: BookingPackageDetailResponse;
 }) {
-  if (item.package_type == ActivityPackageTypeEnum.pickupTimeByTeam) {
+  if (item.package_type == ActivityPackageTypeEnum.pickupTimeByTraveller) {
     return (
       <>
         <div className="flex flex-col gap-1 text-start">
@@ -70,7 +70,7 @@ function PackageTypeMechanism({
       </>
     );
   } else if (
-    item.package_type == ActivityPackageTypeEnum.pickupTimeByTraveller
+    item.package_type == ActivityPackageTypeEnum.pickupTimeByTeam
   ) {
     return (
       <>

@@ -236,6 +236,7 @@ export function ItemSection({
 
         return prevSelectedCart; // Tidak menambahkan duplikat
       } else {
+       console.log(orderId)
         setSelectedCartsTotalAmount(selectedCartsTotalAmount - localTotalPrice);
         // Hapus item dari selectedCarts
         return prevSelectedCart.filter(

@@ -104,7 +104,7 @@ export function CheckoutDetail({
 
         //do mapping
         if (
-          !sameActivityDateAndPackage &&
+          !sameActivityDateAndPackage ||
           (findDifferentBaseUuid || packageMappedDataBowl.length == 0)
         ) {
           let flatPriceInDollar = 0;
@@ -189,6 +189,13 @@ export function CheckoutDetail({
       setCheckoutPackageBookingData(packageMappedDataBowl);
     }
   }, [checkoutPackages]);
+
+  useEffect(() => {
+    if(checkoutPackageBookingData) {
+      console.log(checkoutPackageBookingData)
+      console.log(checkoutPackages)
+    }
+  }, [checkoutPackageBookingData])
 
   const [isPackageStateLoaded, setIsPackageStateLoaded] = useState<boolean>(false)
   useEffect(() => {
