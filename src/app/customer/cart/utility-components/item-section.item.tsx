@@ -28,13 +28,13 @@ import { GlobalUtility } from "@/lib/global.utility";
 import { useToast } from "@/hooks/use-toast";
 import { defaultCartScopedState, useCartStore } from "@/app/store/cart.store";
 import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-  } from "@/components/ui/tooltip"
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Badge } from "@/components/ui/badge";
-import { format } from "date-fns";
+import { format, parse, parseISO } from "date-fns";
 
 export function ItemSection({
   item,
@@ -236,7 +236,7 @@ export function ItemSection({
 
         return prevSelectedCart; // Tidak menambahkan duplikat
       } else {
-       console.log(orderId)
+        console.log(orderId);
         setSelectedCartsTotalAmount(selectedCartsTotalAmount - localTotalPrice);
         // Hapus item dari selectedCarts
         return prevSelectedCart.filter(
@@ -293,12 +293,16 @@ export function ItemSection({
             <Checkbox
               className="data-[state=checked]:bg-[#EB5E00]"
               disabled={
-                (scopedState.selectedDate || item.activity_date ? GlobalUtility.AllowedDates(
-                    GlobalUtility.SetFormattedStandartDate(
-                      scopedState.selectedDate || item.activity_date
-                    ),
-                    item.diff_days
-                  ) : true) || item.is_fully_booked_until ? true : false
+                (scopedState.selectedDate || item.activity_date
+                  ? GlobalUtility.AllowedDates(
+                      GlobalUtility.SetFormattedStandartDate(
+                        scopedState.selectedDate || item.activity_date
+                      ),
+                      item.diff_days
+                    )
+                  : true) || item.is_fully_booked_until
+                  ? true
+                  : false
               }
               onCheckedChange={(e) => checkedAction(e)}
               checked={
@@ -311,16 +315,16 @@ export function ItemSection({
             />
 
             <div className="w-[100px] h-[100px] md:w-[150px] md:h-[150px] aspect-square">
-            <ImageWithLoader
-              src={item.main_photo}
-              alt={`Activity banner`}
-              fallbackSrc="/fallback-image.png"
-              classNameProp="rounded-lg w-[100px] h-[100px] md:w-[150px] md:h-[150px] object-cover"
-              skeletonClassName="rounded-lg"
-              priority={false} // Gambar ini tidak diberi prioritas
-              width={150}
-              height={150}
-            />
+              <ImageWithLoader
+                src={item.main_photo}
+                alt={`Activity banner`}
+                fallbackSrc="/fallback-image.png"
+                classNameProp="rounded-lg w-[100px] h-[100px] md:w-[150px] md:h-[150px] object-cover"
+                skeletonClassName="rounded-lg"
+                priority={false} // Gambar ini tidak diberi prioritas
+                width={150}
+                height={150}
+              />
             </div>
 
             <div className="flex flex-col gap-1">
@@ -331,61 +335,69 @@ export function ItemSection({
                 <span className="text-sm md:text-base">
                   {item.package_title}
                 </span>
-
-               
-
               </div>
               <div className="hidden md:flex flex-col">
-              {item.is_fully_booked_until && (
-                 <TooltipProvider>
-                 <Tooltip>
-                   <TooltipTrigger asChild>
-                   <Badge className="max-w-max" variant="destructive">Currently fully booked</Badge>
-                   </TooltipTrigger>
-                   <TooltipContent>
-                     <p>Available on { format(item.is_fully_booked_until, "PPPP")}</p>
-                   </TooltipContent>
-                 </Tooltip>
-               </TooltipProvider>
-                   
+                {item.is_fully_booked_until && (
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Badge className="max-w-max" variant="destructive">
+                          Currently fully booked
+                        </Badge>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>
+                          Available on{" "}
+                          {GlobalUtility.FormatDateFromStringToAnyFormatType(
+                            item.is_fully_booked_until,
+                            "PPPP"
+                          )}
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 )}
 
-              <div className="relative mt-1 max-w-[250px]">
-                <DatePickerCart
-                  orderId={orderId}
-                  diffDays={item.diff_days}
-                  defaultSelectedDate={item.activity_date}
-                />
-              </div>
+                <div className="relative mt-1 max-w-[250px]">
+                  <DatePickerCart
+                    orderId={orderId}
+                    diffDays={item.diff_days}
+                    defaultSelectedDate={item.activity_date}
+                  />
+                </div>
               </div>
             </div>
           </div>
 
           <div className="flex items-end md:hidden gap-1">
-             
-              <div className="relative mt-1 max-w-[250px]">
-                <DatePickerCart
-                  orderId={orderId}
-                  diffDays={item.diff_days}
-                  defaultSelectedDate={item.activity_date}
-                />
-              </div>
+            <div className="relative mt-1 max-w-[250px]">
+              <DatePickerCart
+                orderId={orderId}
+                diffDays={item.diff_days}
+                defaultSelectedDate={item.activity_date}
+              />
+            </div>
 
-              {item.is_fully_booked_until && (
-                 <TooltipProvider>
-                 <Tooltip>
-                   <TooltipTrigger asChild>
-                   <Badge className="max-w-max self-center" variant="destructive">Fully booked</Badge>
-                   </TooltipTrigger>
-                   <TooltipContent>
-                     <p>Available on { format(item.is_fully_booked_until, "PPPP")}</p>
-                   </TooltipContent>
-                 </Tooltip>
-               </TooltipProvider>
-                   
-                )}
-
-              </div>
+            {item.is_fully_booked_until && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Badge
+                      className="max-w-max self-center"
+                      variant="destructive"
+                    >
+                      Fully booked
+                    </Badge>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>
+                      Available on {format(item.is_fully_booked_until, "PPPP")}
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
+          </div>
 
           <div className="flex flex-col gap-2 mt-4 md:mt-0 md:ml-auto md:col-span-5 lg:col-span-2 ">
             {localManipulatePrice.map((price, key) => (

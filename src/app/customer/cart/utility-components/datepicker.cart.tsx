@@ -56,13 +56,6 @@ export function DatePickerCart({orderId, diffDays, defaultSelectedDate} : {order
     }, 50);
   }, [])
 
-  // useEffect(() => {
-  //   if (cleanCalendar) {
-  //     setSelectedDate(undefined);
-  //     setCleanCalender(false);
-  //   }
-  // }, [cleanCalendar]);
-
   return (
     <>
     {!firstLoading ? (

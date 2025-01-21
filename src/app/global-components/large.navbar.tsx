@@ -97,7 +97,7 @@ export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
                           </div>
                           <div
                             onClick={() =>
-                              router.push(`/customer/booking/waiting`)
+                              router.push(`/customer/booking/unconfirmed`)
                             }
                             className="flex items-center gap-2 text-sm md:text-base cursor-pointer hover:text-blue-500"
                           >
