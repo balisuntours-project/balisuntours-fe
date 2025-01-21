@@ -46,7 +46,7 @@ export async function middleware(request: NextRequest) {
         cookieStore.delete("google-login")
         
         // Jika refresh token gagal, redirect ke halaman login
-        return NextResponse.redirect(new URL("/", request.url));
+        return NextResponse.redirect(new URL("/customer/signin", request.url));
       }
     }
   }

@@ -14,6 +14,7 @@ import {
   isSameYear,
   startOfMonth,
   subDays,
+  parse,
 } from "date-fns";
 import { CurrencyListEnum, CurrencyListSymbolEnum } from "./global.enum";
 
@@ -124,8 +125,20 @@ export class GlobalUtility {
     return currencyResult;
   }
 
+  static FormatDateFromStringToAnyFormatType(
+    stringDate: string,
+    dateFnsFormatType: string
+  ): string {
+    const formattedDate = format(
+      parse(stringDate, "EEE dd MMM yyyy HH:mm", new Date()),
+      dateFnsFormatType
+    );
+
+    return formattedDate;
+  }
+
   static SetFormattedStandartDate(date: string | Date): Date {
-    const parsedDate = typeof date === "string" ? new Date(date) : date;
+    const parsedDate = typeof date === "string" ? parseISO(date) : date;
     // console.log(date, "wakuwakuwaku")
     //console.log(parsedDate)
     const utcDate = startOfDay(parsedDate);
@@ -155,10 +168,14 @@ export class GlobalUtility {
   }
 
   static FormatBeautifullDate(dateString: string): string {
-    const date = new Date(dateString);
-    const formattedDate = format(date, "EEEE, MMMM d, yyyy");
-
-    return formattedDate;
+    try {
+      const date = parseISO(dateString); // Pastikan dateString adalah ISO 8601
+      const formattedDate = format(date, "EEEE, MMMM d, yyyy");
+      return formattedDate;
+    } catch (error) {
+      console.error("Error parsing date:", error);
+      return "Invalid date";
+    }
   }
 
   static checkDateInput(
@@ -244,12 +261,12 @@ export class GlobalUtility {
   }
 
   static InputFormatterForPhoneAllowNumberAndPlus(phone: string) {
-    const filteredValue = phone.replace(/[^0-9+]/g, '');
+    const filteredValue = phone.replace(/[^0-9+]/g, "");
     return filteredValue;
   }
 
-  static IsValidUrl (url: string) {
+  static IsValidUrl(url: string) {
     const urlPattern = /^(https?:\/\/|www\.)[^\s/$.?#].[^\s]*$/i;
     return urlPattern.test(url);
-  };
+  }
 }

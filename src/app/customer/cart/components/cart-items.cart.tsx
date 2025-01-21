@@ -70,7 +70,7 @@ export function CartItemsList({ items }: { items: CartItemsResponse | null }) {
 
   const handlebookingAction = async () => {
     if (selectedCarts.length > 0) {
-      console.log(selectedCarts)
+     // console.log(selectedCarts)
       setIsLoading(true);
       const selectedUuidCarts: Array<string> = selectedCarts.flatMap(
         (cart) => cart.temporary_items
@@ -79,8 +79,8 @@ export function CartItemsList({ items }: { items: CartItemsResponse | null }) {
       const checkForFreeTourValidation = await CartAction.FreeTourValidation(
         stringCartPayload
       );
-      console.log(checkForFreeTourValidation)
-      console.log(selectedUuidCarts)
+      // console.log(checkForFreeTourValidation)
+      // console.log(selectedUuidCarts)
       setIsLoading(false);
       if (checkForFreeTourValidation.status_code == HttpStatus.OK) {
         router.push(
