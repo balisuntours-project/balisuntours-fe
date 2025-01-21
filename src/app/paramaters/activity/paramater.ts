@@ -113,3 +113,11 @@ export interface CalculateTotalPriceParamater {
 export interface AllActivitiesParamater extends Activity {
   activity_categories: Array<ActivityCategoryResponse>
 }
+
+export interface RecentlyOrRecomendedActivityParamater {
+  slug: string,
+  image: string,
+  title: string,
+  smaller_price: number,
+  viewed_on: Date|string
+}

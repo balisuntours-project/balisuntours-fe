@@ -1,8 +1,6 @@
-import Image from "next/image";
 import { LargeNavbar } from "./global-components/large.navbar";
 import { LandingPageHeroSection } from "./global-components/lading-page.hero";
 import { LandingPagePopularActivitySection } from "./global-components/landing-page.activity";
-import axios from "axios";
 import {
   ActivityBestCategory,
   BestActivityCategoryNameAndListActivity,
@@ -10,10 +8,10 @@ import {
 import { LandingPageBenefit } from "./global-components/landing-page.benefit";
 import { LandingPageBestCategorySection } from "./global-components/landing-page.category";
 import { LandingPageFooterSection } from "./global-components/landing-page.footer";
-import { api } from "@/lib/axios-instance";
 import { Activity } from "./responses/activity/response";
 import { ActivityAction } from "./actions/activity/action";
 import { ActivityCategoryAction } from "./actions/category/action";
+import { LandingRecentlyViewedActivity } from "./global-components/landing-page-recently.activity";
 
 export default async function Home() {
   const batchResult = await Promise.allSettled([
@@ -70,6 +68,7 @@ export default async function Home() {
         <div className="">
           <LandingPageHeroSection />
           <div className="container flex flex-col gap-11 px-3 md:px-8  pt-11 pb-11">
+            <LandingRecentlyViewedActivity />
             <LandingPageBenefit />
             <LandingPagePopularActivitySection
               best_deals_activity={bestDeals}

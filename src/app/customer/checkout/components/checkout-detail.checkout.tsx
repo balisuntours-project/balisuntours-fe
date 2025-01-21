@@ -190,19 +190,19 @@ export function CheckoutDetail({
     }
   }, [checkoutPackages]);
 
-  useEffect(() => {
-    if(checkoutPackageBookingData) {
-      console.log(checkoutPackageBookingData)
-      console.log(checkoutPackages)
-    }
-  }, [checkoutPackageBookingData])
+  // useEffect(() => {
+  //   if(checkoutPackageBookingData) {
+  //     console.log(checkoutPackageBookingData)
+  //     console.log(checkoutPackages)
+  //   }
+  // }, [checkoutPackageBookingData])
 
-  const [isPackageStateLoaded, setIsPackageStateLoaded] = useState<boolean>(false)
-  useEffect(() => {
-    if(checkoutPackageBookingData) {
-      setIsPackageStateLoaded(true)
-    }
-  }, [checkoutPackageBookingData])
+  // const [isPackageStateLoaded, setIsPackageStateLoaded] = useState<boolean>(false)
+  // useEffect(() => {
+  //   if(checkoutPackageBookingData) {
+  //     setIsPackageStateLoaded(true)
+  //   }
+  // }, [checkoutPackageBookingData])
 
   return (
     <>

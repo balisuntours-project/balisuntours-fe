@@ -1,4 +1,7 @@
-import { DetailActivityParamater } from "@/app/paramaters/activity/paramater";
+import {
+  DetailActivityParamater,
+  RecentlyOrRecomendedActivityParamater,
+} from "@/app/paramaters/activity/paramater";
 
 import { notFound } from "next/navigation";
 import { generateMetadata } from "./dynamic.metadata";
@@ -9,6 +12,7 @@ import { ActivityActionServer } from "@/app/actions/activity/action.server";
 import { DetailActivityPackage } from "./components/detail-activity.package";
 import { DetailActivityReviews } from "./components/detail-activity.review";
 import { LandingPageFooterSection } from "@/app/global-components/landing-page.footer";
+import { SetRecentlyViewedActivityToStorage } from "./components/set-previewed-storage.activity";
 
 export { generateMetadata };
 
@@ -27,9 +31,19 @@ export default async function PreviewActivity({
 
   const activity = data.data;
  
+  const dataForRecentlyShowedActivity: RecentlyOrRecomendedActivityParamater = {
+    slug: activity.slug,
+    title: activity.title,
+    image: activity.activity_main_photo.files.url,
+    smaller_price: activity.smaller_price,
+    viewed_on: new Date(),
+  };
   return (
     <>
       <LargeNavbar />
+      <SetRecentlyViewedActivityToStorage
+        activity={dataForRecentlyShowedActivity}
+      />
       <div className="pt-11 md:pt-32 lg:pt-32 relative">
         <div className="md:container flex flex-col md:px-8  md:pt-11 pb-11 w-full">
           <div className="flex flex-col md:flex-col-reverse">

@@ -23,7 +23,7 @@ export function CheckoutAmountSection({
     <>
       <div
         id="amountSection"
-        className="flex flex-col gap-6 mb-44 md:mb-0 mt-4 md:mt-0 lg:flex lg:flex-col lg:gap-6 lg:col-span-4 lg:sticky lg:top-5 shadow-lg"
+        className="flex flex-col gap-6 lg:mb-44 md:mb-0 mt-4 md:mt-0 lg:flex lg:flex-col lg:gap-6 lg:col-span-4 lg:sticky lg:top-5 shadow-lg"
       >
         <div className="amount-section bg-white rounded-lg p-5 lg:block">
           <div className="mb-6 mt-3 bg-[#5FA22A] p-4 rounded-md">
