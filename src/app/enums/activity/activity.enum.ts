@@ -27,3 +27,7 @@ export enum IncrementDecrementEnum {
   increment = "plus",
   decrement = "mines"
 }
+
+export enum ActivityLocalStorageEnum {
+  recentlyViewed = "recently-viewed"
+}
