@@ -32,10 +32,10 @@ export function SetRecentlyViewedActivityToStorage({
       let updatedActivities;
 
       if (existingIndex !== -1) {
-        // Jika sudah ada, pindahkan ke posisi pertama
+        // Jika sudah ada, timpa dengan data baru lalu pindahkan ke posisi pertama
         const existingActivity = recentlyViewedActivity[existingIndex];
         updatedActivities = [
-          existingActivity,
+          activity,
           ...recentlyViewedActivity.filter((_, idx) => idx !== existingIndex),
         ];
       } else {

@@ -109,8 +109,6 @@ export function HeroBannerComponent({
     new Array(BANNER_LANDING_PAGE.length).fill(false) // Default: semua video belum siap
   );
 
-  const isSSR = typeof window === "undefined";
-
   return (
     <>
       <div className="relative w-full max-w-full mx-auto hidden md:block">
