@@ -20,8 +20,9 @@ const ActivityBestCategoryCard: FC<ActivityCardProps> = ({
   showTags = true,
 }) => {
   return (
-    <Link href={`/customer/preview/activity/${activity.slug}`} target="__blank">
-      <Card
+    <Link href={`/customer/preview/activity/${activity.slug}`} passHref legacyBehavior>
+    <a target="_blank">
+    <Card
       /*   className={`flex flex-col w-full max-w-[250px] md:max-h-[300px] h-[200px] md:h-[300px]`} */
         className={`flex flex-col w-full max-w-[250px] ${
           useMobileHeight == false
@@ -93,6 +94,7 @@ const ActivityBestCategoryCard: FC<ActivityCardProps> = ({
           </div>
         </CardContent>
       </Card>
+    </a>
     </Link>
   );
 };

@@ -1,7 +1,5 @@
 "use client";
 
-import { AuthButton } from "@/components/custom-ui/auth.button";
-import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuContent,

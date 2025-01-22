@@ -16,8 +16,9 @@ const ActivityCard: FC<ActivityCardProps> = ({
   withStyledConfig = false,
 }) => {
   return (
-    <Link href={`/customer/preview/activity/${activity.slug}`} target="__blank">
-      <Card
+    <Link href={`/customer/preview/activity/${activity.slug}`} passHref legacyBehavior>
+    <a target="_blank">
+    <Card
         className={`flex flex-col ${
           !withStyledConfig
             ? useMobileHeight == false
@@ -107,6 +108,7 @@ const ActivityCard: FC<ActivityCardProps> = ({
           </div>
         </CardContent>
       </Card>
+    </a>
     </Link>
   );
 };

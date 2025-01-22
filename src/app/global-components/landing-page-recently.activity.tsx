@@ -38,38 +38,41 @@ export function LandingRecentlyViewedActivity() {
                 >
                   <Link
                     href={`/customer/preview/activity/${activity.slug}`}
-                    target="__blank"
+                    passHref
+                    legacyBehavior
                   >
-                    <div className="flex flex-col gap-1">
-                      <div className="lg:p-1">
-                        <ImageWithLoader
-                          src={activity.image}
-                          alt={activity.title}
-                          fallbackSrc="/fallback-image.png"
-                          classNameProp={`rounded-2xl w-full h-[80px] md:h-[100px] lg:h-[120px] max-h-[80px] md:max-h-[100px] lg:max-h-[120px] object-cover`}
-                          skeletonClassName={`rounded-2xl w-full h-[80px] md:h-[100px] lg:h-[120px] max-h-[80px] md:max-h-[100px] lg:max-h-[120px] object-cover`}
-                          priority={false}
-                          /*   objectFit="cover" */
-                          width={500}
-                          height={200}
-                          quality={100}
-                        />
+                    <a target="_blank">
+                      <div className="flex flex-col gap-1">
+                        <div className="lg:p-1">
+                          <ImageWithLoader
+                            src={activity.image}
+                            alt={activity.title}
+                            fallbackSrc="/fallback-image.png"
+                            classNameProp={`rounded-2xl w-full h-[80px] md:h-[100px] lg:h-[120px] max-h-[80px] md:max-h-[100px] lg:max-h-[120px] object-cover`}
+                            skeletonClassName={`rounded-2xl w-full h-[80px] md:h-[100px] lg:h-[120px] max-h-[80px] md:max-h-[100px] lg:max-h-[120px] object-cover`}
+                            priority={false}
+                            /*   objectFit="cover" */
+                            width={500}
+                            height={200}
+                            quality={100}
+                          />
+                        </div>
+                        <div className="title">
+                          <ActivityTitleCard
+                            customSizeText="text-xs md:text-sm"
+                            title={activity.title}
+                          />
+                        </div>
+                        <div className="price">
+                          <span className="text-xs md:text-sm font-semibold text-green-600">
+                            From{" "}
+                            {GlobalUtility.IdrCurrencyFormat(
+                              activity.smaller_price
+                            )}
+                          </span>
+                        </div>
                       </div>
-                      <div className="title">
-                        <ActivityTitleCard
-                          customSizeText="text-xs md:text-sm"
-                          title={activity.title}
-                        />
-                      </div>
-                      <div className="price">
-                        <span className="text-xs md:text-sm font-semibold text-green-600">
-                          From{" "}
-                          {GlobalUtility.IdrCurrencyFormat(
-                            activity.smaller_price
-                          )}
-                        </span>
-                      </div>
-                    </div>
+                    </a>
                   </Link>
                 </CarouselItem>
               ))}
