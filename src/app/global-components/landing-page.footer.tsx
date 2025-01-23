@@ -145,9 +145,9 @@ export function LandingPageFooterSection() {
               <a
                 className="pb-2 md:pb-0 md:my-2 block text-[10px] md:text-xs hover:text-[#65AD2E]"
                 target="_blank"
-                href="https://balisuntours.com/contact-us/"
+                href="/charity"
               >
-                Contact Us <span className="text-teal-600  md:p-1"></span>
+                Charity <span className="text-teal-600  md:p-1"></span>
               </a>
                <span className="block md:hidden mx-1 border-r-2 border-gray-300 h-3 py-auto items-center" />
               <a
@@ -163,30 +163,54 @@ export function LandingPageFooterSection() {
             </div>
             <div className="px-5 py-3 md:px-0 md:py-5">
               <div className="mb-2 md:mb-0 text-xs md:text-sm uppercase font-bold">
-                Contact Info
+               Accepted Payment
               </div>
-              <div className="text-[#EB5E00] font-extrabold text-[10px] md:text-xs">
-                Inquiry
+              <div className="md:flex-auto mt-3 flex-row flex">
+                <a href="/#" className="w-6 me-3">
+                  <img
+                    src="/visa.png"
+                    alt="icon"
+                    width="100"
+                    height="100"
+                    className="w-[60px] h-[35px]"
+                  />
+                </a>
+                <a href="/#" className="w-11 me-3 flex items-center justify-center">
+                  <img
+                    src="/master-card.png"
+                    alt="icon"
+                    width="100"
+                    height="100"
+                    className="w-full h-[25px]"
+                  />
+                </a>
+                <a
+                  href="#"
+                  target="_blank"
+                  className="w-6 me-3"
+                >
+                  <img
+                    src="/jcb.png"
+                    alt="icon"
+                    width="100"
+                    height="100"
+                    className="w-[60px] h-[35px]"
+                  />
+                </a>
+                <a
+                  href="#"
+                  target="_blank"
+                  className="w-6 me-3"
+                >
+                  <img
+                    src="/america-ex.png"
+                    alt="icon"
+                    width="100"
+                    height="100"
+                    className="w-[60px] h-[35px]"
+                 />
+                </a>
               </div>
-             <div className="flex md:flex-col flex-wrap">
-             <a
-                className=" block text-[10px] md:text-xs"
-                href="https://wa.me/6285211005008?text=Hi%2C%20Bali%20SUN%20Tours"
-                target="_blank"
-              >
-                <span className="font-black">Whatsapp/Ph :</span> +6285 211 005
-                008
-              </a>
-              <span className="block md:hidden mx-1 border-r-2 border-gray-300 h-3 py-auto items-center" />
-              <a
-                className=" block text-[10px] md:text-xs"
-                href="mailto:info@balisuntours.com"
-                target="_blank"
-              >
-                <span className="font-black">Email :</span>{" "}
-                info@balisuntours.com
-              </a>
-             </div>
 
              {/*  <div className="text-[#65AD2E] font-extrabold text-[10px] md:text-xs mt-3">
                 Booking
@@ -264,7 +288,7 @@ export function LandingPageFooterSection() {
 
         <div className="">
           <div className="flex md:pb-5 px-3 m-auto pt-5 border-t text-gray-800 text-xs md:text-sm flex-col w-full max-w-full items-center">
-            <div className="md:my-5">© 2013 - 2014 PT. Surya Utama Nirmala</div>
+            <div className="md:my-5">© 2013 - 2025 PT. Surya Utama Nirmala</div>
           </div>
         </div>
       </div>

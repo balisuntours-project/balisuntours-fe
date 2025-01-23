@@ -11,7 +11,7 @@ export function AboutUsWhatIsBST() {
           Your Trusted Travel Agent in Bali
         </h3>
         <p className="text-base md:text-lg text-gray-600 leading-relaxed max-w-3xl">
-          Bali Sun Tours is a premier travel agent since 2019 specializing in transportation, tours, and exciting travel experiences. We are also expanding into the hotel industry in Bali, catering to both domestic and international guests.
+          Bali Sun Tours is a premier travel agent since 2013 specializing in transportation, tours, and exciting travel experiences. We are also expanding into the hotel industry in Bali, catering to both domestic and international guests.
         </p>
       </div>
     </FooterBackgroundContent>
