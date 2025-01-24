@@ -15,7 +15,7 @@ export function TermAndConditionsContentSection({
     
         <section className="mb-4">
           <div
-            className="prose-ol:list-disc prose-base px-4 py-2 text-black"
+            className="prose-ol:list-disc prose-sm md:prose-base px-4 py-2 text-black"
             dangerouslySetInnerHTML={{
               __html: content,
             }}
