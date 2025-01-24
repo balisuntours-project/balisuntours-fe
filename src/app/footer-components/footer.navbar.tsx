@@ -9,7 +9,7 @@ import {
   navigationMenuTriggerStyle,
   NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
-import { Goal, Handshake, HelpCircle, Info } from "lucide-react";
+import { Goal, HandHelping, Handshake, HelpCircle, Info } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -58,10 +58,10 @@ export function FooterNavbarSection() {
                     </NavigationMenuItem>
                     <NavigationMenuItem>
                       <div className={navigationMenuTriggerStyle()}>
-                        <Link href="/partner" passHref legacyBehavior>
+                        <Link href="/charity" passHref legacyBehavior>
                           <a target="_blank">
                           <span className="hidden md:inline">Charity</span>
-                          <HelpCircle className="inline md:hidden w-5 h-5 md:w-auto md:h-auto stroke-[1.5]" />
+                          <HandHelping className="inline md:hidden w-5 h-5 md:w-auto md:h-auto stroke-[1.5]" />
                           </a>
                         </Link>
                       </div>
