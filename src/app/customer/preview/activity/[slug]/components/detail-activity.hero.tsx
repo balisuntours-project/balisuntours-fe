@@ -34,8 +34,8 @@ export function DetailActivityHero(props: DetailActivityHeroParamater) {
             classNameProp="w-full sm:h-[400px] lg:h-[500px] bg-gray-500 rounded-lg object-cover cursor-pointer"
             skeletonClassName="rounded-lg"
             priority={false}
-            width={1000}
-            height={1000}
+            width={500}
+            height={500}
           />
         </div>
         <div className="col-span-1 grid grid-rows-2 gap-2 max-h-[500px]">
@@ -46,8 +46,8 @@ export function DetailActivityHero(props: DetailActivityHeroParamater) {
             classNameProp="row-span-1 w-full h-[100%] bg-gray-500 rounded-lg object-cover cursor-pointer"
             skeletonClassName="rounded-lg"
             priority={false}
-            width={1000}
-            height={1000}
+            width={500}
+            height={500}
           />
 
           <ImageWithLoader
@@ -57,8 +57,8 @@ export function DetailActivityHero(props: DetailActivityHeroParamater) {
             classNameProp="row-span-1 w-full h-[100%] bg-gray-500 rounded-lg object-cover cursor-pointer"
             skeletonClassName="rounded-lg"
             priority={false}
-            width={1000}
-            height={1000}
+            width={500}
+            height={500}
           />
         </div>
       </div>

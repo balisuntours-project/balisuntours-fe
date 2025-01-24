@@ -35,7 +35,7 @@ function BackgroundImage({ title }: { title: string }) {
           skeletonClassName="max-w-[200px] lg:max-w-[300px] max-h-[200px] h-[150px] md:h-[200px] rounded-md"
           priority={false}
          
-            width={3000}
+            width={300}
             height={200}
             quality={100}
         />
