@@ -269,4 +269,10 @@ export class GlobalUtility {
     const urlPattern = /^(https?:\/\/|www\.)[^\s/$.?#].[^\s]*$/i;
     return urlPattern.test(url);
   }
+
+  static IsHTMLContentEmpty(html: string) {
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    const textContent = doc.body.textContent || ""; // Ambil teks dari konten HTML
+    return textContent.trim().length === 0; // Cek apakah teks kosong
+  }
 }

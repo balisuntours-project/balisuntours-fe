@@ -1,27 +1,26 @@
 "use client";
 
 import { TermConditionsContent } from "../content";
+import "../../../styles/styled-ul.css";
 
-export function TermAndConditionsContentSection() {
+export function TermAndConditionsContentSection({
+  content,
+}: {
+  content: string;
+}) {
   return (
     <>
       {/* Main Content */}
       <main className="flex-1 lg:p-6">
-        {TermConditionsContent.map((section) => (
-          <section
-            id={section.title}
-            key={section.title}
-            className="mb-4 scroll-mt-24"
-          >
-            <h2 className="text-base md:text-lg font-bold">{section.title}</h2>
-            <div
-              className="text-sm md:text-base px-4 py-2 text-black list-disc list-inside"
-              dangerouslySetInnerHTML={{
-                __html: section.description,
-              }}
-            />
-          </section>
-        ))}
+    
+        <section className="mb-4">
+          <div
+            className="prose-ol:list-disc prose-base px-4 py-2 text-black"
+            dangerouslySetInnerHTML={{
+              __html: content,
+            }}
+          />
+        </section>
       </main>
     </>
   );
