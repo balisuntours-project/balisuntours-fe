@@ -6,15 +6,32 @@ import { AuthButton } from "@/components/custom-ui/auth.button";
 import { DisabledButton } from "@/components/custom-ui/disabled.buttont";
 import { useToast } from "@/hooks/use-toast";
 import { GlobalUtility } from "@/lib/global.utility";
-import React, { useEffect, useState } from "react";
-import ReactQuill from "react-quill-new";
+import dynamic from "next/dynamic";
+import React, { useEffect, useMemo, useState } from "react";
 import "react-quill-new/dist/quill.snow.css";
 
 export function EditorComponent({ data }: { data: GetPolicyResponse }) {
   const { toast } = useToast();
   const [value, setValue] = useState(data.content);
   const [onLoadUpdate, setOnLoadUpdate] = useState(false);
-  
+  const [quillLoaded, setQuillLoaded] = useState(false);
+
+  const ReactQuill = useMemo(
+    () =>
+      dynamic(() => import("react-quill-new"), {
+        ssr: false,
+        loading: () => {
+          setQuillLoaded(false); // Skeleton loader aktif selama ReactQuill dimuat
+          return null;
+        },
+      }),
+    []
+  );
+
+  useEffect(() => {
+    setQuillLoaded(true); // ReactQuill selesai dimuat
+  }, [ReactQuill]);
+
   const handleUpdateTnC = async () => {
     if (GlobalUtility.IsHTMLContentEmpty(value) || value.length < 20) {
       toast({
@@ -24,21 +41,22 @@ export function EditorComponent({ data }: { data: GetPolicyResponse }) {
       return;
     }
 
-    setOnLoadUpdate(true)
-    const result = await PolicyAction.EditTnCData(data.uuid, value)
-    setOnLoadUpdate(false)
-    if(result.success) {
-        toast({
-            description: `TNC updated!`,
-            variant: "success",
-          });
-    }else {
-        toast({
-            description: `${result.data}`,
-            variant: "danger",
-          });
+    setOnLoadUpdate(true);
+    const result = await PolicyAction.EditTnCData(data.uuid, value);
+    setOnLoadUpdate(false);
+    if (result.success) {
+      toast({
+        description: `TNC updated!`,
+        variant: "success",
+      });
+    } else {
+      toast({
+        description: `${result.data}`,
+        variant: "danger",
+      });
     }
   };
+
   return (
     <>
       <div className="w-1/2 max-w-1/2 mx-auto">
@@ -46,12 +64,24 @@ export function EditorComponent({ data }: { data: GetPolicyResponse }) {
           Edit Term and Conditions
         </h1>
         <div className="mt-5">
-          <ReactQuill theme="snow" value={value} onChange={setValue} />
+          {/* Skeleton loader ditampilkan jika ReactQuill belum selesai dimuat */}
+          {!quillLoaded ? (
+            <div className="animate-pulse">
+              <div className="h-40 bg-gray-200 rounded-md"></div>
+              <div className="h-12 bg-gray-200 mt-3 rounded-md"></div>
+            </div>
+          ) : (
+            <ReactQuill theme="snow" value={value} onChange={setValue} />
+          )}
           <div className="w-full mt-3">
             {!onLoadUpdate ? (
-                <AuthButton onClick={() => handleUpdateTnC()} title="Update" rouded="rounded-md" />
+              <AuthButton
+                onClick={() => handleUpdateTnC()}
+                title="Update"
+                rouded="rounded-md"
+              />
             ) : (
-                <DisabledButton title="Updating..." rouded="rounded-md" />
+              <DisabledButton title="Updating..." rouded="rounded-md" />
             )}
           </div>
         </div>
