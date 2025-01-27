@@ -116,15 +116,15 @@ export function LandingPageFooterSection() {
                 Terms and Conditions
                 <span className="text-teal-600  md:p-1"></span>
               </a>
-               <span className="block md:hidden mx-1 border-r-2 border-gray-300 h-3 py-auto items-center" />
+               {/* <span className="block md:hidden mx-1 border-r-2 border-gray-300 h-3 py-auto items-center" />
               <a
                 className="pb-2 md:pb-0 md:my-2 block text-[10px] md:text-xs hover:text-[#65AD2E]"
                 target="_blank"
                 href="https://balisuntours.com/gallery/"
               >
                 Gallery <span className="text-teal-600  md:p-1"></span>
-              </a>
-               <span className="block md:hidden mx-1 border-r-2 border-gray-300 h-3 py-auto items-center" />
+              </a> */}
+               {/* <span className="block md:hidden mx-1 border-r-2 border-gray-300 h-3 py-auto items-center" />
               <a
                 className="pb-2 md:pb-0 md:my-2 block text-[10px] md:text-xs hover:text-[#65AD2E]"
                 target="_blank"
@@ -132,7 +132,7 @@ export function LandingPageFooterSection() {
               >
                 Interesting Places
                 <span className="text-teal-600  md:p-1"></span>
-              </a>
+              </a> */}
                <span className="block md:hidden mx-1 border-r-2 border-gray-300 h-3 py-auto items-center" />
               <a
                 className="pb-2 md:pb-0 md:my-2 block text-[10px] md:text-xs hover:text-[#65AD2E]"
@@ -237,7 +237,7 @@ export function LandingPageFooterSection() {
 
               <div className="mb-2 md:mb-0 text-xs md:text-sm uppercase font-bold mt-8">Follow Us</div>
               <div className="md:flex-auto mt-3 flex-row flex">
-                <a href="/#" className="w-6 me-3">
+                <a href="https://www.facebook.com/balisuntours" className="w-6 me-3">
                   <img
                     src="/facebook.svg"
                     alt="icon"
@@ -246,7 +246,7 @@ export function LandingPageFooterSection() {
                     className=""
                   />
                 </a>
-                <a href="/#" className="w-6 me-3">
+                <a href="https://www.instagram.com/balisuntours" className="w-6 me-3">
                   <img
                     src="/instagram.svg"
                     alt="icon"

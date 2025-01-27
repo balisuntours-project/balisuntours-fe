@@ -61,7 +61,7 @@ export function FooterNavbarSection() {
                         <Link href="/charity" passHref legacyBehavior>
                           <a target="_blank">
                           <span className="hidden md:inline">Charity</span>
-                          <HandHelping className="inline md:hidden w-5 h-5 md:w-auto md:h-auto stroke-[1.5]" />
+                          <HandHelping className="inline md:hidden w-6 h-6 md:w-auto md:h-auto stroke-[1.5]" />
                           </a>
                         </Link>
                       </div>

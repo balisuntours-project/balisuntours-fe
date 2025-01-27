@@ -25,14 +25,16 @@ export function LandingPageBenefit() {
                 className="h-[35px] w-[35px] md:h-[50px] md:w-[50px]"
                 alt="benefit-svg"
               />
-              <h2 className="text-base md:text-lg font-bold">Tailored Just for You</h2>
+              <h2 className="text-base md:text-lg font-bold">
+                Tailored Just for You
+              </h2>
               <p className="text-xs md:text-sm">
-                Get a customized Bali itinerary that matches your interests—whether it’s adventure, culture, or relaxation.
-                We design your perfect Bali escape.
+                You are able to customize your tour itinerary and specify
+                personal needs.
               </p>
             </div>
           </CarouselItem>
-          
+
           {/* Carousel Item 2 */}
           <CarouselItem className="pl-4 basis-[40%] md:basis-[29%] lg:basis-1/4">
             <div className="flex flex-col gap-3">
@@ -44,9 +46,13 @@ export function LandingPageBenefit() {
                 className="h-[35px] w-[35px] md:h-[50px] md:w-[50px]"
                 alt="benefit-svg"
               />
-              <h2 className="text-base md:text-lg font-bold">Ultimate Comfort</h2>
+              <h2 className="text-base md:text-lg font-bold">
+                Ultimate Comfort
+              </h2>
               <p className="text-xs md:text-sm">
-                Relax in luxury with air-conditioned transport and VIP services, letting you enjoy Bali without a worry.
+                Let you enjoy Bali with worry free, any comfortable
+                transportation with helpful services from our team are
+                available.
               </p>
             </div>
           </CarouselItem>
@@ -62,9 +68,13 @@ export function LandingPageBenefit() {
                 className="h-[35px] w-[35px] md:h-[50px] md:w-[50px]"
                 alt="benefit-svg"
               />
-              <h2 className="text-base md:text-lg font-bold">Insider Knowledge</h2>
+              <h2 className="text-base md:text-lg font-bold">
+                Insider Knowledge
+              </h2>
               <p className="text-xs md:text-sm">
-                Our expert local guides will show you the best of Bali—from hidden gems to must-see spots—ensuring you experience the island like a local.
+                Our expert local guides showing you Bali’s culture from hidden
+                gems to must-see spots ensuring you experience a true Bali
+                atmosphere.
               </p>
             </div>
           </CarouselItem>
@@ -80,9 +90,13 @@ export function LandingPageBenefit() {
                 className="h-[35px] w-[35px] md:h-[50px] md:w-[50px]"
                 alt="benefit-svg"
               />
-              <h2 className="text-base md:text-lg font-bold">Unforgettable Moments</h2>
+              <h2 className="text-base md:text-lg font-bold">
+                Unforgettable Moments
+              </h2>
               <p className="text-xs md:text-sm">
-                From adrenaline-pumping water sports to relaxing beach days, we offer unforgettable experiences that make Bali unforgettable.
+                From adrenaline-pumping to relaxing activities, we strive to
+                provide services that exceed your needs to create the
+                unforgettable moments.
               </p>
             </div>
           </CarouselItem>
