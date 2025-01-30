@@ -238,48 +238,48 @@ export function LandingPageFooterSection() {
               <div className="mb-2 md:mb-0 text-xs md:text-sm uppercase font-bold mt-8">Follow Us</div>
               <div className="md:flex-auto mt-3 flex-row flex">
                 <a href="https://www.facebook.com/balisuntours" className="w-6 me-3">
-                  <img
-                    src="/facebook.svg"
+                <img
+                    src="/facebook.png"
                     alt="icon"
-                    width="35"
-                    height="35"
-                    className=""
-                  />
+                    width="100"
+                    height="100"
+                    className="w-[60px] h-[25px]"
+                 />
                 </a>
-                <a href="https://www.instagram.com/balisuntours" className="w-6 me-3">
-                  <img
-                    src="/instagram.svg"
+                <a href="https://www.instagram.com/balisuntours" className="w-6 me-3 my-auto">
+                <img
+                    src="/instagram.png"
                     alt="icon"
-                    width="35"
-                    height="35"
-                    className=""
-                  />
+                    width="100"
+                    height="100"
+                    className="w-[60px] h-[23px]"
+                 />
                 </a>
                 <a
                   href="https://api.whatsapp.com/send?phone=6281936109809"
                   target="_blank"
                   className="w-6 me-3"
                 >
-                  <img
-                    src="/wa.svg"
+                 <img
+                    src="/whatsapp.png"
                     alt="icon"
-                    width="35"
-                    height="35"
-                    className=""
-                  />
+                    width="100"
+                    height="100"
+                    className="w-[60px] h-[25px]"
+                 />
                 </a>
                 <a
                   href="https://www.youtube.com/channel/UC0MUSpwc1cr-qJxQw0LRRPw"
                   target="_blank"
                   className="w-6 me-3"
                 >
-                  <img
-                    src="/youtube.svg"
+                 <img
+                    src="/youtube.png"
                     alt="icon"
-                    width="35"
-                    height="35"
-                    className=""
-                  />
+                    width="100"
+                    height="100"
+                    className="w-[60px] h-[25px]"
+                 />
                 </a>
               </div>
             </div>
