@@ -7,4 +7,6 @@ export interface ActivityMetaDataResponse {
     og_image: string|null,
     canonical_url: string,
     slug: string,
+    main_photo: Array<string>,
+    galleries: Array<string>,
 }

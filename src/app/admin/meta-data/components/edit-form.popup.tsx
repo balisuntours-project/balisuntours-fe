@@ -23,6 +23,8 @@ import { useState } from "react";
 import { DisabledButton } from "@/components/custom-ui/disabled.buttont";
 import { useLoaderStore } from "@/app/store/loader.store";
 import { useMetaDataStore } from "@/app/store/metadata.store";
+import { Badge } from "@/components/ui/badge";
+import { MetaDataListImages } from "./meta-data-list.images";
 
 export function EditFormPopUp({
   metadata,
@@ -52,6 +54,9 @@ export function EditFormPopUp({
   const handleEditMetaData = async (
     values: z.infer<typeof EditMetaDataSchema>
   ) => {
+    if(selectedImage) {
+      values.og_image = selectedImage
+    }
     setOnLoadUpdate(true);
     const action = await MetaDataAction.EditMetaData(metadata.uuid, values);
 
@@ -70,6 +75,19 @@ export function EditFormPopUp({
       });
     }
   };
+
+  const [selectedImage, setSelectedImage] = useState<string>(metadata.og_image ?? ""); // State untuk menyimpan URL gambar yang dipilih
+  
+  // Fungsi untuk menangani klik gambar dan mengisi input field
+  const handleImageClick = (url: string) => {
+    
+    setSelectedImage(url); // Menyimpan URL gambar yang dipilih
+    toast({
+      description: `URL added to form, you can close this popup`,
+      variant: "success",
+    });
+  };
+
 
   return (
     <>
@@ -152,7 +170,7 @@ export function EditFormPopUp({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-gray-700 text-sm font-semibold">
-                      Opengraph Description
+                      <span>Opengraph Description</span>
                     </FormLabel>
                     <FormControl>
                       <Textarea
@@ -171,15 +189,21 @@ export function EditFormPopUp({
                 name="og_image"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-gray-700 text-sm font-semibold">
-                      Opengraph Image
+                    <FormLabel className="text-gray-700 text-sm font-semibold flex gap-2">
+                      <span>Opengraph Image</span>
+                      <MetaDataListImages
+                        galleries={metadata.galleries}
+                        mainPhoto={metadata.main_photo}
+                        onClick={handleImageClick}
+                      />
                     </FormLabel>
                     <FormControl>
                       <Input
                         className="border text-base border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         type="text"
                         placeholder="Image url, https://balisuntours.com/storage/activity/atv.jpg etc"
-                        {...field}
+                        onChange={(e) => setSelectedImage(e.target.value)}
+                        value={selectedImage}
                       />
                     </FormControl>
                     <FormMessage />
