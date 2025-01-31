@@ -111,7 +111,7 @@ export function LandingPageFooterSection() {
               <a
                 className="pb-2 md:pb-0 md:my-2 block text-[10px] md:text-xs hover:text-[#65AD2E]"
                 target="_blank"
-                href="/rules/term-conditions"
+                href="/policy/term-conditions"
               >
                 Terms and Conditions
                 <span className="text-teal-600  md:p-1"></span>

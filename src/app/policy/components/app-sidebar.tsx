@@ -20,7 +20,7 @@ import { usePathname, useRouter } from "next/navigation";
 const items = [
   {
     title: "Term and Conditions",
-    url: "/rules/term-conditions",
+    url: "/policy/term-conditions",
     icon: Ruler,
   },
 ];

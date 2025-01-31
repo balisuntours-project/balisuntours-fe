@@ -81,6 +81,25 @@ export class AuthAction {
     }
   }
 
+  static async LoginInternalUser(payload: LoginParamater) {
+    try {
+      const result = await api("/api/internal/auth/login", {
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
+
+      if (result.ok) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      // console.log(error)
+      console.log(error);
+      return false;
+    }
+  }
+
   static async LogoutAction() {
     try {
       await api("/api/logout", {
