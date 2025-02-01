@@ -22,10 +22,16 @@ export function DetailActivityPackage(props: DetailActivityPackageParamater) {
     setOnMobile(GlobalUtility.CheckScreenOnMobile());
   }, []);
 
-  function HightLightComponent({showForDialog = false} : {showForDialog?: boolean}) {
+  function HightLightComponent({
+    showForDialog = false,
+  }: {
+    showForDialog?: boolean;
+  }) {
     return (
       <div
-        className={`text-justify list-disc list-inside text-sm ${!showForDialog ? 'line-clamp-4 md:line-clamp-none' : ''}`}
+        className={`text-justify list-disc list-inside text-sm ${
+          !showForDialog ? "line-clamp-4 md:line-clamp-none" : ""
+        }`}
         dangerouslySetInnerHTML={{ __html: props.description }}
       />
     );
@@ -64,23 +70,22 @@ export function DetailActivityPackage(props: DetailActivityPackageParamater) {
           {/* End Description & Itinerary section */}
 
           <div className="col-span-5">
-            <div className="border  border-gray-300 rounded-lg p-6 md:sticky top-[18%] max-h-[550px] overflow-auto ">
+            <div className="border  border-gray-300 rounded-lg p-6 md:sticky md:top-[18%] md:max-h-[550px] md:overflow-auto ">
               <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-black mb-3">
                 Package Options
               </h2>
               <div className="h-auto w-full">
-                <h3 className="text-base text-gray-500 mt-4">Dates</h3>
+                <h3 className="text-base text-gray-500 mt-4">Package type</h3>
+                <div className="packages-list">
+                  <PackageListPackage packages={props.activity_packages} />
+                </div>
+                <hr className="my-7" />
+
+                <h3 className="text-base text-gray-500">Dates</h3>
 
                 <ActivityDateProvider>
                   <div className="relative mt-1">
                     <DatePickerPackage />
-                  </div>
-
-                  <hr className="my-7" />
-
-                  <h3 className="text-base text-gray-500">Package type</h3>
-                  <div className="packages-list">
-                    <PackageListPackage packages={props.activity_packages} />
                   </div>
 
                   <div className="prices-list">
