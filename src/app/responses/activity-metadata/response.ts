@@ -1,6 +1,7 @@
 export interface ActivityMetaDataResponse {
     uuid: string,
     meta_title: string,
+    meta_keyword: string|null,
     meta_description: string|null,
     og_title: string|null,
     og_description: string|null,

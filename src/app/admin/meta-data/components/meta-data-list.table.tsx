@@ -170,6 +170,7 @@ export function MetaDataListTable({
                     {[
                       metadata.meta_title,
                       metadata.meta_description,
+                      metadata.meta_keyword,
                       metadata.slug,
                       metadata.og_title,
                       metadata.og_description,
@@ -248,6 +249,7 @@ export function MetaDataListTable({
                   {[
                     metadata.meta_title,
                     metadata.meta_description,
+                    metadata.meta_keyword,
                     metadata.slug,
                     metadata.og_title,
                     metadata.og_description,
@@ -311,6 +313,9 @@ export function MetaDataListTable({
               </TableHead>
               <TableHead className="p-2 border border-gray-300 whitespace-nowrap">
                 Meta Description
+              </TableHead>
+              <TableHead className="p-2 border border-gray-300 whitespace-nowrap">
+                Meta Keyword
               </TableHead>
               <TableHead className="p-2 border border-gray-300 whitespace-nowrap">
                 Slug

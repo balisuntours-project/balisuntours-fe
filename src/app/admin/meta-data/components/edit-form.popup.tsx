@@ -44,6 +44,7 @@ export function EditFormPopUp({
     defaultValues: {
       meta_title: metadata.meta_title,
       meta_description: metadata.meta_description ?? "",
+      meta_keyword: metadata.meta_keyword ?? "",
       og_title: metadata.og_title ?? "",
       og_description: metadata.og_description ?? "",
       og_image: metadata.og_image ?? "",
@@ -54,8 +55,8 @@ export function EditFormPopUp({
   const handleEditMetaData = async (
     values: z.infer<typeof EditMetaDataSchema>
   ) => {
-    if(selectedImage) {
-      values.og_image = selectedImage
+    if (selectedImage) {
+      values.og_image = selectedImage;
     }
     setOnLoadUpdate(true);
     const action = await MetaDataAction.EditMetaData(metadata.uuid, values);
@@ -76,18 +77,18 @@ export function EditFormPopUp({
     }
   };
 
-  const [selectedImage, setSelectedImage] = useState<string>(metadata.og_image ?? ""); // State untuk menyimpan URL gambar yang dipilih
-  
+  const [selectedImage, setSelectedImage] = useState<string>(
+    metadata.og_image ?? ""
+  ); // State untuk menyimpan URL gambar yang dipilih
+
   // Fungsi untuk menangani klik gambar dan mengisi input field
   const handleImageClick = (url: string) => {
-    
     setSelectedImage(url); // Menyimpan URL gambar yang dipilih
     toast({
       description: `URL added to form, you can close this popup`,
       variant: "success",
     });
   };
-
 
   return (
     <>
@@ -135,6 +136,26 @@ export function EditFormPopUp({
                       <Textarea
                         className="border text-base border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         placeholder="Great activity with best view...etc"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={EditMataDataForm.control}
+                name="meta_keyword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-gray-700 text-sm font-semibold">
+                      Meta Keyword
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className="border text-base border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="tours,activity,travel,atv,etc"
                         {...field}
                       />
                     </FormControl>
