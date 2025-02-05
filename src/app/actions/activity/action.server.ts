@@ -1,4 +1,5 @@
 import {
+  Activity,
   ActivityDetailResponse,
   ActivityDetailSitemap,
   ActivityTitleAndSlugResponse,
@@ -152,6 +153,25 @@ export class ActivityActionServer {
       return this.handleFetchError<ActivityDetailResponse>(
         error.response || error
       );
+    }
+  }
+
+  static async GetRandomRecomendedActivity(): Promise<
+    ActivityActionResponse<Array<Activity>>
+  > {
+    try {
+      const action = await apiServer(`/api/customer/recomendation-random/activity?take=${5}`, {
+        method: "GET",
+      });
+  
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
+      }
+  
+      return this.handleResponse<Array<Activity>>(action);
+    } catch (error: any) {
+      console.error(error);
+      return this.handleFetchError<Array<Activity>>(error.response || error);
     }
   }
 }

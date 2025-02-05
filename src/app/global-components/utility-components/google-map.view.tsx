@@ -81,7 +81,7 @@ export function GoogleMapViewComponent({
   const handlePlaceChanged = () => {
     if (searchBoxRef.current) {
       const places = searchBoxRef.current.getPlaces();
-
+      console.log(places)
       if (places && places.length > 0) {
         const location = places[0].geometry?.location;
         const name = places[0].name;

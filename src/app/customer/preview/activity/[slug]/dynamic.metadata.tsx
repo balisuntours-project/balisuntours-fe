@@ -17,6 +17,11 @@ export async function generateMetadata({
   
   return {
     title: activity.meta_title,
+    robots: {
+      index: true,
+      follow: true
+    },
+    keywords: activity.meta_keyword,
     description: activity.meta_description ?? "", // Default to empty if null
     openGraph: {
       title: activity.og_title ?? activity.meta_title, // Fallback to meta_title if og_title is null

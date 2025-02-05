@@ -8,7 +8,15 @@ const EditMetaDataSchema = z.object({
     .string()
     .optional()
     .refine((value) => !value || value.length >= 5, {
-      message: "Meta description must be at least 5 characters long if provided",
+      message:
+        "Meta description must be at least 5 characters long if provided",
+    }),
+  meta_keyword: z
+    .string()
+    .optional()
+    .refine((value) => !value || value.length >= 2, {
+      message:
+        "Enter valid meta keyword ex: travel,tour,atv",
     }),
   og_title: z
     .string()
@@ -32,6 +40,5 @@ const EditMetaDataSchema = z.object({
     message: "Canonical URL cannot be empty",
   }),
 });
-
 
 export { EditMetaDataSchema };
