@@ -2,6 +2,7 @@
 
 import { ImageWithLoader } from "@/app/global-components/utility-components/with-loader.image";
 import { ActivityReviewResponse } from "@/app/responses/activity-review/response";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Image from "next/image";
 
 export function ProfilePictureReviewer({
@@ -9,6 +10,17 @@ export function ProfilePictureReviewer({
 }: {
   review: ActivityReviewResponse;
 }) {
+  const name = review.name as string;
+  const nameReducer = (name: string) => {
+    const split = name.split(" ");
+    if (split[1] === undefined) {
+      return name.slice(0, 2);
+    }
+    return split[0][0] + split[1][0];
+  };
+
+  const initials = nameReducer(name);
+
   return (
     <>
       <div>
@@ -24,14 +36,19 @@ export function ProfilePictureReviewer({
             height={48}
           />
         ) : (
-          <Image
-            src={`https://ui-avatars.com/api/?background=EB5E00&rounded=true&color=fff&name=${review.name}`}
-            alt={`profile-pic ${review.name + 1}`}
-            width={48}
-            height={48}
-            className="w-11 h-11 md:w-12 md:h-12 lg:w-11 lg:h-11 rounded-full object-cover"
-            loading="lazy"
-          />
+          <Avatar className="w-11 h-11">
+            <AvatarFallback className="uppercase bg-[#eb5e00] text-background text-lg">
+              {initials}
+            </AvatarFallback>
+          </Avatar>
+          //   <Image
+          //     src={`https://ui-avatars.com/api/?background=EB5E00&rounded=true&color=fff&name=${review.name}`}
+          //     alt={`profile-pic ${review.name + 1}`}
+          //     width={48}
+          //     height={48}
+          //     className="w-11 h-11 md:w-12 md:h-12 lg:w-11 lg:h-11 rounded-full object-cover"
+          //     loading="lazy"
+          //   />
         )}
       </div>
     </>

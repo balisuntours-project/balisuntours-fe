@@ -1,14 +1,13 @@
-import { ImageWithLoader } from "@/app/global-components/utility-components/with-loader.image";
+// import { ImageWithLoader } from "@/app/global-components/utility-components/with-loader.image";
 import { DetailActivityReviewParamater } from "@/app/paramaters/activity/paramater";
-import { Star } from "lucide-react";
+// import { Star } from "lucide-react";
 import Link from "next/link";
-import { ProfilePictureReviewer } from "../../utility-components/profile-picture.reviewer";
+// import { ProfilePictureReviewer } from "../../utility-components/profile-picture.reviewer";
 import { GlobalUtility } from "@/lib/global.utility";
 import { BlankBlackDialog } from "@/app/global-components/utility-components/blank-black.dialog";
 import { CommentReviewer } from "../../utility-components/comment.reviewer";
 
 export function DetailActivityReviews(props: DetailActivityReviewParamater) {
- 
   return (
     <>
       <div className="mt-6">
@@ -39,7 +38,8 @@ export function DetailActivityReviews(props: DetailActivityReviewParamater) {
           </p>
         )}
 
-        {props.more_reviews_url && GlobalUtility.IsValidUrl(props.more_reviews_url) ? (
+        {props.more_reviews_url &&
+        GlobalUtility.IsValidUrl(props.more_reviews_url) ? (
           <div className="flex justify-center items-center mt-8">
             <Link
               href={props.more_reviews_url}
