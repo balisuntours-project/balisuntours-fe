@@ -4,13 +4,17 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
 } from "@/components/ui/carousel";
 
 export function ActivitySuggestion(props: ActivitySuggestionType) {
   return (
     <>
-      <div className="md:px-5 lg:px-6 xl:px-6 2xl:px-0 ">
-        <h1 className="font-bold text-3xl">People also like this</h1>
+      <div className="md:px-5 lg:px-6 xl:px-6 2xl:px-0 mt-6 md:mt-11  ">
+        <h1 className="text-xl md:text-2xl lg:text-3xl font-extrabold">
+          Also Recomended For You!
+        </h1>
         <Carousel
           opts={{
             align: "start",
@@ -21,7 +25,7 @@ export function ActivitySuggestion(props: ActivitySuggestionType) {
             {Array.from(props.popular_activity).map((activity, index) => (
               <CarouselItem
                 key={index}
-                className="basis-full md:basis-1/2 lg:basis-1/4"
+                className="basis-[45%] md:basis-[40%] lg:basis-1/4"
               >
                 <div className="p-1">
                   <ActivityCard
@@ -30,11 +34,14 @@ export function ActivitySuggestion(props: ActivitySuggestionType) {
                       first_tag: "Popular",
                       second_tag: "Best Experience",
                     }}
+                    withStyledConfig={true}
                   />
                 </div>
               </CarouselItem>
             ))}
           </CarouselContent>
+          <CarouselPrevious className="hidden lg:flex" />
+          <CarouselNext className="hidden lg:flex" />
         </Carousel>
       </div>
     </>

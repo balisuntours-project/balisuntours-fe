@@ -21,6 +21,7 @@ export function GoogleMapDialogComponent(
   }
 ) {
   const setMapPayload = useGoogleMapStore((state) => state.setMapPayload);
+  const setMapScopedState = useGoogleMapStore((state) => state.setScopedState);
 
   useEffect(() => {
     if (props.lat && props.lng) {
@@ -29,6 +30,14 @@ export function GoogleMapDialogComponent(
         lng: props.lng,
         zoom: props.zoom,
       });
+
+      if(props.scopedId) {
+        setMapScopedState(props.scopedId, "mapScopedPayload", {
+          lat: props.lat,
+          lng: props.lng,
+          zoom: props.zoom,
+        });
+      }
     }
   }, [props, setMapPayload]);
 

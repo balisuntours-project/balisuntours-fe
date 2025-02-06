@@ -155,11 +155,11 @@ export class ActivityActionServer {
     }
   }
 
-  static async GetRandomRecomendedActivity(): Promise<
+  static async GetRandomRecomendedActivity(skipedUuid: string): Promise<
     ActivityActionResponse<Array<Activity>>
   > {
     try {
-      const action = await apiServer(`/api/customer/recomendation-random/activity?take=${5}`, {
+      const action = await apiServer(`/api/customer/recomendation-random/activity?take=${5}&skip_activity_uuid=${skipedUuid}`, {
         method: "GET",
       });
   

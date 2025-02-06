@@ -9,8 +9,10 @@ import Link from "next/link";
 
 function PackageTypeMechanism({
   item,
+  scopedId
 }: {
   item: BookingPackageDetailResponse;
+  scopedId: string
 }) {
   if (item.package_type == ActivityPackageTypeEnum.pickupTimeByTraveller) {
     return (
@@ -26,6 +28,7 @@ function PackageTypeMechanism({
               Pickup location:
               {item.pickup_coordinate_object ? (
                 <GoogleMapDialogComponent
+                scopedId={`${item.activity_uuid}${scopedId}`}
                   lat={item.pickup_coordinate_object.lat}
                   lng={item.pickup_coordinate_object.lng}
                 >
@@ -85,6 +88,7 @@ function PackageTypeMechanism({
               Pickup location:
               {item.pickup_coordinate_object ? (
                 <GoogleMapDialogComponent
+                scopedId={`${item.activity_uuid}${scopedId}`}
                   lat={item.pickup_coordinate_object.lat}
                   lng={item.pickup_coordinate_object.lng}
                 >
@@ -180,6 +184,7 @@ function PackageTypeMechanism({
               Venue:
               {item.pickup_coordinate_object ? (
                 <GoogleMapDialogComponent
+                scopedId={`${item.activity_uuid}${scopedId}`}
                   lat={item.pickup_coordinate_object.lat}
                   lng={item.pickup_coordinate_object.lng}
                 >
@@ -224,8 +229,10 @@ function PackageTypeMechanism({
 
 export function PopupDetailBooking({
   item,
+  scopedId
 }: {
   item: BookingPackageDetailResponse;
+  scopedId: string
 }) {
   return (
     <>
@@ -246,7 +253,7 @@ export function PopupDetailBooking({
             </div>
 
             <div className="col-span-3 ">
-              <PackageTypeMechanism item={item} />
+              <PackageTypeMechanism scopedId={scopedId} item={item} />
             </div>
           </div>
 

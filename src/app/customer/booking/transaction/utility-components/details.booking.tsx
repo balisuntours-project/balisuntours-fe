@@ -15,6 +15,7 @@ export function DetailsBooking() {
             <PopupDetailBooking
               key={`${itemKey}-${item.package_id}`}
               item={item}
+              scopedId={itemKey}
             />
           ))
         ) : (
