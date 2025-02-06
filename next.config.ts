@@ -34,7 +34,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "ui-avatars.com/",
+        hostname: "ui-avatars.com",
         port: "",
         pathname: "/api/**",
         search: "",

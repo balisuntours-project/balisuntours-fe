@@ -4,23 +4,15 @@ import { HttpStatus } from "@/lib/global.enum";
 import { notFound } from "next/navigation";
 import { PolicyActionServer } from "@/app/actions/policy/action.server";
 
-async function getAdminPolicy() {
-  const data = await PolicyActionServer.GetPolicyTnCFromAdmin();
-  return data;
-}
-
 export default async function EditTnCPage() {
-  const data = getAdminPolicy();
+  const data = await PolicyActionServer.GetPolicyTnCFromAdmin();
 
-  if (
-    !(await data).success &&
-    (await data).status_code == HttpStatus.FORBIDDEN
-  ) {
+  if (!data.success && data.status_code == HttpStatus.FORBIDDEN) {
     notFound();
   }
 
   // console.log(data)
-  const tncData = (await data).data;
+  const tncData = data.data;
 
   return (
     <>
