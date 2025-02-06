@@ -10,9 +10,11 @@ import { DetailActivityTitle } from "./components/detail-activity.title";
 import { DetailActivityHero } from "./components/detail-activity.hero";
 import { ActivityActionServer } from "@/app/actions/activity/action.server";
 import { DetailActivityPackage } from "./components/detail-activity.package";
-import { DetailActivityReviews } from "./components/detail-activity.review";
 import { LandingPageFooterSection } from "@/app/global-components/landing-page.footer";
 import { SetRecentlyViewedActivityToStorage } from "./components/set-previewed-storage.activity";
+import { ActivityAction } from "@/app/actions/activity/action";
+import { Activity } from "@/app/responses/activity/response";
+import { ActivitySuggestion } from "./components/activity-suggestion";
 
 export { generateMetadata };
 
@@ -30,7 +32,7 @@ export default async function PreviewActivity({
   }
 
   const activity = data.data;
- 
+
   const dataForRecentlyShowedActivity: RecentlyOrRecomendedActivityParamater = {
     slug: activity.slug,
     title: activity.title,
@@ -38,6 +40,30 @@ export default async function PreviewActivity({
     smaller_price: activity.smaller_price,
     viewed_on: new Date(),
   };
+
+  const batchResult = await Promise.allSettled([
+    ActivityAction.GetPopularActivity(),
+  ]);
+
+  batchResult.forEach((result, index) => {
+    if (result.status === "rejected") {
+      console.error(`Error in promise ${index + 1}:`, result.reason);
+    }
+  });
+
+  const popularActivity: Array<Activity> =
+    batchResult[0].status === "fulfilled" ? batchResult[0].value.data : [];
+
+  const randomActivity: Array<Activity> | never = [];
+  // const newActivity: Activity[] | never = []
+  while (randomActivity.length < 4) {
+    const random =
+      popularActivity[Math.floor(Math.random() * popularActivity.length)];
+    if (!randomActivity.find((rnd) => rnd == random)) {
+      randomActivity.push(random);
+    }
+  }
+
   return (
     <>
       <LargeNavbar />
@@ -84,7 +110,9 @@ export default async function PreviewActivity({
           </div>
           {/* <DetailActivityReviews reviews={activity.reviews} more_reviews_url={activity.more_reviews_url} /> */}
         </div>
-        <hr />
+        <div className="container">
+          <ActivitySuggestion popular_activity={randomActivity} />
+        </div>
         <div className="container flex flex-col gap-11 px-3 md:px-8  pt-11 pb-11">
           <LandingPageFooterSection />
         </div>

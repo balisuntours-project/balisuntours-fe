@@ -30,7 +30,7 @@ export function ImageWithLoader({
   layout?: string;
   objectFit?: string;
   quality?: number;
-  fillAllView?: boolean
+  fillAllView?: boolean;
 }) {
   const [isImageError, setIsImageError] = useState(false);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
@@ -53,6 +53,7 @@ export function ImageWithLoader({
         width={layout ? undefined : width}
         height={layout ? undefined : height}
         layout={layout}
+        sizes="100vw"
         objectFit={objectFit}
         quality={quality}
         priority={priority} // Jika priority=true, gambar akan dimuat segera

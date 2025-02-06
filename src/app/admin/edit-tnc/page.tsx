@@ -1,19 +1,26 @@
 import { LargeNavbar } from "@/app/global-components/large.navbar";
 import { EditorComponent } from "./components/editor.component";
-import { PolicyAction } from "@/app/actions/policy/action";
 import { HttpStatus } from "@/lib/global.enum";
 import { notFound } from "next/navigation";
 import { PolicyActionServer } from "@/app/actions/policy/action.server";
 
-export default async function EditTnCPage() {
+async function getAdminPolicy() {
   const data = await PolicyActionServer.GetPolicyTnCFromAdmin();
-  
-  if (!data.success && data.status_code == HttpStatus.FORBIDDEN) {
+  return data;
+}
+
+export default async function EditTnCPage() {
+  const data = getAdminPolicy();
+
+  if (
+    !(await data).success &&
+    (await data).status_code == HttpStatus.FORBIDDEN
+  ) {
     notFound();
   }
 
   // console.log(data)
-  const tncData = data.data;
+  const tncData = (await data).data;
 
   return (
     <>

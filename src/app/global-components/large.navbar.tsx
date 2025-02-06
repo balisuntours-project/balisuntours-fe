@@ -30,7 +30,6 @@ export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
               alt="best-travell-agent-bali-sun-tours"
               width="135"
               height="58"
-              objectFit="cover"
               className="w-[150px] h-[35px] md:w-[200px] md:h-[45px]"
             />
           </Link>

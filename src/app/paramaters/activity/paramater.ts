@@ -32,6 +32,10 @@ export interface ActivityLandingPage {
   best_deals_activity: Array<Activity>;
 }
 
+export interface ActivitySuggestionType {
+  popular_activity: Array<Activity>;
+}
+
 export interface ActivityBestCategoryLandingPage {
   best_category: Array<ActivityBestCategory>;
   best_category_activity: Record<
@@ -51,10 +55,10 @@ export interface DetailActivityParamater {
 }
 
 export interface ActivityDrawerParamater {
-  activities: Array<Activity>,
-  title: string,
-  description: string,
-  children: React.ReactNode
+  activities: Array<Activity>;
+  title: string;
+  description: string;
+  children: React.ReactNode;
 }
 
 export interface DetailActivityTitleParamater
@@ -82,10 +86,18 @@ export interface DetailActivityHeroParamater
 export interface DetailActivityPackageParamater
   extends Pick<
     ActivityDetailResponse,
-    "hightlight" | "description" | "activity_packages" | "additional_description" | "activity_galleries" | "is_published" | "reviews" | "more_reviews_url"
+    | "hightlight"
+    | "description"
+    | "activity_packages"
+    | "additional_description"
+    | "activity_galleries"
+    | "is_published"
+    | "reviews"
+    | "more_reviews_url"
   > {}
 
-export interface DetailActivityReviewParamater extends Pick<ActivityDetailResponse, "reviews" | "more_reviews_url"> {}
+export interface DetailActivityReviewParamater
+  extends Pick<ActivityDetailResponse, "reviews" | "more_reviews_url"> {}
 
 export interface PackageListsParamater
   extends Omit<ActivityPackagePreviewDetailResponse, "itineraries"> {}
@@ -104,20 +116,20 @@ export interface WhatToExpectParamater
   > {}
 
 export interface CalculateTotalPriceParamater {
-    new_qty: number,
-    price: number,
-    current_total_price: number,
-    action: IncrementDecrementEnum
+  new_qty: number;
+  price: number;
+  current_total_price: number;
+  action: IncrementDecrementEnum;
 }
 
 export interface AllActivitiesParamater extends Activity {
-  activity_categories: Array<ActivityCategoryResponse>
+  activity_categories: Array<ActivityCategoryResponse>;
 }
 
 export interface RecentlyOrRecomendedActivityParamater {
-  slug: string,
-  image: string,
-  title: string,
-  smaller_price: number,
-  viewed_on: Date|string
+  slug: string;
+  image: string;
+  title: string;
+  smaller_price: number;
+  viewed_on: Date | string;
 }

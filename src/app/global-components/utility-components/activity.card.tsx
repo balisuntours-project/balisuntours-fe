@@ -51,10 +51,8 @@ const ActivityCard: FC<ActivityCardProps> = ({
                     : "h-[120px] md:h-[200px] max-h-[120px] md:max-h-[200px]"
                   : "h-[120px] md:h-[200px] max-h-[120px] md:max-h-[200px]"
               }`}
-              priority={false}
-              /*   objectFit="cover" */
-              width={500}
-              height={200}
+              width={0}
+              height={0}
               quality={100}
             />
           </div>
