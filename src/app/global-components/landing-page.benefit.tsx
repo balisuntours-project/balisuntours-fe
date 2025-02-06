@@ -21,10 +21,10 @@ export function LandingPageBenefit() {
                 className="h-[35px] w-[35px] md:h-[50px] md:w-[50px] object-cover basis-1/3"
                 alt="Tailored"
               />
-              <h2 className="text-base md:text-lg font-bold h-12 bg-red-500">
+              <h2 className="text-base md:text-lg font-bold h-12 md:h-6">
                 Tailored Just for You
               </h2>
-              <p className="text-xs md:text-sm basis-1/3 text-justify">
+              <p className="text-xs md:text-sm basis-1/3">
                 You are able to customize your tour itinerary and specify
                 personal needs.
               </p>
@@ -41,10 +41,10 @@ export function LandingPageBenefit() {
                 className="h-[35px] w-[35px] md:h-[50px] md:w-[50px] object-cover basis-1/3"
                 alt="Ultimate Comfort Icon"
               />
-              <h2 className="text-base md:text-lg font-bold h-12 bg-red-500">
+              <h2 className="text-base md:text-lg font-bold h-12 md:h-6">
                 Ultimate Comfort
               </h2>
-              <p className="text-xs md:text-sm basis-1/3 text-justify">
+              <p className="text-xs md:text-sm basis-1/3">
                 Let you enjoy Bali with worry free, any comfortable
                 transportation with helpful services from our team are
                 available.
@@ -62,10 +62,10 @@ export function LandingPageBenefit() {
                 className="h-[35px] w-[35px] md:h-[50px] md:w-[50px] object-cover basis-1/3"
                 alt="Insinder Knowledge Icon"
               />
-              <h2 className="text-base md:text-lg font-bold h-12 bg-red-500">
+              <h2 className="text-base md:text-lg font-bold h-12 md:h-6">
                 Insider Knowledge
               </h2>
-              <p className="text-xs md:text-sm basis-1/3 text-justify">
+              <p className="text-xs md:text-sm basis-1/3">
                 Our expert local guides showing you Bali’s culture from hidden
                 gems to must-see spots ensuring you experience a true Bali
                 atmosphere.
@@ -83,10 +83,10 @@ export function LandingPageBenefit() {
                 className="h-[35px] w-[35px] md:h-[50px] md:w-[50px] object-cover basis-1/3"
                 alt="Unforgottable Moment Icon"
               />
-              <h2 className="text-base md:text-lg font-bold h-12 bg-red-500">
+              <h2 className="text-base md:text-lg font-bold h-12 md:h-6">
                 Unforgettable Moments
               </h2>
-              <p className="text-xs md:text-sm basis-1/3 text-justify">
+              <p className="text-xs md:text-sm basis-1/3">
                 From adrenaline-pumping to relaxing activities, we strive to
                 provide services that exceed your needs to create the
                 unforgettable moments.
