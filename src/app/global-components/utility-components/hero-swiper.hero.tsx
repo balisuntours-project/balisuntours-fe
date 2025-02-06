@@ -7,7 +7,7 @@ import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import "swiper/css/effect-fade";
 
-import { EffectFade, Autoplay, Navigation, Pagination } from "swiper/modules";
+import { EffectFade, Autoplay, Navigation } from "swiper/modules";
 import Image from "next/image";
 import "../../styles/landing-page.hero.css";
 
@@ -138,10 +138,9 @@ export function HeroBannerComponent({
                         <Image
                           src="/banner-thumbnail.jpg"
                           alt={`Image ${index + 1}`}
-                          layout="fill"
-                          objectFit="cover"
+                          fill
                           priority
-                          className="zoom-animation brightness-75"
+                          className="zoom-animation brightness-75 object-cover w-full h-full"
                         />
                       )}
                       <video
@@ -170,14 +169,15 @@ export function HeroBannerComponent({
                       </video>
                     </div>
                   ) : (
-                    <Image
-                      src={item}
-                      alt={`Image ${index + 1}`}
-                      layout="fill"
-                      objectFit="cover"
-                      priority
-                      className="zoom-animation brightness-75"
-                    />
+                    <div className="relative h-full w-full">
+                      <Image
+                        src={item}
+                        alt={`Image ${index + 1}`}
+                        fill
+                        priority
+                        className="zoom-animation brightness-75 object-cover w-full h-full"
+                      />
+                    </div>
                   )}
                 </div>
               </SwiperSlide>

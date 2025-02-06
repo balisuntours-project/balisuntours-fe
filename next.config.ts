@@ -1,5 +1,5 @@
 import type { NextConfig } from "next";
-import { config } from 'dotenv';
+import { config } from "dotenv";
 
 // Memuat variabel lingkungan dari file .env
 const { parsed } = config();
@@ -13,10 +13,26 @@ const nextConfig: NextConfig = {
   /* config options here */
   eslint: {
     ignoreDuringBuilds: true,
-},
-  output: 'standalone',
+  },
+  output: "standalone",
   images: {
     domains: (process.env.NEXT_PUBLIC_IMAGE_DOMAINS || "").split(","),
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "be.balisuntours.com",
+        port: "",
+        pathname: "/storage/**",
+        search: "",
+      },
+      {
+        protocol: "https",
+        hostname: "static.tacdn.com",
+        port: "",
+        pathname: "/img2/**",
+        search: "",
+      },
+    ],
   },
 };
 
