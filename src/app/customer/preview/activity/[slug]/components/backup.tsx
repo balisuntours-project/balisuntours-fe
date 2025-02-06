@@ -2,7 +2,7 @@
 
 import { DetailActivityPackageParamater } from "@/app/paramaters/activity/paramater";
 import { DatePickerPackage } from "../../utility-components/datepicker.package";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDetailActivityStore } from "@/app/store/detail-activity.store";
 import { PackageListPackage } from "../../utility-components/package-list.package";
 import { PriceListPackage } from "../../utility-components/price-list.package";
@@ -34,11 +34,11 @@ export function DetailActivityPackage(props: DetailActivityPackageParamater) {
               />
             </div>
             <div className="hidden md:block">
-            <PackageItineraries />
-            <WhatToExceptActivity
-              additional_description={props.additional_description}
-              activity_galleries={props.activity_galleries}
-            />
+              <PackageItineraries />
+              <WhatToExceptActivity
+                additional_description={props.additional_description}
+                activity_galleries={props.activity_galleries}
+              />
             </div>
           </div>
           {/* End Description & Itinerary section */}
@@ -74,15 +74,13 @@ export function DetailActivityPackage(props: DetailActivityPackageParamater) {
               </div>
             </div>
             <div className="block md:hidden">
-            <PackageItineraries />
-            <WhatToExceptActivity
-              additional_description={props.additional_description}
-              activity_galleries={props.activity_galleries}
-            />
+              <PackageItineraries />
+              <WhatToExceptActivity
+                additional_description={props.additional_description}
+                activity_galleries={props.activity_galleries}
+              />
             </div>
           </div>
-
-         
         </div>
       </div>
     </>

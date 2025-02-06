@@ -1,11 +1,9 @@
-import { StoreCartParamater, UpdateCartParamater } from "@/app/paramaters/cart/paramater";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-  ActivityDetailResponse,
-  ActivityDetailSitemap,
-  ActivityTitleAndSlugResponse,
-} from "@/app/responses/activity/response";
+  StoreCartParamater,
+  UpdateCartParamater,
+} from "@/app/paramaters/cart/paramater";
 import { api } from "@/lib/axios-instance";
-import { CurrencyListEnum } from "@/lib/global.enum";
 import { GlobalUtility } from "@/lib/global.utility";
 import { AxiosError } from "axios";
 
@@ -44,7 +42,7 @@ export class CartAction {
     response: Response
   ): Promise<CartActionResponse<T>> {
     const finalResponse = (await response.json()) as ErrorServerObject; // Parsing response JSON ke ErrorServerObject
-    
+
     let message = "Unknown error occurred";
 
     // Tangani kasus errors
@@ -116,7 +114,7 @@ export class CartAction {
       });
 
       if (!action.ok) {
-       GlobalUtility.TriggerExceptionFetchApi(action)
+        GlobalUtility.TriggerExceptionFetchApi(action);
       }
 
       const result = this.handleResponse<Array<string> | string>(action);
@@ -131,7 +129,7 @@ export class CartAction {
 
   static async UpdateCart(
     payload: UpdateCartParamater
-  ): Promise<CartActionResponse<Omit<UpdateCartParamater, 'type'>>> {
+  ): Promise<CartActionResponse<Omit<UpdateCartParamater, "type">>> {
     try {
       const action = await api(`/api/customer/cart/order/edit`, {
         method: "PUT",
@@ -139,14 +137,15 @@ export class CartAction {
       });
 
       if (!action.ok) {
-       GlobalUtility.TriggerExceptionFetchApi(action)
+        GlobalUtility.TriggerExceptionFetchApi(action);
       }
 
-      const result = this.handleResponse<Omit<UpdateCartParamater, 'type'>>(action);
+      const result =
+        this.handleResponse<Omit<UpdateCartParamater, "type">>(action);
 
       return result;
     } catch (error: any) {
-      return this.handleFetchError<Omit<UpdateCartParamater, 'type'>>(
+      return this.handleFetchError<Omit<UpdateCartParamater, "type">>(
         error.response || error
       );
     }
@@ -156,21 +155,22 @@ export class CartAction {
     orderId: string
   ): Promise<CartActionResponse<string>> {
     try {
-      const action = await api(`/api/customer/cart/order/delete?temporary_order_id=${orderId}`, {
-        method: "DELETE",
-      });
+      const action = await api(
+        `/api/customer/cart/order/delete?temporary_order_id=${orderId}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (!action.ok) {
-       GlobalUtility.TriggerExceptionFetchApi(action)
+        GlobalUtility.TriggerExceptionFetchApi(action);
       }
 
       const result = this.handleResponse<string>(action);
 
       return result;
     } catch (error: any) {
-      return this.handleFetchError<string>(
-        error.response || error
-      );
+      return this.handleFetchError<string>(error.response || error);
     }
   }
 
@@ -178,22 +178,23 @@ export class CartAction {
     orderIds: Array<string>
   ): Promise<CartActionResponse<string>> {
     try {
-      const stringOrderIds = JSON.stringify(orderIds)
-      const action = await api(`/api/customer/cart/orders/delete?temporary_order_ids=${stringOrderIds}`, {
-        method: "DELETE",
-      });
+      const stringOrderIds = JSON.stringify(orderIds);
+      const action = await api(
+        `/api/customer/cart/orders/delete?temporary_order_ids=${stringOrderIds}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (!action.ok) {
-       GlobalUtility.TriggerExceptionFetchApi(action)
+        GlobalUtility.TriggerExceptionFetchApi(action);
       }
 
       const result = this.handleResponse<string>(action);
 
       return result;
     } catch (error: any) {
-      return this.handleFetchError<string>(
-        error.response || error
-      );
+      return this.handleFetchError<string>(error.response || error);
     }
   }
 
@@ -208,17 +209,14 @@ export class CartAction {
         }
       );
 
-        
       if (!action.ok) {
-        GlobalUtility.TriggerExceptionFetchApi(action)
+        GlobalUtility.TriggerExceptionFetchApi(action);
       }
 
       return this.handleResponse<boolean>(action);
-    } catch (error : any) {
+    } catch (error: any) {
       console.log(error);
-      return this.handleFetchError<boolean>(
-        error.response || error
-      );
+      return this.handleFetchError<boolean>(error.response || error);
     }
   }
 }

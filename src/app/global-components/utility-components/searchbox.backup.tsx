@@ -1,20 +1,13 @@
-"use client"
 "use client";
-import { Input } from "@/components/ui/input";
-import { api }from "@/lib/axios-instance";
-import axios from "axios";
-import { SearchIcon } from "lucide-react";
+
+import { api } from "@/lib/axios-instance";
 import { useEffect, useState } from "react";
 import {
   Command,
-  CommandDialog,
   CommandEmpty,
-  CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
-  CommandShortcut,
 } from "@/components/ui/command";
 
 import { useRouter } from "next/navigation";
@@ -24,9 +17,17 @@ import { ActivityAction } from "@/app/actions/activity/action";
 import { useAllActivityStore } from "@/app/store/all-activity.store";
 
 export function SearchBoxComponent({
-    className, inputClassName, listClassName, showSearchIcon = true
-}: {className?: string, inputClassName?: string, listClassName?: string, showSearchIcon?: boolean}) {
-    const [placeHolders, setPlaceHolders] = useState<Array<string>>([]);
+  className,
+  inputClassName,
+  listClassName,
+  showSearchIcon = true,
+}: {
+  className?: string;
+  inputClassName?: string;
+  listClassName?: string;
+  showSearchIcon?: boolean;
+}) {
+  const [placeHolders, setPlaceHolders] = useState<Array<string>>([]);
   const [currentPlaceholder, setCurrentPlaceholder] = useState<string>(
     "Find Best Attractions"
   );
@@ -37,16 +38,18 @@ export function SearchBoxComponent({
     Array<Pick<Activity, "uuid" | "title" | "slug">>
   >([]);
 
-  const setOnFiltering = useAllActivityStore((state) => state.setOnFiltering)
-  const setSearchBoxValue = useAllActivityStore((state) => state.setSearchBoxValue)
+  const setOnFiltering = useAllActivityStore((state) => state.setOnFiltering);
+  const setSearchBoxValue = useAllActivityStore(
+    (state) => state.setSearchBoxValue
+  );
 
   const commandInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setOnFiltering(true)
+    setOnFiltering(true);
     setIsShowList(e.target.value.length > 0 ? e.target.value : "");
 
     setTimeout(() => {
-        setSearchBoxValue(e.target.value.length > 0 ? e.target.value : undefined)
-        setOnFiltering(false)
+      setSearchBoxValue(e.target.value.length > 0 ? e.target.value : undefined);
+      setOnFiltering(false);
     }, 500);
   };
 
@@ -55,9 +58,9 @@ export function SearchBoxComponent({
   const getPopularActivityPlaceholder = async (): Promise<void> => {
     try {
       const result = await api("/customer/placeholder/latest/activity", {
-        method: "GET"
+        method: "GET",
       });
-      const finalResult = await result.json()
+      const finalResult = await result.json();
       setPlaceHolders(finalResult.data);
     } catch (error) {
       console.log(error);
@@ -65,17 +68,19 @@ export function SearchBoxComponent({
   };
 
   const getAllActivitiesTitle = async (): Promise<void> => {
-    const result = await ActivityAction.GetActivityTitleWithSlug()
+    const result = await ActivityAction.GetActivityTitleWithSlug();
 
     setActivityTitles(result.data);
   };
 
   const toAllActivity = () => {
-    if(isShowList.length < 1) {
-      return
+    if (isShowList.length < 1) {
+      return;
     }
-    router.push(`${process.env.BACKEND_DOMAIN}/customer/activities?title=${isShowList}`)
-  }
+    router.push(
+      `${process.env.BACKEND_DOMAIN}/customer/activities?title=${isShowList}`
+    );
+  };
 
   useEffect(() => {
     getAllActivitiesTitle();
@@ -98,52 +103,52 @@ export function SearchBoxComponent({
       setCurrentPlaceholder(placeHolders[placeholderIndex]);
     }
   }, [placeholderIndex, placeHolders]);
-    return (
-        <>
-     <div
-      className={`${
-        className ?? "relative mt-6 md:w-[70%] lg:w-[40%] mx-auto"
-      } relative`}
-    >
-      <Command>
-        <div className="relative">
-          <CommandInput
-            onInput={commandInput}
-            placeholder={currentPlaceholder}
-            className={`${
-              inputClassName ??
-              "pr-20 w-full bg-white h-12 rounded-lg text-xs md:text-sm"
+  return (
+    <>
+      <div
+        className={`${
+          className ?? "relative mt-6 md:w-[70%] lg:w-[40%] mx-auto"
+        } relative`}
+      >
+        <Command>
+          <div className="relative">
+            <CommandInput
+              onInput={commandInput}
+              placeholder={currentPlaceholder}
+              className={`${
+                inputClassName ??
+                "pr-20 w-full bg-white h-12 rounded-lg text-xs md:text-sm"
+              }`}
+            />
+            {showSearchIcon && (
+              <button
+                onClick={() => toAllActivity()}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-[#008000] text-white px-4 py-2 rounded-lg font-semibold text-xs md:text-sm"
+              >
+                Search
+              </button>
+            )}
+          </div>
+          <CommandList
+            className={`${isShowList.length > 0 ? "block" : "hidden"} ${
+              listClassName ?? "max-h-[200px] overflow-y-scroll scrollbar-hide"
             }`}
-          />
-          {showSearchIcon && (
-            <button
-              onClick={() => toAllActivity()}
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-[#008000] text-white px-4 py-2 rounded-lg font-semibold text-xs md:text-sm"
-            >
-              Search
-            </button>
-          )}
-        </div>
-        <CommandList
-          className={`${
-            isShowList.length > 0 ? "block" : "hidden"
-          } ${listClassName ?? 'max-h-[200px] overflow-y-scroll scrollbar-hide'}`}
-        >
-          <CommandEmpty>No activities found.</CommandEmpty>
-          {activityTitles?.length > 0 &&
-            activityTitles.map((activity) => (
-              <CommandItem key={activity.uuid} asChild>
-                <Link
-                  href={`${process.env.BACKEND_DOMAIN}/customer/preview/activity/${activity.slug}`}
-                  target="_blank"
-                >
-                  {activity.title}
-                </Link>
-              </CommandItem>
-            ))}
-        </CommandList>
-      </Command>
-    </div>
-        </>
-    )
+          >
+            <CommandEmpty>No activities found.</CommandEmpty>
+            {activityTitles?.length > 0 &&
+              activityTitles.map((activity) => (
+                <CommandItem key={activity.uuid} asChild>
+                  <Link
+                    href={`${process.env.BACKEND_DOMAIN}/customer/preview/activity/${activity.slug}`}
+                    target="_blank"
+                  >
+                    {activity.title}
+                  </Link>
+                </CommandItem>
+              ))}
+          </CommandList>
+        </Command>
+      </div>
+    </>
+  );
 }

@@ -1,13 +1,10 @@
 "use client";
 
-import {
-  CartItemsResponse,
-  CartValueItemResponse,
-} from "@/app/responses/cart/response";
+import { CartItemsResponse } from "@/app/responses/cart/response";
 
 import { useCartStore } from "@/app/store/cart.store";
 import { GlobalUtility } from "@/lib/global.utility";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { CurrencyAction } from "@/app/actions/currency/action";
 import { CurrencyListEnum, HttpStatus } from "@/lib/global.enum";
 
@@ -54,8 +51,7 @@ export function CartItemsList({ items }: { items: CartItemsResponse | null }) {
 
   useEffect(() => {
     if (selectedCartsTotalAmount) {
-      let debounceTimeout: NodeJS.Timeout;
-      debounceTimeout = setTimeout(() => {
+      const debounceTimeout = setTimeout(() => {
         handleSetCurrencyPrice();
       }, 100); //delay a
       return () => clearTimeout(debounceTimeout); //clean debounce timeout
@@ -70,7 +66,7 @@ export function CartItemsList({ items }: { items: CartItemsResponse | null }) {
 
   const handlebookingAction = async () => {
     if (selectedCarts.length > 0) {
-     // console.log(selectedCarts)
+      // console.log(selectedCarts)
       setIsLoading(true);
       const selectedUuidCarts: Array<string> = selectedCarts.flatMap(
         (cart) => cart.temporary_items
@@ -83,12 +79,8 @@ export function CartItemsList({ items }: { items: CartItemsResponse | null }) {
       // console.log(selectedUuidCarts)
       setIsLoading(false);
       if (checkForFreeTourValidation.status_code == HttpStatus.OK) {
-        router.push(
-          `/customer/checkout?cart_data=${stringCartPayload}`
-        );
-
+        router.push(`/customer/checkout?cart_data=${stringCartPayload}`);
       } else {
-
         toast({
           description: `${checkForFreeTourValidation.data}`,
           variant: "warning",
@@ -149,7 +141,7 @@ export function CartItemsList({ items }: { items: CartItemsResponse | null }) {
           </div>
         </div>
       ) : (
-       <CartEmptyContent />
+        <CartEmptyContent />
       )}
     </>
   );

@@ -1,12 +1,9 @@
 import { create } from "zustand";
-import { GoogleMapViewParamater } from "../paramaters/google-map/paramater";
-import { ActivityPackagePreviewDetailResponse } from "../responses/activity-package/response";
 import {
   ItineraryListsParamater,
   PackageListsParamater,
   PriceListsParamater,
 } from "../paramaters/activity/paramater";
-import { GlobalUtility } from "@/lib/global.utility";
 
 interface DetailActivityStore {
   packages: Array<PackageListsParamater>;
@@ -19,7 +16,7 @@ interface DetailActivityStore {
   totalPrice: number;
   totalPriceInFormattedCurrency: string | undefined;
 
-  autoSelectOnPackageSearchParam: boolean
+  autoSelectOnPackageSearchParam: boolean;
 }
 
 interface DetailActivityStoreAction {

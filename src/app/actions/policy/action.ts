@@ -1,10 +1,6 @@
-
-import { SendPartnerRequestParamater } from "@/app/paramaters/partner/paramater";
 import { api } from "@/lib/axios-instance";
-import { CurrencyListEnum } from "@/lib/global.enum";
 import { GlobalUtility } from "@/lib/global.utility";
 import { AxiosError } from "axios";
-import { GetPolicyResponse } from "../../responses/policy/response";
 
 export interface PolicyActionResponse<T> {
   success: boolean;
@@ -41,7 +37,7 @@ export class PolicyAction {
     response: Response
   ): Promise<PolicyActionResponse<T>> {
     const finalResponse = (await response.json()) as ErrorServerObject; // Parsing response JSON ke ErrorServerObject
-    
+
     let message = "Unknown error occurred";
 
     // Tangani kasus errors
@@ -108,24 +104,26 @@ export class PolicyAction {
     content: string
   ): Promise<PolicyActionResponse<string>> {
     try {
-      const action = await api(`/api/admin/policy/term-and-conditions/${uuid}`, {
-        method: "PUT",
-        body: JSON.stringify({
-            content: content
-        }),
-      });
+      const action = await api(
+        `/api/admin/policy/term-and-conditions/${uuid}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            content: content,
+          }),
+        }
+      );
 
       if (!action.ok) {
-       GlobalUtility.TriggerExceptionFetchApi(action)
+        GlobalUtility.TriggerExceptionFetchApi(action);
       }
 
       const result = this.handleResponse<string>(action);
 
       return result;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      return this.handleFetchError<string>(
-        error.response || error
-      );
+      return this.handleFetchError<string>(error.response || error);
     }
   }
 }

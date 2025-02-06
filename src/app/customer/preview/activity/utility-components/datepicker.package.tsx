@@ -12,7 +12,7 @@ import { GlobalUtility } from "@/lib/global.utility";
 import { cn } from "@/lib/utils";
 import { format, startOfDay } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useActivityDate } from "../[slug]/provider/activity-booking-date.provider";
 
 export function DatePickerPackage() {
@@ -33,7 +33,7 @@ export function DatePickerPackage() {
       // Pastikan hanya mengambil tanggal tanpa waktu, dan format ke UTC
       const utcDate = startOfDay(selectedDate);
       const formattedDate = format(utcDate, "yyyy-MM-dd"); // Format tanggal ke string UTC
-      console.log("Formatted Date:", formattedDate); 
+      console.log("Formatted Date:", formattedDate);
       setSelectedDate(new Date(formattedDate)); // Simpan tanggal yang diformat kembali ke state
     }
     setIsOpen(false); // Tutup Popover setelah tanggal dipilih
@@ -65,7 +65,7 @@ export function DatePickerPackage() {
           className="activity-date-info text-sm text-red-500 hidden"
           ref={activityDateRef}
         >
-          Oh, you did'nt pick a date yet!
+          Oh, you did&quot;nt pick a date yet!
         </p>
         <Popover open={isOpen} onOpenChange={setIsOpen}>
           <PopoverTrigger asChild>

@@ -1,7 +1,6 @@
 import { LandingPageFooterSection } from "@/app/global-components/landing-page.footer";
 import { LargeNavbar } from "@/app/global-components/large.navbar";
 import { BookingServerAction } from "@/app/actions/booking/action.server";
-import { EmptyContent } from "@/app/global-components/utility-components/empty-content.page";
 import Link from "next/link";
 import { UnconfirmedGoodToKnowFlying } from "./utility-components/unconfirmed-good-to-know-flying.button";
 import { BookingDetailUnconfirmed } from "./components/booking-detail-unconfirmed.booking";
@@ -11,7 +10,7 @@ export default async function UnconfirmedBookingTransaction() {
   const data = await BookingServerAction.GetWaitingBookingData();
 
   const bookingItems = data.data;
-    
+
   return (
     <>
       <LargeNavbar />

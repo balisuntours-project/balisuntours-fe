@@ -1,13 +1,11 @@
-import { LargeNavbar } from "@/app/global-components/large.navbar";
 import { TermAndConditionsContentSection } from "./components/tnc.content";
-import { FooterFooterSection } from "@/app/footer-components/footer.footer";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { PolicyActionServer } from "@/app/actions/policy/action.server";
 
 export default async function TermConditions() {
   const data = await PolicyActionServer.GetPolicyTnCFromCustomer();
 
-  const result = data.data
+  const result = data.data;
   return (
     <>
       <div className="pt-20 md:pt-36 lg:pt-[90px] lg:pb-11 ms-[5%]">

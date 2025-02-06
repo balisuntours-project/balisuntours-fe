@@ -5,7 +5,7 @@ import { BookingServerAction } from "@/app/actions/booking/action.server";
 
 import { EmptyContent } from "@/app/global-components/utility-components/empty-content.page";
 import Link from "next/link";
-import { Car, ListOrdered } from "lucide-react";
+import { Car } from "lucide-react";
 import { GoodToKnowFlying } from "./utility-components/good-to-know-flying.button";
 import { BookingDetail } from "./components/booking-detail.booking";
 

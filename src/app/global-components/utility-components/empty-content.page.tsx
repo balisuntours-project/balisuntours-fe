@@ -1,4 +1,3 @@
-import { ShoppingCart } from "lucide-react";
 import React from "react";
 
 export function EmptyContent({
@@ -16,7 +15,9 @@ export function EmptyContent({
 
       {/* Short and Informative Text */}
       <div className="flex flex-col gap-3">
-        <h2 className="text-lg md:text-xl font-semibold text-gray-700">{emptyText}</h2>
+        <h2 className="text-lg md:text-xl font-semibold text-gray-700">
+          {emptyText}
+        </h2>
         {suggestionElement && (
           <div className="text-gray-500 text-sm md:text-base max-w-lg">
             {suggestionElement}

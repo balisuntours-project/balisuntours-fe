@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { CurrencyAction } from "@/app/actions/currency/action";
@@ -9,7 +10,7 @@ import { DEFAULT_LAT, DEFAULT_LNG, DEFAULT_ZOOM } from "@/lib/global.constant";
 import { CurrencyListEnum } from "@/lib/global.enum";
 import { GlobalUtility } from "@/lib/global.utility";
 import { CheckCircle } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { CheckoutFormTypeMechanism } from "./checkout-form-type-condition.checkout";
 import { useGoogleMapStore } from "@/app/store/google-map.store";
 import { CheckoutDataActivityResponse } from "@/app/responses/activity/response";
@@ -28,7 +29,7 @@ export function CheckoutDetail({
   checkoutPackages: Array<CheckoutDataPackageResponse>;
   minCost: number;
   userData: CheckoutUserDataRespnse;
-  cartData: Array<string>
+  cartData: Array<string>;
 }) {
   const setCheckoutPackageBookingData = useBookingStore(
     (state) => state.setCheckoutPackageBookingData
@@ -54,12 +55,11 @@ export function CheckoutDetail({
 
   const setCheckoutAmount = useBookingStore((state) => state.setCheckoutAmount);
 
-
   useEffect(() => {
-    setCheckoutActivities(checkoutActivities)
-    setCheckoutPackages(checkoutPackages)
-    setCheckoutCartData(cartData)
-  }, [checkoutActivities, checkoutPackages, cartData])
+    setCheckoutActivities(checkoutActivities);
+    setCheckoutPackages(checkoutPackages);
+    setCheckoutCartData(cartData);
+  }, [checkoutActivities, checkoutPackages, cartData]);
 
   const handleFetchCurrency = async () => {
     const result = await CurrencyAction.GetCurrency(
@@ -70,7 +70,6 @@ export function CheckoutDetail({
       setCurrencyValue(result.data);
     }
   };
-  
 
   const handleSetTotalAmount = () => {
     if (checkoutPackages) {
@@ -105,9 +104,10 @@ export function CheckoutDetail({
         //do mapping
         if (
           !sameActivityDateAndPackage ||
-          (findDifferentBaseUuid || packageMappedDataBowl.length == 0)
+          findDifferentBaseUuid ||
+          packageMappedDataBowl.length == 0
         ) {
-          let flatPriceInDollar = 0;
+          const flatPriceInDollar = 0;
           let freeTourMinSpend = null;
           let freeTourTravellerSpend = null;
 
@@ -210,7 +210,7 @@ export function CheckoutDetail({
         <div className="col-span-8 bg-white rounded-lg h-auto shadow-lg sm:mb-6">
           <div className="p-5 sm:p-5 lg:p-8">
             <div className="flex gap-3 items-center text-sm sm:text-base bg-[#5FA22A] text-white !py-3 p-4 rounded-md">
-            <CheckCircle className="w-6 h-6 flex-shrink-0" />
+              <CheckCircle className="w-6 h-6 flex-shrink-0" />
               <p>
                 {" "}
                 Please enter your info carefully. Once submitted it cannot be

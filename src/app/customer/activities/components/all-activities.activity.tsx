@@ -1,8 +1,7 @@
 "use client";
 
-import { act, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ActivityCard from "@/app/global-components/utility-components/activity.card";
-import { Activity } from "@/app/responses/activity/response";
 import {
   Pagination,
   PaginationContent,
@@ -103,7 +102,7 @@ export function AllActivitiesList({
 
     // Tampilkan halaman di sekitar halaman aktif
     let startPage = Math.max(currentPage - Math.floor(maxPageNumbers / 2), 1);
-    let endPage = Math.min(startPage + maxPageNumbers - 1, totalPages);
+    const endPage = Math.min(startPage + maxPageNumbers - 1, totalPages);
 
     if (endPage - startPage < maxPageNumbers - 1) {
       startPage = Math.max(endPage - maxPageNumbers + 1, 1);

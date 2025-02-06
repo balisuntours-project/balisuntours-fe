@@ -1,30 +1,24 @@
-"use client"
+"use client";
 
 import { ActivityTitleCard } from "@/app/global-components/utility-components/activity-title.card";
-import { LoginForm } from "@/app/global-components/utility-components/login-form";
-import { PollingLoginDialogPopUpToken } from "@/app/global-components/utility-components/polling-login-dialog.popup";
 import { ImageWithLoader } from "@/app/global-components/utility-components/with-loader.image";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import Cookies from "js-cookie";
 import { useAuthStore } from "@/app/store/auth.store";
 import { InternalLoginForm } from "@/app/global-components/utility-components/internal-login-form";
 
 export default function InternalSigIn() {
-    const router = useRouter()
-     const isLogin = useAuthStore((state) => state.isLogin);
-    useEffect(() => {
-
-        if (isLogin) {
-          
-          router.push("/");
-        }
-      }, [isLogin]);
+  const router = useRouter();
+  const isLogin = useAuthStore((state) => state.isLogin);
+  useEffect(() => {
+    if (isLogin) {
+      router.push("/");
+    }
+  }, [isLogin]);
   return (
     <>
-  
       <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
         <div className="flex justify-center flex-1">
           <div className="lg:w-1/2 xl:w-7/12 p-6 sm:p-12 my-auto">
@@ -41,13 +35,17 @@ export default function InternalSigIn() {
               </Link>
 
               <div className="mx-auto text-center">
-              <ActivityTitleCard customSizeText="text-lg md:text-xl" textColor="text-[#008000]" title="Welcome Back Team!" />
-              <p className="text-center mb-3">
-                Log in to your account start updating!
-              </p>
+                <ActivityTitleCard
+                  customSizeText="text-lg md:text-xl"
+                  textColor="text-[#008000]"
+                  title="Welcome Back Team!"
+                />
+                <p className="text-center mb-3">
+                  Log in to your account start updating!
+                </p>
               </div>
 
-              <InternalLoginForm  />
+              <InternalLoginForm />
             </div>
           </div>
           <div className="flex-1 bg-green-100 text-center hidden lg:flex">

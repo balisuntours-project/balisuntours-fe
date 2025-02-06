@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { ActivityPackageAction } from "@/app/actions/package/action";
@@ -80,7 +81,7 @@ export function PackageListPackage(props: {
 
       const getValidBookDate =
         await ActivityPackageAction.GetPackageValidDateToBook(packageData.uuid);
-      console.log(getValidBookDate)
+      console.log(getValidBookDate);
 
       setDiffDaysNumber(getValidBookDate.data ?? 1);
     } else {

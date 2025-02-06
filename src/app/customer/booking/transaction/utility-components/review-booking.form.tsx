@@ -9,12 +9,10 @@ import {
   useDraggableStore,
 } from "@/app/store/draggable.store";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -22,11 +20,9 @@ import {
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-import { AuthButton } from "@/components/custom-ui/auth.button";
 import { StarRating } from "./start-rating.form";
 import { useEffect, useRef, useState } from "react";
 import { ReviewGalleryParamater } from "@/app/paramaters/activity-review/paramater";
-import { GlobalUtility } from "@/lib/global.utility";
 import Image from "next/image";
 import { Trash2 } from "lucide-react";
 import { ReviewImage } from "./review-image.image";
@@ -36,7 +32,6 @@ import { ReviewValidPayloadEnum } from "@/app/enums/booking/booking.enum";
 import { BookingPackageDetailResponse } from "@/app/responses/booking/response";
 
 export function ReviewBookingForm({
-  orderId,
   packageId,
   packageDetail,
 }: {
@@ -63,22 +58,22 @@ export function ReviewBookingForm({
       const filesArray = Array.from(event.target.files);
       let newOrder = scopedState.selectedDraggable.length - 1;
 
-      let reviewGalleryLength = scopedState.selectedDraggable.length
+      let reviewGalleryLength = scopedState.selectedDraggable.length;
       const newImages = filesArray
         .filter((file) => {
-            reviewGalleryLength += 1
+          reviewGalleryLength += 1;
           if (file.size > 7 * 1024 * 1024) {
             toast({
               description: `Photo size over 7mb, post smaller one!`,
               variant: "warning",
             });
             return false; // Skip file jika ukurannya terlalu besar
-          }else if(reviewGalleryLength > 6) {
+          } else if (reviewGalleryLength > 6) {
             toast({
-                description: `Max 6 photo of your best momment!`,
-                variant: "warning",
-              });
-              return false;
+              description: `Max 6 photo of your best momment!`,
+              variant: "warning",
+            });
+            return false;
           }
           return true; // Lolos filter jika ukuran valid
         })

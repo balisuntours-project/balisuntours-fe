@@ -9,8 +9,6 @@ import {
 import { ImageWithLoader } from "./utility-components/with-loader.image";
 import { ActivityTitleCard } from "./utility-components/activity-title.card";
 import { GlobalUtility } from "@/lib/global.utility";
-import { ActivityLocalStorageEnum } from "../enums/activity/activity.enum";
-import { RecentlyOrRecomendedActivityParamater } from "../paramaters/activity/paramater";
 import { useRecentlyActivityStore } from "../store/recently-activity.store";
 import Link from "next/link";
 

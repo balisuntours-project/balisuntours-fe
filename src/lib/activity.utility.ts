@@ -1,7 +1,6 @@
 import { IncrementDecrementEnum } from "@/app/enums/activity/activity.enum";
 import {
   CalculateTotalPriceParamater,
-  PriceListsParamater,
 } from "@/app/paramaters/activity/paramater";
 
 export class ActivityUtility {

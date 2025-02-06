@@ -1,6 +1,4 @@
-import { ActivityBestCategory } from "@/app/response/activity.response";
 import { Card, CardContent } from "@/components/ui/card";
-import Image from "next/image";
 import { ActivityTitleCard } from "./activity-title.card";
 import { ExpandedButton } from "@/components/custom-ui/expanded.button";
 import { BestCategoryActivityDrawer } from "./best-category-activity.drawer";
@@ -26,22 +24,19 @@ function BackgroundImage({ title }: { title: string }) {
     const backgroundImage = backgroundImages[matchedImage];
     return (
       <div className="relative w-full h-full">
-      
-      <ImageWithLoader
+        <ImageWithLoader
           src={backgroundImage}
           alt={backgroundImage}
           fallbackSrc="/fallback-image.png"
           classNameProp="max-w-[200px] lg:max-w-[300px] max-h-[200px] h-[150px] md:h-[200px] rounded-md"
           skeletonClassName="max-w-[200px] lg:max-w-[300px] max-h-[200px] h-[150px] md:h-[200px] rounded-md"
           priority={false}
-         
-            width={300}
-            height={200}
-            quality={100}
+          width={300}
+          height={200}
+          quality={100}
         />
 
         <div className="absolute inset-0 w-full h-full bg-black opacity-40"></div>
-      
       </div>
     );
   } else {
@@ -68,7 +63,10 @@ export function BestCategoryCard(props: ActivityBestCategoryCard) {
       {/* Konten di atas gambar */}
       <CardContent className="absolute flex flex-col w-full h-full p-4 z-10">
         {/* Title */}
-        <ActivityTitleCard title={props.category.title} textColor="text-white" />
+        <ActivityTitleCard
+          title={props.category.title}
+          textColor="text-white"
+        />
 
         {/* Spacer */}
         <div className="flex-grow"></div>
@@ -86,5 +84,3 @@ export function BestCategoryCard(props: ActivityBestCategoryCard) {
     </Card>
   );
 }
-
-

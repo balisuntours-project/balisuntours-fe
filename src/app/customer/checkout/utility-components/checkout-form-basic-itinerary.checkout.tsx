@@ -9,7 +9,12 @@ import {
 import { AdormentInput } from "@/components/ui/adorment-input";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { CHECKOUT_INPUT_STYLE, DEFAULT_LAT, DEFAULT_LNG, DEFAULT_ZOOM } from "@/lib/global.constant";
+import {
+  CHECKOUT_INPUT_STYLE,
+  DEFAULT_LAT,
+  DEFAULT_LNG,
+  DEFAULT_ZOOM,
+} from "@/lib/global.constant";
 import {
   Select,
   SelectContent,
@@ -19,11 +24,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useGoogleMapStore } from "@/app/store/google-map.store";
 import { useEffect } from "react";
 import { useCheckoutBookingProvider } from "../provider/checkout-booking.provider";
 
 export function CheckoutFormBasicItineraryType({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   pickupTimeList,
   baseUuid,
 }: {
@@ -36,7 +41,9 @@ export function CheckoutFormBasicItineraryType({
   const setBookingScopedState = useBookingStore(
     (state) => state.setScopedState
   );
-  const setIsCheckoutButtonTriggered = useBookingStore((state) => state.setIsCheckoutButtonTriggered);
+  const setIsCheckoutButtonTriggered = useBookingStore(
+    (state) => state.setIsCheckoutButtonTriggered
+  );
 
   const dataPayload: CheckoutBasicItineraryPayloadData = scopedBookingState
     .checkoutPayload?.departure
@@ -89,7 +96,7 @@ export function CheckoutFormBasicItineraryType({
 
   useEffect(() => {
     if (isCheckoutButtonTriggered) {
-        setIsCheckoutButtonTriggered(false)
+      setIsCheckoutButtonTriggered(false);
       if (
         pickupTimeRef.current &&
         !scopedBookingState.checkoutPayload?.pickup_time
@@ -106,7 +113,10 @@ export function CheckoutFormBasicItineraryType({
 
   useEffect(() => {
     if (scopedBookingState.checkoutPayload) {
-      if (scopedBookingState.checkoutPayload.pickup_time && pickupTimeRef.current) {
+      if (
+        scopedBookingState.checkoutPayload.pickup_time &&
+        pickupTimeRef.current
+      ) {
         pickupTimeRef.current.classList.add("hidden");
         pickupTimeRef.current.classList.remove("block");
       }

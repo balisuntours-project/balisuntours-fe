@@ -5,7 +5,7 @@ import { AuthButton } from "@/components/custom-ui/auth.button";
 import { CircleUserRound } from "lucide-react";
 import { LoginDialog } from "./login-dialog";
 import { GlobalUtility } from "@/lib/global.utility";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAuthStore } from "@/app/store/auth.store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
