@@ -22,7 +22,7 @@ function PackageTypeMechanism({
           <span className="text-sm text-gray-500">{item.package_title}</span>
           <span className="text-sm text-gray-500">{item.activity_date}</span>
           {item.pickup_location ? (
-            <span className="text-sm text-gray-500 flex flex-wrap">
+            <div className="text-sm text-gray-500 flex flex-wrap">
               Pickup location:
               {item.pickup_coordinate_object ? (
                 <GoogleMapDialogComponent
@@ -38,7 +38,7 @@ function PackageTypeMechanism({
                   {item.pickup_location}
                 </span>
               )}
-            </span>
+            </div>
           ) : (
             <span className="text-sm text-gray-500 block">
               Pickup location:
@@ -59,7 +59,9 @@ function PackageTypeMechanism({
           </span>
           <Link
             target="__blank"
-            href={`/customer/preview/activity/${item.activity_slug}?package=${GlobalUtility.StringToSlugEncodedString(
+            href={`/customer/preview/activity/${
+              item.activity_slug
+            }?package=${GlobalUtility.StringToSlugEncodedString(
               item.package_title
             )}&target=itinerary`}
             className="text-black underline cursor-pointer text-sm"
@@ -69,9 +71,7 @@ function PackageTypeMechanism({
         </div>
       </>
     );
-  } else if (
-    item.package_type == ActivityPackageTypeEnum.pickupTimeByTeam
-  ) {
+  } else if (item.package_type == ActivityPackageTypeEnum.pickupTimeByTeam) {
     return (
       <>
         <div className="flex flex-col gap-1 text-start">
@@ -113,7 +113,9 @@ function PackageTypeMechanism({
 
           <Link
             target="__blank"
-            href={`/customer/preview/activity/${item.activity_slug}?package=${GlobalUtility.StringToSlugEncodedString(
+            href={`/customer/preview/activity/${
+              item.activity_slug
+            }?package=${GlobalUtility.StringToSlugEncodedString(
               item.package_title
             )}&target=itinerary`}
             className="text-black underline cursor-pointer text-sm"
@@ -148,7 +150,9 @@ function PackageTypeMechanism({
 
           <Link
             target="__blank"
-            href={`/customer/preview/activity/${item.activity_slug}?package=${GlobalUtility.StringToSlugEncodedString(
+            href={`/customer/preview/activity/${
+              item.activity_slug
+            }?package=${GlobalUtility.StringToSlugEncodedString(
               item.package_title
             )}&target=itinerary`}
             className="text-black underline cursor-pointer text-sm"
@@ -203,7 +207,9 @@ function PackageTypeMechanism({
           </span>
           <Link
             target="__blank"
-            href={`/customer/preview/activity/${item.activity_slug}?package=${GlobalUtility.StringToSlugEncodedString(
+            href={`/customer/preview/activity/${
+              item.activity_slug
+            }?package=${GlobalUtility.StringToSlugEncodedString(
               item.package_title
             )}&target=itinerary`}
             className="text-black underline cursor-pointer text-sm"

@@ -1,17 +1,25 @@
-import { ActivityBestCategory, BestActivityCategoryNameAndListActivity } from "../response/activity.response";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { ActivityBestCategoryLandingPage, ActivityLandingPage } from "../paramaters/activity/paramater";
-import ActivityCard from "./utility-components/activity.card";
+import { BestActivityCategoryNameAndListActivity } from "../response/activity.response";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
+import { ActivityBestCategoryLandingPage } from "../paramaters/activity/paramater";
 import { BestCategoryCard } from "./utility-components/category.card";
-import { ExpandedButton } from "@/components/custom-ui/expanded.button";
 
-export function LandingPageBestCategorySection(props: ActivityBestCategoryLandingPage) {
-    return (
-        <>
-         <div id="best-category" className="block md:px-5 lg:px-6 xl:px-6 2xl:px-0 scroll-smooth">
-         <h1 className="font-bold text-xl md:text-3xl">Tours and Activities Category</h1>
+export function LandingPageBestCategorySection(
+  props: ActivityBestCategoryLandingPage
+) {
+  return (
+    <>
+      <div
+        id="best-category"
+        className="block md:px-5 lg:px-6 xl:px-6 2xl:px-0 scroll-smooth"
+      >
+        <h1 className="font-bold text-xl md:text-3xl">
+          Tours and Activities Category
+        </h1>
         <Carousel
-        
           opts={{
             align: "start",
           }}
@@ -26,16 +34,20 @@ export function LandingPageBestCategorySection(props: ActivityBestCategoryLandin
                 <div className="p-0">
                   <BestCategoryCard
                     category={category}
-                    activity={ Object.entries(props.best_category_activity).find(([key]) => key === category.title)?.[1] ?? {} as BestActivityCategoryNameAndListActivity}
+                    activity={
+                      Object.entries(props.best_category_activity).find(
+                        ([key]) => key === category.title
+                      )?.[1] ?? ({} as BestActivityCategoryNameAndListActivity)
+                    }
                   />
                 </div>
               </CarouselItem>
             ))}
           </CarouselContent>
-         {/*  <CarouselPrevious />
+          {/*  <CarouselPrevious />
           <CarouselNext /> */}
         </Carousel>
       </div>
-        </>
-    )
+    </>
+  );
 }

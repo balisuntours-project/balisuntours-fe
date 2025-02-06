@@ -2,19 +2,18 @@ import { create } from "zustand";
 import { GoogleMapViewParamater } from "../paramaters/google-map/paramater";
 import { DEFAULT_LAT, DEFAULT_LNG, DEFAULT_ZOOM } from "@/lib/global.constant";
 
-export const defaultScopedMapCoordinate : {
-  mapScopedPayload: GoogleMapViewParamater & {name?: string}|undefined
+export const defaultScopedMapCoordinate: {
+  mapScopedPayload: (GoogleMapViewParamater & { name?: string }) | undefined;
 } = {
   mapScopedPayload: {
     lat: DEFAULT_LAT,
     lng: DEFAULT_LNG,
     zoom: DEFAULT_ZOOM,
-     
   },
-}
+};
 
 export interface GoogleMapScopedState {
-  mapScopedPayload: GoogleMapViewParamater|undefined
+  mapScopedPayload: GoogleMapViewParamater | undefined;
 }
 
 interface GoogleMapStoreState {
@@ -24,7 +23,12 @@ interface GoogleMapStoreState {
 }
 
 interface GoogleMapStoreStateAction {
-  setScopedState: (id: string, key: keyof GoogleMapScopedState, value: any) => void;
+  setScopedState: (
+    id: string,
+    key: keyof GoogleMapScopedState,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    value: any
+  ) => void;
   getScopedState: (id: string) => GoogleMapScopedState;
   resetScopedState: (id: string) => void;
 
@@ -50,9 +54,7 @@ export const useGoogleMapStore = create<
 
   getScopedState: (id) => {
     const state = get().mapScopedState[id];
-    return (
-      state || defaultScopedMapCoordinate
-    );
+    return state || defaultScopedMapCoordinate;
   },
 
   resetScopedState: (id) => {

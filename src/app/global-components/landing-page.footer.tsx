@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Image from "next/image";
+import Link from "next/link";
 
 export function LandingPageFooterSection() {
   const tripadvisorHtml = `
@@ -6,7 +8,7 @@ export function LandingPageFooterSection() {
       <ul id="GUZLx9gWI7c9" class="TA_links VDLPAbhc">
         <li id="H3EWx1LnbLq" class="2FSF0dzSI3VK">
           <a target="_blank" href="https://www.tripadvisor.com/Attraction_Review-g297701-d4441302-Reviews-Bali_SUN_Tours-Ubud_Gianyar_Regency_Bali.html">
-            <img src="https://static.tacdn.com/img2/travelers_choice/widgets/tchotel_2024_L.png" alt="TripAdvisor" class="widCOEImg" id="CDSWIDCOELOGO"/>
+            <Image src="https://static.tacdn.com/img2/travelers_choice/widgets/tchotel_2024_L.png" alt="TripAdvisor" class="widCOEImg" id="CDSWIDCOELOGO"/>
           </a>
         </li>
       </ul>
@@ -170,45 +172,42 @@ export function LandingPageFooterSection() {
                 Accepted Payment
               </div>
               <div className="md:flex-auto mt-3 flex-row flex">
-                <a href="/#" className="w-6 me-3">
-                  <img
+                <div className="w-6 me-3">
+                  <Image
                     src="/visa.png"
-                    alt="icon"
+                    alt="Visa"
                     width="100"
                     height="100"
                     className="w-[60px] h-[35px]"
                   />
-                </a>
-                <a
-                  href="/#"
-                  className="w-11 me-3 flex items-center justify-center"
-                >
-                  <img
+                </div>
+                <div className="w-11 me-3 flex items-center justify-center">
+                  <Image
                     src="/master-card.png"
-                    alt="icon"
+                    alt="Master Card"
                     width="100"
                     height="100"
                     className="w-full h-[25px]"
                   />
-                </a>
-                <a href="#" target="_blank" className="w-6 me-3">
-                  <img
+                </div>
+                <div className="w-6 me-3">
+                  <Image
                     src="/jcb.png"
-                    alt="icon"
+                    alt="JCB"
                     width="100"
                     height="100"
                     className="w-[60px] h-[35px]"
                   />
-                </a>
-                <a href="#" target="_blank" className="w-6 me-3">
-                  <img
+                </div>
+                <div className="w-6 me-3">
+                  <Image
                     src="/america-ex.png"
-                    alt="icon"
+                    alt="America Ex"
                     width="100"
                     height="100"
                     className="w-[60px] h-[35px]"
                   />
-                </a>
+                </div>
               </div>
 
               {/*  <div className="text-[#65AD2E] font-extrabold text-[10px] md:text-xs mt-3">
@@ -238,56 +237,56 @@ export function LandingPageFooterSection() {
                 Follow Us
               </div>
               <div className="md:flex-auto mt-3 flex-row flex">
-                <a
+                <Link
                   href="https://www.facebook.com/balisuntours"
                   className="w-6 me-3"
                 >
-                  <img
+                  <Image
                     src="/facebook.png"
                     alt="icon"
                     width="100"
                     height="100"
                     className="w-[60px] h-[25px]"
                   />
-                </a>
-                <a
+                </Link>
+                <Link
                   href="https://www.instagram.com/balisuntours"
                   className="w-6 me-3 my-auto"
                 >
-                  <img
+                  <Image
                     src="/instagram.png"
                     alt="icon"
                     width="100"
                     height="100"
                     className="w-[60px] h-[23px]"
                   />
-                </a>
-                <a
+                </Link>
+                <Link
                   href="https://api.whatsapp.com/send?phone=6281936109809"
                   target="_blank"
                   className="w-6 me-3"
                 >
-                  <img
+                  <Image
                     src="/whatsapp.png"
                     alt="icon"
                     width="100"
                     height="100"
                     className="w-[60px] h-[25px]"
                   />
-                </a>
-                <a
+                </Link>
+                <Link
                   href="https://www.youtube.com/channel/UC0MUSpwc1cr-qJxQw0LRRPw"
                   target="_blank"
                   className="w-6 me-3"
                 >
-                  <img
+                  <Image
                     src="/youtube.png"
                     alt="icon"
                     width="100"
                     height="100"
                     className="w-[60px] h-[25px]"
                   />
-                </a>
+                </Link>
               </div>
             </div>
           </div>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import { usePaginationStore } from "@/app/store/pagination.store";
 import {
@@ -28,7 +29,7 @@ export function PaginationComponent({
 
     // Tampilkan halaman di sekitar halaman aktif
     let startPage = Math.max(currentPage - Math.floor(maxPageNumbers / 2), 1);
-    let endPage = Math.min(startPage + maxPageNumbers - 1, totalPage);
+    const endPage = Math.min(startPage + maxPageNumbers - 1, totalPage);
 
     if (endPage - startPage < maxPageNumbers - 1) {
       startPage = Math.max(endPage - maxPageNumbers + 1, 1);

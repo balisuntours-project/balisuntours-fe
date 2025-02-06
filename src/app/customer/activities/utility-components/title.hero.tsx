@@ -1,5 +1,3 @@
-import { SearchBoxComponent } from "@/app/global-components/utility-components/searchbox";
-
 export function AllActivitiesTitleHero({
   flatPosition,
 }: {
@@ -25,7 +23,7 @@ export function AllActivitiesTitleHero({
           </h2>
         )}
         {/* Input with Search Icon and Button */}
-      {/* <SearchBoxComponent /> */}
+        {/* <SearchBoxComponent /> */}
       </div>
     </>
   );

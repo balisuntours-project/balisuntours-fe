@@ -1,7 +1,5 @@
 import { LandingPageFooterSection } from "@/app/global-components/landing-page.footer";
 import { LargeNavbar } from "@/app/global-components/large.navbar";
-
-import { CartAction } from "@/app/actions/cart/action";
 import { CartServerAction } from "@/app/actions/cart/action.server";
 import { CartItemsList } from "./components/cart-items.cart";
 import { CartEmptyContent } from "./utility-components/cart-empty.content";

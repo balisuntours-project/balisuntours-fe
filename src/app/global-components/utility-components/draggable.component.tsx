@@ -20,7 +20,7 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 type Item = {
   id: number;

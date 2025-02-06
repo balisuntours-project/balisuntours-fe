@@ -1,6 +1,5 @@
 "use client";
 
-import { TermConditionsContent } from "../content";
 import "../../../styles/styled-ul.css";
 
 export function TermAndConditionsContentSection({
@@ -12,7 +11,6 @@ export function TermAndConditionsContentSection({
     <>
       {/* Main Content */}
       <main className="flex-1 lg:p-6">
-    
         <section className="mb-4">
           <div
             className="prose-ol:list-disc prose-sm md:prose-base px-4 py-2 text-black"

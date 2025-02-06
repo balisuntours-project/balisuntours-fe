@@ -1,14 +1,11 @@
 import {
   ActivityCardProps,
-  ActivityTags,
 } from "@/app/paramaters/activity/paramater";
 import { Card, CardContent } from "@/components/ui/card";
 import { GlobalUtility } from "@/lib/global.utility";
 import { Star, TicketCheck } from "lucide-react";
-import Image from "next/image";
 import { FC } from "react";
 import { ActivityTitleCard } from "./activity-title.card";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ImageWithLoader } from "./with-loader.image";
 
@@ -17,6 +14,7 @@ const ActivityBestCategoryCard: FC<ActivityCardProps> = ({
   tags,
   useMobileHeight,
   showDesciption,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   showTags = true,
 }) => {
   return (

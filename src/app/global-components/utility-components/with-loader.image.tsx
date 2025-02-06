@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { useState } from "react";
@@ -54,11 +55,10 @@ export function ImageWithLoader({
         height={layout ? undefined : height}
         layout={layout}
         sizes="100vw"
-        objectFit={objectFit}
         quality={quality}
         priority={priority} // Jika priority=true, gambar akan dimuat segera
         className={cn(
-          "transition-opacity duration-300",
+          "transition-opacity duration-300 object-fill",
           isImageLoaded ? "opacity-100" : "opacity-0",
           classNameProp // Custom class untuk gambar jika ada
         )}

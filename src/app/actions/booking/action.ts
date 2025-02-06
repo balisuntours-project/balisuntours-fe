@@ -1,21 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   CancelBookingParamater,
   CheckoutFinalPayloadParamater,
   CheckoutUnconfirmedBookingParamater,
 } from "@/app/paramaters/booking/paramater";
-import { Activity } from "@/app/responses/activity/response";
 import {
-  BookingResponse,
   CheckoutBookingResponse,
   CheckoutUnconfirmedBookingResponse,
 } from "@/app/responses/booking/response";
-import { CartItemsResponse } from "@/app/responses/cart/response";
 import { api } from "@/lib/axios-instance";
-import { apiServer } from "@/lib/axios-instance.server";
-import { CurrencyListEnum } from "@/lib/global.enum";
 import { GlobalUtility } from "@/lib/global.utility";
 import { AxiosError } from "axios";
-import { cookies } from "next/headers";
 
 export interface BookingActionResponse<T> {
   success: boolean;
@@ -168,7 +163,7 @@ export class BookingAction {
 
   static async CheckoutBooking(
     payload: CheckoutFinalPayloadParamater
-  ): Promise<BookingActionResponse<CheckoutBookingResponse|string>> {
+  ): Promise<BookingActionResponse<CheckoutBookingResponse | string>> {
     try {
       const action = await api(`/api/customer/payment`, {
         method: "POST",
@@ -179,10 +174,12 @@ export class BookingAction {
         GlobalUtility.TriggerExceptionFetchApi(action);
       }
 
-      return this.handleResponse<CheckoutBookingResponse|string>(action);
+      return this.handleResponse<CheckoutBookingResponse | string>(action);
     } catch (error: any) {
       console.error(error);
-      return this.handleFetchError<CheckoutBookingResponse|string>(error.response || error);
+      return this.handleFetchError<CheckoutBookingResponse | string>(
+        error.response || error
+      );
     }
   }
 }

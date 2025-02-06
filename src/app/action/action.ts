@@ -1,7 +1,5 @@
 import { api } from "@/lib/axios-instance";
 import { CookieValidateJwtResponseType } from "@/lib/global.type";
-import axios from "axios";
-import Cookies from "js-cookie";
 import {
   LoginParamater,
   RegisterParamater,

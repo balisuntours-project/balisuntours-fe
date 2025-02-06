@@ -1,22 +1,16 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { ImageWithLoader } from "@/app/global-components/utility-components/with-loader.image";
-import {
-  CartItemsResponse,
-  CartValueItemResponse,
-} from "@/app/responses/cart/response";
-import { Button } from "@/components/ui/button";
+import { CartValueItemResponse } from "@/app/responses/cart/response";
 import { Checkbox } from "@/components/ui/checkbox";
 
 import { DatePickerCart } from "./datepicker.cart";
 import { QtyPlusMinusSection } from "@/app/global-components/utility-components/qty-plus-minus.section";
 import { IncrementDecrementEnum } from "@/app/enums/activity/activity.enum";
 
-import {
-  ActivityPackagePriceResponse,
-  CartPriceResponse,
-} from "@/app/responses/activity-package-price/response";
-import { Suspense, useEffect, useState } from "react";
+import { CartPriceResponse } from "@/app/responses/activity-package-price/response";
+import { useEffect, useState } from "react";
 import { UpdateCartParamater } from "@/app/paramaters/cart/paramater";
 import { UpdatingCartType } from "@/app/enums/cart/cart.enum";
 import { CartAction } from "@/app/actions/cart/action";
@@ -26,7 +20,7 @@ import {
 } from "@/app/store/date-picker-scoped.store";
 import { GlobalUtility } from "@/lib/global.utility";
 import { useToast } from "@/hooks/use-toast";
-import { defaultCartScopedState, useCartStore } from "@/app/store/cart.store";
+import { useCartStore } from "@/app/store/cart.store";
 import {
   Tooltip,
   TooltipContent,
@@ -34,7 +28,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Badge } from "@/components/ui/badge";
-import { format, parse, parseISO } from "date-fns";
+import { format } from "date-fns";
 
 export function ItemSection({
   item,

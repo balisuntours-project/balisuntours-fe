@@ -1,20 +1,18 @@
-"use client"
+"use client";
 
-import { Calendar, Home, Inbox, Ruler, Search, Settings } from "lucide-react";
+import { Ruler } from "lucide-react";
 
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { LargeNavbar } from "@/app/global-components/large.navbar";
-import { FooterFooterSection } from "@/app/footer-components/footer.footer";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 // Menu items.
 const items = [
@@ -26,7 +24,6 @@ const items = [
 ];
 
 export function AppSidebar() {
-  const router = useRouter();
   const pathName = usePathname();
 
   return (

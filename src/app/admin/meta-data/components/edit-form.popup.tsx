@@ -23,7 +23,6 @@ import { useState } from "react";
 import { DisabledButton } from "@/components/custom-ui/disabled.buttont";
 import { useLoaderStore } from "@/app/store/loader.store";
 import { useMetaDataStore } from "@/app/store/metadata.store";
-import { Badge } from "@/components/ui/badge";
 import { MetaDataListImages } from "./meta-data-list.images";
 
 export function EditFormPopUp({
@@ -208,7 +207,7 @@ export function EditFormPopUp({
               <FormField
                 control={EditMataDataForm.control}
                 name="og_image"
-                render={({ field }) => (
+                render={() => (
                   <FormItem>
                     <FormLabel className="text-gray-700 text-sm font-semibold flex gap-2">
                       <span>Opengraph Image</span>

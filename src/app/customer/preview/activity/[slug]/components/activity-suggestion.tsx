@@ -9,7 +9,7 @@ import {
 export function ActivitySuggestion(props: ActivitySuggestionType) {
   return (
     <>
-      <div className="hidden md:block md:px-5 lg:px-6 xl:px-6 2xl:px-0 ">
+      <div className="md:px-5 lg:px-6 xl:px-6 2xl:px-0 ">
         <h1 className="font-bold text-3xl">People also like this</h1>
         <Carousel
           opts={{

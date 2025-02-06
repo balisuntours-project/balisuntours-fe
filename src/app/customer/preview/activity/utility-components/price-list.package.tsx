@@ -8,11 +8,9 @@ import {
 import { PriceListsParamater } from "@/app/paramaters/activity/paramater";
 import { PriceListSkeleton } from "@/app/skeletons-component/price-list.skeleton";
 import { useDetailActivityStore } from "@/app/store/detail-activity.store";
-import { Button } from "@/components/ui/button";
 import { ActivityUtility } from "@/lib/activity.utility";
 import { CurrencyListEnum } from "@/lib/global.enum";
 import { GlobalUtility } from "@/lib/global.utility";
-import { Minus, MinusSquare, Plus, PlusSquare } from "lucide-react";
 import { useActivityDate } from "../[slug]/provider/activity-booking-date.provider";
 import { QtyPlusMinusSection } from "@/app/global-components/utility-components/qty-plus-minus.section";
 
@@ -152,7 +150,7 @@ export function PriceListPackage() {
           {/* Price lists */}
           {!selectPackageLoadStatus ? (
             <div className="w-full flex flex-col gap-4">
-              {selectedPrices!.map((price, key) => (
+              {selectedPrices!.map((price) => (
                 <div key={price.uuid} className="w-full">
                   <div>
                     <p className="text-sm text-black mb-1">{price.title}</p>

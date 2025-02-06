@@ -1,14 +1,13 @@
-import { ActivityStatusEnum } from "../enums/activity/activity.enum";
 import { Activity } from "../responses/activity/response";
 
 export interface ActivityBestCategory {
-    title: string,
-    description: string,
-    image: string,
-    activities_url: string
+  title: string;
+  description: string;
+  image: string;
+  activities_url: string;
 }
 
 export interface BestActivityCategoryNameAndListActivity {
-    name: string,
-    activities: Array<Activity>
+  name: string;
+  activities: Array<Activity>;
 }

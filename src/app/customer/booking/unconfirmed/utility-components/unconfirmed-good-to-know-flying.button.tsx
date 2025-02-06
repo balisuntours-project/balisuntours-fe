@@ -1,7 +1,7 @@
 "use client";
 
 import { DynamicDialog } from "@/app/global-components/utility-components/dynamic-content.dialog";
-import { Asterisk, CircleHelp, Info } from "lucide-react";
+import { CircleHelp } from "lucide-react";
 import Link from "next/link";
 
 export function UnconfirmedGoodToKnowFlying() {

@@ -1,7 +1,6 @@
 
 import { SendPartnerRequestParamater } from "@/app/paramaters/partner/paramater";
 import { api } from "@/lib/axios-instance";
-import { CurrencyListEnum } from "@/lib/global.enum";
 import { GlobalUtility } from "@/lib/global.utility";
 import { AxiosError } from "axios";
 
@@ -118,6 +117,7 @@ export class PartnerAction {
       const result = this.handleResponse<string>(action);
 
       return result;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       return this.handleFetchError<string>(
         error.response || error

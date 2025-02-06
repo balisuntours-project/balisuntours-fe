@@ -21,19 +21,24 @@ export default function NotFound() {
       <div className="relative text-center max-w-lg z-10">
         {/* Judul dan teks */}
         <h1 className="text-8xl font-extrabold mb-4 text-[#008000]">404</h1>
-        <h2 className="text-2xl font-semibold mb-4">
-          Oops! Page Not Found
-        </h2>
+        <h2 className="text-2xl font-semibold mb-4">Oops! Page Not Found</h2>
         <p className="text-lg text-gray-600 mb-6">
-          The page you're looking for might have been removed, or is temporarily unavailable. Let’s get you back on track.
-          {" "}<Link href="/customer/activities" className="text-lg text-blue-500 underline mb-6">
+          The page you&quot;re looking for might have been removed, or is
+          temporarily unavailable. Let’s get you back on track.{" "}
+          <Link
+            href="/customer/activities"
+            className="text-lg text-blue-500 underline mb-6"
+          >
             See more activities here!
-        </Link>
+          </Link>
         </p>
-      
+
         {/* Tombol Kembali */}
         <Link href="/">
-          <Button variant="default" className="px-6 py-3 text-lg bg-[#008000] text-white hover:bg-[#008000]/80">
+          <Button
+            variant="default"
+            className="px-6 py-3 text-lg bg-[#008000] text-white hover:bg-[#008000]/80"
+          >
             Back to Home
           </Button>
         </Link>

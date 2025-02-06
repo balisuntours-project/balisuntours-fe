@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "./components/app-sidebar";
 import { FooterFooterSection } from "../footer-components/footer.footer";
 
@@ -22,7 +22,6 @@ export default function RootLayout({
           {/*   <SidebarTrigger />
            */}
           {children}
-         
         </main>
       </SidebarProvider>
       <FooterFooterSection useFixedStyle={true} />

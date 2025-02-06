@@ -1,5 +1,4 @@
 "use client";
-import { DetailActivityReviewParamater } from "@/app/paramaters/activity/paramater";
 import { ActivityReviewResponse } from "@/app/responses/activity-review/response";
 import { ProfilePictureReviewer } from "./profile-picture.reviewer";
 import { GlobalUtility } from "@/lib/global.utility";

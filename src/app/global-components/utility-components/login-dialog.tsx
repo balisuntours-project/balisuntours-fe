@@ -1,22 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useLandingPageStore } from "@/app/store/landing-page.store";
-import { AuthButton } from "@/components/custom-ui/auth.button";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import { LoginForm } from "./login-form";
 import { RegisterForm } from "./register-form";
-import { GlobalUtility } from "@/lib/global.utility";
 import { useAuthStore } from "@/app/store/auth.store";
 import { useAuthPopupStore } from "@/app/store/auth-popup.store";
 import { PollingLoginDialogPopUpToken } from "./polling-login-dialog.popup";

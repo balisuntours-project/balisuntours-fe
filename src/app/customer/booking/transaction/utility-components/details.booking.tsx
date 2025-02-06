@@ -1,8 +1,5 @@
 "use client";
 
-import { DynamicDialog } from "@/app/global-components/utility-components/dynamic-content.dialog";
-import { BookingPackageResponse } from "@/app/responses/booking/response";
-import { Button } from "@/components/ui/button";
 import { PopupDetailBooking } from "./popup-detail.booking";
 import { useBookingStore } from "@/app/store/booking.store";
 import { EmptyContent } from "@/app/global-components/utility-components/empty-content.page";
