@@ -1,11 +1,11 @@
-import { BookingResponse, CheckoutDataResponse } from "@/app/responses/booking/response";
-import { CartItemsResponse } from "@/app/responses/cart/response";
-import { api } from "@/lib/axios-instance";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import {
+  BookingResponse,
+  CheckoutDataResponse,
+} from "@/app/responses/booking/response";
 import { apiServer } from "@/lib/axios-instance.server";
-import { CurrencyListEnum } from "@/lib/global.enum";
 import { GlobalUtility } from "@/lib/global.utility";
 import { AxiosError } from "axios";
-import { cookies } from "next/headers";
 
 export interface BookingActionResponse<T> {
   success: boolean;
@@ -45,16 +45,15 @@ export class BookingServerAction {
     response: Response
   ): Promise<BookingActionResponse<T>> {
     let finalResponse: any = {};
-  
-     //lakukan ini karena jika tidak bada build runtime akan error (karena cookie next header tidak dapat dirender static, page ini static karena /customer/booking tidaka da dynamic param seperti slug)
-     if (response instanceof Response) {
-        try {
-          finalResponse = await response.json();
-        } catch {
-          finalResponse = {};
-        }
+
+    //lakukan ini karena jika tidak bada build runtime akan error (karena cookie next header tidak dapat dirender static, page ini static karena /customer/booking tidaka da dynamic param seperti slug)
+    if (response instanceof Response) {
+      try {
+        finalResponse = await response.json();
+      } catch {
+        finalResponse = {};
       }
-  
+    }
 
     let message = "Unknown error occurred";
 
@@ -157,14 +156,16 @@ export class BookingServerAction {
     }
   }
 
-
-  static async GetBookingCheckoutData(stringCartUuids: string): Promise<
-    BookingActionResponse<CheckoutDataResponse>
-  > {
+  static async GetBookingCheckoutData(
+    stringCartUuids: string
+  ): Promise<BookingActionResponse<CheckoutDataResponse>> {
     try {
-      const action = await apiServer(`/api/customer/checkout?cart_data=${stringCartUuids}`, {
-        method: "GET",
-      });
+      const action = await apiServer(
+        `/api/customer/checkout?cart_data=${stringCartUuids}`,
+        {
+          method: "GET",
+        }
+      );
 
       if (!action.ok) {
         GlobalUtility.TriggerExceptionFetchApi(action);
@@ -174,8 +175,9 @@ export class BookingServerAction {
 
       return result;
     } catch (error: any) {
-      
-      return this.handleFetchError<CheckoutDataResponse>(error.response || error);
+      return this.handleFetchError<CheckoutDataResponse>(
+        error.response || error
+      );
     }
   }
 }

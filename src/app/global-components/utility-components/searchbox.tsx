@@ -1,17 +1,11 @@
-import { Input } from "@/components/ui/input";
-import { api } from "@/lib/axios-instance";
-import { Search, SearchIcon } from "lucide-react";
+import { Search } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import {
   Command,
-  CommandDialog,
   CommandEmpty,
-  CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
-  CommandShortcut,
 } from "@/components/ui/command";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -24,7 +18,7 @@ export function SearchBoxComponent({
   inputClassName,
   listClassName,
   showSearchIcon = true,
-  showListResult = true
+  showListResult = true,
 }: {
   className?: string;
   inputClassName?: string;
@@ -142,30 +136,29 @@ export function SearchBoxComponent({
               <span className="hidden md:block">Search</span>
               <Search className="block md:hidden" size={16} />
             </button>
-          
           )}
         </div>
-       {showListResult && (
-         <CommandList
-         className={`${isShowList.length > 0 ? "block" : "hidden"} ${
-           listClassName ??
-           "max-h-[200px] overflow-y-scroll  w-full text-start scrollbar-hide"
-         }`}
-       >
-         <CommandEmpty>No activities found.</CommandEmpty>
-         {activityTitles?.length > 0 &&
-           activityTitles.map((activity) => (
-             <CommandItem key={activity.uuid} asChild>
-               <Link
-                 href={`/customer/preview/activity/${activity.slug}`}
-                 target="_blank"
-               >
-                 {activity.title}
-               </Link>
-             </CommandItem>
-           ))}
-       </CommandList>
-       )}
+        {showListResult && (
+          <CommandList
+            className={`${isShowList.length > 0 ? "block" : "hidden"} ${
+              listClassName ??
+              "max-h-[200px] overflow-y-scroll  w-full text-start scrollbar-hide"
+            }`}
+          >
+            <CommandEmpty>No activities found.</CommandEmpty>
+            {activityTitles?.length > 0 &&
+              activityTitles.map((activity) => (
+                <CommandItem key={activity.uuid} asChild>
+                  <Link
+                    href={`/customer/preview/activity/${activity.slug}`}
+                    target="_blank"
+                  >
+                    {activity.title}
+                  </Link>
+                </CommandItem>
+              ))}
+          </CommandList>
+        )}
       </Command>
     </div>
   );

@@ -1,10 +1,8 @@
 "use client";
 import { useLandingPageStore } from "@/app/store/landing-page.store";
 import { AuthButton } from "@/components/custom-ui/auth.button";
-import { Button } from "@/components/ui/button";
 
 import { Input } from "@/components/ui/input";
-import { GlobalUtility } from "@/lib/global.utility";
 import { useAuthStore } from "@/app/store/auth.store";
 import { LoginFormSchema } from "@/app/api/auth/validation/login.validation";
 import { useForm } from "react-hook-form";
@@ -35,23 +33,21 @@ export function InternalLoginForm() {
     },
   });
 
- 
   const setShowLoginDialog = useLandingPageStore(
     (state) => state.setShowLoginDialog
   );
 
-  
   const setShowAuthPopup = useAuthPopupStore((state) => state.setShowAuthPopup);
-  const [onLoadLogin, setOnLoadLogin] = useState(false)
+  const [onLoadLogin, setOnLoadLogin] = useState(false);
   const setIsLogin = useAuthStore((state) => state.setIsLogin);
 
   const handleLogin = async (values: z.infer<typeof LoginFormSchema>) => {
-    setOnLoadLogin(true)
+    setOnLoadLogin(true);
     values.password = btoa(values.password);
     const action = await AuthAction.LoginInternalUser(values);
-    setOnLoadLogin(false)
+    setOnLoadLogin(false);
     if (action) {
-      setIsLogin(true)
+      setIsLogin(true);
       setShowLoginDialog(false);
       setShowAuthPopup(false);
     } else {

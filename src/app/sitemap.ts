@@ -27,6 +27,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             activity.slug
           }`,
           lastModified: new Date(),
+          // eslint-disable-next-line @typescript-eslint/prefer-as-const
           changeFrequency: "monthly" as "monthly", // Type assertion jika perlu
           priority: 0.6,
           images: activity.images.map((image) => image.path),

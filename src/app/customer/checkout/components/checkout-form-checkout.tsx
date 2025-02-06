@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import { ActivityAction } from "@/app/actions/activity/action";
 import {
   CheckoutFinalPayloadParamater,
   CheckoutMappedPackageDataParamater,
@@ -16,8 +16,7 @@ import { useBookingStore } from "@/app/store/booking.store";
 import { useGoogleMapStore } from "@/app/store/google-map.store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { TravellerDataSchema } from "../validation/traveller-data.validation";
@@ -232,26 +231,25 @@ export function CheckoutForm({
     };
 
     setFinalBookingPayload(postPayload);
-   
+
     if (checkIsThereAnyNeedConfirmationPackage(mappingPackageOrderpayload)) {
       setWaitingPackageAvailable(true);
       return;
     }
 
-   
     setIsLoading(true);
     const result = await BookingAction.CheckoutBooking(postPayload);
-    
+
     //setIsCheckoutButtonTriggered(false)
     if (result.success) {
-        const finalResult = result.data as CheckoutBookingResponse
+      const finalResult = result.data as CheckoutBookingResponse;
       if (finalResult.payment_gateway == PaymentGatewayEnum.IPAYMU) {
-        const paymentGatewayPayload = finalResult
-          .payload as CheckoutBookingIpaymuResponse;
+        const paymentGatewayPayload =
+          finalResult.payload as CheckoutBookingIpaymuResponse;
         router.push(paymentGatewayPayload.next_url);
       } else if (finalResult.payment_gateway == PaymentGatewayEnum.IPAY88) {
-        const paymentGatewayPayload = finalResult
-          .payload as CheckoutBookingIpay88Response;
+        const paymentGatewayPayload =
+          finalResult.payload as CheckoutBookingIpay88Response;
         BookingUtility.handleIpay88Checkout(
           paymentGatewayPayload.checkout_id,
           paymentGatewayPayload.signature,
@@ -261,7 +259,7 @@ export function CheckoutForm({
       setIsLoading(false);
     } else {
       setIsLoading(false);
-      const finalResult = result.data as string //errror response from backend
+      const finalResult = result.data as string; //errror response from backend
       toast({
         description: `${finalResult}`,
         variant: "danger",
@@ -276,14 +274,14 @@ export function CheckoutForm({
       const result = await BookingAction.CheckoutBooking(finalBookingPayload);
 
       if (result.success) {
-        const finalResult = result.data as CheckoutBookingResponse
+        const finalResult = result.data as CheckoutBookingResponse;
         if (finalResult.payment_gateway == PaymentGatewayEnum.IPAYMU) {
-          const paymentGatewayPayload = finalResult
-            .payload as CheckoutBookingIpaymuResponse;
+          const paymentGatewayPayload =
+            finalResult.payload as CheckoutBookingIpaymuResponse;
           router.push(paymentGatewayPayload.next_url);
         } else if (finalResult.payment_gateway == PaymentGatewayEnum.IPAY88) {
-          const paymentGatewayPayload = finalResult
-            .payload as CheckoutBookingIpay88Response;
+          const paymentGatewayPayload =
+            finalResult.payload as CheckoutBookingIpay88Response;
           BookingUtility.handleIpay88Checkout(
             paymentGatewayPayload.checkout_id,
             paymentGatewayPayload.signature,
@@ -293,7 +291,7 @@ export function CheckoutForm({
         setIsLoading(false);
       } else {
         setIsLoading(false);
-        const finalResult = result.data as string //errror response from backend
+        const finalResult = result.data as string; //errror response from backend
         toast({
           description: `${finalResult}`,
           variant: "danger",
@@ -322,7 +320,8 @@ export function CheckoutForm({
           Contact Info
         </span>
         <p className="text-sm sm:text-base text-gray-500">
-          We'll only contact you if there's any updates to your booking
+          We&quot;ll only contact you if there&quot;s any updates to your
+          booking
         </p>
         <div className="mt-4 p-5 border-2 rounded-lg ">
           <Form {...TravellerDataForm}>
@@ -438,8 +437,6 @@ export function CheckoutForm({
           </Form>
         </div>
       </div>
-
-     
     </>
   );
 }

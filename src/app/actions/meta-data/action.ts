@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { EditMetaDataParamater } from "@/app/paramaters/activity-metadata/paramater";
 import { ActivityMetaDataResponse } from "@/app/responses/activity-metadata/response";
 import { api } from "@/lib/axios-instance";
-import { CurrencyListEnum } from "@/lib/global.enum";
 import { GlobalUtility } from "@/lib/global.utility";
 import { AxiosError } from "axios";
 

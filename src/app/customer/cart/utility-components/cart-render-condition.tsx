@@ -16,7 +16,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ConfirmationDialog } from "@/app/global-components/utility-components/confirmation.dialog";
 import { CartAction } from "@/app/actions/cart/action";
 import { useToast } from "@/hooks/use-toast";
-import { useLoaderStore } from "@/app/store/loader.store";
 
 export function MechanismRederCartItems({
   items,
@@ -54,6 +53,7 @@ export function MechanismRederCartItems({
     if (e == true && sourceItems) {
       let countWholeTotalPrice: number = 0;
       const validCarts = Object.entries(sourceItems)
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         .filter(([_, item]) => {
           const cartItem = item as unknown as CartValueItemResponse;
           const formattedDate = GlobalUtility.SetFormattedStandartDate(
@@ -100,6 +100,7 @@ export function MechanismRederCartItems({
   const handleDestroyAllCart = async () => {
     if (sourceItems) {
       const orderIds: Array<string> = Object.entries(sourceItems).map(
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         ([key, _]) => {
           return key;
         }

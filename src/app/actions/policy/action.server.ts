@@ -1,6 +1,4 @@
-import { SendPartnerRequestParamater } from "@/app/paramaters/partner/paramater";
-import { api } from "@/lib/axios-instance";
-import { CurrencyListEnum } from "@/lib/global.enum";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { GlobalUtility } from "@/lib/global.utility";
 import { AxiosError } from "axios";
 import { GetPolicyResponse } from "../../responses/policy/response";

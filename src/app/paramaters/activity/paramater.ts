@@ -6,7 +6,6 @@ import {
 import {
   Activity,
   ActivityDetailResponse,
-  ActivityOrderInfoResponse,
 } from "../../responses/activity/response";
 import { ActivityPackagePriceResponse } from "@/app/responses/activity-package-price/response";
 import { IncrementDecrementEnum } from "@/app/enums/activity/activity.enum";

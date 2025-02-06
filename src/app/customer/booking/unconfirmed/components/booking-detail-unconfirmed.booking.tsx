@@ -2,17 +2,12 @@
 
 import {
   BookingDetailResponse,
-  BookingPackageDynamicPropertyResponse,
   BookingResponse,
 } from "@/app/responses/booking/response";
 
 import { GlobalUtility } from "@/lib/global.utility";
-import {
-  BookingPaymentStatusEnum,
-  ReviewValidPayloadEnum,
-} from "@/app/enums/booking/booking.enum";
+import { BookingPaymentStatusEnum } from "@/app/enums/booking/booking.enum";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { DynamicDialog } from "@/app/global-components/utility-components/dynamic-content.dialog";
 
 import { useBookingStore } from "@/app/store/booking.store";
@@ -26,7 +21,10 @@ import { HttpStatus } from "@/lib/global.enum";
 import { UnconfirmedStatusBooking } from "../utility-components/unconfirmed-status.booking";
 import { DetailsBooking } from "../../transaction/utility-components/details.booking";
 import { UnconfirmedEmptyContent } from "../utility-components/unconfirmed-empty-content.booking";
-import { CheckoutUnconfirmedBookingPackageData, CheckoutUnconfirmedBookingParamater } from "@/app/paramaters/booking/paramater";
+import {
+  CheckoutUnconfirmedBookingPackageData,
+  CheckoutUnconfirmedBookingParamater,
+} from "@/app/paramaters/booking/paramater";
 import { useLoaderStore } from "@/app/store/loader.store";
 import { TextLoader } from "@/app/global-components/utility-components/text-loader.popup";
 import { useRouter } from "next/navigation";
@@ -57,6 +55,7 @@ export function BookingDetailUnconfirmed({
   const handleCancelBooking = async (orderId: string, bookingUuid: string) => {
     const activityUuids: Array<string> = Object.entries(
       bookingsData.packages[orderId].packages
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ).flatMap(([key, value]) => {
       return value.activity_uuid;
     });
@@ -92,44 +91,41 @@ export function BookingDetailUnconfirmed({
     }
   }, [currentCanceledBookingOrderId]);
 
-  const setIsloading = useLoaderStore((state) => state.setIsLoading)
-  const router = useRouter()
+  const setIsloading = useLoaderStore((state) => state.setIsLoading);
+  const router = useRouter();
 
   const handleCheckoutBooking = async (booking: BookingDetailResponse) => {
-    
-    const mappingPackage = Object.entries(bookingsData.packages[booking.order_id].packages).reduce(
-        (acc, [key, value]) => {
-        acc[key] = {
-            ...value,
-            is_customer_set_pickup_information: value.package_type
-        }
-          return acc
-        },
-        {} as { [key: string]: CheckoutUnconfirmedBookingPackageData }
-      );
-
+    const mappingPackage = Object.entries(
+      bookingsData.packages[booking.order_id].packages
+    ).reduce((acc, [key, value]) => {
+      acc[key] = {
+        ...value,
+        is_customer_set_pickup_information: value.package_type,
+      };
+      return acc;
+    }, {} as { [key: string]: CheckoutUnconfirmedBookingPackageData });
 
     const payload: CheckoutUnconfirmedBookingParamater = {
       order: booking,
-      package: mappingPackage
+      package: mappingPackage,
     };
 
-    setIsloading(true)
+    setIsloading(true);
     const checkout = await BookingAction.CheckoutUnconfirmedBooking(payload);
-    setIsloading(false)
-   if(checkout.success) {
-    router.push(checkout.data.next_url)
-   }else {
-    toast({
+    setIsloading(false);
+    if (checkout.success) {
+      router.push(checkout.data.next_url);
+    } else {
+      toast({
         description: `Humm, something wrong when trying to checkout, please report to our custoer service.`,
         variant: "danger",
       });
-   }
+    }
   };
 
   return (
     <>
-    <TextLoader title="Hold a second" text="We are preparing your book!" />
+      <TextLoader title="Hold a second" text="We are preparing your book!" />
       {sourceItems.length > 0 ? (
         <div className="md:col-span-3 flex flex-col gap-5">
           {sourceItems.map((booking, key) => (

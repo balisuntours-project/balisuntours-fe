@@ -10,10 +10,14 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect } from "react";
 import { useCheckoutBookingProvider } from "../provider/checkout-booking.provider";
-import { defaultScopedMapCoordinate, useGoogleMapStore } from "@/app/store/google-map.store";
+import {
+  defaultScopedMapCoordinate,
+  useGoogleMapStore,
+} from "@/app/store/google-map.store";
 import { CHECKOUT_INPUT_STYLE } from "@/lib/global.constant";
 
 export function CheckoutFormPickupTimeByTravellerType({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   pickupTimeList,
   baseUuid,
 }: {
@@ -32,14 +36,16 @@ export function CheckoutFormPickupTimeByTravellerType({
   const isCheckoutButtonTriggered = useBookingStore(
     (state) => state.isCheckoutButtonTriggered
   );
-  const setIsCheckoutButtonTriggered = useBookingStore((state) => state.setIsCheckoutButtonTriggered);
+  const setIsCheckoutButtonTriggered = useBookingStore(
+    (state) => state.setIsCheckoutButtonTriggered
+  );
 
   const { planningItineraryRef, pickupTimeRef, mapLocationRef } =
     useCheckoutBookingProvider();
 
   useEffect(() => {
     if (isCheckoutButtonTriggered) {
-        setIsCheckoutButtonTriggered(false)
+      setIsCheckoutButtonTriggered(false);
       if (
         planningItineraryRef.current &&
         !scopedBookingState.checkoutPayload?.planned_place_to_visit
@@ -52,10 +58,7 @@ export function CheckoutFormPickupTimeByTravellerType({
         });
       }
 
-      if (
-        mapLocationRef.current &&
-        !scopedMapState.mapScopedPayload?.name
-      ) {
+      if (mapLocationRef.current && !scopedMapState.mapScopedPayload?.name) {
         mapLocationRef.current.classList.remove("hidden");
         mapLocationRef.current.classList.add("block");
         mapLocationRef.current.scrollIntoView({
@@ -79,14 +82,11 @@ export function CheckoutFormPickupTimeByTravellerType({
   }, [isCheckoutButtonTriggered]);
 
   useEffect(() => {
-    if(scopedMapState.mapScopedPayload) {
-        if (
-            scopedMapState.mapScopedPayload.name &&
-            mapLocationRef.current
-          ) {
-            mapLocationRef.current.classList.add("hidden");
-            mapLocationRef.current.classList.remove("block");
-          }
+    if (scopedMapState.mapScopedPayload) {
+      if (scopedMapState.mapScopedPayload.name && mapLocationRef.current) {
+        mapLocationRef.current.classList.add("hidden");
+        mapLocationRef.current.classList.remove("block");
+      }
     }
 
     if (scopedBookingState.checkoutPayload) {
@@ -118,8 +118,8 @@ export function CheckoutFormPickupTimeByTravellerType({
           >
             *Pickup location & map
             <span className="italic">
-              (NOTE: Pick-up points outside the
-              {" "}<span className="font-bold">(Coverage Pickup Location){" "}</span>
+              (NOTE: Pick-up points outside the{" "}
+              <span className="font-bold">(Coverage Pickup Location) </span>
               areas will incur additional charges)
             </span>
           </Label>
@@ -133,98 +133,96 @@ export function CheckoutFormPickupTimeByTravellerType({
                 Where will we pick you up?
               </p>
               <GoogleMapViewComponent
-              mapStyle="w-full h-[200px] md:h-[350px]"
+                mapStyle="w-full h-[200px] md:h-[350px]"
                 scopedId={baseUuid}
                 withSearchAutoComplete={true}
                 readonlyMap={false}
               />
             </div>
             <div className="mt-4 p-5 border-2 rounded-lg flex flex-col gap-2 md:grid md:grid-cols-2 md:gap-4">
-          <div className="flex flex-col gap-1 col-span-2">
-            <Label htmlFor="planned-place" className="font-bold">
-              *Fill out your planning itinerary
-            </Label>
-            <Textarea
-              required
-              placeholder="Your planning itinerary, example: &#10;Monkey forest,&#10;Rice Terrace,&#10;Uluwatu Temple,&#10;etc,"
-              onChange={(e) =>
-                setBookingScopedState(
-                  baseUuid,
-                  "checkoutPayload",
-                  scopedBookingState.checkoutPayload
-                    ? {
-                        ...scopedBookingState.checkoutPayload,
-                        planned_place_to_visit: e.target.value,
-                      }
-                    : undefined
-                )
-              }
-              className={CHECKOUT_INPUT_STYLE}
-            ></Textarea>
-            <p
-              className="activity-date-info text-xs md:text-sm text-red-500 hidden"
-              ref={planningItineraryRef}
-            >
-              Where is your planning?
-            </p>
-          </div>
-          <div className="flex flex-col gap-1">
-            <Label htmlFor="pickup-time" className="font-bold">
-              *Pickup Time
-            </Label>
-            <Input
-              type="time"
-              placeholder="Pickup time"
-              required
-              onChange={(e) =>
-                setBookingScopedState(
-                  baseUuid,
-                  "checkoutPayload",
-                  scopedBookingState.checkoutPayload
-                    ? {
-                        ...scopedBookingState.checkoutPayload,
-                        pickup_time: e.target.value,
-                      }
-                    : undefined
-                )
-              }
-              className={CHECKOUT_INPUT_STYLE}
-            />
-            <p
-              className="activity-date-info text-xs md:text-sm text-red-500 hidden"
-              ref={pickupTimeRef}
-            >
-              What time should we pick you up?
-            </p>
-          </div>
+              <div className="flex flex-col gap-1 col-span-2">
+                <Label htmlFor="planned-place" className="font-bold">
+                  *Fill out your planning itinerary
+                </Label>
+                <Textarea
+                  required
+                  placeholder="Your planning itinerary, example: &#10;Monkey forest,&#10;Rice Terrace,&#10;Uluwatu Temple,&#10;etc,"
+                  onChange={(e) =>
+                    setBookingScopedState(
+                      baseUuid,
+                      "checkoutPayload",
+                      scopedBookingState.checkoutPayload
+                        ? {
+                            ...scopedBookingState.checkoutPayload,
+                            planned_place_to_visit: e.target.value,
+                          }
+                        : undefined
+                    )
+                  }
+                  className={CHECKOUT_INPUT_STYLE}
+                ></Textarea>
+                <p
+                  className="activity-date-info text-xs md:text-sm text-red-500 hidden"
+                  ref={planningItineraryRef}
+                >
+                  Where is your planning?
+                </p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <Label htmlFor="pickup-time" className="font-bold">
+                  *Pickup Time
+                </Label>
+                <Input
+                  type="time"
+                  placeholder="Pickup time"
+                  required
+                  onChange={(e) =>
+                    setBookingScopedState(
+                      baseUuid,
+                      "checkoutPayload",
+                      scopedBookingState.checkoutPayload
+                        ? {
+                            ...scopedBookingState.checkoutPayload,
+                            pickup_time: e.target.value,
+                          }
+                        : undefined
+                    )
+                  }
+                  className={CHECKOUT_INPUT_STYLE}
+                />
+                <p
+                  className="activity-date-info text-xs md:text-sm text-red-500 hidden"
+                  ref={pickupTimeRef}
+                >
+                  What time should we pick you up?
+                </p>
+              </div>
 
-          <div className="flex flex-col gap-1">
-            <Label htmlFor="note" className="font-bold">
-              Note
-            </Label>
-            <Textarea
-              onChange={(e) =>
-                setBookingScopedState(
-                  baseUuid,
-                  "checkoutPayload",
-                  scopedBookingState.checkoutPayload
-                    ? {
-                        ...scopedBookingState.checkoutPayload,
-                        note: e.target.value,
-                      }
-                    : undefined
-                )
-              }
-              className={CHECKOUT_INPUT_STYLE}
-              id="note"
-              placeholder="Leave note for us..."
-            ></Textarea>
+              <div className="flex flex-col gap-1">
+                <Label htmlFor="note" className="font-bold">
+                  Note
+                </Label>
+                <Textarea
+                  onChange={(e) =>
+                    setBookingScopedState(
+                      baseUuid,
+                      "checkoutPayload",
+                      scopedBookingState.checkoutPayload
+                        ? {
+                            ...scopedBookingState.checkoutPayload,
+                            note: e.target.value,
+                          }
+                        : undefined
+                    )
+                  }
+                  className={CHECKOUT_INPUT_STYLE}
+                  id="note"
+                  placeholder="Leave note for us..."
+                ></Textarea>
+              </div>
+            </div>
           </div>
         </div>
-          </div>
-        </div>
-
-       
       </div>
     </>
   );

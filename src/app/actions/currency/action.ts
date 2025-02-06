@@ -1,8 +1,3 @@
-import {
-  ActivityDetailResponse,
-  ActivityDetailSitemap,
-  ActivityTitleAndSlugResponse,
-} from "@/app/responses/activity/response";
 import { api } from "@/lib/axios-instance";
 import { CurrencyListEnum } from "@/lib/global.enum";
 import { GlobalUtility } from "@/lib/global.utility";
@@ -113,12 +108,13 @@ export class CurrencyAction {
         method: "GET",
       });
 
-      if(!action.ok) {
-        GlobalUtility.TriggerExceptionFetchApi(action)
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
       }
 
       return this.handleResponse<number>(action);
-    } catch (error : any) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       console.error(error);
       return this.handleFetchError<number>(error.response || error);
     }

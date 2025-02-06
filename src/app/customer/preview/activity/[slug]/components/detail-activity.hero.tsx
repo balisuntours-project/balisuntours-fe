@@ -1,7 +1,6 @@
 "use client";
 
 import { DetailActivityHeroParamater } from "@/app/paramaters/activity/paramater";
-import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -11,7 +10,6 @@ import "swiper/css/effect-fade";
 import "../../../../../styles/landing-page.hero.css";
 
 import { EffectFade, Autoplay, Navigation, Pagination } from "swiper/modules";
-import { BANNER_LANDING_PAGE } from "@/lib/global-static-images.const";
 import { ImageWithLoader } from "@/app/global-components/utility-components/with-loader.image";
 import { ActivityStatusEnum } from "@/app/enums/activity/activity.enum";
 import {

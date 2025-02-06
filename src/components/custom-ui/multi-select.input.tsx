@@ -2,13 +2,7 @@
 
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import {
-  CheckIcon,
-  XCircle,
-  ChevronDown,
-  XIcon,
-  WandSparkles,
-} from "lucide-react";
+import { CheckIcon, XCircle, ChevronDown, XIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
@@ -173,13 +167,15 @@ export const MultiSelect = React.forwardRef<
       onValueChange([]);
     };
 
-    const selectedCategories = useAllActivityStore((state) => state.selectedCategories)
+    const selectedCategories = useAllActivityStore(
+      (state) => state.selectedCategories
+    );
 
     React.useEffect(() => {
-        if(!selectedCategories) {
-            handleClear()
-        }
-    }, [selectedCategories])
+      if (!selectedCategories) {
+        handleClear();
+      }
+    }, [selectedCategories]);
 
     const handleTogglePopover = () => {
       setIsPopoverOpen((prev) => !prev);

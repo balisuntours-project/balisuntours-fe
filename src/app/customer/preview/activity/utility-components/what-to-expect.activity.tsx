@@ -1,12 +1,14 @@
 import { ImageWithLoader } from "@/app/global-components/utility-components/with-loader.image";
 import { WhatToExpectParamater } from "@/app/paramaters/activity/paramater";
-import { Image, Leaf } from "lucide-react";
+import { Leaf } from "lucide-react";
 
 export function WhatToExceptActivity(props: WhatToExpectParamater) {
   return (
     <>
       <div className="mt-11">
-        <h2 className="text-xl md:text-2xl lg:text-3xl font-extrabold">What to Expect</h2>
+        <h2 className="text-xl md:text-2xl lg:text-3xl font-extrabold">
+          What to Expect
+        </h2>
         {props.additional_description && (
           <div className="flex gap-2 mt-4 text-justify">
             <div
@@ -35,7 +37,11 @@ export function WhatToExceptActivity(props: WhatToExpectParamater) {
 
                 {gallery.title && (
                   <span className="text-sm md:text-base text-black flex gap-2">
-                    <Leaf strokeWidth={2.75} className="h-4 w-4 my-auto text-green-500" /> {gallery.title}
+                    <Leaf
+                      strokeWidth={2.75}
+                      className="h-4 w-4 my-auto text-green-500"
+                    />{" "}
+                    {gallery.title}
                   </span>
                 )}
               </div>

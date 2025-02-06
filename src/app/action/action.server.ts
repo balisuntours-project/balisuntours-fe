@@ -1,7 +1,5 @@
-import { api } from "@/lib/axios-instance";
 import { apiServer } from "@/lib/axios-instance.server";
 import { CookieValidateJwtResponseType } from "@/lib/global.type";
-import { cookies } from "next/headers";
 
 export class AuthActionServer {
   static async RefreshToken() {

@@ -8,53 +8,56 @@ interface ScopedState {
 
 interface DatePickerScopedStore {
   scopedStates: Record<string, ScopedState>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setScopedState: (id: string, key: keyof ScopedState, value: any) => void;
   getScopedState: (id: string) => ScopedState;
   resetScopedState: (id: string) => void;
 }
 
 export const defaultScopedDatePickerState = {
-    diffDaysNumber: 1,
-    cleanCalendar: false,
-    selectedDate: undefined,
+  diffDaysNumber: 1,
+  cleanCalendar: false,
+  selectedDate: undefined,
 };
 
-export const useDatePickerScopedStore = create<DatePickerScopedStore>((set, get) => ({
-  scopedStates: {},
+export const useDatePickerScopedStore = create<DatePickerScopedStore>(
+  (set, get) => ({
+    scopedStates: {},
 
-  setScopedState: (id, key, value) => {
-    set((state) => ({
-      scopedStates: {
-        ...state.scopedStates,
-        [id]: {
-          ...state.scopedStates[id],
-          [key]: value,
+    setScopedState: (id, key, value) => {
+      set((state) => ({
+        scopedStates: {
+          ...state.scopedStates,
+          [id]: {
+            ...state.scopedStates[id],
+            [key]: value,
+          },
         },
-      },
-    }));
-  },
+      }));
+    },
 
-  getScopedState: (id) => {
-    const state = get().scopedStates[id];
-    return (
-      state || {
-        diffDaysNumber: 1,
-        cleanCalendar: false,
-        selectedDate: undefined,
-      }
-    );
-  },
-
-  resetScopedState: (id) => {
-    set((state) => ({
-      scopedStates: {
-        ...state.scopedStates,
-        [id]: {
+    getScopedState: (id) => {
+      const state = get().scopedStates[id];
+      return (
+        state || {
           diffDaysNumber: 1,
           cleanCalendar: false,
           selectedDate: undefined,
+        }
+      );
+    },
+
+    resetScopedState: (id) => {
+      set((state) => ({
+        scopedStates: {
+          ...state.scopedStates,
+          [id]: {
+            diffDaysNumber: 1,
+            cleanCalendar: false,
+            selectedDate: undefined,
+          },
         },
-      },
-    }));
-  },
-}));
+      }));
+    },
+  })
+);

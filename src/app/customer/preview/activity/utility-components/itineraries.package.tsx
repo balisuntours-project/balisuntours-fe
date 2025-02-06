@@ -12,13 +12,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import {
-  AirVent,
-  MapPinCheckInside,
-  TrainTrack,
-  TreePalm,
-  Utensils,
-} from "lucide-react";
+import { MapPinCheckInside, TreePalm, Utensils } from "lucide-react";
 import { useEffect, useRef } from "react";
 
 export function PackageItineraries() {

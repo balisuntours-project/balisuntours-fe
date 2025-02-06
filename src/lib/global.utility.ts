@@ -2,18 +2,15 @@ import { AuthAction } from "@/app/action/action";
 import Cookies from "js-cookie";
 
 import { WITA_TIMEZONE } from "./timezone.constant";
-import { toDate, toZonedTime } from "date-fns-tz";
+import { toZonedTime } from "date-fns-tz";
 import {
   startOfDay,
   addDays,
-  isAfter,
-  isEqual,
   isBefore,
   format,
   parseISO,
   isSameYear,
   startOfMonth,
-  subDays,
   parse,
 } from "date-fns";
 import { CurrencyListEnum, CurrencyListSymbolEnum } from "./global.enum";
@@ -51,6 +48,7 @@ export class GlobalUtility {
     return popup;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static GetAccessToken(): any {
     const accessToken = Cookies.get("assec");
     return accessToken;
@@ -245,7 +243,7 @@ export class GlobalUtility {
 
   static StringToSlugEncodedString(string: string) {
     // Mengencode string untuk menghindari karakter yang mengganggu
-    let encodedString = encodeURIComponent(string);
+    const encodedString = encodeURIComponent(string);
     // Mengubah huruf menjadi huruf kecil
     let slug = encodedString.toLowerCase();
     // Mengganti karakter yang tidak diinginkan dengan tanda strip (-)

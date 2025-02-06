@@ -1,10 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ActivityCategoryParamater } from "@/app/paramaters/activity-category/paramater";
 import { ActivityBestCategory } from "@/app/response/activity.response";
-import {
-  ActivityDetailResponse,
-  ActivityDetailSitemap,
-  ActivityTitleAndSlugResponse,
-} from "@/app/responses/activity/response";
 import { api } from "@/lib/axios-instance";
 import { GlobalUtility } from "@/lib/global.utility";
 import { AxiosError } from "axios";
@@ -105,7 +101,6 @@ export class ActivityCategoryAction {
       data: message as T,
     };
   }
-
 
   static async GetBestActivityCategories(): Promise<
     ActivityCategoryActionResponse<Array<ActivityBestCategory>>

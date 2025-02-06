@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AddReviewParamater } from "@/app/paramaters/activity-review/paramater";
 import { AllActivitiesParamater } from "@/app/paramaters/activity/paramater";
-import { CheckoutFinalPayloadParamater } from "@/app/paramaters/booking/paramater";
 import { BestActivityCategoryNameAndListActivity } from "@/app/response/activity.response";
 import { ActivityMetaDataResponse } from "@/app/responses/activity-metadata/response";
 import {
@@ -12,7 +12,6 @@ import {
 import { api } from "@/lib/axios-instance";
 import { GlobalUtility } from "@/lib/global.utility";
 import { AxiosError } from "axios";
-import { unstable_cache } from "next/cache";
 
 export interface ActivityActionResponse<T> {
   success: boolean;
@@ -195,13 +194,16 @@ export class ActivityAction {
     }
   }
 
-  static async GetPreviewActivityMetadata(slug: string): Promise<
-    ActivityActionResponse<ActivityMetaDataResponse>
-  > {
+  static async GetPreviewActivityMetadata(
+    slug: string
+  ): Promise<ActivityActionResponse<ActivityMetaDataResponse>> {
     try {
-      const action = await api(`/api/customer/preview/activity/metadata/${slug}`, {
-        method: "GET",
-      });
+      const action = await api(
+        `/api/customer/preview/activity/metadata/${slug}`,
+        {
+          method: "GET",
+        }
+      );
 
       if (!action.ok) {
         GlobalUtility.TriggerExceptionFetchApi(action);
@@ -210,7 +212,9 @@ export class ActivityAction {
       return this.handleResponse<ActivityMetaDataResponse>(action);
     } catch (error: any) {
       console.error(error);
-      return this.handleFetchError<ActivityMetaDataResponse>(error.response || error);
+      return this.handleFetchError<ActivityMetaDataResponse>(
+        error.response || error
+      );
     }
   }
 
@@ -277,10 +281,9 @@ export class ActivityAction {
     }
   }
 
-  static async GetAllActivities(
-    title?: string,
-    categoriesUuid?: string
-  ): Promise<ActivityActionResponse<Array<AllActivitiesParamater>>> {
+  static async GetAllActivities(): Promise<
+    ActivityActionResponse<Array<AllActivitiesParamater>>
+  > {
     try {
       const action = await api(`/api/customer/search/activity`, {
         method: "GET",
@@ -371,5 +374,4 @@ export class ActivityAction {
       return this.handleFetchError<void>(error.response || error);
     }
   }
-
 }

@@ -1,6 +1,4 @@
-import { BestActivityCategoryNameAndListActivity } from "@/app/response/activity.response";
 import { ExpandedButton } from "@/components/custom-ui/expanded.button";
-import { Button } from "@/components/ui/button";
 import {
   Drawer,
   DrawerClose,
@@ -18,9 +16,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import ActivityCard from "./activity.card";
 import ActivityBestCategoryCard from "./activity-best-category.card";
-import { Activity } from "@/app/responses/activity/response";
 import { ActivityDrawerParamater } from "@/app/paramaters/activity/paramater";
 
 export function BestCategoryActivityDrawer(props: ActivityDrawerParamater) {

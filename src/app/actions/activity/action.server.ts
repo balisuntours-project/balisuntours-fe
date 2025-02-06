@@ -1,13 +1,10 @@
 import {
   ActivityDetailResponse,
   ActivityDetailSitemap,
-  ActivityTitleAndSlugResponse,
 } from "@/app/responses/activity/response";
-import { api } from "@/lib/axios-instance";
 import { apiServer } from "@/lib/axios-instance.server";
 import { GlobalUtility } from "@/lib/global.utility";
-import axios, { AxiosError } from "axios";
-import { cookies } from "next/headers";
+import { AxiosError } from "axios";
 
 export interface ActivityActionResponse<T> {
   success: boolean;
@@ -106,26 +103,27 @@ export class ActivityActionServer {
     };
   }
 
-    static async GetActivityDetailSitemap(): Promise<
-      ActivityActionResponse<Array<ActivityDetailSitemap>>
-    > {
-      try {
-        const action = await apiServer("/api/customer/sitemap/activity", {
-          method: "GET",
-        });
-  
-        if (!action.ok) {
-          GlobalUtility.TriggerExceptionFetchApi(action);
-        }
-  
-        return this.handleResponse<Array<ActivityDetailSitemap>>(action);
-      } catch (error: any) {
-        console.error(error);
-        return this.handleFetchError<Array<ActivityDetailSitemap>>(
-          error.response || error
-        );
+  static async GetActivityDetailSitemap(): Promise<
+    ActivityActionResponse<Array<ActivityDetailSitemap>>
+  > {
+    try {
+      const action = await apiServer("/api/customer/sitemap/activity", {
+        method: "GET",
+      });
+
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
       }
+
+      return this.handleResponse<Array<ActivityDetailSitemap>>(action);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error(error);
+      return this.handleFetchError<Array<ActivityDetailSitemap>>(
+        error.response || error
+      );
     }
+  }
 
   static async GetPreviewDetailActivity(
     slug: string
@@ -147,6 +145,7 @@ export class ActivityActionServer {
       }
 
       return this.handleResponse<ActivityDetailResponse>(action);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error(error);
       return this.handleFetchError<ActivityDetailResponse>(

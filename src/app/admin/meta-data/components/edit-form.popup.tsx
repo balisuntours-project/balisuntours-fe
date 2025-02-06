@@ -23,7 +23,6 @@ import { useState } from "react";
 import { DisabledButton } from "@/components/custom-ui/disabled.buttont";
 import { useLoaderStore } from "@/app/store/loader.store";
 import { useMetaDataStore } from "@/app/store/metadata.store";
-import { Badge } from "@/components/ui/badge";
 import { MetaDataListImages } from "./meta-data-list.images";
 
 export function EditFormPopUp({
@@ -54,8 +53,8 @@ export function EditFormPopUp({
   const handleEditMetaData = async (
     values: z.infer<typeof EditMetaDataSchema>
   ) => {
-    if(selectedImage) {
-      values.og_image = selectedImage
+    if (selectedImage) {
+      values.og_image = selectedImage;
     }
     setOnLoadUpdate(true);
     const action = await MetaDataAction.EditMetaData(metadata.uuid, values);
@@ -76,18 +75,18 @@ export function EditFormPopUp({
     }
   };
 
-  const [selectedImage, setSelectedImage] = useState<string>(metadata.og_image ?? ""); // State untuk menyimpan URL gambar yang dipilih
-  
+  const [selectedImage, setSelectedImage] = useState<string>(
+    metadata.og_image ?? ""
+  ); // State untuk menyimpan URL gambar yang dipilih
+
   // Fungsi untuk menangani klik gambar dan mengisi input field
   const handleImageClick = (url: string) => {
-    
     setSelectedImage(url); // Menyimpan URL gambar yang dipilih
     toast({
       description: `URL added to form, you can close this popup`,
       variant: "success",
     });
   };
-
 
   return (
     <>
@@ -187,7 +186,7 @@ export function EditFormPopUp({
               <FormField
                 control={EditMataDataForm.control}
                 name="og_image"
-                render={({ field }) => (
+                render={() => (
                   <FormItem>
                     <FormLabel className="text-gray-700 text-sm font-semibold flex gap-2">
                       <span>Opengraph Image</span>

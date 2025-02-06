@@ -1,6 +1,5 @@
 import { ActivityAction } from "@/app/actions/activity/action";
 import { DetailActivityParamater } from "@/app/paramaters/activity/paramater";
-import { api } from "@/lib/axios-instance";
 import { Metadata } from "next";
 
 export async function generateMetadata({
@@ -14,7 +13,7 @@ export async function generateMetadata({
   const response = await ActivityAction.GetPreviewActivityMetadata(slug);
 
   const activity = response.data;
-  
+
   return {
     title: activity.meta_title,
     description: activity.meta_description ?? "", // Default to empty if null
@@ -23,7 +22,11 @@ export async function generateMetadata({
       description: activity.og_description
         ? activity.og_description
         : activity.meta_description ?? "", // Fallback to meta_description if og_description is null
-      images: activity.og_image ? (Array.isArray(activity.og_image) ? [activity.og_image] : activity.og_image) : [], // Use og_image or an empty array
+      images: activity.og_image
+        ? Array.isArray(activity.og_image)
+          ? [activity.og_image]
+          : activity.og_image
+        : [], // Use og_image or an empty array
     },
     alternates: {
       canonical: activity.canonical_url, // Canonical URL

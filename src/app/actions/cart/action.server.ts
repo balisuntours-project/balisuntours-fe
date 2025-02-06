@@ -1,10 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CartItemsResponse } from "@/app/responses/cart/response";
-import { api } from "@/lib/axios-instance";
 import { apiServer } from "@/lib/axios-instance.server";
-import { CurrencyListEnum } from "@/lib/global.enum";
 import { GlobalUtility } from "@/lib/global.utility";
 import { AxiosError } from "axios";
-import { cookies } from "next/headers";
 
 export interface CartActionResponse<T> {
   success: boolean;

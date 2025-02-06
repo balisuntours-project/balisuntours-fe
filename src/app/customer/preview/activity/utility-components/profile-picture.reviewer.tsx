@@ -3,7 +3,6 @@
 import { ImageWithLoader } from "@/app/global-components/utility-components/with-loader.image";
 import { ActivityReviewResponse } from "@/app/responses/activity-review/response";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import Image from "next/image";
 
 export function ProfilePictureReviewer({
   review,
