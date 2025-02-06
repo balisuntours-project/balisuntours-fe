@@ -19,6 +19,7 @@ export function LandingPageFooterSection() {
     <>
       <div>
         <div className="">
+    
           <div className="w-full md:w-[90%] px-0 sm:px-6 text-gray-800 sm:grid md:grid-cols-3  sm:grid-cols-2 mx-auto">
             <div className=" md:ps-0 md:pb-0 flex items-start w-[140px] md:w-[180px] h-[140px] md:h-[180px] md:block">
               <div className=" md:ps-0 md:pb-0" id="tripadvisor-widget">
@@ -294,7 +295,7 @@ export function LandingPageFooterSection() {
 
         <div className="">
           <div className="flex md:pb-5 px-3 m-auto pt-5 border-t text-gray-800 text-xs md:text-sm flex-col w-full max-w-full items-center">
-            <div className="md:my-5">© 2013 - 2025 PT. Surya Utama Nirmala</div>
+            <Link href="/" className="md:my-5 text-black no-underline hover:text-black">© 2013 - 2025 PT. Surya Utama Nirmala</Link>
           </div>
         </div>
       </div>

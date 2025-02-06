@@ -53,7 +53,8 @@ export async function middleware(request: NextRequest) {
 
   if (
     request.nextUrl.pathname == "/customer/signup" ||
-    request.nextUrl.pathname == "/customer/signin"
+    request.nextUrl.pathname == "/customer/signin" ||
+    request.nextUrl.pathname == "/internal/signin"
   ) {
     const token = request.cookies.get("assec")?.value;
 

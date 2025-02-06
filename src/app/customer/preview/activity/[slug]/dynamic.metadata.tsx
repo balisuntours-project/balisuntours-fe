@@ -18,20 +18,23 @@ export async function generateMetadata({
     title: activity.meta_title,
     robots: {
       index: true,
-      follow: true
+      follow: true,
     },
     keywords: activity.meta_keyword,
     description: activity.meta_description ?? "", // Default to empty if null
     openGraph: {
+      type: "website",
+      url: activity.canonical_url,
       title: activity.og_title ?? activity.meta_title, // Fallback to meta_title if og_title is null
       description: activity.og_description
         ? activity.og_description
         : activity.meta_description ?? "", // Fallback to meta_description if og_description is null
-      images: activity.og_image
-        ? Array.isArray(activity.og_image)
-          ? [activity.og_image]
-          : activity.og_image
-        : [], // Use og_image or an empty array
+      images: {
+        url: activity.og_image ?? "",
+        width: 1200,
+        height: 630,
+        alt: activity.og_title ?? activity.meta_title,
+      },
     },
     alternates: {
       canonical: activity.canonical_url, // Canonical URL

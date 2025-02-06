@@ -41,28 +41,7 @@ export default async function PreviewActivity({
     viewed_on: new Date(),
   };
 
-  const batchResult = await Promise.allSettled([
-    ActivityAction.GetPopularActivity(),
-  ]);
-
-  batchResult.forEach((result, index) => {
-    if (result.status === "rejected") {
-      console.error(`Error in promise ${index + 1}:`, result.reason);
-    }
-  });
-
-  const popularActivity: Array<Activity> =
-    batchResult[0].status === "fulfilled" ? batchResult[0].value.data : [];
-
-  const randomActivity: Array<Activity> | never = [];
-  // const newActivity: Activity[] | never = []
-  while (randomActivity.length < 4) {
-    const random =
-      popularActivity[Math.floor(Math.random() * popularActivity.length)];
-    if (!randomActivity.find((rnd) => rnd == random)) {
-      randomActivity.push(random);
-    }
-  }
+  const randomActivity = await ActivityActionServer.GetRandomRecomendedActivity(activity.uuid);
 
   return (
     <>
@@ -108,11 +87,12 @@ export default async function PreviewActivity({
               more_reviews_url={activity.more_reviews_url}
             />
           </div>
+          <div className="px-5 md:px-0">
+            <ActivitySuggestion popular_activity={randomActivity.data} />
+          </div>
           {/* <DetailActivityReviews reviews={activity.reviews} more_reviews_url={activity.more_reviews_url} /> */}
         </div>
-        <div className="container">
-          <ActivitySuggestion popular_activity={randomActivity} />
-        </div>
+
         <div className="container flex flex-col gap-11 px-3 md:px-8  pt-11 pb-11">
           <LandingPageFooterSection />
         </div>
