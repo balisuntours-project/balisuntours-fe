@@ -5,7 +5,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   //
   const activitySlugs = await ActivityAction.GetActivityDetailSitemap();
 
-  const baseUrl = "http://localhost:3000";
+  const baseUrl = "https://balisuntours.com";
   return [
     // Halaman statis
     {
@@ -15,7 +15,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
-      url: `${process.env.APP_URL ?? baseUrl}/about`,
+      url: `${process.env.APP_URL ?? baseUrl}/about-us`,
+      lastModified: new Date(),
+      changeFrequency: "monthly", // Sama seperti di atas
+      priority: 0.8,
+    },
+    {
+      url: `${process.env.APP_URL ?? baseUrl}/partner`,
+      lastModified: new Date(),
+      changeFrequency: "monthly", // Sama seperti di atas
+      priority: 0.8,
+    },
+    {
+      url: `${process.env.APP_URL ?? baseUrl}/charity`,
+      lastModified: new Date(),
+      changeFrequency: "monthly", // Sama seperti di atas
+      priority: 0.8,
+    },
+    {
+      url: `${process.env.APP_URL ?? baseUrl}/customer/activities`,
       lastModified: new Date(),
       changeFrequency: "monthly", // Sama seperti di atas
       priority: 0.8,

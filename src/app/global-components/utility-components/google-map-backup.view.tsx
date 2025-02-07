@@ -16,7 +16,7 @@ import {
 import { X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-export function GoogleMapViewComponent({
+export function GoogleMapViewComponentBackup({
   mapStyle,
   readonlyMap = true,
   scopedId,
@@ -82,9 +82,9 @@ export function GoogleMapViewComponent({
   const handlePlaceChanged = () => {
     if (autocompleteRef.current) {
       const place = autocompleteRef.current.getPlace();
-      // console.log(place.address_components);
-      // console.log(place);
-      const location = place?.geometry?.location;
+      console.log(place.address_components);
+      console.log(place);
+      const location = place.geometry?.location;
       const name = place.name;
 
       if (location) {
@@ -108,8 +108,8 @@ export function GoogleMapViewComponent({
   useEffect(() => {
     if (!searchInput) {
       if (scopedId && !readonlyMap) {
-        // console.log(scopedId);
-        // console.log(readonlyMap);
+        console.log(scopedId);
+        console.log(readonlyMap);
         setZoom(9);
         setScopedMapState(scopedId, "mapScopedPayload", undefined);
       }

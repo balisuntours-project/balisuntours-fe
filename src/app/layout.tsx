@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     type: "website",
     description: "Discover the best Bali Tours and Activities with Bali Sun Tours. Explore Ubud Bali and beyond with a trusted Bali tour company offering unforgettable experiences and expert-guided tours.",
     images:  {
-      url: "/about-us-banner.jpeg",
+      url: "https://balisuntours.com/about-us-banner.jpeg",
       width: 1200,
       height: 630,
       alt: "Bali Tour Company : Explore Bali Tours and Activities",
