@@ -9,4 +9,4 @@ Disallow: /admin/
 Allow: /
 
 # Sitemap location
-Sitemap: https://featour.com/sitemap.xml
+Sitemap: https://balisuntours.com/sitemap.xml
