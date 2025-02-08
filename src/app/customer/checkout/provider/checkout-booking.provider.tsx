@@ -5,6 +5,8 @@ interface CheckoutRefs {
   planningItineraryRef: React.RefObject<HTMLParagraphElement>;
   pickupTimeRef: React.RefObject<HTMLParagraphElement>;
   freeTourServiceRef: React.RefObject<HTMLParagraphElement>;
+  textAreaPlannedPlaceRef: React.RefObject<HTMLTextAreaElement>;
+  textAreaNoteRef: React.RefObject<HTMLTextAreaElement>;
 }
 const CheckoutBookingContext = createContext<CheckoutRefs | null>(null);
 
@@ -18,7 +20,10 @@ export function CheckoutBookingProvider({
   const pickupTimeRef = useRef<HTMLParagraphElement>(null);
   const freeTourServiceRef = useRef<HTMLParagraphElement>(null);
 
-  const refs = {mapLocationRef, planningItineraryRef, pickupTimeRef, freeTourServiceRef}
+  const textAreaPlannedPlaceRef = useRef<HTMLTextAreaElement>(null);
+  const textAreaNoteRef = useRef<HTMLTextAreaElement>(null);
+
+  const refs = {mapLocationRef, planningItineraryRef, pickupTimeRef, freeTourServiceRef, textAreaPlannedPlaceRef, textAreaNoteRef}
   return (
     <CheckoutBookingContext.Provider value={refs}>
       {children}

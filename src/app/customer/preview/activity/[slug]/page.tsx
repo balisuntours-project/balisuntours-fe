@@ -94,7 +94,7 @@ export default async function PreviewActivity({
         </div>
 
         <div className="container flex flex-col gap-11 px-3 md:px-8  pt-11 pb-11">
-          <LandingPageFooterSection />
+          <LandingPageFooterSection className="mb-20 md:mb-0" />
         </div>
       </div>
     </>

@@ -23,8 +23,6 @@ export default async function CheckoutBooking({
     data = result.data
   }
   
-  
-
 
   return (
     <>
@@ -37,7 +35,7 @@ export default async function CheckoutBooking({
         </div>
         <hr />
         <div className="container flex flex-col gap-11 px-3 md:px-8  pt-11 pb-11">
-          <LandingPageFooterSection />
+          <LandingPageFooterSection className="mb-40 md:mb-0" />
         </div>
       </div>
      
