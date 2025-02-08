@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export function LandingPageFooterSection() {
+export function LandingPageFooterSection({className} : {className?: string}) {
   const tripadvisorHtml = `
     <div id="TA_certificateOfExcellence540" class="TA_certificateOfExcellence">
       <ul id="GUZLx9gWI7c9" class="TA_links VDLPAbhc">
@@ -18,7 +18,7 @@ export function LandingPageFooterSection() {
   return (
     <>
       <div>
-        <div className="">
+        <div className={className}>
     
           <div className="w-full md:w-[90%] px-0 sm:px-6 text-gray-800 sm:grid md:grid-cols-3  sm:grid-cols-2 mx-auto">
             <div className=" md:ps-0 md:pb-0 flex items-start w-[140px] md:w-[180px] h-[140px] md:h-[180px] md:block">

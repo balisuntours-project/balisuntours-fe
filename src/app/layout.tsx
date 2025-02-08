@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     follow: true
   },
   openGraph: {
-    url: "https://balisuntours.com/",
+    url: "https://balisuntours.com",
     title: "Bali Tour Company : Explore Bali Tours and Activities",
     type: "website",
     description: "Discover the best Bali Tours and Activities with Bali Sun Tours. Explore Ubud Bali and beyond with a trusted Bali tour company offering unforgettable experiences and expert-guided tours.",
@@ -28,7 +28,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://balisuntours.com/"
   },
-  keywords: "bali tour company, Bali Sun Tours, Ubud Bali, Bali Tours, bali tours and activities"
+  keywords: "bali tour company, Bali Sun Tours, Ubud Bali, Bali Tours, bali tours and activities",
+  other: {
+    "google-site-verification": "RhW2VCDPnxsGj5WqApklKvcUWq3ZvzrHkOv8g4FNWC8",
+  }
 };
 
 export default function RootLayout({

@@ -78,8 +78,46 @@ export function CheckoutFormFreeTourType({
   };
 
   //diambil dari context provider
-  const { planningItineraryRef, pickupTimeRef, freeTourServiceRef } =
+  const { planningItineraryRef, pickupTimeRef, freeTourServiceRef, textAreaNoteRef, textAreaPlannedPlaceRef } =
     useCheckoutBookingProvider();
+
+    const handlePlannedPlaceToVisitChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      const textarea = textAreaPlannedPlaceRef.current;
+      if (textarea) {
+        textarea.style.height = "auto"; // Reset dulu agar tidak terus bertambah
+        textarea.style.height = `${Math.min(textarea.scrollHeight, 300)}px`; // Sesuaikan dengan konten
+      }
+  
+      setBookingScopedState(
+        baseUuid,
+        "checkoutPayload",
+        scopedBookingState.checkoutPayload
+          ? {
+              ...scopedBookingState.checkoutPayload,
+              planned_place_to_visit: e.target.value,
+            }
+          : undefined
+      )
+    }
+  
+    const handleNoteChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      const textarea = textAreaNoteRef.current;
+      if (textarea) {
+        textarea.style.height = "auto"; // Reset dulu agar tidak terus bertambah
+        textarea.style.height = `${Math.min(textarea.scrollHeight, 300)}px`; // Sesuaikan dengan konten
+      }
+  
+      setBookingScopedState(
+        baseUuid,
+        "checkoutPayload",
+        scopedBookingState.checkoutPayload
+          ? {
+              ...scopedBookingState.checkoutPayload,
+              note: e.target.value,
+            }
+          : undefined
+      )
+    }
 
   useEffect(() => {
     if (isCheckoutButtonTriggered) {
@@ -164,20 +202,10 @@ export function CheckoutFormFreeTourType({
               *Fill out your planning itinerary
             </Label>
             <Textarea
+              ref={textAreaPlannedPlaceRef}
               required
               placeholder="Your planning itinerary, example: &#10;Monkey forest,&#10;Rice Terrace,&#10;Uluwatu Temple,&#10;etc,"
-              onChange={(e) =>
-                setBookingScopedState(
-                  baseUuid,
-                  "checkoutPayload",
-                  scopedBookingState.checkoutPayload
-                    ? {
-                        ...scopedBookingState.checkoutPayload,
-                        planned_place_to_visit: e.target.value,
-                      }
-                    : undefined
-                )
-              }
+              onChange={(e) => handlePlannedPlaceToVisitChange(e)}
               className={CHECKOUT_INPUT_STYLE}
             ></Textarea>
             <p
@@ -270,18 +298,8 @@ export function CheckoutFormFreeTourType({
               Note
             </Label>
             <Textarea
-              onChange={(e) =>
-                setBookingScopedState(
-                  baseUuid,
-                  "checkoutPayload",
-                  scopedBookingState.checkoutPayload
-                    ? {
-                        ...scopedBookingState.checkoutPayload,
-                        note: e.target.value,
-                      }
-                    : undefined
-                )
-              }
+              ref={textAreaNoteRef}
+              onChange={(e) => handleNoteChange(e)}
               className={CHECKOUT_INPUT_STYLE}
               id="note"
               placeholder="Leave note for us..."

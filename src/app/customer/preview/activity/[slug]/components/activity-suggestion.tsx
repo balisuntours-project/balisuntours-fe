@@ -27,7 +27,7 @@ export function ActivitySuggestion(props: ActivitySuggestionType) {
                 key={index}
                 className="basis-[45%] md:basis-[40%] lg:basis-1/4"
               >
-                <div className="p-1">
+                <div>
                   <ActivityCard
                     activity={activity}
                     tags={{

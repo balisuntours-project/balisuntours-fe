@@ -18,7 +18,7 @@ export function DetailActivityTitle(props: DetailActivityTitleParamater) {
         </h1>
 
       <div className="flex flex-col-reverse md:flex-col">
-      <div className="mt-1 md:mt-5 flex">
+      <div className="mt-1 md:mt-5 flex gap-4">
           <div className="flex gap-0 flex-wrap">
           <MapPin className=" w-5 h-5 my-auto stroke-[1.5] me-1  md:w-auto md:h-auto md:me-2" />
          <GoogleMapDialogComponent lat={props.coordinate_location.lat} lng={props.coordinate_location.lng} zoom={props.zoom_map}>
