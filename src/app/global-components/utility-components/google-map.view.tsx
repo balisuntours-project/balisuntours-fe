@@ -6,6 +6,7 @@ import {
   useGoogleMapStore,
 } from "@/app/store/google-map.store";
 import { Input } from "@/components/ui/input";
+import { Library } from "@googlemaps/js-api-loader";
 import {
   Autocomplete,
   GoogleMap,
@@ -27,9 +28,10 @@ export function GoogleMapViewComponent({
   scopedId?: string;
   withSearchAutoComplete?: boolean;
 }) {
+  const [libraries] = useState<Library[]>(["places"]);
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY as string,
-    libraries: ["places"],
+    libraries: libraries,
   });
 
   const scopedMapState = useGoogleMapStore(
@@ -85,7 +87,7 @@ export function GoogleMapViewComponent({
       // console.log(place.address_components);
       // console.log(place);
       const location = place?.geometry?.location;
-      const name = place.name;
+      const name = place?.name;
 
       if (location) {
         if (inputRef.current) {
@@ -124,7 +126,7 @@ export function GoogleMapViewComponent({
     east: 115.744076,
     west: 114.421349,
   };
-  
+
   if (!isLoaded) return <div>Loading...</div>;
 
   return (
