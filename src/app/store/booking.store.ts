@@ -24,14 +24,14 @@ interface BookingStoreState {
 
   checkoutPackageBookingData: Array<CheckoutMappedPackageDataParamater>;
 
-  currencyValue: number|undefined,
+  currencyValue: number | undefined;
 
-  checkoutAmount: number,
+  checkoutAmount: number;
 
-  checkoutActivities: Array<CheckoutDataActivityResponse>,
-  checkoutPackages: Array<CheckoutDataPackageResponse> 
-  checkoutCartData: Array<string> ,
-  isCheckoutButtonTriggered: boolean
+  checkoutActivities: Array<CheckoutDataActivityResponse>;
+  checkoutPackages: Array<CheckoutDataPackageResponse>;
+  checkoutCartData: Array<string>;
+  isCheckoutButtonTriggered: boolean;
 }
 
 interface BookingStoreStateAction {
@@ -42,6 +42,7 @@ interface BookingStoreStateAction {
   ) => void;
   getScopedState: (id: string) => BookingScopedState;
   resetScopedState: (id: string) => void;
+  cleanUpScopedState: () => void;
 
   setSelectedBooking: (
     booking: BookingPackageDynamicPropertyResponse | undefined
@@ -57,10 +58,12 @@ interface BookingStoreStateAction {
     packages: Array<CheckoutMappedPackageDataParamater>
   ) => void;
 
-  setCurrencyValue: (currency: number|undefined) => void;
+  setCurrencyValue: (currency: number | undefined) => void;
   setCheckoutAmount: (amount: number) => void;
 
-  setCheckoutActivities: (activities: Array<CheckoutDataActivityResponse>) => void;
+  setCheckoutActivities: (
+    activities: Array<CheckoutDataActivityResponse>
+  ) => void;
   setCheckoutPackages: (packages: Array<CheckoutDataPackageResponse>) => void;
   setCheckoutCartData: (carts: Array<string>) => void;
   setIsCheckoutButtonTriggered: (status: boolean) => void;
@@ -97,6 +100,10 @@ export const useBookingStore = create<
     }));
   },
 
+  cleanUpScopedState: () => {
+    set({ bookingScopedState: {} }); // Langsung reset ke objek kosong
+  },
+
   selectedBooking: undefined,
   setSelectedBooking: (
     booking: BookingPackageDynamicPropertyResponse | undefined
@@ -114,34 +121,26 @@ export const useBookingStore = create<
     packages: Array<CheckoutMappedPackageDataParamater>
   ) => set({ checkoutPackageBookingData: packages }),
 
-  
   currencyValue: undefined,
-  setCurrencyValue: (
-    currency: number | undefined
-  ) => set({ currencyValue: currency }),
+  setCurrencyValue: (currency: number | undefined) =>
+    set({ currencyValue: currency }),
 
   checkoutAmount: 0,
-  setCheckoutAmount: (
-    amount: number
-  ) => set({ checkoutAmount: amount }),
+  setCheckoutAmount: (amount: number) => set({ checkoutAmount: amount }),
 
   checkoutActivities: [],
-  setCheckoutActivities: (
-    activities: Array<CheckoutDataActivityResponse>
-  ) => set({ checkoutActivities: activities }),
+  setCheckoutActivities: (activities: Array<CheckoutDataActivityResponse>) =>
+    set({ checkoutActivities: activities }),
 
   checkoutPackages: [],
-  setCheckoutPackages: (
-    packages: Array<CheckoutDataPackageResponse>
-  ) => set({ checkoutPackages: packages }),
+  setCheckoutPackages: (packages: Array<CheckoutDataPackageResponse>) =>
+    set({ checkoutPackages: packages }),
 
   checkoutCartData: [],
-  setCheckoutCartData: (
-    carts: Array<string>
-  ) => set({ checkoutCartData: carts }),
+  setCheckoutCartData: (carts: Array<string>) =>
+    set({ checkoutCartData: carts }),
 
   isCheckoutButtonTriggered: false,
-  setIsCheckoutButtonTriggered: (
-    status: boolean
-  ) => set({ isCheckoutButtonTriggered: status  }),
+  setIsCheckoutButtonTriggered: (status: boolean) =>
+    set({ isCheckoutButtonTriggered: status }),
 }));

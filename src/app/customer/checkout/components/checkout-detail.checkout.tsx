@@ -50,10 +50,18 @@ export function CheckoutDetail({
   const setBookingScopedState = useBookingStore(
     (state) => state.setScopedState
   );
+  const cleanUpBookingScopedState = useBookingStore(
+    (state) => state.cleanUpScopedState
+  );
 
   const setScopedMapState = useGoogleMapStore((state) => state.setScopedState);
 
   const setCheckoutAmount = useBookingStore((state) => state.setCheckoutAmount);
+
+  //set dulu booking state checkoutnya ke array kosong
+  useEffect(() => {
+    cleanUpBookingScopedState()
+  }, [])
 
   useEffect(() => {
     setCheckoutActivities(checkoutActivities);
