@@ -85,7 +85,7 @@ export function GoogleMapViewComponent({
     if (autocompleteRef.current) {
       const place = autocompleteRef.current.getPlace();
       // console.log(place.address_components);
-      // console.log(place);
+       //console.log(place);
       const location = place?.geometry?.location;
       const name = place?.name;
 
@@ -142,7 +142,7 @@ export function GoogleMapViewComponent({
                 new google.maps.LatLng(baliBounds.south, baliBounds.west),
                 new google.maps.LatLng(baliBounds.north, baliBounds.east)
               ),
-              types: ["establishment"],
+             /*  types: ["establishment"], */
               strictBounds: true, // Batasi pencarian hanya dalam Bali
               componentRestrictions: { country: "ID" }, // Batasi ke Indonesia
             }}

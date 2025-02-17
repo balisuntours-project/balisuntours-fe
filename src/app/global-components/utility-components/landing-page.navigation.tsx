@@ -8,11 +8,13 @@ export function LandingPageNavigationUtility() {
       <CardHeader>
         <div className="grid grid-cols-4 gap-4 text-center">
           <Link
-            href={`/customer/activities`}
+            href={`https://808.rent`}
+            target="__blank"
+            rel="noreferrer"
             className="flex flex-col items-center gap-2 col-span-1"
           >
             <Image
-              src="/destination.png"
+              src="/rent.jpeg"
               width={50}
               height={50}
               className="h-[35px] w-[35px] md:h-[50px] md:w-[50px] object-cover"
