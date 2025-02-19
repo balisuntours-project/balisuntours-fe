@@ -20,7 +20,7 @@ export function LandingPageNavigationUtility() {
               className="h-[35px] w-[35px] md:h-[50px] md:w-[50px] object-cover"
               alt="Explore Destination"
             />
-            <h2 className="text-xs md:text-sm">Explore Destination</h2>
+            <h2 className="text-xs md:text-sm">Car Rental</h2>
           </Link>
           <Link
             href={"#best-category"}
