@@ -3,13 +3,19 @@ import { GoogleMapViewParamater } from "../paramaters/google-map/paramater";
 import { DEFAULT_LAT, DEFAULT_LNG, DEFAULT_ZOOM } from "@/lib/global.constant";
 
 export const defaultScopedMapCoordinate: {
-  mapScopedPayload: (GoogleMapViewParamater & { name?: string }) | undefined;
+  mapScopedPayload: (GoogleMapViewParamater & { name?: string, administrative_area_level_3?: string, administrative_area_level_4?: string }) | undefined;
 } = {
   mapScopedPayload: {
     lat: DEFAULT_LAT,
     lng: DEFAULT_LNG,
     zoom: DEFAULT_ZOOM,
   },
+};
+
+export const defaultUndefinedScopedMapCoordinate: {
+  mapScopedPayload: (GoogleMapViewParamater & { name?: string }) | undefined;
+} = {
+  mapScopedPayload: undefined
 };
 
 export interface GoogleMapScopedState {

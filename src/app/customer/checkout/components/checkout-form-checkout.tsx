@@ -338,6 +338,7 @@ export function CheckoutForm({
                         <FormLabel className="font-bold">Your name</FormLabel>
                         <FormControl>
                           <Input
+                           id="customer-name"
                             placeholder="Enter your name"
                             required
                             {...field}
@@ -361,6 +362,7 @@ export function CheckoutForm({
                         </FormLabel>
                         <FormControl>
                           <Input
+                            id="customer-phone"
                             placeholder="+918712xxx"
                             required
                             {...field}
@@ -388,6 +390,7 @@ export function CheckoutForm({
                         <FormLabel className="font-bold">Email</FormLabel>
                         <FormControl>
                           <Input
+                           id="customer-email"
                             type="email"
                             placeholder="yukikato@gmail.com"
                             required
