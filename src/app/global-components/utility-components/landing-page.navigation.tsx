@@ -14,11 +14,11 @@ export function LandingPageNavigationUtility() {
             className="flex flex-col items-center gap-2 col-span-1"
           >
             <Image
-              src="/rent.jpeg"
+              src="/rent.png"
               width={50}
               height={50}
-              className="h-[35px] w-[35px] md:h-[50px] md:w-[50px] object-cover"
-              alt="Explore Destination"
+              className="h-[50px] w-[50px] md:h-[50px] md:w-[50px] object-cover"
+              alt="Rental Car"
             />
             <h2 className="text-xs md:text-sm">Car Rental</h2>
           </Link>

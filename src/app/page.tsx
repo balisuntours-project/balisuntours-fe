@@ -12,6 +12,7 @@ import { Activity } from "./responses/activity/response";
 import { ActivityAction } from "./actions/activity/action";
 import { ActivityCategoryAction } from "./actions/category/action";
 import { LandingRecentlyViewedActivity } from "./global-components/landing-page-recently.activity";
+import { LandingPageRentalVechileSection } from "./global-components/landing-page.rental";
 
 export default async function Home() {
   const batchResult = await Promise.allSettled([
@@ -78,6 +79,7 @@ export default async function Home() {
               best_category={bestCategory}
               best_category_activity={activityFromBestCategory}
             />
+            <LandingPageRentalVechileSection />
           </div>
           <hr />
           <div className="container flex flex-col gap-11 px-3 md:px-8  pt-11 pb-11">
