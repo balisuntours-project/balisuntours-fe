@@ -17,20 +17,16 @@ import {
 import { X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-export function GoogleMapViewComponent({
+export function GoogleMapViewComponentBackupV2({
   mapStyle,
   readonlyMap = true,
   scopedId,
   withSearchAutoComplete,
-  showMap = true,
-  passWithAdministrativeData = false
 }: {
   mapStyle: string;
   readonlyMap?: boolean;
   scopedId?: string;
   withSearchAutoComplete?: boolean;
-  showMap?: boolean;
-  passWithAdministrativeData?: boolean;
 }) {
   const [libraries] = useState<Library[]>(["places"]);
   const { isLoaded } = useLoadScript({
@@ -88,8 +84,8 @@ export function GoogleMapViewComponent({
   const handlePlaceChanged = () => {
     if (autocompleteRef.current) {
       const place = autocompleteRef.current.getPlace();
-     
-      //console.log(place);
+      // console.log(place.address_components);
+       //console.log(place);
       const location = place?.geometry?.location;
       const name = place?.name;
 
@@ -107,21 +103,6 @@ export function GoogleMapViewComponent({
           });
           setZoom(18);
         }
-
-        if(scopedId && passWithAdministrativeData) {
-          const mapData = place.address_components
-          const administrativeLvl3 = mapData?.find(component => component.types.includes("administrative_area_level_3"))?.long_name
-          const administrativeLvl4 = mapData?.find(component => component.types.includes("administrative_area_level_4"))?.long_name
-          setScopedMapState(scopedId, "mapScopedPayload", {
-            lat: location.lat(),
-            lng: location.lng(),
-            zoom: 18,
-            name: name,
-            administrative_area_level_3: administrativeLvl3 ?? null,
-            administrative_area_level_4: administrativeLvl4 ?? null,
-          
-          });
-        }
       }
     }
   };
@@ -129,13 +110,6 @@ export function GoogleMapViewComponent({
   useEffect(() => {
     if (!searchInput) {
       if (scopedId && !readonlyMap) {
-        // console.log(scopedId);
-        // console.log(readonlyMap);
-        setZoom(9);
-        setScopedMapState(scopedId, "mapScopedPayload", undefined);
-      }
-
-      if (scopedId && passWithAdministrativeData) {
         // console.log(scopedId);
         // console.log(readonlyMap);
         setZoom(9);
@@ -168,7 +142,7 @@ export function GoogleMapViewComponent({
                 new google.maps.LatLng(baliBounds.south, baliBounds.west),
                 new google.maps.LatLng(baliBounds.north, baliBounds.east)
               ),
-              /*  types: ["establishment"], */
+             /*  types: ["establishment"], */
               strictBounds: true, // Batasi pencarian hanya dalam Bali
               componentRestrictions: { country: "ID" }, // Batasi ke Indonesia
             }}
@@ -193,12 +167,10 @@ export function GoogleMapViewComponent({
         </div>
       )}
 
-      {/* <span></span> */}
-      {showMap && (
-        <GoogleMap mapContainerClassName={mapStyle} {...mapOptions}>
-          <Marker position={mapCoordinate!} icon={markerIcon} />
-        </GoogleMap>
-      )}
+      <span></span>
+      <GoogleMap mapContainerClassName={mapStyle} {...mapOptions}>
+        <Marker position={mapCoordinate!} icon={markerIcon} />
+      </GoogleMap>
     </div>
   );
 }
