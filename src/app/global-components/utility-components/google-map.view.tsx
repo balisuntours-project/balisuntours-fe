@@ -15,7 +15,7 @@ import {
   useLoadScript,
 } from "@react-google-maps/api";
 import { X } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
 export function GoogleMapViewComponent({
   mapStyle,
@@ -23,14 +23,16 @@ export function GoogleMapViewComponent({
   scopedId,
   withSearchAutoComplete,
   showMap = true,
-  passWithAdministrativeData = false
+  passWithAdministrativeData = false,
+  loaderComponent = null
 }: {
-  mapStyle: string;
+  mapStyle?: string;
   readonlyMap?: boolean;
   scopedId?: string;
   withSearchAutoComplete?: boolean;
   showMap?: boolean;
   passWithAdministrativeData?: boolean;
+  loaderComponent?: React.ReactNode
 }) {
   const [libraries] = useState<Library[]>(["places"]);
   const { isLoaded } = useLoadScript({
@@ -153,7 +155,7 @@ export function GoogleMapViewComponent({
     west: 114.421349,
   };
 
-  if (!isLoaded) return <div>Loading...</div>;
+  if (!isLoaded) return loaderComponent ?? <div>Loading...</div>;
 
   return (
     <div className="w-full h-full">
@@ -168,7 +170,7 @@ export function GoogleMapViewComponent({
                 new google.maps.LatLng(baliBounds.south, baliBounds.west),
                 new google.maps.LatLng(baliBounds.north, baliBounds.east)
               ),
-              /*  types: ["establishment"], */
+               types: ["establishment"],
               strictBounds: true, // Batasi pencarian hanya dalam Bali
               componentRestrictions: { country: "ID" }, // Batasi ke Indonesia
             }}

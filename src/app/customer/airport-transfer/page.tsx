@@ -7,9 +7,12 @@ export default function AiportTransferPage() {
     <>
       <LargeNavbar />
       <div className="pt-11 md:pt-22 lg:pt-24">
-        <HeroSectionAirportTransfer>
+      <div className="">
+      <HeroSectionAirportTransfer>
             <SearchVechileInputFormCard />
         </HeroSectionAirportTransfer>
+      </div>
+     
       </div>
     </>
   );

@@ -107,7 +107,7 @@ export class AirportTransferAction {
   ): Promise<AirportTransferActionResponse<Array<VechileRecomendationResponse>>> {
     try {
       const request = `transfer_type=${param.transfer_type}&origin=${param.origin}&destination=${param.destination}&total_passanger=${param.total_passanger}&transfer_date_time=${param.transfer_date_time}&administrative_area_level_3=${param.administrative_area_level_3}&administrative_area_level_4=${param.administrative_area_level_4}`
-      const action = await api(`/api/customer/vechiles-recomendation?${request}`, {
+      const action = await api(`/api/customer/vechiles-recomendation-by-distance?${request}`, {
         method: "GET",
       });
 
