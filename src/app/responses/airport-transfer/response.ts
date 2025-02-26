@@ -7,4 +7,6 @@ export interface VechileRecomendationResponse {
     driver_free_waiting_time_in_minutes: number,
     vechile_category: string,
     price: number,
+    price_per_km? : number,
+    total_km?: string
 }

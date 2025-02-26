@@ -15,10 +15,7 @@ const SearchVechileSchema = z.object({
     .min(1, { message: "How many passengers?" }),
   transfer_date_time: z
     .string()
-    .min(1, { message: "Fill the transfer date" }) // ✅ Harus diisi
-    .refine((val) => !isNaN(Date.parse(val)), {
-      message: "Invalid date format",
-    }),
+    .nullable()
 });
 
 export { SearchVechileSchema };
