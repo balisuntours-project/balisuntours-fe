@@ -7,6 +7,8 @@ export interface GetVechileRecomendationsParamater {
   destination: string;
   origin_coordinate: string,
   destination_coordinate: string,
+  origin_place_id?: string,
+  destination_place_id?: string,
   total_passanger: number;
   transfer_date_time: string;
   administrative_area_level_3: null | string;

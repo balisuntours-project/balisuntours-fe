@@ -106,7 +106,12 @@ export class AirportTransferAction {
     param : GetVechileRecomendationsParamater
   ): Promise<AirportTransferActionResponse<Array<VechileRecomendationResponse>>> {
     try {
-      const request = `transfer_type=${param.transfer_type}&origin=${param.origin}&destination=${param.destination}&origin_coordinate=${param.origin_coordinate}&destination_coordinate=${param.destination_coordinate}&total_passanger=${param.total_passanger}&transfer_date_time=${param.transfer_date_time}&administrative_area_level_3=${param.administrative_area_level_3}&administrative_area_level_4=${param.administrative_area_level_4}`
+      let request = `transfer_type=${param.transfer_type}&origin=${param.origin}&destination=${param.destination}&origin_coordinate=${param.origin_coordinate}&destination_coordinate=${param.destination_coordinate}&total_passanger=${param.total_passanger}&transfer_date_time=${param.transfer_date_time}&administrative_area_level_3=${param.administrative_area_level_3}&administrative_area_level_4=${param.administrative_area_level_4}`
+
+      if(param.origin_place_id && param.destination_place_id) {
+        request += `&origin_place_id=${param.origin_place_id}&destination_place_id=${param.destination_place_id}`
+      }
+
       const action = await api(`/api/customer/vechiles-recomendation-by-distance?${request}`, {
         method: "GET",
       });

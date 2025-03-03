@@ -15,7 +15,20 @@ import { FilterCard } from "./filter.card";
 
 export function CheckoutCard() {
   const selectedCar = useAirportTransferStore((state) => state.selectedCar);
+  const [totalPrice, setTotalPrice] = useState(0)
 
+  useEffect(() => {
+    if(selectedCar.length > 0) {
+        let countPrice = 0
+        selectedCar.map((car) => {
+           countPrice += car.price * car.qty
+        })
+
+        setTotalPrice(countPrice)
+    }else {
+        setTotalPrice(0)
+    }
+  }, [selectedCar])
   return (
     <>
       <div className=" lg:border  lg:border-gray-300 lg:rounded-lg lg:p-6">
@@ -41,7 +54,11 @@ export function CheckoutCard() {
 
         <div className="fixed lg:relative bottom-0 lg:bottom-auto left-0 lg:left-auto w-full rounded-t-2xl lg:rounded-t-none border-t lg:border-t-0 border-gray-300 bg-white h-auto p-6 lg:p-0 z-10 md:z-auto">
           <div className="md:mt-3 w-full flex flex-col gap-2">
-            <div className="flex gap-3 justify-end items-center">
+          <div className="flex gap-3 w-full">
+          <div className="flex justify-start">
+            <span className="text-base">Total: {GlobalUtility.IdrCurrencyFormat(totalPrice)}</span>
+          </div>
+          <div className="flex gap-3 ms-auto justify-end items-center">
               <div className="block lg:hidden">
                 <DynamicDialog
                   trigger={
@@ -74,6 +91,7 @@ export function CheckoutCard() {
                 )}
               </DynamicDialog>
             </div>
+          </div>
             <AuthButton title="Book now" rouded="rounded-lg w-full" />
           </div>
         </div>
