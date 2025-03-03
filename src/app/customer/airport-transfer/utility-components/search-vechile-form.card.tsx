@@ -43,6 +43,7 @@ import {
   AIPORT_BALI_COORDINATE,
   AIPORT_TRANSFER_KEY_FOR_SCOPED_MAP,
   AIRPORT_BALI_NAME,
+  AIRPORT_PLACE_ID,
 } from "@/app/constants/airport-transfer/airport-transfer.constant";
 import { useAirportTransferStore } from "@/app/store/airport-transfer.store";
 import { DisabledButton } from "@/components/custom-ui/disabled.buttont";
@@ -59,6 +60,8 @@ export function SearchVechileInputFormCard() {
   const [administrativeLvl4, setAdministrativeLvl4] = useState<null | string>(
     null
   );
+  const [originPlaceID, setOriginPlaceID] = useState<undefined | string>(undefined);
+  const [destinationPlaceID, setDestinationPlaceID] = useState<undefined | string>(undefined);
   const [originCoordinate, setOriginCoordinate] = useState<null | string>(null);
   const [destinationCoordinate, setDestinationCoordinate] = useState<
     null | string
@@ -71,10 +74,6 @@ export function SearchVechileInputFormCard() {
     (state) =>
       state.mapScopedState[AIPORT_TRANSFER_KEY_FOR_SCOPED_MAP!] ||
       defaultScopedMapCoordinate
-  );
-
-  const onInteractWithSearch = useAirportTransferStore(
-    (state) => state.onInteractWithSearch
   );
   const setOnInteractWithSearch = useAirportTransferStore(
     (state) => state.setOnInteractWithSearch
@@ -166,6 +165,8 @@ export function SearchVechileInputFormCard() {
       origin: origin,
       destination: destination,
       origin_coordinate: originCoordinate,
+      origin_place_id: originPlaceID,
+      destination_place_id: destinationPlaceID,
       destination_coordinate: destinationCoordinate,
       transfer_date_time: format(selectedDate, "yyyy-MM-dd HH:mm:ss"),
       transfer_type: transferType,
@@ -177,7 +178,7 @@ export function SearchVechileInputFormCard() {
       paramater
     );
     setOnSearch(false);
-    console.log(action.data);
+   
     if (!action.success) {
       toast({
         description: `${action.data}`,
@@ -206,13 +207,16 @@ export function SearchVechileInputFormCard() {
   const handleAirportToHotelMap = () => {
     if (scopedMapState.mapScopedPayload) {
       setOriginCoordinate(baliAirportCoordinateString);
+      setOriginPlaceID(AIRPORT_PLACE_ID)
+      setOrigin(AIRPORT_BALI_NAME);
+
       setDestinationCoordinate(
         JSON.stringify({
           lat: scopedMapState.mapScopedPayload.lat,
           lng: scopedMapState.mapScopedPayload.lng,
         })
       );
-      setOrigin(AIRPORT_BALI_NAME);
+      setDestinationPlaceID(scopedMapState.mapScopedPayload.place_id)
       setDestination(scopedMapState.mapScopedPayload.name ?? "");
     } else {
       setOrigin(AIRPORT_BALI_NAME);
@@ -228,8 +232,11 @@ export function SearchVechileInputFormCard() {
           lng: scopedMapState.mapScopedPayload.lng,
         })
       );
+      setOriginPlaceID(scopedMapState.mapScopedPayload.place_id)
       setOrigin(scopedMapState.mapScopedPayload.name ?? "");
+
       setDestination(AIRPORT_BALI_NAME);
+      setDestinationPlaceID(AIRPORT_PLACE_ID)
       setDestinationCoordinate(baliAirportCoordinateString);
     } else {
       setOrigin("");
@@ -257,6 +264,7 @@ export function SearchVechileInputFormCard() {
   const handleChangeTransferType = (value: TransferTypeEnum) => {
     setTransferType(value);
     setRecomendedVechiles([]);
+    setOnInteractWithSearch(false)
     if (value == TransferTypeEnum.airportToHotel) {
       setDestination("");
       setOrigin(AIRPORT_BALI_NAME);

@@ -90,11 +90,12 @@ export function GoogleMapViewComponent({
   const handlePlaceChanged = () => {
     if (autocompleteRef.current) {
       const place = autocompleteRef.current.getPlace();
-     
+    
       //console.log(place);
       const location = place?.geometry?.location;
       const name = place?.name;
-
+      const placeId = place?.place_id
+     
       if (location) {
         if (inputRef.current) {
           setSearchInput(inputRef.current.value);
@@ -106,6 +107,7 @@ export function GoogleMapViewComponent({
             lng: location.lng(),
             zoom: 18,
             name: name,
+            place_id: placeId
           });
           setZoom(18);
         }
@@ -119,6 +121,7 @@ export function GoogleMapViewComponent({
             lng: location.lng(),
             zoom: 18,
             name: name,
+            place_id: placeId,
             administrative_area_level_3: administrativeLvl3 ?? null,
             administrative_area_level_4: administrativeLvl4 ?? null,
           
