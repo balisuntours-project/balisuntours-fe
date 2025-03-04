@@ -19,6 +19,7 @@ export function ImageWithLoader({
   objectFit,
   quality,
   fillAllView = true,
+  position = "relative"
 }: {
   src: string;
   alt: string;
@@ -32,12 +33,13 @@ export function ImageWithLoader({
   objectFit?: string;
   quality?: number;
   fillAllView?: boolean;
+  position?: string
 }) {
   const [isImageError, setIsImageError] = useState(false);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   return (
-    <div className={`lg:relative ${fillAllView ? "w-full h-full" : ""}`}>
+    <div className={`${position} ${fillAllView ? "w-full h-full" : ""}`}>
       {/* Skeleton loader (tampilan sementara) */}
       {!isImageLoaded && (
         <div

@@ -54,8 +54,11 @@ export function VechileServiceAirportTransfer() {
           </div>
           <CheckoutCard />
         </div>
+        <div className="block lg:hidden">
+        <CheckoutCard />
+        </div>
         <div className="col-span-12 lg:col-span-9">
-          <div className="rounded-lg p-6 flex flex-col gap-4">
+          <div className="rounded-lg px-6 flex flex-col gap-4">
             {recomendedVechiles.length > 0 ? (
               recomendedVechiles.map((vechile, key) => (
                 <div
@@ -67,6 +70,7 @@ export function VechileServiceAirportTransfer() {
                       src={vechile.vechile_main_photo}
                       alt={vechile.name}
                       fallbackSrc="/fallback-image.png"
+                      position="relative md:static lg:relative"
                       classNameProp="rounded-md w-full md:w-[250px] h-[150px] md:h-[150px] object-cover"
                       skeletonClassName="rounded-md"
                       priority={false} // Gambar ini tidak diberi prioritas
