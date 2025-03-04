@@ -1,4 +1,4 @@
-import { GetVechileRecomendationsParamater } from "@/app/paramaters/airport-transfer/paramater";
+import { CheckoutBookingCarDataCompleteParamater, GetVechileRecomendationsParamater } from "@/app/paramaters/airport-transfer/paramater";
 import { VechileRecomendationResponse } from "@/app/responses/airport-transfer/response";
 import { api } from "@/lib/axios-instance";
 import { CurrencyListEnum } from "@/lib/global.enum";
@@ -125,6 +125,27 @@ export class AirportTransferAction {
     } catch (error: any) {
       console.error(error);
       return this.handleFetchError<Array<VechileRecomendationResponse>>(error.response || error);
+    }
+  }
+
+  static async AddBookingVechileData(
+    param : CheckoutBookingCarDataCompleteParamater
+  ): Promise<AirportTransferActionResponse<Array<any>>> {
+    try {
+      const action = await api(`/api/customer/booking-data`, {
+        method: "POST",
+        body: JSON.stringify(param)
+      });
+
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
+      }
+
+      return this.handleResponse<Array<any>>(action);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error(error);
+      return this.handleFetchError<Array<any>>(error.response || error);
     }
   }
 }

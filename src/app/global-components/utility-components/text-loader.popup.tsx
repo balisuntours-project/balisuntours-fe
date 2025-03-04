@@ -2,7 +2,6 @@
 
 import { useLoaderStore } from "@/app/store/loader.store";
 import { LoaderSvg } from "./loader.svg";
-import { useEffect } from "react";
 
 export interface TextDialogProps {
   title: string;
@@ -12,9 +11,9 @@ export interface TextDialogProps {
 export function TextLoader(props: TextDialogProps) {
   const isLoading = useLoaderStore((state) => state.isLoading);
 
-  useEffect(() => {
-      console.log(isLoading)
-  }, [isLoading])
+  // useEffect(() => {
+  //     console.log(isLoading)
+  // }, [isLoading])
   return (
     <>
       {isLoading && (

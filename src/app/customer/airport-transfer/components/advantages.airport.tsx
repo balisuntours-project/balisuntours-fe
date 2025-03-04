@@ -17,7 +17,7 @@ export function AdvantagesAirportTransferSection() {
                 src="/tailored.png"
                 width={50}
                 height={50}
-                className="h-[35px] w-[35px] md:h-[50px] md:w-[50px] object-cover lg:basis-1/4"
+                className="h-[35px] w-[35px] md:h-[50px] md:w-[50px] object-cover"
                 alt="Tailored"
               />
               <div className="flex flex-col">
@@ -39,7 +39,7 @@ export function AdvantagesAirportTransferSection() {
                 src="/ultimate-comfort.png"
                 width={50}
                 height={50}
-                className="h-[35px] w-[35px] md:h-[50px] md:w-[50px] object-cover lg:basis-1/4"
+                className="h-[35px] w-[35px] md:h-[50px] md:w-[50px] object-cover"
                 alt="Ultimate Comfort Icon"
               />
               <div className="flex flex-col">
@@ -62,7 +62,7 @@ export function AdvantagesAirportTransferSection() {
                 src="/insider-knowledge.png"
                 width={50}
                 height={50}
-                className="h-[35px] w-[35px] md:h-[50px] md:w-[50px] object-cover lg:basis-1/4"
+                className="h-[35px] w-[35px] md:h-[50px] md:w-[50px] object-cover"
                 alt="Insinder Knowledge Icon"
               />
               <div className="flex flex-col">

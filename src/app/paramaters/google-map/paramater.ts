@@ -7,3 +7,8 @@ export interface GoogleMapViewParamater {
     administrative_area_level_3?: string,
     administrative_area_level_4?: string,
 }
+
+export interface CoordinatParamater {
+    lat: number,
+    lng: number
+}

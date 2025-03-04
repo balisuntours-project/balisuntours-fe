@@ -2,9 +2,11 @@ import { create } from "zustand";
 import { Activity } from "../responses/activity/response";
 import { VechileRecomendationResponse } from "../responses/airport-transfer/response";
 import {
+    CheckoutBookingCarDataParamater,
   RangeVechilePrice,
   SelectedCarParamater,
 } from "../paramaters/airport-transfer/paramater";
+import { CoordinatParamater } from "../paramaters/google-map/paramater";
 
 interface AirportTransferStore {
   onSearch: boolean;
@@ -14,6 +16,9 @@ interface AirportTransferStore {
   selectedCar: Array<SelectedCarParamater>;
   rangeVechilePrice: RangeVechilePrice;
   sliderValue: number;
+  originCoordinate: CoordinatParamater|undefined,
+  destinationCoordinate: CoordinatParamater|undefined,
+  bookingBaseData: CheckoutBookingCarDataParamater|undefined
 }
 
 interface AirportTransferStoreAction {
@@ -28,6 +33,10 @@ interface AirportTransferStoreAction {
   ) => void;
   setRangeVechilePrice: (range: RangeVechilePrice) => void;
   setSliderValue: (total: number) => void;
+  setOriginCoordinate: (coordinate: CoordinatParamater|undefined) => void;
+  setDestinationCoordinate: (coordinate: CoordinatParamater|undefined) => void;
+  setBookingBaseData: (data: CheckoutBookingCarDataParamater|undefined) => void;
+
 }
 
 export const useAirportTransferStore = create<
@@ -55,4 +64,10 @@ export const useAirportTransferStore = create<
     set({ rangeVechilePrice: range }),
   sliderValue: 0,
   setSliderValue: (total: number) => set({ sliderValue: total }),
+  originCoordinate: undefined,
+  setOriginCoordinate: (coordinte: CoordinatParamater|undefined) => set({ originCoordinate: coordinte }),
+  destinationCoordinate: undefined,
+  setDestinationCoordinate: (coordinte: CoordinatParamater|undefined) => set({ destinationCoordinate: coordinte }),
+  bookingBaseData: undefined,
+  setBookingBaseData: (data: CheckoutBookingCarDataParamater|undefined) => set({ bookingBaseData: data }),
 }));
