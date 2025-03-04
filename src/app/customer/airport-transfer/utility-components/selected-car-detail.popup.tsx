@@ -60,12 +60,12 @@ export function SelectedCarDetail({
   return (
     <>
       <div className="grid grid-cols-12 gap-3 border-b border-gray-200 pb-2">
-        <div className="col-span-12 md:col-span-3 relative">
+        <div className="col-span-12 lg:col-span-3 relative">
           <ImageWithLoader
             src={selectedVechile.vechile_main_photo}
             alt={selectedVechile.name}
             fallbackSrc="/fallback-image.png"
-            classNameProp="rounded-md w-full md:w-[250px] h-[150px] md:h-[150px] object-cover"
+            classNameProp="rounded-md w-full lg:w-[250px] h-[150px] md:h-[220px] lg:h-[150px] object-cover"
             skeletonClassName="rounded-md"
             priority={false} // Gambar ini tidak diberi prioritas
             width={250}
@@ -79,10 +79,10 @@ export function SelectedCarDetail({
             />
           </div>
         </div>
-        <div className="col-span-12 md:col-span-6 flex flex-col gap-1">
+        <div className="col-span-12 lg:col-span-6 flex flex-col gap-1">
           <div className="flex gap-1 items-center text-start">
             <ActivityTitleCard
-              customSizeText="text-base md:text-base"
+              customSizeText="text-base lg:text-base"
               title={selectedVechile.name}
             />
             <span className="text-gray-500 my-auto">
@@ -107,25 +107,25 @@ export function SelectedCarDetail({
             </div>
           </div>
           <div className="flex gap-2">
-            <span className="rounded-md  bg-gray-100 text-green-600 px-1">
+            <span className="rounded-md text-start text-sm lg:text-base  bg-gray-100 text-green-600 px-1">
               Instant confirmation
             </span>
-            <span className="rounded-md  bg-gray-100 text-green-600 px-1 ">
+            <span className="rounded-md text-start text-sm lg:text-base  bg-gray-100 text-green-600 px-1 ">
               Free waiting time
             </span>
           </div>
           <div className="flex gap-2">
-            <span className="rounded-md bg-gray-100 text-secondary px-1">
+            <span className="rounded-md text-start text-sm lg:text-base bg-gray-100 text-secondary px-1">
               Meet & Greet
             </span>
-            <span className="rounded-md bg-gray-100 text-secondary px-1">
+            <span className="rounded-md text-start text-sm lg:text-base bg-gray-100 text-secondary px-1">
               English-speaking driver
             </span>
           </div>
         </div>
-        <div className="col-span-12 md:col-span-3 my-auto">
-          <div className="flex ml-auto w-full md:ml-0 md:w-full items-end justify-end md:flex-col gap-2">
-            <span className="ml-auto text-black text-end font-bold text-base md:text-lg">
+        <div className="col-span-12 lg:col-span-3 my-auto">
+          <div className="flex ml-auto w-full lg:ml-0 lg:w-full items-end justify-end lg:flex-col gap-2">
+            <span className="ml-auto text-black text-end font-bold text-base lg:text-lg">
               {GlobalUtility.IdrCurrencyFormat(
                 selectedVechile.price * selectedVechile.qty
               )}

@@ -288,6 +288,19 @@ export function LandingPageFooterSection({className} : {className?: string}) {
                     className="w-[60px] h-[25px]"
                   />
                 </Link>
+                <Link
+                  href="https://www.tiktok.com/@balisuntours?_t=ZS-8uOqemxRBru&_r=1"
+                  target="_blank"
+                  className="w-6 me-3"
+                >
+                  <Image
+                    src="/tiktok.png"
+                    alt="icon"
+                    width="100"
+                    height="100"
+                    className="w-[60px] h-[25px]"
+                  />
+                </Link>
               </div>
             </div>
           </div>

@@ -1,7 +1,6 @@
 import { LargeNavbar } from "@/app/global-components/large.navbar";
 import { HeroSectionAirportTransfer } from "./components/hero.airport";
 import { SearchVechileInputFormCard } from "./utility-components/search-vechile-form.card";
-import { VechileServiceAirportTransfer } from "./components/vechile-list.airport";
 import { DataSectionAirportTransfer } from "./components/data-section.airport";
 import { LandingPageFooterSection } from "@/app/global-components/landing-page.footer";
 
@@ -10,17 +9,17 @@ export default function AiportTransferPage() {
     <>
       <LargeNavbar />
       <div className="pt-11 md:pt-22 lg:pt-24">
-        <div className="pb-0">
+        <div className="pb-4 md:pb-4 lg:pb-0">
           <HeroSectionAirportTransfer>
             <SearchVechileInputFormCard />
           </HeroSectionAirportTransfer>
         </div>
-        <div className=" flex flex-col gap-11 md:pt-14 lg:pt-0 pb-11">
+        <div className=" flex flex-col gap-11 md:pt-14 lg:pt-0 pb-16">
           <DataSectionAirportTransfer />
           </div>
         <hr />
         <div className="container flex flex-col gap-11 px-3 md:px-8  pt-11 pb-11">
-          <LandingPageFooterSection />
+          <LandingPageFooterSection className="mb-24 md:mb-0" />
         </div>
       </div>
     </>

@@ -37,7 +37,7 @@ export function ImageWithLoader({
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   return (
-    <div className={`relative ${fillAllView ? "w-full h-full" : ""}`}>
+    <div className={`lg:relative ${fillAllView ? "w-full h-full" : ""}`}>
       {/* Skeleton loader (tampilan sementara) */}
       {!isImageLoaded && (
         <div

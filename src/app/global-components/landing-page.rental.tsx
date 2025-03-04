@@ -22,8 +22,8 @@ export function LandingPageRentalVechileSection() {
             src="/808-banner.jpg"
             alt="Vehicle rental banner"
             fallbackSrc="/fallback-image.png"
-            classNameProp="row-span-1 w-full h-[100%] bg-gray-500 rounded-lg object-cover cursor-pointer"
-            skeletonClassName="rounded-lg h-[100%]"
+            classNameProp="row-span-1 w-full md:h-[100%] bg-gray-500 rounded-lg object-cover cursor-pointer"
+            skeletonClassName="rounded-lg h-[200px] md:h-[300px] lg:h-[400px]"
             priority={false}
             width={500}
             height={500}

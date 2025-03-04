@@ -17,7 +17,7 @@ import { z } from "zod";
 import { GoogleMapViewComponent } from "@/app/global-components/utility-components/google-map.view";
 import { CheckoutButton } from "@/app/global-components/utility-components/checkout.button";
 import { act, useEffect, useRef, useState } from "react";
-import { TransferTypeEnum } from "@/app/enums/airport-transfer/airport-transfer.enum";
+import { GetPriceMethodTypeEnum, TransferTypeEnum } from "@/app/enums/airport-transfer/airport-transfer.enum";
 import {
   defaultScopedMapCoordinate,
   useGoogleMapStore,
@@ -60,12 +60,12 @@ export function SearchVechileInputFormCard() {
   const [administrativeLvl4, setAdministrativeLvl4] = useState<null | string>(
     null
   );
-  const [originPlaceID, setOriginPlaceID] = useState<undefined | string>(undefined);
-  const [destinationPlaceID, setDestinationPlaceID] = useState<undefined | string>(undefined);
-  const [originCoordinate, setOriginCoordinate] = useState<null | string>(null);
-  const [destinationCoordinate, setDestinationCoordinate] = useState<
-    null | string
-  >(null);
+  const [originPlaceID, setOriginPlaceID] = useState<undefined | string>(
+    undefined
+  );
+  const [destinationPlaceID, setDestinationPlaceID] = useState<
+    undefined | string
+  >(undefined);
   const [origin, setOrigin] = useState<string>("");
   const [destination, setDestination] = useState<string>("");
   const { toast } = useToast();
@@ -78,6 +78,22 @@ export function SearchVechileInputFormCard() {
   const setOnInteractWithSearch = useAirportTransferStore(
     (state) => state.setOnInteractWithSearch
   );
+  const setBookingBaseData = useAirportTransferStore(
+    (state) => state.setBookingBaseData
+  );
+  const originCoordinate = useAirportTransferStore(
+    (state) => state.originCoordinate
+  );
+  const setOriginCoordinate = useAirportTransferStore(
+    (state) => state.setOriginCoordinate
+  );
+  const destinationCoordinate = useAirportTransferStore(
+    (state) => state.destinationCoordinate
+  );
+  const setDestinationCoordinate = useAirportTransferStore(
+    (state) => state.setDestinationCoordinate
+  );
+
   const onSearch = useAirportTransferStore((state) => state.onSearch);
   const setOnSearch = useAirportTransferStore((state) => state.setOnSearch);
   const setRecomendedVechiles = useAirportTransferStore(
@@ -90,7 +106,7 @@ export function SearchVechileInputFormCard() {
     (state) => state.setRangeVechilePrice
   );
 
-  const baliAirportCoordinateString = JSON.stringify(AIPORT_BALI_COORDINATE);
+  const baliAirportCoordinate = AIPORT_BALI_COORDINATE;
   const SearchVecileForm = useForm<z.infer<typeof SearchVechileSchema>>({
     resolver: zodResolver(SearchVechileSchema),
     defaultValues: {
@@ -164,22 +180,42 @@ export function SearchVechileInputFormCard() {
       administrative_area_level_4: administrativeLvl4,
       origin: origin,
       destination: destination,
-      origin_coordinate: originCoordinate,
+      origin_coordinate: JSON.stringify(originCoordinate),
       origin_place_id: originPlaceID,
       destination_place_id: destinationPlaceID,
-      destination_coordinate: destinationCoordinate,
+      destination_coordinate: JSON.stringify(destinationCoordinate),
       transfer_date_time: format(selectedDate, "yyyy-MM-dd HH:mm:ss"),
       transfer_type: transferType,
       total_passanger: values.total_passanger,
     };
+
+    setBookingBaseData({
+      transfer_type: transferType,
+      vechile_price_method_type: GetPriceMethodTypeEnum.dinamicByDistance,
+      origin: origin,
+      destination: destination,
+      origin_coordinate: JSON.stringify(originCoordinate),
+      destination_coordinate: JSON.stringify(destinationCoordinate),
+      total_passanger: values.total_passanger,
+      transfer_date_time: format(selectedDate, "yyyy-MM-dd HH:mm:ss"),
+    })
 
     setOnSearch(true);
     const action = await AirportTransferAction.GetVechilRecomendationRequest(
       paramater
     );
     setOnSearch(false);
-   
+
     if (!action.success) {
+      //set state2 ke default
+      setOnInteractWithSearch(true);
+      setIdleRecomendedVechiles([]);
+      setRecomendedVechiles([]);
+      setRangeVechilePrice({
+        lowest: 0,
+        highest: 0,
+      });
+
       toast({
         description: `${action.data}`,
         variant: "danger",
@@ -188,7 +224,7 @@ export function SearchVechileInputFormCard() {
       return;
     }
 
-    setOnInteractWithSearch(true)
+    setOnInteractWithSearch(true);
     setRecomendedVechiles(action.data);
     setIdleRecomendedVechiles(action.data);
     if (action.data.length > 0) {
@@ -201,22 +237,25 @@ export function SearchVechileInputFormCard() {
         lowest: lowestPrice,
         highest: highestPrice,
       });
+    } else {
+      setRangeVechilePrice({
+        lowest: 0,
+        highest: 0,
+      });
     }
   };
 
   const handleAirportToHotelMap = () => {
     if (scopedMapState.mapScopedPayload) {
-      setOriginCoordinate(baliAirportCoordinateString);
-      setOriginPlaceID(AIRPORT_PLACE_ID)
+      setOriginCoordinate(baliAirportCoordinate);
+      setOriginPlaceID(AIRPORT_PLACE_ID);
       setOrigin(AIRPORT_BALI_NAME);
 
-      setDestinationCoordinate(
-        JSON.stringify({
-          lat: scopedMapState.mapScopedPayload.lat,
-          lng: scopedMapState.mapScopedPayload.lng,
-        })
-      );
-      setDestinationPlaceID(scopedMapState.mapScopedPayload.place_id)
+      setDestinationCoordinate({
+        lat: scopedMapState.mapScopedPayload.lat,
+        lng: scopedMapState.mapScopedPayload.lng,
+      });
+      setDestinationPlaceID(scopedMapState.mapScopedPayload.place_id);
       setDestination(scopedMapState.mapScopedPayload.name ?? "");
     } else {
       setOrigin(AIRPORT_BALI_NAME);
@@ -226,18 +265,16 @@ export function SearchVechileInputFormCard() {
 
   const handleHotelToAirportMap = () => {
     if (scopedMapState.mapScopedPayload) {
-      setOriginCoordinate(
-        JSON.stringify({
-          lat: scopedMapState.mapScopedPayload.lat,
-          lng: scopedMapState.mapScopedPayload.lng,
-        })
-      );
-      setOriginPlaceID(scopedMapState.mapScopedPayload.place_id)
+      setOriginCoordinate({
+        lat: scopedMapState.mapScopedPayload.lat,
+        lng: scopedMapState.mapScopedPayload.lng,
+      });
+      setOriginPlaceID(scopedMapState.mapScopedPayload.place_id);
       setOrigin(scopedMapState.mapScopedPayload.name ?? "");
 
       setDestination(AIRPORT_BALI_NAME);
-      setDestinationPlaceID(AIRPORT_PLACE_ID)
-      setDestinationCoordinate(baliAirportCoordinateString);
+      setDestinationPlaceID(AIRPORT_PLACE_ID);
+      setDestinationCoordinate(baliAirportCoordinate);
     } else {
       setOrigin("");
       setDestination(AIRPORT_BALI_NAME);
@@ -264,7 +301,7 @@ export function SearchVechileInputFormCard() {
   const handleChangeTransferType = (value: TransferTypeEnum) => {
     setTransferType(value);
     setRecomendedVechiles([]);
-    setOnInteractWithSearch(false)
+    setOnInteractWithSearch(false);
     if (value == TransferTypeEnum.airportToHotel) {
       setDestination("");
       setOrigin(AIRPORT_BALI_NAME);
@@ -309,12 +346,38 @@ export function SearchVechileInputFormCard() {
     <>
       <Card>
         <div className="p-4">
+          <div className="grid md:hidden grid-cols-12 gap-2 w-full mb-4">
+            <div
+              onClick={() =>
+                handleChangeTransferType(TransferTypeEnum.airportToHotel)
+              }
+              className={`${
+                transferType == TransferTypeEnum.airportToHotel
+                  ? "bg-[#008000] hover:bg-[#008000]/80 text-white"
+                  : "bg-gray-50 hover:bg-gray-50/80"
+              } rounded-lg cursor-pointer p-1 col-span-6 text-center border border-gray-200`}
+            >
+              Airport pick up
+            </div>
+            <div
+              onClick={() =>
+                handleChangeTransferType(TransferTypeEnum.hotelToAirport)
+              }
+              className={`${
+                transferType == TransferTypeEnum.hotelToAirport
+                  ? "bg-[#008000] hover:bg-[#008000]/80 text-white"
+                  : "bg-gray-50 hover:bg-gray-50/80"
+              } rounded-lg cursor-pointer p-1 col-span-6 text-center border border-gray-200`}
+            >
+              Airport dropoff
+            </div>
+          </div>
           <RadioGroup
             defaultValue={transferType}
             onValueChange={(value) =>
               handleChangeTransferType(value as TransferTypeEnum)
             }
-            className="grid grid-cols-2 md:flex gap-6 mb-4"
+            className="hidden grid-cols-2 md:flex gap-6 mb-4"
           >
             <div className="col-span-1 flex items-center space-x-2">
               <RadioGroupItem
@@ -341,7 +404,7 @@ export function SearchVechileInputFormCard() {
               }}
               className="grid grid-cols-2 md:grid-cols-[2.5fr_2.5fr_2.5fr_2.5fr_2fr] gap-2 md:gap-4 items-start"
             >
-              <div className="col-span-1">
+              <div className="col-span-2 md:col-span-1">
                 <FormItem>
                   <FormLabel className="text-gray-700 text-sm font-semibold">
                     From
@@ -374,7 +437,7 @@ export function SearchVechileInputFormCard() {
                   </p>
                 </FormItem>
               </div>
-              <div className="col-span-1">
+              <div className="col-span-2 md:col-span-1">
                 <FormItem>
                   <FormLabel className="text-gray-700 text-sm font-semibold">
                     To

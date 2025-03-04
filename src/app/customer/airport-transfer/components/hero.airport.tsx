@@ -8,7 +8,7 @@ export function HeroSectionAirportTransfer({
 }) {
   return (
     <>
-      <div className="h-[50vh] md:h-[40vh] lg:h-[65vh] relative w-full ">
+      <div className="h-auto md:h-[40vh] lg:h-[65vh] relative w-full ">
        <div className="w-full max-w-full mx-auto hidden md:block">
        <div className="flex items-center justify-center p-0 h-full">
           <Image
