@@ -21,6 +21,8 @@ export default async function CheckoutBooking({
     }
 
     data = result.data
+  }else {
+    notFound()
   }
   
 

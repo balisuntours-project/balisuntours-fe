@@ -1,11 +1,9 @@
-import { CheckoutBookingCarDataCompleteParamater, GetVechileRecomendationsParamater } from "@/app/paramaters/airport-transfer/paramater";
-import { VechileRecomendationResponse } from "@/app/responses/airport-transfer/response";
-import { api } from "@/lib/axios-instance";
-import { CurrencyListEnum } from "@/lib/global.enum";
+import { AdditionalServiceItemResponse, BookedVechileAndDataResponse } from "@/app/responses/airport-transfer/response";
+import { apiServer } from "@/lib/axios-instance.server";
 import { GlobalUtility } from "@/lib/global.utility";
 import { AxiosError } from "axios";
 
-export interface AirportTransferActionResponse<T> {
+export interface AirportTransferActionServerResponse<T> {
   success: boolean;
   status_code: number;
   data: T;
@@ -24,10 +22,10 @@ interface ErrorServerObject {
     | string;
 }
 
-export class AirportTransferAction {
+export class AirportTransferActionServer {
   private static async handleResponse<T>(
     response: Response
-  ): Promise<AirportTransferActionResponse<T>> {
+  ): Promise<AirportTransferActionServerResponse<T>> {
     const finalResponse = await response.json();
     return {
       success: response.ok,
@@ -38,7 +36,7 @@ export class AirportTransferAction {
 
   private static async handleFetchError<T>(
     response: Response
-  ): Promise<AirportTransferActionResponse<T>> {
+  ): Promise<AirportTransferActionServerResponse<T>> {
     const finalResponse = (await response.json()) as ErrorServerObject; // Parsing response JSON ke ErrorServerObject
 
     let message = "Unknown error occurred";
@@ -71,7 +69,7 @@ export class AirportTransferAction {
 
   private static handleError<T>(
     error: AxiosError<ErrorServerObject>
-  ): AirportTransferActionResponse<T> {
+  ): AirportTransferActionServerResponse<T> {
     let message: string = "An unknown error occurred";
     if (error.response?.data?.errors) {
       const errorMessageRaw = error.response.data.errors;
@@ -102,50 +100,55 @@ export class AirportTransferAction {
     };
   }
 
-  static async GetVechilRecomendationRequest(
-    param : GetVechileRecomendationsParamater
-  ): Promise<AirportTransferActionResponse<Array<VechileRecomendationResponse>>> {
+  static async GetBookedVechileData(
+    bookingUUid: string
+  ): Promise<
+    AirportTransferActionServerResponse<BookedVechileAndDataResponse>
+  > {
     try {
-      let request = `transfer_type=${param.transfer_type}&origin=${param.origin}&destination=${param.destination}&origin_coordinate=${param.origin_coordinate}&destination_coordinate=${param.destination_coordinate}&total_passanger=${param.total_passanger}&transfer_date_time=${param.transfer_date_time}&administrative_area_level_3=${param.administrative_area_level_3}&administrative_area_level_4=${param.administrative_area_level_4}`
-
-      if(param.origin_place_id && param.destination_place_id) {
-        request += `&origin_place_id=${param.origin_place_id}&destination_place_id=${param.destination_place_id}`
-      }
-
-      const action = await api(`/api/customer/vechiles-recomendation-by-distance?${request}`, {
-        method: "GET",
-      });
+      const action = await apiServer(
+        `/api/customer/booking-data?booking_uuid=${bookingUUid}`,
+        {
+          method: "GET",
+        }
+      );
 
       if (!action.ok) {
         GlobalUtility.TriggerExceptionFetchApi(action);
       }
 
-      return this.handleResponse<Array<VechileRecomendationResponse>>(action);
+      return this.handleResponse<BookedVechileAndDataResponse>(action);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error(error);
-      return this.handleFetchError<Array<VechileRecomendationResponse>>(error.response || error);
+      return this.handleFetchError<BookedVechileAndDataResponse>(
+        error.response || error
+      );
     }
   }
 
-  static async AddBookingVechileData(
-    param : CheckoutBookingCarDataCompleteParamater
-  ): Promise<AirportTransferActionResponse<Array<string>>> {
+  static async GetAdditionalServiceItem(): Promise<
+    AirportTransferActionServerResponse<Array<AdditionalServiceItemResponse>>
+  > {
     try {
-      const action = await api(`/api/customer/booking-data`, {
-        method: "POST",
-        body: JSON.stringify(param)
-      });
+      const action = await apiServer(
+        `/api/customer/additional-service-item`,
+        {
+          method: "GET",
+        }
+      );
 
       if (!action.ok) {
         GlobalUtility.TriggerExceptionFetchApi(action);
       }
 
-      return this.handleResponse<Array<string>>(action);
+      return this.handleResponse<Array<AdditionalServiceItemResponse>>(action);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error(error);
-      return this.handleFetchError<Array<string>>(error.response || error);
+      return this.handleFetchError<Array<AdditionalServiceItemResponse>>(
+        error.response || error
+      );
     }
   }
 }
