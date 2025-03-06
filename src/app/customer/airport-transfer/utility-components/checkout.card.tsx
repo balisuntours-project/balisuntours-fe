@@ -73,7 +73,7 @@ export function CheckoutCard() {
         return
     }
 
-    router.push("/customer/airport-transfer/checkout")
+    router.push(`/customer/airport-transfer/checkout?booking_uuid=${result.data}`)
   };
 
   useEffect(() => {
