@@ -1,5 +1,5 @@
-import { GetPriceMethodTypeEnum, TransferTypeEnum } from "@/app/enums/airport-transfer/airport-transfer.enum";
-import { VechileRecomendationResponse } from "@/app/responses/airport-transfer/response";
+import { CustomerTitleEnum, GetPriceMethodTypeEnum, TransferTypeEnum } from "@/app/enums/airport-transfer/airport-transfer.enum";
+import { AdditionalServiceItemResponseWithQty, VechileRecomendationResponse } from "@/app/responses/airport-transfer/response";
 
 export interface GetVechileRecomendationsParamater {
   transfer_type: TransferTypeEnum;
@@ -43,4 +43,17 @@ export interface CarCheckoutParamater {
 
 export interface CheckoutBookingCarDataCompleteParamater extends CheckoutBookingCarDataParamater {
   vechile_data: Array<CarCheckoutParamater>
+}
+
+
+export interface CheckoutToPaymentParamater {
+  flight_number: string,
+  customer_title: CustomerTitleEnum,
+  customer_first_name: string,
+  customer_last_name: string,
+  customer_country: string,
+  customer_phone: string,
+  customer_email: string,
+  additional_request?: string,
+  additional_service?: Array<Pick<AdditionalServiceItemResponseWithQty, "qty" | "uuid">>,
 }

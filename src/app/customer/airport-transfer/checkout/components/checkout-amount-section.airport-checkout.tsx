@@ -5,8 +5,10 @@ import {
   BookedVechileResponse,
   BookingDataResponse,
 } from "@/app/responses/airport-transfer/response";
+import { useAirportTransferStore } from "@/app/store/airport-transfer.store";
 import { GlobalUtility } from "@/lib/global.utility";
 import { ArrowLeftCircle, ArrowRightCircle, Luggage, User } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export function CheckoutAmountSectionAirportTransfer({
   bookedVechile,
@@ -15,6 +17,22 @@ export function CheckoutAmountSectionAirportTransfer({
   bookedVechile: Array<BookedVechileResponse>;
   bookingData: BookingDataResponse;
 }) {
+  const selectedAdditionalService = useAirportTransferStore(
+    (state) => state.selectedAdditionalService
+  );
+  const [additionalServiceTotalAmount, setAdditionalServiceTotalAmount] =
+    useState(0);
+
+  useEffect(() => {
+    if (selectedAdditionalService) {
+      let totalAmount = 0;
+      selectedAdditionalService.forEach((service) => {
+        totalAmount += service.price * service.qty;
+      });
+
+      setAdditionalServiceTotalAmount(totalAmount);
+    }
+  }, [selectedAdditionalService]);
   return (
     <>
       <div
@@ -111,7 +129,7 @@ export function CheckoutAmountSectionAirportTransfer({
           <div className="flex gap-2">
             <span className="text-gray-500">Amount</span>
             <span className="ml-auto text-[#EB5E00] text-end text-xl font-extrabold">
-              {GlobalUtility.IdrCurrencyFormat(bookingData.total_amount)}{" "}
+              {GlobalUtility.IdrCurrencyFormat(bookingData.total_amount + additionalServiceTotalAmount)}{" "}
             </span>
           </div>
         </div>

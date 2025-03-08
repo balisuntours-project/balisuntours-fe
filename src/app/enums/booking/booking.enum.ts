@@ -6,6 +6,7 @@ export enum BookingPaymentStatusEnum {
   paid = "berhasil",
   unconfirmed = "admin confirmation",
   confirmed = "confirmed",
+  failed = "failed",
 }
 
 export enum ReviewValidPayloadEnum {

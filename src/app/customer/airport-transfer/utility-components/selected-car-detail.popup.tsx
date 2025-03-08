@@ -44,7 +44,7 @@ export function SelectedCarDetail({
         // Decrement qty, pastikan qty tidak kurang dari 1 (atau 0, tergantung kebutuhan)
         updatedSelectedCar[carIndex] = {
           ...updatedSelectedCar[carIndex],
-          qty: Math.max(updatedSelectedCar[carIndex].qty - 1, 1), // Jangan biarkan qty kurang dari 0
+          qty: Math.max(updatedSelectedCar[carIndex].qty - 1, 1), // Jangan biarkan qty kurang dari 1
         };
       }
 

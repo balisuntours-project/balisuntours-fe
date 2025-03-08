@@ -1,5 +1,6 @@
-import { CheckoutBookingCarDataCompleteParamater, GetVechileRecomendationsParamater } from "@/app/paramaters/airport-transfer/paramater";
+import { CheckoutBookingCarDataCompleteParamater, CheckoutToPaymentParamater, GetVechileRecomendationsParamater } from "@/app/paramaters/airport-transfer/paramater";
 import { VechileRecomendationResponse } from "@/app/responses/airport-transfer/response";
+import { CheckoutBookingResponse } from "@/app/responses/booking/response";
 import { api } from "@/lib/axios-instance";
 import { CurrencyListEnum } from "@/lib/global.enum";
 import { GlobalUtility } from "@/lib/global.utility";
@@ -130,7 +131,7 @@ export class AirportTransferAction {
 
   static async AddBookingVechileData(
     param : CheckoutBookingCarDataCompleteParamater
-  ): Promise<AirportTransferActionResponse<Array<string>>> {
+  ): Promise<AirportTransferActionResponse<string>> {
     try {
       const action = await api(`/api/customer/booking-data`, {
         method: "POST",
@@ -141,11 +142,33 @@ export class AirportTransferAction {
         GlobalUtility.TriggerExceptionFetchApi(action);
       }
 
-      return this.handleResponse<Array<string>>(action);
+      return this.handleResponse<string>(action);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error(error);
-      return this.handleFetchError<Array<string>>(error.response || error);
+      return this.handleFetchError<string>(error.response || error);
     }
   }
+
+  static async CheckoutToPayment(
+    param : CheckoutToPaymentParamater,
+    bookingUuid: string
+  ): Promise<AirportTransferActionResponse<CheckoutBookingResponse | string>> {
+    try {
+      const action = await api(`/api/customer/checkout-booking-data/${bookingUuid}`, {
+        method: "POST",
+        body: JSON.stringify(param)
+      });
+
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
+      }
+
+      return this.handleResponse<CheckoutBookingResponse | string>(action);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error(error);
+      return this.handleFetchError<CheckoutBookingResponse | string>(error.response || error);
+    }
+  }  
 }

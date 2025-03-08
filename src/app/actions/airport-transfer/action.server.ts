@@ -1,4 +1,4 @@
-import { AdditionalServiceItemResponse, BookedVechileAndDataResponse } from "@/app/responses/airport-transfer/response";
+import { AdditionalServiceItemResponse, BookedVechileAndDataResponse, TransactionStatusResponse } from "@/app/responses/airport-transfer/response";
 import { apiServer } from "@/lib/axios-instance.server";
 import { GlobalUtility } from "@/lib/global.utility";
 import { AxiosError } from "axios";
@@ -147,6 +147,33 @@ export class AirportTransferActionServer {
     } catch (error: any) {
       console.error(error);
       return this.handleFetchError<Array<AdditionalServiceItemResponse>>(
+        error.response || error
+      );
+    }
+  }
+
+  static async GetTransactionStatus(
+    bookingId: string
+  ): Promise<
+    AirportTransferActionServerResponse<TransactionStatusResponse>
+  > {
+    try {
+      const action = await apiServer(
+        `/api/customer/airport-transfer-transaction-status/${bookingId}`,
+        {
+          method: "GET",
+        }
+      );
+
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
+      }
+
+      return this.handleResponse<TransactionStatusResponse>(action);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error(error);
+      return this.handleFetchError<TransactionStatusResponse>(
         error.response || error
       );
     }

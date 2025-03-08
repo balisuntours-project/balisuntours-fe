@@ -17,14 +17,17 @@ import {
 import { useLoaderStore } from "@/app/store/loader.store";
 import { AirportTransferAction } from "@/app/actions/airport-transfer/action";
 import { useRouter } from "next/navigation";
+import { useAuthPopupStore } from "@/app/store/auth-popup.store";
+import { HttpStatus } from "@/lib/global.enum";
 
 export function CheckoutCard() {
   const selectedCar = useAirportTransferStore((state) => state.selectedCar);
   const [totalPrice, setTotalPrice] = useState(0);
 
   const setIsLoading = useLoaderStore((state) => state.setIsLoading);
+  const setShowAuthPopup = useAuthPopupStore((state) => state.setShowAuthPopup);
 
-  const router = useRouter()
+  const router = useRouter();
   const { toast } = useToast();
   const bookingBaseData = useAirportTransferStore(
     (state) => state.bookingBaseData
@@ -63,17 +66,25 @@ export function CheckoutCard() {
 
     const result = await AirportTransferAction.AddBookingVechileData(payload);
     setIsLoading(false);
-    console.log(result.data);
-    if (!result.success) {
-        toast({
-            description: result.data,
-            variant: result.status_code == 500 ? "danger" : "warning",
-          });
 
-        return
+    if (result.status_code == HttpStatus.UNAUTHORIZED) {
+      setShowAuthPopup(true);
+
+      return;
     }
 
-    router.push(`/customer/airport-transfer/checkout?booking_uuid=${result.data}`)
+    if (!result.success) {
+      toast({
+        description: result.data,
+        variant: result.status_code == 500 ? "danger" : "warning",
+      });
+
+      return;
+    }
+
+    router.push(
+      `/customer/airport-transfer/checkout?booking_uuid=${result.data}`
+    );
   };
 
   useEffect(() => {
