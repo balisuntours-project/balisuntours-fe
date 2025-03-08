@@ -95,7 +95,8 @@ export interface CheckoutBookingResponse{
 }
 
 export interface CheckoutBookingIpaymuResponse {
-    next_url : string
+    next_url : string,
+    session_id?: string
 }
 
 export interface CheckoutBookingIpay88Response {

@@ -44,7 +44,7 @@ export default async function AirportTransferCheckoutPage({
       <SmallNavbar />
       <div className="mt-11 absolute top-[20%]">
         <div className="lg:w-[90%] mx-auto px-5 pb-16">
-          {data && <CheckoutDetailAirportTransfer bookedVechile={data.booked_vechiles} bookingData={data.booking_data} additionalServiceItem={additionalServiceItem ? <AdditionalServiceItemSection additionalServiceItems={additionalServiceItem} /> : false} />}
+          {data && <CheckoutDetailAirportTransfer bookingUuid={bookingUuidParam as string} bookedVechile={data.booked_vechiles} bookingData={data.booking_data} additionalServiceItem={additionalServiceItem ? <AdditionalServiceItemSection additionalServiceItems={additionalServiceItem} /> : false} />}
         </div>
         <hr />
         <div className="container flex flex-col gap-11 px-3 md:px-8  pt-11 pb-11">

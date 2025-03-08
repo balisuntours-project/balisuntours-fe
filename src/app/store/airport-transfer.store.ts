@@ -1,8 +1,12 @@
 import { create } from "zustand";
 import { Activity } from "../responses/activity/response";
-import { VechileRecomendationResponse } from "../responses/airport-transfer/response";
 import {
-    CheckoutBookingCarDataParamater,
+  AdditionalServiceItemResponseWithQty,
+  VechileRecomendationResponse,
+} from "../responses/airport-transfer/response";
+import {
+  CheckoutBookingCarDataParamater,
+  CheckoutToPaymentParamater,
   RangeVechilePrice,
   SelectedCarParamater,
 } from "../paramaters/airport-transfer/paramater";
@@ -16,9 +20,12 @@ interface AirportTransferStore {
   selectedCar: Array<SelectedCarParamater>;
   rangeVechilePrice: RangeVechilePrice;
   sliderValue: number;
-  originCoordinate: CoordinatParamater|undefined,
-  destinationCoordinate: CoordinatParamater|undefined,
-  bookingBaseData: CheckoutBookingCarDataParamater|undefined
+  originCoordinate: CoordinatParamater | undefined;
+  destinationCoordinate: CoordinatParamater | undefined;
+  bookingBaseData: CheckoutBookingCarDataParamater | undefined;
+  selectedAdditionalService: Array<AdditionalServiceItemResponseWithQty>;
+  checkoutPaymentData: CheckoutToPaymentParamater | undefined;
+  onClickCheckout: boolean;
 }
 
 interface AirportTransferStoreAction {
@@ -33,10 +40,22 @@ interface AirportTransferStoreAction {
   ) => void;
   setRangeVechilePrice: (range: RangeVechilePrice) => void;
   setSliderValue: (total: number) => void;
-  setOriginCoordinate: (coordinate: CoordinatParamater|undefined) => void;
-  setDestinationCoordinate: (coordinate: CoordinatParamater|undefined) => void;
-  setBookingBaseData: (data: CheckoutBookingCarDataParamater|undefined) => void;
-
+  setOriginCoordinate: (coordinate: CoordinatParamater | undefined) => void;
+  setDestinationCoordinate: (
+    coordinate: CoordinatParamater | undefined
+  ) => void;
+  setBookingBaseData: (
+    data: CheckoutBookingCarDataParamater | undefined
+  ) => void;
+  setSelectedAdditionalService: (
+    updateFn: (
+      data: Array<AdditionalServiceItemResponseWithQty>
+    ) => Array<AdditionalServiceItemResponseWithQty>
+  ) => void;
+  setCheckoutPaymentData: (
+    data: CheckoutToPaymentParamater | undefined
+  ) => void;
+  setOnClickCheckout: (status: boolean) => void;
 }
 
 export const useAirportTransferStore = create<
@@ -65,9 +84,22 @@ export const useAirportTransferStore = create<
   sliderValue: 0,
   setSliderValue: (total: number) => set({ sliderValue: total }),
   originCoordinate: undefined,
-  setOriginCoordinate: (coordinte: CoordinatParamater|undefined) => set({ originCoordinate: coordinte }),
+  setOriginCoordinate: (coordinte: CoordinatParamater | undefined) =>
+    set({ originCoordinate: coordinte }),
   destinationCoordinate: undefined,
-  setDestinationCoordinate: (coordinte: CoordinatParamater|undefined) => set({ destinationCoordinate: coordinte }),
+  setDestinationCoordinate: (coordinte: CoordinatParamater | undefined) =>
+    set({ destinationCoordinate: coordinte }),
   bookingBaseData: undefined,
-  setBookingBaseData: (data: CheckoutBookingCarDataParamater|undefined) => set({ bookingBaseData: data }),
+  setBookingBaseData: (data: CheckoutBookingCarDataParamater | undefined) =>
+    set({ bookingBaseData: data }),
+  selectedAdditionalService: [],
+  setSelectedAdditionalService: (UpdateFn) =>
+    set((state) => ({
+      selectedAdditionalService: UpdateFn(state.selectedAdditionalService),
+    })),
+  checkoutPaymentData: undefined,
+  setCheckoutPaymentData: (data: CheckoutToPaymentParamater | undefined) =>
+    set({ checkoutPaymentData: data }),
+  onClickCheckout: false,
+  setOnClickCheckout: (status: boolean) => set({ onClickCheckout: status }),
 }));

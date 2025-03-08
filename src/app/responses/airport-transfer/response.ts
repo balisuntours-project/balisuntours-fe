@@ -1,4 +1,5 @@
 import { GetPriceMethodTypeEnum, TransferTypeEnum } from "@/app/enums/airport-transfer/airport-transfer.enum"
+import { BookingPaymentStatusEnum } from "@/app/enums/booking/booking.enum"
 import { CoordinatParamater } from "@/app/paramaters/google-map/paramater"
 
 export interface VechileRecomendationResponse {
@@ -61,4 +62,15 @@ export interface AdditionalServiceItemResponse {
 
 export interface AdditionalServiceItemResponseWithQty extends AdditionalServiceItemResponse {
     qty: number,
+}
+
+export interface TransactionStatusResponse {
+    status: BookingPaymentStatusEnum,
+    booking_id: string
+    created_at: string
+    paid_at: string
+    amount: number
+    customer_account_name: string
+    customer_account_phone: string
+    customer_account_email: string
 }
