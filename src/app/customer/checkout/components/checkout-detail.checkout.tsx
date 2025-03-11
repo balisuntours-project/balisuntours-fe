@@ -69,16 +69,6 @@ export function CheckoutDetail({
     setCheckoutCartData(cartData);
   }, [checkoutActivities, checkoutPackages, cartData]);
 
-  const handleFetchCurrency = async () => {
-    const result = await CurrencyAction.GetCurrency(
-      CurrencyListEnum.usd // usd dulu
-    );
-
-    if (result.success) {
-      setCurrencyValue(result.data);
-    }
-  };
-
   const handleSetTotalAmount = () => {
     if (checkoutPackages) {
       let countAmount = 0;
@@ -92,7 +82,7 @@ export function CheckoutDetail({
 
   useEffect(() => {
     if (checkoutPackages) {
-      handleFetchCurrency();
+      setCurrencyValue(CurrencyListEnum.usd);
       handleSetTotalAmount();
 
       const packageMappedDataBowl: Array<CheckoutMappedPackageDataParamater> =

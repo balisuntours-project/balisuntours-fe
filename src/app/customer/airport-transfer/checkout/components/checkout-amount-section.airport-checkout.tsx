@@ -6,6 +6,8 @@ import {
   BookingDataResponse,
 } from "@/app/responses/airport-transfer/response";
 import { useAirportTransferStore } from "@/app/store/airport-transfer.store";
+import { useBookingStore } from "@/app/store/booking.store";
+import { CurrencyListEnum } from "@/lib/global.enum";
 import { GlobalUtility } from "@/lib/global.utility";
 import { ArrowLeftCircle, ArrowRightCircle, Luggage, User } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -17,6 +19,9 @@ export function CheckoutAmountSectionAirportTransfer({
   bookedVechile: Array<BookedVechileResponse>;
   bookingData: BookingDataResponse;
 }) {
+  const currencyValue = useBookingStore((state) => state.currencyValue);
+  const setCurrencyValue = useBookingStore((state) => state.setCurrencyValue);
+
   const selectedAdditionalService = useAirportTransferStore(
     (state) => state.selectedAdditionalService
   );
@@ -33,6 +38,10 @@ export function CheckoutAmountSectionAirportTransfer({
       setAdditionalServiceTotalAmount(totalAmount);
     }
   }, [selectedAdditionalService]);
+
+  useEffect(() => {
+    setCurrencyValue(CurrencyListEnum.usd);
+  }, []);
   return (
     <>
       <div
@@ -129,7 +138,15 @@ export function CheckoutAmountSectionAirportTransfer({
           <div className="flex gap-2">
             <span className="text-gray-500">Amount</span>
             <span className="ml-auto text-[#EB5E00] text-end text-xl font-extrabold">
-              {GlobalUtility.IdrCurrencyFormat(bookingData.total_amount + additionalServiceTotalAmount)}{" "}
+              {GlobalUtility.IdrCurrencyFormat(
+                bookingData.total_amount + additionalServiceTotalAmount
+              )}{" "}
+              {currencyValue &&
+                `(${GlobalUtility.ConvertionCurrencyFormat(
+                  bookingData.total_amount + additionalServiceTotalAmount,
+                  currencyValue,
+                  CurrencyListEnum.usd
+                )})`}
             </span>
           </div>
         </div>

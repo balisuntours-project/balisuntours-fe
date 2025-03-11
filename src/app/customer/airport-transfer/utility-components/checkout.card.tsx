@@ -18,7 +18,10 @@ import { useLoaderStore } from "@/app/store/loader.store";
 import { AirportTransferAction } from "@/app/actions/airport-transfer/action";
 import { useRouter } from "next/navigation";
 import { useAuthPopupStore } from "@/app/store/auth-popup.store";
-import { HttpStatus } from "@/lib/global.enum";
+import { CurrencyListEnum, HttpStatus } from "@/lib/global.enum";
+import { useBookingStore } from "@/app/store/booking.store";
+import { CurrencyAction } from "@/app/actions/currency/action";
+import { useDetailActivityStore } from "@/app/store/detail-activity.store";
 
 export function CheckoutCard() {
   const selectedCar = useAirportTransferStore((state) => state.selectedCar);
@@ -26,6 +29,14 @@ export function CheckoutCard() {
 
   const setIsLoading = useLoaderStore((state) => state.setIsLoading);
   const setShowAuthPopup = useAuthPopupStore((state) => state.setShowAuthPopup);
+  const currencyValue = useBookingStore((state) => state.currencyValue);
+  const setCurrencyValue = useBookingStore((state) => state.setCurrencyValue);
+  const totalPriceInFormattedCurrency = useDetailActivityStore(
+    (state) => state.totalPriceInFormattedCurrency
+  );
+  const setTotalPriceInFormattedCurrency = useDetailActivityStore(
+    (state) => state.setTotalPriceInFormattedCurrency
+  );
 
   const router = useRouter();
   const { toast } = useToast();
@@ -87,6 +98,32 @@ export function CheckoutCard() {
     );
   };
 
+  let debounceTimeoutGetFormattedPrice: NodeJS.Timeout | undefined;
+  const handleDebounceCurrencyChange = () => {
+    clearTimeout(debounceTimeoutGetFormattedPrice);
+
+    // Set a new timeout for the debounce
+    debounceTimeoutGetFormattedPrice = setTimeout(async () => {
+      if (currencyValue) {
+        const formattedPrice = GlobalUtility.ConvertionCurrencyFormat(
+          totalPrice,
+          currencyValue,
+          CurrencyListEnum.usd
+        );
+
+        setTotalPriceInFormattedCurrency(formattedPrice);
+      }
+    }, 100); // Adjust the debounce delay (in milliseconds) as needed
+  };
+
+  useEffect(() => {
+    setCurrencyValue(CurrencyListEnum.usd); //usd dulu
+  }, []);
+
+  useEffect(() => {
+    handleDebounceCurrencyChange();
+  }, [totalPrice]);
+
   useEffect(() => {
     if (selectedCar.length > 0) {
       let countPrice = 0;
@@ -128,7 +165,12 @@ export function CheckoutCard() {
             <div className="flex gap-3 w-full">
               <div className="flex justify-start">
                 <span className="text-[#EB5E00] text-start text-lg font-bold">
-                  {GlobalUtility.IdrCurrencyFormat(totalPrice)}
+                  {totalPrice && totalPrice > 0
+                    ? GlobalUtility.IdrCurrencyFormat(totalPrice) +
+                      (totalPriceInFormattedCurrency
+                        ? ` (${totalPriceInFormattedCurrency})`
+                        : "")
+                    : "Rp.-"}
                 </span>
               </div>
               <div className="flex gap-3 ms-auto justify-end items-center">

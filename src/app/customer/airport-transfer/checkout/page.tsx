@@ -17,14 +17,13 @@ export default async function AirportTransferCheckoutPage({
     const result = await AirportTransferActionServer.GetBookedVechileData(
       bookingUuidParam as string
     );
-
     if (!result.success) {
       notFound();
     }
 
     const resultAdditionalServiceItem = await AirportTransferActionServer.GetAdditionalServiceItem();
     if(resultAdditionalServiceItem.success) {
-        console.log(resultAdditionalServiceItem.data)
+       
         additionalServiceItem = resultAdditionalServiceItem.data.map((item) => {
             return {
                 ...item,
@@ -34,7 +33,7 @@ export default async function AirportTransferCheckoutPage({
     }
 
     data = result.data;
-    console.log(result.data)
+
   }else {
     notFound()
   }
@@ -44,7 +43,7 @@ export default async function AirportTransferCheckoutPage({
       <SmallNavbar />
       <div className="mt-11 absolute top-[20%]">
         <div className="lg:w-[90%] mx-auto px-5 pb-16">
-          {data && <CheckoutDetailAirportTransfer bookingUuid={bookingUuidParam as string} bookedVechile={data.booked_vechiles} bookingData={data.booking_data} additionalServiceItem={additionalServiceItem ? <AdditionalServiceItemSection additionalServiceItems={additionalServiceItem} /> : false} />}
+          {data && <CheckoutDetailAirportTransfer bookingUuid={bookingUuidParam as string} bookedVechile={data.booked_vechiles} bookingData={data.booking_data} additionalServiceItem={(additionalServiceItem && additionalServiceItem.length > 0) && <AdditionalServiceItemSection additionalServiceItems={additionalServiceItem} />} />}
         </div>
         <hr />
         <div className="container flex flex-col gap-11 px-3 md:px-8  pt-11 pb-11">
