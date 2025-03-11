@@ -268,7 +268,7 @@ export function CheckoutDetailAirportTransfer({
             </div>
 
             {/* Additional service */}
-            <div className="mt-4 md:mt-6 pb-4">{additionalServiceItem}</div>
+            {additionalServiceItem && <div className="mt-4 md:mt-6 pb-4">{additionalServiceItem}</div>}
 
             <div className="mt-4 md:mt-6 pb-4">
               <div className="flex flex-col">

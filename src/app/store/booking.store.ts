@@ -4,6 +4,8 @@ import { ReviewDataParamater } from "../paramaters/activity-review/paramater";
 import { CheckoutMappedPackageDataParamater } from "../paramaters/booking/paramater";
 import { CheckoutDataActivityResponse } from "../responses/activity/response";
 import { CheckoutDataPackageResponse } from "../responses/activity-package/response";
+import { CurrencyAction } from "../actions/currency/action";
+import { CurrencyListEnum } from "@/lib/global.enum";
 
 export const defaultBookingScopedState: BookingScopedState = {
   checkoutPayload: undefined,
@@ -58,7 +60,7 @@ interface BookingStoreStateAction {
     packages: Array<CheckoutMappedPackageDataParamater>
   ) => void;
 
-  setCurrencyValue: (currency: number | undefined) => void;
+  setCurrencyValue: (selectedCurrency: CurrencyListEnum) => Promise<void>;
   setCheckoutAmount: (amount: number) => void;
 
   setCheckoutActivities: (
@@ -122,8 +124,17 @@ export const useBookingStore = create<
   ) => set({ checkoutPackageBookingData: packages }),
 
   currencyValue: undefined,
-  setCurrencyValue: (currency: number | undefined) =>
-    set({ currencyValue: currency }),
+  // setCurrencyValue: (currency: number | undefined) =>
+  //   set({ currencyValue: currency }),
+  setCurrencyValue: async (selectedCurrency: CurrencyListEnum) => {
+    const result = await CurrencyAction.GetCurrency(
+      selectedCurrency // usd dulu
+    );
+
+    if (result.success) {
+      set({ currencyValue: result.data });
+    }
+  },
 
   checkoutAmount: 0,
   setCheckoutAmount: (amount: number) => set({ checkoutAmount: amount }),

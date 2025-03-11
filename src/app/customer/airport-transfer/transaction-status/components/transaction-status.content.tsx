@@ -38,7 +38,7 @@ export function TransactionStatusContent({data} : {data: TransactionStatusRespon
           </div>
         )}
 
-        {data.status === "failed" && (
+        {data.status === "failed" || data.status == "cancel" && (
           <div className="text-red-500 mb-6">
             <XCircle className="w-16 h-16 mx-auto animate-bounce" />
             <h2 className="text-2xl font-bold text-gray-800">

@@ -50,11 +50,11 @@ export function DateTimePicker({
     }
   };
 
-  useEffect(() => {
-    if (selectedDate && time) {
-      setIsOpen(false);
-    }
-  }, [selectedDate, time]);
+  // useEffect(() => {
+  //   if (selectedDate && time) {
+  //     //setIsOpen(false);
+  //   }
+  // }, [selectedDate, time]);
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>

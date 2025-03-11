@@ -1,6 +1,5 @@
 "use client";
 
-import { CurrencyAction } from "@/app/actions/currency/action";
 import {
   ActivityPackageTypeEnum,
   IncrementDecrementEnum,
@@ -13,6 +12,8 @@ import { CurrencyListEnum } from "@/lib/global.enum";
 import { GlobalUtility } from "@/lib/global.utility";
 import { useActivityDate } from "../[slug]/provider/activity-booking-date.provider";
 import { QtyPlusMinusSection } from "@/app/global-components/utility-components/qty-plus-minus.section";
+import { useEffect } from "react";
+import { useBookingStore } from "@/app/store/booking.store";
 
 export function PriceListPackage() {
   const selectPackageLoadStatus = useDetailActivityStore(
@@ -27,6 +28,9 @@ export function PriceListPackage() {
   const setSelectedPrices = useDetailActivityStore(
     (state) => state.setSelectedPrices
   );
+  const currencyValue = useBookingStore((state) => state.currencyValue);
+  const setCurrencyValue = useBookingStore((state) => state.setCurrencyValue);
+
   const totalPrice = useDetailActivityStore((state) => state.totalPrice);
   const setTotalPrice = useDetailActivityStore((state) => state.setTotalPrice);
   const setTotalPriceInFormattedCurrency = useDetailActivityStore(
@@ -105,19 +109,11 @@ export function PriceListPackage() {
 
     // Set a new timeout for the debounce
     debounceTimeoutGetFormattedPrice = setTimeout(async () => {
-      const result = await CurrencyAction.GetCurrency(
-        //getSelectedCurrency() ?? "USD"
-        CurrencyListEnum.usd // usd dulu
-      );
-
-      if (result.success) {
-        // totalPriceCurrency.value = currencyFormater(
-        //     getSelectedCurrency(),
-        //     result
-        // );
+      //getSelectedCountry()
+      if (currencyValue) {
         const formattedPrice = GlobalUtility.ConvertionCurrencyFormat(
           totalPrice,
-          result.data,
+          currencyValue,
           CurrencyListEnum.usd
         );
 
@@ -125,6 +121,10 @@ export function PriceListPackage() {
       }
     }, 100); // Adjust the debounce delay (in milliseconds) as needed
   };
+
+  useEffect(() => {
+    setCurrencyValue(CurrencyListEnum.usd);
+  }, []);
 
   //diambil dari context provider
   const { priceQtyEmptyRef } = useActivityDate();

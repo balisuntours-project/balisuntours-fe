@@ -16,3 +16,8 @@ export enum CustomerTitleEnum {
     prof = "Prof",
     sir = "Sir"
 }
+
+export enum VechileCategoryPublishStatusEnum {
+    published = "published",
+    unpublished = "unpublished",
+}
