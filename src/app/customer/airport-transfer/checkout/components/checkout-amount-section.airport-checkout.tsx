@@ -62,8 +62,8 @@ export function CheckoutAmountSectionAirportTransfer({
                   src={vechile.vechile_main_photo}
                   alt={`vechile banner`}
                   fallbackSrc="/fallback-image.png"
-                  classNameProp="rounded-lg w-28 h-20 object-cover"
-                  skeletonClassName="rounded-lg w-20 h-20"
+                  classNameProp="rounded-lg w-48 h-20 object-cover"
+                  skeletonClassName="rounded-lg w-28 h-20"
                   priority={false} // Gambar ini tidak diberi prioritas
                   width={100}
                   height={100}
