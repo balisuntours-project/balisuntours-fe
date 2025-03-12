@@ -1,5 +1,5 @@
-import { NewVechileParamater } from "@/app/paramaters/vechile/paramater";
-import { GetSingleVechileResponse, VechileMainPhotoResponse } from "@/app/responses/vechile/response";
+
+import { GetSingleVechileResponse } from "@/app/responses/vechile/response";
 import { api } from "@/lib/axios-instance";
 import { GlobalUtility } from "@/lib/global.utility";
 import { AxiosError } from "axios";
