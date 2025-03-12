@@ -1,9 +1,10 @@
+import { AdditionalServiceItemResponse } from "@/app/responses/airport-transfer/response";
 import { VechileCategoryResponse } from "@/app/responses/vechile-category/response";
 import { apiServer } from "@/lib/axios-instance.server";
 import { GlobalUtility } from "@/lib/global.utility";
 import { AxiosError } from "axios";
 
-export interface VechileCategoryActionServerResponse<T> {
+export interface AdditionalServiceActionServerResponse<T> {
   success: boolean;
   status_code: number;
   data: T;
@@ -22,10 +23,10 @@ interface ErrorServerObject {
     | string;
 }
 
-export class VechileCategoryActionServer {
+export class AdditionalServiceServerAction {
   private static async handleResponse<T>(
     response: Response
-  ): Promise<VechileCategoryActionServerResponse<T>> {
+  ): Promise<AdditionalServiceActionServerResponse<T>> {
     const finalResponse = await response.json();
     return {
       success: response.ok,
@@ -36,7 +37,7 @@ export class VechileCategoryActionServer {
 
   private static async handleFetchError<T>(
     response: Response
-  ): Promise<VechileCategoryActionServerResponse<T>> {
+  ): Promise<AdditionalServiceActionServerResponse<T>> {
     let finalResponse: any = {};
 
     //lakukan ini karena jika tidak bada build runtime akan error (karena cookie next header tidak dapat dirender static, page ini static karena /customer/booking tidaka da dynamic param seperti slug)
@@ -78,7 +79,7 @@ export class VechileCategoryActionServer {
 
   private static handleError<T>(
     error: AxiosError<ErrorServerObject>
-  ): VechileCategoryActionServerResponse<T> {
+  ): AdditionalServiceActionServerResponse<T> {
     let message: string = "An unknown error occurred";
     if (error.response?.data?.errors) {
       const errorMessageRaw = error.response.data.errors;
@@ -109,45 +110,28 @@ export class VechileCategoryActionServer {
     };
   }
 
-  static async GetAllVechileCategory(): Promise<
-    VechileCategoryActionServerResponse<Array<VechileCategoryResponse>>
+  static async GetSingleAdditionalServiceItem(
+    uuid: string
+  ): Promise<
+    AdditionalServiceActionServerResponse<AdditionalServiceItemResponse>
   > {
     try {
-      const action = await apiServer(`/api/admin/vechile-category`, {
-        method: "GET",
-      });
-
-      if (!action.ok) {
-        GlobalUtility.TriggerExceptionFetchApi(action);
-      }
-
-      return this.handleResponse<Array<VechileCategoryResponse>>(action);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      console.error(error);
-      return this.handleFetchError<Array<VechileCategoryResponse>>(
-        error.response || error
+      const action = await apiServer(
+        `/api/admin/additional-service-item/${uuid}`,
+        {
+          method: "GET",
+        }
       );
-    }
-  }
-
-  static async GetSingleVechileCategory(
-    uuid: string
-  ): Promise<VechileCategoryActionServerResponse<VechileCategoryResponse>> {
-    try {
-      const action = await apiServer(`/api/admin/vechile-category/${uuid}`, {
-        method: "GET",
-      });
 
       if (!action.ok) {
         GlobalUtility.TriggerExceptionFetchApi(action);
       }
 
-      return this.handleResponse<VechileCategoryResponse>(action);
+      return this.handleResponse<AdditionalServiceItemResponse>(action);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error(error);
-      return this.handleFetchError<VechileCategoryResponse>(
+      return this.handleFetchError<AdditionalServiceItemResponse>(
         error.response || error
       );
     }
