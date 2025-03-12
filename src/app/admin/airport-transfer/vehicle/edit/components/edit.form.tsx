@@ -178,13 +178,15 @@ export function EditCarForm({
   }, [shortDescription]);
 
   useEffect(() => {
-     if(currentData) {
+     if(currentData && currentData.vechile_main_photo_file) {
         const currentMainPhoto : Omit<VechileMainPhotoResponse, "type"> = {
             id: currentData.vechile_main_photo_file.id,
             uuid: currentData.vechile_main_photo_file.uuid,
             url: currentData.vechile_main_photo_file.url,
         }
         setSelectedPostVechileImage(currentMainPhoto as VechileMainPhotoResponse)
+     }else {
+        setSelectedPostVechileImage(null)
      }
   }, [currentData])
   return (

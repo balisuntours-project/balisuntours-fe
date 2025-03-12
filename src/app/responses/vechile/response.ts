@@ -20,5 +20,5 @@ export interface GetSingleVechileResponse {
     driver_free_waiting_time_in_minutes: number,
     price_per_km: number,
     vechile_category: VechileCategoryOfVechileResponse,
-    vechile_main_photo_file: Omit<VechileMainPhotoResponse, "type">
+    vechile_main_photo_file: Omit<VechileMainPhotoResponse, "type"> | undefined
 }
