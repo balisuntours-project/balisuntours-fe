@@ -1,9 +1,11 @@
-import { VechileCategoryResponse } from "@/app/responses/vechile-category/response";
-import { apiServer } from "@/lib/axios-instance.server";
+import { StoreNewAdditionalServiceParamater } from "@/app/paramaters/airport-transfer/additional-service/paramater";
+import { NewVechileCategoryParamater, UpdateVechileCategoryParamater } from "@/app/paramaters/vechile-category/paramater";
+import { AdditionalServiceItemResponse } from "@/app/responses/airport-transfer/response";
+import { api } from "@/lib/axios-instance";
 import { GlobalUtility } from "@/lib/global.utility";
 import { AxiosError } from "axios";
 
-export interface VechileCategoryActionServerResponse<T> {
+export interface AdditionalServiceActionResponse<T> {
   success: boolean;
   status_code: number;
   data: T;
@@ -22,10 +24,10 @@ interface ErrorServerObject {
     | string;
 }
 
-export class VechileCategoryActionServer {
+export class AdditionalServiceAction {
   private static async handleResponse<T>(
     response: Response
-  ): Promise<VechileCategoryActionServerResponse<T>> {
+  ): Promise<AdditionalServiceActionResponse<T>> {
     const finalResponse = await response.json();
     return {
       success: response.ok,
@@ -36,18 +38,9 @@ export class VechileCategoryActionServer {
 
   private static async handleFetchError<T>(
     response: Response
-  ): Promise<VechileCategoryActionServerResponse<T>> {
-    let finalResponse: any = {};
+  ): Promise<AdditionalServiceActionResponse<T>> {
+    const finalResponse = (await response.json()) as ErrorServerObject; // Parsing response JSON ke ErrorServerObject
 
-    //lakukan ini karena jika tidak bada build runtime akan error (karena cookie next header tidak dapat dirender static, page ini static karena /customer/booking tidaka da dynamic param seperti slug)
-    if (response instanceof Response) {
-      try {
-        finalResponse = await response.json();
-      } catch {
-        finalResponse = {};
-      }
-    }
-    
     let message = "Unknown error occurred";
 
     // Tangani kasus errors
@@ -78,7 +71,7 @@ export class VechileCategoryActionServer {
 
   private static handleError<T>(
     error: AxiosError<ErrorServerObject>
-  ): VechileCategoryActionServerResponse<T> {
+  ): AdditionalServiceActionResponse<T> {
     let message: string = "An unknown error occurred";
     if (error.response?.data?.errors) {
       const errorMessageRaw = error.response.data.errors;
@@ -109,47 +102,49 @@ export class VechileCategoryActionServer {
     };
   }
 
-  static async GetAllVechileCategory(): Promise<
-    VechileCategoryActionServerResponse<Array<VechileCategoryResponse>>
-  > {
+  static async StoreNewAdditionalService(
+    payload: StoreNewAdditionalServiceParamater
+  ): Promise<AdditionalServiceActionResponse<AdditionalServiceItemResponse>> {
     try {
-      const action = await apiServer(`/api/admin/vechile-category`, {
-        method: "GET",
+      const action = await api(`/api/admin/additional-service-item`, {
+        method: "POST",
+        body: JSON.stringify(payload),
       });
 
       if (!action.ok) {
         GlobalUtility.TriggerExceptionFetchApi(action);
       }
 
-      return this.handleResponse<Array<VechileCategoryResponse>>(action);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return this.handleResponse<AdditionalServiceItemResponse>(action);
     } catch (error: any) {
       console.error(error);
-      return this.handleFetchError<Array<VechileCategoryResponse>>(
+      return this.handleFetchError<AdditionalServiceItemResponse>(
         error.response || error
       );
     }
   }
 
-  static async GetSingleVechileCategory(
-    uuid: string
-  ): Promise<VechileCategoryActionServerResponse<VechileCategoryResponse>> {
+  static async UpdateAdditionalService(
+    payload: StoreNewAdditionalServiceParamater,
+    serviceUuid: string,
+  ): Promise<AdditionalServiceActionResponse<StoreNewAdditionalServiceParamater>> {
     try {
-      const action = await apiServer(`/api/admin/vechile-category/${uuid}`, {
-        method: "GET",
+      const action = await api(`/api/admin/additional-service-item/${serviceUuid}`, {
+        method: "PUT",
+        body: JSON.stringify(payload),
       });
 
       if (!action.ok) {
         GlobalUtility.TriggerExceptionFetchApi(action);
       }
 
-      return this.handleResponse<VechileCategoryResponse>(action);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return this.handleResponse<StoreNewAdditionalServiceParamater>(action);
     } catch (error: any) {
       console.error(error);
-      return this.handleFetchError<VechileCategoryResponse>(
+      return this.handleFetchError<StoreNewAdditionalServiceParamater>(
         error.response || error
       );
     }
   }
+
 }
