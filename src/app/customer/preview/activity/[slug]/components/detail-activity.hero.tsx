@@ -26,7 +26,7 @@ export function DetailActivityHero(props: DetailActivityHeroParamater) {
       <div className="big-content w-full md:grid-cols-3 lg:grid-cols-4 gap-2 hidden md:grid md:mb-6">
         <div className="md:col-span-2 lg:col-span-3">
           <ImageWithLoader
-            src={props.activity_main_photo.files.url}
+            src={props.activity_main_photo.url}
             alt={props.activity_main_photo.description ?? "banner"}
             fallbackSrc="/fallback-image.png"
             classNameProp="w-full sm:h-[400px] lg:h-[500px] bg-gray-500 rounded-lg object-cover cursor-pointer"
@@ -38,7 +38,7 @@ export function DetailActivityHero(props: DetailActivityHeroParamater) {
         </div>
         <div className="col-span-1 grid grid-rows-2 gap-2 max-h-[500px]">
           <ImageWithLoader
-            src={props.activity_galleries[0].files.url}
+            src={props.activity_galleries[0].url}
             alt={props.activity_galleries[0].title ?? "gallery-1"}
             fallbackSrc="/fallback-image.png"
             classNameProp="row-span-1 w-full h-[100%] bg-gray-500 rounded-lg object-cover cursor-pointer"
@@ -49,7 +49,7 @@ export function DetailActivityHero(props: DetailActivityHeroParamater) {
           />
 
           <ImageWithLoader
-            src={props.activity_galleries[1].files.url}
+            src={props.activity_galleries[1].url}
             alt={props.activity_galleries[1].title ?? "gallery-2"}
             fallbackSrc="/fallback-image.png"
             classNameProp="row-span-1 w-full h-[100%] bg-gray-500 rounded-lg object-cover cursor-pointer"
@@ -79,7 +79,7 @@ export function DetailActivityHero(props: DetailActivityHeroParamater) {
             <SwiperSlide>
               <div className="flex items-center justify-center p-0 h-full">
                 <ImageWithLoader
-                  src={props.activity_main_photo.files.url}
+                  src={props.activity_main_photo.url}
                   alt={props.activity_main_photo.description ?? "banner"}
                   fallbackSrc="/fallback-image.png"
                   classNameProp="zoom-animation w-full object-cover h-[400px]"
@@ -93,7 +93,7 @@ export function DetailActivityHero(props: DetailActivityHeroParamater) {
               <SwiperSlide key={index}>
                 <div className="flex items-center justify-center p-0 h-full">
                   <ImageWithLoader
-                    src={gallery.files.url}
+                    src={gallery.url}
                     alt={`Image ${index + 1}`}
                     fallbackSrc="/fallback-image.png"
                     classNameProp="zoom-animation w-full object-cover h-[400px]"

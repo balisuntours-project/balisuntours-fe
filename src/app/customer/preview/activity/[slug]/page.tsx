@@ -12,8 +12,6 @@ import { ActivityActionServer } from "@/app/actions/activity/action.server";
 import { DetailActivityPackage } from "./components/detail-activity.package";
 import { LandingPageFooterSection } from "@/app/global-components/landing-page.footer";
 import { SetRecentlyViewedActivityToStorage } from "./components/set-previewed-storage.activity";
-import { ActivityAction } from "@/app/actions/activity/action";
-import { Activity } from "@/app/responses/activity/response";
 import { ActivitySuggestion } from "./components/activity-suggestion";
 
 export { generateMetadata };
@@ -36,7 +34,7 @@ export default async function PreviewActivity({
   const dataForRecentlyShowedActivity: RecentlyOrRecomendedActivityParamater = {
     slug: activity.slug,
     title: activity.title,
-    image: activity.activity_main_photo.files.url,
+    image: activity.activity_main_photo.url,
     smaller_price: activity.smaller_price,
     viewed_on: new Date(),
   };

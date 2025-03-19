@@ -12,6 +12,7 @@ export function CommentReviewer(props: {
 }) {
   const [maxTextShow, setMaxTextShow] = useState(150);
   useEffect(() => {
+    
     if (!GlobalUtility.CheckScreenOnMobile()) {
       setMaxTextShow(200);
     }

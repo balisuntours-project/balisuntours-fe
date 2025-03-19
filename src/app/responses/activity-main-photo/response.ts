@@ -5,3 +5,9 @@ export interface ActivityMainPhotoResponse {
     description: string|null,
     files: FileResponse
 }
+
+export interface ActivityPreviewMainPhotoResponse {
+    uuid: string,
+    description: string|null,
+    url: string
+}
