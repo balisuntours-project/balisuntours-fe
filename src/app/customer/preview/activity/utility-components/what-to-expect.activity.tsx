@@ -26,7 +26,7 @@ export function WhatToExceptActivity(props: WhatToExpectParamater) {
             props.activity_galleries.map((gallery, key) => (
               <div key={key} className="flex flex-col gap-2">
                 <ImageWithLoader
-                  src={gallery.files.url}
+                  src={gallery.url}
                   alt={`gallery ${key + 1}`}
                   fallbackSrc="/fallback-image.png"
                   classNameProp="h-[400px] lg:h-[500px] object-cover w-full"

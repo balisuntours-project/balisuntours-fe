@@ -1,7 +1,7 @@
 import { ActivityStatusEnum } from "@/app/enums/activity/activity.enum"
 import { ActivityCategoryResponse } from "../activity-category/response"
 import { ActivityGalleryResponse } from "../activity-gallery/response"
-import { ActivityMainPhotoResponse } from "../activity-main-photo/response"
+import { ActivityMainPhotoResponse, ActivityPreviewMainPhotoResponse } from "../activity-main-photo/response"
 import { ActivityPackagePreviewDetailResponse } from "../activity-package/response"
 import { ActivityReviewResponse } from "../activity-review/response"
 
@@ -51,7 +51,7 @@ export interface ActivityDetailResponse extends Activity {
     order_info: Array<ActivityOrderInfoResponse>,
     activity_categories: Array<ActivityCategoryResponse>,
     activity_galleries: Array<ActivityGalleryResponse>,
-    activity_main_photo: ActivityMainPhotoResponse,
+    activity_main_photo: ActivityPreviewMainPhotoResponse,
     activity_packages: Array<ActivityPackagePreviewDetailResponse>,
     reviews: Array<ActivityReviewResponse>
 
