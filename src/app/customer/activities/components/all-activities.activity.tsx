@@ -252,7 +252,7 @@ export function AllActivitiesList({
           </PaginationItem>
 
           {/* Halaman sebelumnya (Ellipsis jika halaman jauh) */}
-          {currentPage > 3 && (
+          {(totalPages > 4 && currentPage > (totalPages - 3)) && (
             <PaginationItem>
               <PaginationLink
                 href="#"
@@ -262,6 +262,7 @@ export function AllActivitiesList({
               </PaginationLink>
             </PaginationItem>
           )}
+        
           {currentPage > 4 && <PaginationEllipsis />}
 
           {/* Halaman sekitar halaman aktif */}
@@ -278,7 +279,7 @@ export function AllActivitiesList({
           ))}
 
           {/* Halaman berikutnya (Ellipsis jika halaman jauh) */}
-          {currentPage < totalPages - 2 && <PaginationEllipsis />}
+          {currentPage < totalPages - 3 && <PaginationEllipsis />}
           {currentPage < totalPages - 3 && (
             <PaginationItem>
               <PaginationLink

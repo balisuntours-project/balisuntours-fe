@@ -10,6 +10,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { useEffect } from "react";
 
 export function PaginationComponent({
   itemsPerPage,
@@ -73,7 +74,7 @@ export function PaginationComponent({
               onClick={(event) => handlePageChange(currentPage - 1, event)}
             />
           </PaginationItem>
-
+      
           {/* Halaman sebelumnya (Ellipsis jika halaman jauh) */}
           {currentPage > 3 && (
             <PaginationItem>
