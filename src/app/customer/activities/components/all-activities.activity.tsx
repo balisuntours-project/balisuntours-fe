@@ -102,9 +102,10 @@ export function AllActivitiesList({
 
     // Tampilkan halaman di sekitar halaman aktif
     let startPage = Math.max(currentPage - Math.floor(maxPageNumbers / 2), 1);
+   
     const endPage = Math.min(startPage + maxPageNumbers - 1, totalPages);
 
-    if (endPage - startPage < maxPageNumbers - 1) {
+    if (endPage - startPage < maxPageNumbers - 1) {  
       startPage = Math.max(endPage - maxPageNumbers + 1, 1);
     }
 
@@ -252,7 +253,7 @@ export function AllActivitiesList({
           </PaginationItem>
 
           {/* Halaman sebelumnya (Ellipsis jika halaman jauh) */}
-          {(totalPages > 4 && currentPage > (totalPages - 3)) && (
+          {(totalPages > 5 && currentPage > 3) && (
             <PaginationItem>
               <PaginationLink
                 href="#"
@@ -263,7 +264,7 @@ export function AllActivitiesList({
             </PaginationItem>
           )}
         
-          {currentPage > 4 && <PaginationEllipsis />}
+          {(totalPages > 5 && currentPage > 3) && <PaginationEllipsis />}
 
           {/* Halaman sekitar halaman aktif */}
           {getPaginationRange().map((page) => (
@@ -279,8 +280,8 @@ export function AllActivitiesList({
           ))}
 
           {/* Halaman berikutnya (Ellipsis jika halaman jauh) */}
-          {currentPage < totalPages - 3 && <PaginationEllipsis />}
-          {currentPage < totalPages - 3 && (
+          {(totalPages > 5 && currentPage <= totalPages - 3  )&& <PaginationEllipsis />}
+          {(totalPages > 5 && currentPage <= totalPages - 3  )&& (
             <PaginationItem>
               <PaginationLink
                 href="#"
