@@ -25,7 +25,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { VechileCategoryResponse } from "@/app/responses/vechile-category/response";
-import { GetSingleVechileResponse, VechileMainPhotoResponse } from "@/app/responses/vechile/response";
+import {
+  GetSingleVechileResponse,
+  VechileMainPhotoResponse,
+} from "@/app/responses/vechile/response";
 import { DynamicDialog } from "@/app/global-components/utility-components/dynamic-content.dialog";
 import { useVechileStore } from "@/app/store/vechile.store";
 import { VechileAction } from "@/app/actions/vechile/action";
@@ -43,12 +46,12 @@ export function EditCarForm({
   currentData,
   vechileCategories,
   vechileMainPhotos,
-  carUuid
+  carUuid,
 }: {
-  currentData: GetSingleVechileResponse,
+  currentData: GetSingleVechileResponse;
   vechileCategories: Array<VechileCategoryResponse>;
   vechileMainPhotos: Array<VechileMainPhotoResponse>;
-  carUuid: string
+  carUuid: string;
 }) {
   const { toast } = useToast();
 
@@ -60,8 +63,12 @@ export function EditCarForm({
       total_seat: currentData.total_seat,
       total_luggage: currentData.total_luggage,
       cut_off_time_in_hours: currentData.cut_off_time_in_hours,
-      driver_free_waiting_time_in_minutes: currentData.driver_free_waiting_time_in_minutes,
+      driver_free_waiting_time_in_minutes:
+        currentData.driver_free_waiting_time_in_minutes,
       price_per_km: currentData.price_per_km,
+      minimum_charge: currentData.minimum_charge,
+      mininum_charge_applies_until_km:
+        currentData.mininum_charge_applies_until_km,
     },
   });
 
@@ -72,7 +79,9 @@ export function EditCarForm({
   const setSelectedPostVechileImage = useVechileStore(
     (state) => state.setSelectedPostVechileImage
   );
-  const [shortDescription, setShortDescription] = useState<string | null>(currentData.short_description);
+  const [shortDescription, setShortDescription] = useState<string | null>(
+    currentData.short_description
+  );
   const shortDescriptionRef = useRef<HTMLParagraphElement>(null);
   const shortDescriptionTextareaRef = useRef<HTMLTextAreaElement>(null);
   const handleAdditionalRequestChange = (
@@ -123,6 +132,8 @@ export function EditCarForm({
       driver_free_waiting_time_in_minutes:
         values.driver_free_waiting_time_in_minutes,
       price_per_km: values.price_per_km,
+      minimum_charge: values.minimum_charge,
+      mininum_charge_applies_until_km: values.mininum_charge_applies_until_km,
     };
 
     const formData = new FormData();
@@ -140,7 +151,7 @@ export function EditCarForm({
       }
     });
 
-    formData.append("_method", "PUT")
+    formData.append("_method", "PUT");
     setIsLoading(true);
     const result = await VechileAction.UpdateVechile(formData, carUuid);
     setIsLoading(false);
@@ -156,9 +167,10 @@ export function EditCarForm({
       return;
     }
 
-    
-    if(result.data.vechile_main_photo_file) {
-        setSelectedPostVechileImage(result.data.vechile_main_photo_file as VechileMainPhotoResponse)
+    if (result.data.vechile_main_photo_file) {
+      setSelectedPostVechileImage(
+        result.data.vechile_main_photo_file as VechileMainPhotoResponse
+      );
     }
     toast({
       description: `Car updated!`,
@@ -178,17 +190,17 @@ export function EditCarForm({
   }, [shortDescription]);
 
   useEffect(() => {
-     if(currentData && currentData.vechile_main_photo_file) {
-        const currentMainPhoto : Omit<VechileMainPhotoResponse, "type"> = {
-            id: currentData.vechile_main_photo_file.id,
-            uuid: currentData.vechile_main_photo_file.uuid,
-            url: currentData.vechile_main_photo_file.url,
-        }
-        setSelectedPostVechileImage(currentMainPhoto as VechileMainPhotoResponse)
-     }else {
-        setSelectedPostVechileImage(null)
-     }
-  }, [currentData])
+    if (currentData && currentData.vechile_main_photo_file) {
+      const currentMainPhoto: Omit<VechileMainPhotoResponse, "type"> = {
+        id: currentData.vechile_main_photo_file.id,
+        uuid: currentData.vechile_main_photo_file.uuid,
+        url: currentData.vechile_main_photo_file.url,
+      };
+      setSelectedPostVechileImage(currentMainPhoto as VechileMainPhotoResponse);
+    } else {
+      setSelectedPostVechileImage(null);
+    }
+  }, [currentData]);
   return (
     <>
       <TextLoader title="Hold a second" text="Updating the car..." />
@@ -328,28 +340,6 @@ export function EditCarForm({
               <div className="flex flex-col col-span-4">
                 <FormField
                   control={editVechileForm.control}
-                  name="cut_off_time_in_hours"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="">Cut off time in hour</FormLabel>
-                      <FormControl>
-                        <Input
-                          id="cut-off-time"
-                          type="number"
-                          placeholder="2"
-                          {...field}
-                          className={CHECKOUT_INPUT_STYLE}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className="flex flex-col col-span-4">
-                <FormField
-                  control={editVechileForm.control}
                   name="driver_free_waiting_time_in_minutes"
                   render={({ field }) => (
                     <FormItem>
@@ -383,6 +373,72 @@ export function EditCarForm({
                           id="price-per-km"
                           type="number"
                           placeholder="5000"
+                          {...field}
+                          className={CHECKOUT_INPUT_STYLE}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="flex flex-col col-span-4">
+                <FormField
+                  control={editVechileForm.control}
+                  name="minimum_charge"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="">Minimum charge</FormLabel>
+                      <FormControl>
+                        <Input
+                          id="minimum-charge"
+                          type="number"
+                          placeholder="100000"
+                          {...field}
+                          className={CHECKOUT_INPUT_STYLE}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="flex flex-col col-span-4">
+                <FormField
+                  control={editVechileForm.control}
+                  name="mininum_charge_applies_until_km"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="">Charge up to km</FormLabel>
+                      <FormControl>
+                        <Input
+                          id="minimum-charge-applies"
+                          type="number"
+                          placeholder="2"
+                          {...field}
+                          className={CHECKOUT_INPUT_STYLE}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="flex flex-col col-span-4">
+                <FormField
+                  control={editVechileForm.control}
+                  name="cut_off_time_in_hours"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="">Cut off time in hour</FormLabel>
+                      <FormControl>
+                        <Input
+                          id="cut-off-time"
+                          type="number"
+                          placeholder="2"
                           {...field}
                           className={CHECKOUT_INPUT_STYLE}
                         />

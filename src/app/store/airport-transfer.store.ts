@@ -11,10 +11,12 @@ import {
   SelectedCarParamater,
 } from "../paramaters/airport-transfer/paramater";
 import { CoordinatParamater } from "../paramaters/google-map/paramater";
+import { TransferTypeEnum } from "../enums/airport-transfer/airport-transfer.enum";
 
 interface AirportTransferStore {
   onSearch: boolean;
   onInteractWithSearch: boolean;
+  transferType: TransferTypeEnum;
   recomendedVechiles: Array<VechileRecomendationResponse>;
   idleRecomendedVechiles: Array<VechileRecomendationResponse>;
   selectedCar: Array<SelectedCarParamater>;
@@ -31,6 +33,7 @@ interface AirportTransferStore {
 interface AirportTransferStoreAction {
   setOnSearch: (status: boolean) => void;
   setOnInteractWithSearch: (status: boolean) => void;
+  setTransferType: (type: TransferTypeEnum) => void;
   setRecomendedVechiles: (data: Array<VechileRecomendationResponse>) => void;
   setIdleRecomendedVechiles: (
     data: Array<VechileRecomendationResponse>
@@ -66,6 +69,9 @@ export const useAirportTransferStore = create<
   onInteractWithSearch: false,
   setOnInteractWithSearch: (status: boolean) =>
     set({ onInteractWithSearch: status }),
+  transferType: TransferTypeEnum.airportToHotel,
+  setTransferType: (type: TransferTypeEnum) =>
+    set({ transferType: type }),
   recomendedVechiles: [],
   setRecomendedVechiles: (data: Array<VechileRecomendationResponse>) =>
     set({ recomendedVechiles: data }),

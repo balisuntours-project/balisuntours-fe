@@ -17,6 +17,7 @@ export default async function AirportTransferCheckoutPage({
     const result = await AirportTransferActionServer.GetBookedVechileData(
       bookingUuidParam as string
     );
+
     if (!result.success) {
       notFound();
     }

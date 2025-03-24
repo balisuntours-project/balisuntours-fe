@@ -14,6 +14,8 @@ export interface VechileRecomendationResponse {
     vechile_main_photo: string,
     price: number,
     price_per_km? : number,
+    minimum_charge? : number,
+    mininum_charge_applies_until_km? : number,
     total_km?: string
 }
 

@@ -9,7 +9,7 @@ import { useAirportTransferStore } from "@/app/store/airport-transfer.store";
 import { useBookingStore } from "@/app/store/booking.store";
 import { CurrencyListEnum } from "@/lib/global.enum";
 import { GlobalUtility } from "@/lib/global.utility";
-import { ArrowLeftCircle, ArrowRightCircle, Luggage, User } from "lucide-react";
+import { ArrowLeftCircle, ArrowRightCircle, CarFront, Luggage, User } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export function CheckoutAmountSectionAirportTransfer({
@@ -84,6 +84,10 @@ export function CheckoutAmountSectionAirportTransfer({
                     <div className="flex gap-1 items-center">
                       <Luggage className="h-4 w-4" />
                       <span className=" my-auto">{vechile.total_seat}</span>
+                    </div>
+                    <div className="flex gap-1 items-center">
+                      <CarFront className="h-4 w-4" />
+                      <span className=" my-auto">{vechile.qty} (unit)</span>
                     </div>
                   </div>
                 </div>
