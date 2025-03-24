@@ -12,4 +12,6 @@ export interface NewVechileParamater {
     cut_off_time_in_hours: number,
     driver_free_waiting_time_in_minutes: number,
     price_per_km: number,
+    minimum_charge: number,
+    mininum_charge_applies_until_km: number,
 }

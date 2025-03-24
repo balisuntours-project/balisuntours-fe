@@ -58,6 +58,8 @@ export function StoreCarForm({
       cut_off_time_in_hours: 1,
       driver_free_waiting_time_in_minutes: 30,
       price_per_km: 5000,
+      minimum_charge: 100000,
+      mininum_charge_applies_until_km: 2
     },
   });
 
@@ -119,6 +121,8 @@ export function StoreCarForm({
       driver_free_waiting_time_in_minutes:
         values.driver_free_waiting_time_in_minutes,
       price_per_km: values.price_per_km,
+      minimum_charge: values.minimum_charge,
+      mininum_charge_applies_until_km: values.mininum_charge_applies_until_km,
     };
 
     const formData = new FormData();
@@ -307,28 +311,6 @@ export function StoreCarForm({
               <div className="flex flex-col col-span-4">
                 <FormField
                   control={storeVechileForm.control}
-                  name="cut_off_time_in_hours"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="">Cut off time in hour</FormLabel>
-                      <FormControl>
-                        <Input
-                          id="cut-off-time"
-                          type="number"
-                          placeholder="2"
-                          {...field}
-                          className={CHECKOUT_INPUT_STYLE}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className="flex flex-col col-span-4">
-                <FormField
-                  control={storeVechileForm.control}
                   name="driver_free_waiting_time_in_minutes"
                   render={({ field }) => (
                     <FormItem>
@@ -362,6 +344,72 @@ export function StoreCarForm({
                           id="price-per-km"
                           type="number"
                           placeholder="5000"
+                          {...field}
+                          className={CHECKOUT_INPUT_STYLE}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="flex flex-col col-span-4">
+                <FormField
+                  control={storeVechileForm.control}
+                  name="minimum_charge"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="">Minimum charge</FormLabel>
+                      <FormControl>
+                        <Input
+                          id="minimum-charge"
+                          type="number"
+                          placeholder="100000"
+                          {...field}
+                          className={CHECKOUT_INPUT_STYLE}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="flex flex-col col-span-4">
+                <FormField
+                  control={storeVechileForm.control}
+                  name="mininum_charge_applies_until_km"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="">Charge up to km</FormLabel>
+                      <FormControl>
+                        <Input
+                          id="minimum-charge-applies"
+                          type="number"
+                          placeholder="2"
+                          {...field}
+                          className={CHECKOUT_INPUT_STYLE}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              
+              <div className="flex flex-col col-span-4">
+                <FormField
+                  control={storeVechileForm.control}
+                  name="cut_off_time_in_hours"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="">Cut off time in hour</FormLabel>
+                      <FormControl>
+                        <Input
+                          id="cut-off-time"
+                          type="number"
+                          placeholder="2"
                           {...field}
                           className={CHECKOUT_INPUT_STYLE}
                         />

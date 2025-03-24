@@ -51,9 +51,7 @@ import { DisabledButton } from "@/components/custom-ui/disabled.buttont";
 export function SearchVechileInputFormCard() {
   const selectedDate = useDatePickerStore((state) => state.selectedDate);
   const setSelectedDate = useDatePickerStore((state) => state.setSelectedDate);
-  const [transferType, setTransferType] = useState<TransferTypeEnum>(
-    TransferTypeEnum.airportToHotel
-  );
+  
   const [administrativeLvl3, setAdministrativeLvl3] = useState<null | string>(
     null
   );
@@ -75,6 +73,12 @@ export function SearchVechileInputFormCard() {
       state.mapScopedState[AIPORT_TRANSFER_KEY_FOR_SCOPED_MAP!] ||
       defaultScopedMapCoordinate
   );
+  const setTransferType = useAirportTransferStore(
+    (state) => state.setTransferType
+  );
+  const transferType = useAirportTransferStore(
+    (state) => state.transferType
+  );
   const setOnInteractWithSearch = useAirportTransferStore(
     (state) => state.setOnInteractWithSearch
   );
@@ -93,6 +97,10 @@ export function SearchVechileInputFormCard() {
   const setDestinationCoordinate = useAirportTransferStore(
     (state) => state.setDestinationCoordinate
   );
+
+   const setSelectedCar = useAirportTransferStore(
+      (state) => state.setSelectedCar
+    );
 
   const onSearch = useAirportTransferStore((state) => state.onSearch);
   const setOnSearch = useAirportTransferStore((state) => state.setOnSearch);
@@ -205,6 +213,7 @@ export function SearchVechileInputFormCard() {
       paramater
     );
     setOnSearch(false);
+    setSelectedCar(() => [])
 
     if (!action.success) {
       //set state2 ke default
@@ -247,6 +256,7 @@ export function SearchVechileInputFormCard() {
 
   const handleAirportToHotelMap = () => {
     if (scopedMapState.mapScopedPayload) {
+     
       setOriginCoordinate(baliAirportCoordinate);
       setOriginPlaceID(AIRPORT_PLACE_ID);
       setOrigin(AIRPORT_BALI_NAME);
@@ -265,6 +275,7 @@ export function SearchVechileInputFormCard() {
 
   const handleHotelToAirportMap = () => {
     if (scopedMapState.mapScopedPayload) {
+
       setOriginCoordinate({
         lat: scopedMapState.mapScopedPayload.lat,
         lng: scopedMapState.mapScopedPayload.lng,
@@ -291,16 +302,21 @@ export function SearchVechileInputFormCard() {
       );
     }
 
+   if(scopedMapState.mapScopedPayload) {
     if (transferType == TransferTypeEnum.airportToHotel) {
       handleAirportToHotelMap();
-    } else {
+     
+    } else if(transferType == TransferTypeEnum.hotelToAirport) {
+   
       handleHotelToAirportMap();
     }
+   }
   }, [scopedMapState.mapScopedPayload]);
 
   const handleChangeTransferType = (value: TransferTypeEnum) => {
     setTransferType(value);
     setRecomendedVechiles([]);
+    setSelectedCar(() => []);
     setOnInteractWithSearch(false);
     if (value == TransferTypeEnum.airportToHotel) {
       setDestination("");

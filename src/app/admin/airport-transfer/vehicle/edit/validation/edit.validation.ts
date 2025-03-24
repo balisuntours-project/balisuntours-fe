@@ -15,6 +15,11 @@ const EditCarSchema = z.object({
     .int()
     .min(1, "Fill driver waiting time"),
   price_per_km: z.coerce.number().int().min(1, "Fill price per km"),
+  minimum_charge: z.coerce.number().int().min(1, "Fill minimum charge"),
+  mininum_charge_applies_until_km: z.coerce
+    .number()
+    .int()
+    .min(1, "Min charge applies from (?) km"),
 });
 
 export { EditCarSchema };
