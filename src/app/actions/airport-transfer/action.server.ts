@@ -42,7 +42,16 @@ export class AirportTransferActionServer {
   private static async handleFetchError<T>(
     response: Response
   ): Promise<AirportTransferActionServerResponse<T>> {
-    const finalResponse = (await response.json()) as ErrorServerObject; // Parsing response JSON ke ErrorServerObject
+    let finalResponse: any = {};
+
+    //lakukan ini karena jika tidak bada build runtime akan error (karena cookie next header tidak dapat dirender static, page ini static karena /customer/booking tidaka da dynamic param seperti slug)
+    if (response instanceof Response) {
+      try {
+        finalResponse = await response.json();
+      } catch {
+        finalResponse = {};
+      }
+    }
 
     let message = "Unknown error occurred";
 
@@ -195,9 +204,7 @@ export class AirportTransferActionServer {
       }
 
       return this.handleResponse<Array<TransactionListResponse>>(action);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      console.error(error);
       return this.handleFetchError<Array<TransactionListResponse>>(
         error.response || error
       );
