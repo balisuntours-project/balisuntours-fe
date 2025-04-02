@@ -80,7 +80,7 @@ export interface TransactionStatusResponse {
 export interface TransactionListResponse {
     booking_info : TransactionListBookingInfoResponse,
     booking_detail : TransactionListBookingDetailResponse,
-    booking_vechile : TransactionListBookingVechileResponse,
+    booking_vechile : Array<TransactionListBookingVechileResponse>,
 }
 
 export interface TransactionListBookingInfoResponse {

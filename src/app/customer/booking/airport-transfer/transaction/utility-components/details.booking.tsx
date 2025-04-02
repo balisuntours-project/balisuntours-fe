@@ -11,7 +11,7 @@ export function DetailsBooking() {
     <>
       <div>
         {selectedBooking ? (
-          Object.entries(selectedBooking.booking_vechile).map(([itemKey, item]) => (
+         selectedBooking.booking_vechile.map((item, itemKey) => (
             <PopupDetailBooking
               key={`${itemKey}}`}
               item={item}

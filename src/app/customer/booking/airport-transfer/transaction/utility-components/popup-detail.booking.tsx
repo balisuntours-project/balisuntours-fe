@@ -1,10 +1,7 @@
 "use client";
 
-import { ActivityPackageTypeEnum } from "@/app/enums/activity/activity.enum";
-import { GoogleMapDialogComponent } from "@/app/global-components/utility-components/google-map.dialog";
 import { ImageWithLoader } from "@/app/global-components/utility-components/with-loader.image";
 import { TransactionListBookingVechileResponse } from "@/app/responses/airport-transfer/response";
-import { BookingPackageDetailResponse } from "@/app/responses/booking/response";
 import { GlobalUtility } from "@/lib/global.utility";
 import { Luggage, User } from "lucide-react";
 import Link from "next/link";
@@ -65,7 +62,7 @@ export function PopupDetailBooking({
           <div className="flex">
               <span className="text-bold text-start">{item.qty} Unit</span>
 
-              <span className="text-bold text-end ml-auto">{GlobalUtility.IdrCurrencyFormat(item.total_amount)}</span>
+              <span className="text-bold text-end ml-auto">{GlobalUtility.IdrCurrencyFormat(item.total_amount * item.qty)}</span>
             </div>
         </div>
       </div>

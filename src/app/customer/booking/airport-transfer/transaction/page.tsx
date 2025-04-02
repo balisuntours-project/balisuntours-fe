@@ -1,17 +1,20 @@
 import { LandingPageFooterSection } from "@/app/global-components/landing-page.footer";
 import { LargeNavbar } from "@/app/global-components/large.navbar";
 
-import { BookingServerAction } from "@/app/actions/booking/action.server";
-
 import { EmptyContent } from "@/app/global-components/utility-components/empty-content.page";
 import Link from "next/link";
 import { Car } from "lucide-react";
 import { GoodToKnowFlying } from "./utility-components/good-to-know-flying.button";
 import { BookingDetail } from "./components/booking-detail.booking";
 import { AirportTransferActionServer } from "@/app/actions/airport-transfer/action.server";
+import { notFound } from "next/navigation";
 
 export default async function AirportTransferBookingTransaction() {
   const data = await AirportTransferActionServer.GetCustomerTransactionList();
+
+  if(!data.success) {
+    notFound()
+  }
 
   const bookingItems = data.data;
  
