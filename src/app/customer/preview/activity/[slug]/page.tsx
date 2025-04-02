@@ -30,7 +30,7 @@ export default async function PreviewActivity({
   }
 
   const activity = data.data;
-
+ 
   const dataForRecentlyShowedActivity: RecentlyOrRecomendedActivityParamater = {
     slug: activity.slug,
     title: activity.title,

@@ -275,7 +275,7 @@ export function BookingDetail({
                         BookingPaymentStatusEnum.choosePaymentMethod ||
                       booking.status == BookingPaymentStatusEnum.pending) && (
                       <Link
-                        href={booking.payment_url}
+                        href={booking.payment_url ?? "#"}
                         rel="noopener noreferrer"
                         className="w-1/2 lg:w-auto text-white cursor-pointer text-sm md:text-base px-4 py-[8px] lg:py-[6px] bg-[#008000]  hover:bg-[#008000] hover:opacity-90 rounded-md text-center"
                       >

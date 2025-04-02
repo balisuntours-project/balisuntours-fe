@@ -139,7 +139,7 @@ export class BookingAction {
 
   static async CheckoutUnconfirmedBooking(
     payload: CheckoutUnconfirmedBookingParamater
-  ): Promise<BookingActionResponse<CheckoutUnconfirmedBookingResponse>> {
+  ): Promise<BookingActionResponse<CheckoutBookingResponse | string>> {
     try {
       const action = await api(`/api/customer/order/waiting/checkout`, {
         method: "POST",
@@ -151,11 +151,11 @@ export class BookingAction {
       }
 
       const result =
-        this.handleResponse<CheckoutUnconfirmedBookingResponse>(action);
+        this.handleResponse<CheckoutBookingResponse | string>(action);
 
       return result;
     } catch (error: any) {
-      return this.handleFetchError<CheckoutUnconfirmedBookingResponse>(
+      return this.handleFetchError<CheckoutBookingResponse | string>(
         error.response || error
       );
     }

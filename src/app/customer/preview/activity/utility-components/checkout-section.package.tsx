@@ -287,7 +287,7 @@ export function CheckoutSectionPackage(props: {
         <div className="flex-1 px-8 py-3 bg-gradient-to-r bg-gray-400 text-white font-bold rounded-lg transition-transform transform-gpu hover:-translate-y-1 hover:shadow-lg italic">
           <span>
             This package is fully booked until{" "}
-            {selectedPackage.is_fully_booked_until}, but availability can change
+            {GlobalUtility.FormatBeautifullDate(selectedPackage.is_fully_booked_until, true)}, but availability can change
             at any time
           </span>
         </div>

@@ -90,7 +90,7 @@ export interface CheckoutUserDataRespnse {
 }
 
 export interface CheckoutBookingResponse{
-    payment_gateway : PaymentGatewayEnum,
+    payment_gateway : PaymentGatewayEnum|null,
     payload: CheckoutBookingIpay88Response | CheckoutBookingIpaymuResponse
 }
 
@@ -103,4 +103,14 @@ export interface CheckoutBookingIpay88Response {
     checkout_id: string,
     signature: string,
     checkout_url: string,
+}
+
+export interface TransactionStatusResponse {
+    status: BookingPaymentStatusEnum,
+    order_id: string
+    created_at: string
+    paid_at: string
+    amount: number
+    name: string
+    email: string
 }

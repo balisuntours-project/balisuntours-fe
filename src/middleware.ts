@@ -10,8 +10,9 @@ export async function middleware(request: NextRequest) {
   // Cocokkan route yang perlu login dan memakai SSR untuk fetch api
   if (
     request.nextUrl.pathname == "/customer/cart" ||
-    request.nextUrl.pathname == "/customer/booking/transaction" ||
-    request.nextUrl.pathname == "/customer/booking/unconfirmed" ||
+    request.nextUrl.pathname == "/customer/booking/airport-transfer/transaction" ||
+    request.nextUrl.pathname == "/customer/booking/activities/transaction" ||
+    request.nextUrl.pathname == "/customer/booking/activities/unconfirmed" ||
     request.nextUrl.pathname == "/customer/checkout" ||
     request.nextUrl.pathname == "/customer/airport-transfer/checkout" 
   ) {
@@ -32,9 +33,20 @@ export async function middleware(request: NextRequest) {
         response.cookies.set("refresh", result.refresh_token.value, {
           path: "/",
           domain: process.env.TOP_LEVEL_DOMAIN,
+          // maxAge: result.refresh_token.ttl,
+          // httpOnly: result.access_token.http_only ? true : false,
+          // secure: result.access_token.secure ? true : false,
           maxAge: result.refresh_token.ttl,
-          httpOnly: result.access_token.http_only ? true : false,
-          secure: result.access_token.secure ? true : false,
+          httpOnly: result.refresh_token.http_only ? true : false,
+          secure: result.refresh_token.secure ? true : false,
+          sameSite: "lax",
+        });
+        response.cookies.set("google-login", result["google-login"].value, {
+          path: "/",
+          domain: process.env.TOP_LEVEL_DOMAIN,
+          maxAge: result["google-login"].ttl,
+          httpOnly: result["google-login"].http_only ? true : false,
+          secure: result["google-login"].secure ? true : false,
           sameSite: "lax",
         });
 

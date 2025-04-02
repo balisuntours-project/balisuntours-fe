@@ -41,19 +41,26 @@ export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
                     <NavigationMenuContent>
                       <ul className="grid gap-3 p-3 md:p-6 w-[180px] max-w-[180px] md:max-w-max md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                         <div className="flex flex-col gap-2 md:hidden">
-                          <Link
-                            href="/customer/booking/transaction"
+                        <Link
+                            href="/customer/booking/airport-transfer/transaction"
                             className="flex items-center gap-2 text-xs md:text-base  cursor-pointer hover:text-blue-500"
                           >
                             <ArrowRight className="w-3 h-3" />
-                            <span>Your Booking</span>
+                            <span>Your Airport Transfer Booking</span>
                           </Link>
                           <Link
-                            href="/customer/booking/unconfirmed"
+                            href="/customer/booking/activities/transaction"
+                            className="flex items-center gap-2 text-xs md:text-base  cursor-pointer hover:text-blue-500"
+                          >
+                            <ArrowRight className="w-3 h-3" />
+                            <span>Your Activities Booking</span>
+                          </Link>
+                          <Link
+                            href="/customer/booking/activities/unconfirmed"
                             className="flex items-center gap-2 text-xs md:text-base cursor-pointer hover:text-blue-500"
                           >
                             <ArrowRight className="w-3 h-3" />
-                            <span>Unconfirmed Booking</span>
+                            <span>Unconfirmed Activities Booking</span>
                           </Link>
                         </div>
                         <li className="row-span-3">
@@ -73,19 +80,26 @@ export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
                           </NavigationMenuLink>
                         </li>
                         <div className="hidden md:block">
-                          <Link
-                            href="/customer/booking/transaction"
+                        <Link
+                            href="/customer/booking/airport-transfer/transaction"
                             className="flex items-center gap-2 text-sm md:text-base  cursor-pointer hover:text-blue-500"
                           >
                             <ArrowRight className="w-3 h-3" />
-                            <span>Your Booking</span>
+                            <span>Your Airport Transfer Booking</span>
                           </Link>
                           <Link
-                            href="/customer/booking/unconfirmed"
+                            href="/customer/booking/activities/transaction"
+                            className="flex items-center gap-2 text-sm md:text-base  cursor-pointer hover:text-blue-500"
+                          >
+                            <ArrowRight className="w-3 h-3" />
+                            <span>Your Activities Booking</span>
+                          </Link>
+                          <Link
+                            href="/customer/booking/activities/unconfirmed"
                             className="flex items-center gap-2 text-sm md:text-base cursor-pointer hover:text-blue-500"
                           >
                             <ArrowRight className="w-3 h-3" />
-                            <span>Unconfirmed Booking</span>
+                            <span>Unconfirmed Activities Booking</span>
                           </Link>
                         </div>
                       </ul>

@@ -275,6 +275,16 @@ export function CheckoutForm({
 
       if (result.success) {
         const finalResult = result.data as CheckoutBookingResponse;
+
+        //untuk case waiting activity
+        if(!finalResult.payment_gateway) {
+          const paymentGatewayPayload =
+            finalResult.payload as CheckoutBookingIpaymuResponse;
+          router.push(paymentGatewayPayload.next_url);
+        }
+
+
+        //untuk case self confirmation activity
         if (finalResult.payment_gateway == PaymentGatewayEnum.IPAYMU) {
           const paymentGatewayPayload =
             finalResult.payload as CheckoutBookingIpaymuResponse;

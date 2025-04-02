@@ -6,7 +6,6 @@ import { CartEmptyContent } from "./utility-components/cart-empty.content";
 
 export default async function Cart() {
   const data = await CartServerAction.GetCartData();
-
   const cartItems = data.success
     ? data.data
     : (console.log(data.data), undefined);
