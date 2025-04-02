@@ -2,6 +2,7 @@
 import {
   BookingResponse,
   CheckoutDataResponse,
+  TransactionStatusResponse,
 } from "@/app/responses/booking/response";
 import { apiServer } from "@/lib/axios-instance.server";
 import { GlobalUtility } from "@/lib/global.utility";
@@ -114,6 +115,26 @@ export class BookingServerAction {
       status_code: error.response?.status || 422,
       data: message as T,
     };
+  }
+
+  static async GetTransactionStatus(orderId: string): Promise<
+    BookingActionResponse<TransactionStatusResponse>
+  > {
+    try {
+      const action = await apiServer(`/api/customer/single-order/${orderId}`, {
+        method: "GET",
+      });
+
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
+      }
+
+      const result = this.handleResponse<TransactionStatusResponse>(action);
+
+      return result;
+    } catch (error: any) {
+      return this.handleFetchError<TransactionStatusResponse>(error.response || error);
+    }
   }
 
   static async GetTransactionBookingData(): Promise<

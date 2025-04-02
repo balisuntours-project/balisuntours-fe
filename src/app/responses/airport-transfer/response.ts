@@ -76,3 +76,48 @@ export interface TransactionStatusResponse {
     customer_account_phone: string
     customer_account_email: string
 }
+
+export interface TransactionListResponse {
+    booking_info : TransactionListBookingInfoResponse,
+    booking_detail : TransactionListBookingDetailResponse,
+    booking_vechile : TransactionListBookingVechileResponse,
+}
+
+export interface TransactionListBookingInfoResponse {
+    status: BookingPaymentStatusEnum,
+    booking_id: string
+    amount: number
+    customer_title: string
+    customer_first_name: string
+    customer_last_name: string
+    customer_phone: string
+    customer_email: string
+    payment_pdf_path: string|null
+    payment_url: string|null
+}
+
+export interface TransactionListBookingDetailResponse {
+    flight_number: string,
+    origin: string,
+    destination: string,
+    origin_coordinate: CoordinatParamater,
+    destination_coordinate: CoordinatParamater,
+    transfer_type: TransferTypeEnum,
+    transfer_date_time: string,
+    total_passanger: number,
+    distance_in_km: string,
+    additional_service: string|null,
+    additional_request: string|null,
+}
+
+export interface TransactionListBookingVechileResponse {
+    qty: number,
+    total_amount: number,
+    vechile : {
+        name: string,
+        total_seat: number,
+        total_luggage: number,
+        vechile_category: string,
+        vechile_main_photo_url: string,
+    }
+}

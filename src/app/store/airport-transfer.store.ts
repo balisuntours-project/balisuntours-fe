@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { Activity } from "../responses/activity/response";
 import {
   AdditionalServiceItemResponseWithQty,
+  TransactionListResponse,
   VechileRecomendationResponse,
 } from "../responses/airport-transfer/response";
 import {
@@ -28,6 +29,7 @@ interface AirportTransferStore {
   selectedAdditionalService: Array<AdditionalServiceItemResponseWithQty>;
   checkoutPaymentData: CheckoutToPaymentParamater | undefined;
   onClickCheckout: boolean;
+  selectedBooking: Pick<TransactionListResponse, "booking_vechile">|undefined
 }
 
 interface AirportTransferStoreAction {
@@ -59,6 +61,7 @@ interface AirportTransferStoreAction {
     data: CheckoutToPaymentParamater | undefined
   ) => void;
   setOnClickCheckout: (status: boolean) => void;
+  setSelectedBooking: (booking: Pick<TransactionListResponse, "booking_vechile">|undefined) => void;
 }
 
 export const useAirportTransferStore = create<
@@ -108,4 +111,6 @@ export const useAirportTransferStore = create<
     set({ checkoutPaymentData: data }),
   onClickCheckout: false,
   setOnClickCheckout: (status: boolean) => set({ onClickCheckout: status }),
+  selectedBooking: undefined,
+  setSelectedBooking: (booking: Pick<TransactionListResponse, "booking_vechile">|undefined) => set({ selectedBooking: booking }),
 }));

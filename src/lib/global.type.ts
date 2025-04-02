@@ -10,10 +10,7 @@ export type CookieResponseType = {
   "google-login": CookieValueResponseType;
 };
 
-export type CookieValidateJwtResponseType = Omit<
-  CookieResponseType,
-  "google-login"
->;
+export type CookieValidateJwtResponseType = CookieResponseType
 
 export type CookieValueResponseType = {
   value: string;

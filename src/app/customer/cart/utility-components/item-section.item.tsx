@@ -342,9 +342,9 @@ export function ItemSection({
                       <TooltipContent>
                         <p>
                           Available on{" "}
-                          {GlobalUtility.FormatDateFromStringToAnyFormatType(
+                          {GlobalUtility.FormatBeautifullDate(
                             item.is_fully_booked_until,
-                            "PPPP"
+                            true
                           )}
                         </p>
                       </TooltipContent>

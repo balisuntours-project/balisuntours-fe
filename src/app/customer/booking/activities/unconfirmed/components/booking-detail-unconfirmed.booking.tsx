@@ -3,6 +3,9 @@
 import {
   BookingDetailResponse,
   BookingResponse,
+  CheckoutBookingIpay88Response,
+  CheckoutBookingIpaymuResponse,
+  CheckoutBookingResponse,
 } from "@/app/responses/booking/response";
 
 import { GlobalUtility } from "@/lib/global.utility";
@@ -17,7 +20,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useEffect, useMemo, useState } from "react";
 import { ConfirmationDialog } from "@/app/global-components/utility-components/confirmation.dialog";
 import { BookingAction } from "@/app/actions/booking/action";
-import { HttpStatus } from "@/lib/global.enum";
+import { HttpStatus, PaymentGatewayEnum } from "@/lib/global.enum";
 import { UnconfirmedStatusBooking } from "../utility-components/unconfirmed-status.booking";
 import { DetailsBooking } from "../../transaction/utility-components/details.booking";
 import { UnconfirmedEmptyContent } from "../utility-components/unconfirmed-empty-content.booking";
@@ -28,6 +31,7 @@ import {
 import { useLoaderStore } from "@/app/store/loader.store";
 import { TextLoader } from "@/app/global-components/utility-components/text-loader.popup";
 import { useRouter } from "next/navigation";
+import { BookingUtility } from "@/lib/booking.utility";
 
 export function BookingDetailUnconfirmed({
   bookingsData,
@@ -114,12 +118,28 @@ export function BookingDetailUnconfirmed({
     const checkout = await BookingAction.CheckoutUnconfirmedBooking(payload);
     setIsloading(false);
     if (checkout.success) {
-      router.push(checkout.data.next_url);
+    
+      const finalResult = checkout.data as CheckoutBookingResponse;
+
+      if (finalResult.payment_gateway == PaymentGatewayEnum.IPAYMU) {
+        const paymentGatewayPayload =
+          finalResult.payload as CheckoutBookingIpaymuResponse;
+        router.push(paymentGatewayPayload.next_url);
+      } else if (finalResult.payment_gateway == PaymentGatewayEnum.IPAY88) {
+        const paymentGatewayPayload =
+          finalResult.payload as CheckoutBookingIpay88Response;
+        BookingUtility.handleIpay88Checkout(
+          paymentGatewayPayload.checkout_id,
+          paymentGatewayPayload.signature,
+          paymentGatewayPayload.checkout_url
+        );
+      }
     } else {
-      toast({
-        description: `Humm, something wrong when trying to checkout, please report to our custoer service.`,
-        variant: "danger",
-      });
+      const finalResult = checkout.data as string; //errror response from backend
+        toast({
+          description: `${finalResult}`,
+          variant: "danger",
+        });
     }
   };
 
