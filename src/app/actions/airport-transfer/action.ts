@@ -1,5 +1,12 @@
-import { CheckoutBookingCarDataCompleteParamater, CheckoutToPaymentParamater, GetVechileRecomendationsParamater } from "@/app/paramaters/airport-transfer/paramater";
-import { VechileRecomendationResponse } from "@/app/responses/airport-transfer/response";
+import {
+  CheckoutBookingCarDataCompleteParamater,
+  CheckoutToPaymentParamater,
+  GetVechileRecomendationsParamater,
+} from "@/app/paramaters/airport-transfer/paramater";
+import {
+  TransactionListResponse,
+  VechileRecomendationResponse,
+} from "@/app/responses/airport-transfer/response";
 import { CheckoutBookingResponse } from "@/app/responses/booking/response";
 import { api } from "@/lib/axios-instance";
 import { CurrencyListEnum } from "@/lib/global.enum";
@@ -104,18 +111,23 @@ export class AirportTransferAction {
   }
 
   static async GetVechilRecomendationRequest(
-    param : GetVechileRecomendationsParamater
-  ): Promise<AirportTransferActionResponse<Array<VechileRecomendationResponse>>> {
+    param: GetVechileRecomendationsParamater
+  ): Promise<
+    AirportTransferActionResponse<Array<VechileRecomendationResponse>>
+  > {
     try {
-      let request = `transfer_type=${param.transfer_type}&origin=${param.origin}&destination=${param.destination}&origin_coordinate=${param.origin_coordinate}&destination_coordinate=${param.destination_coordinate}&total_passanger=${param.total_passanger}&transfer_date_time=${param.transfer_date_time}&administrative_area_level_3=${param.administrative_area_level_3}&administrative_area_level_4=${param.administrative_area_level_4}`
+      let request = `transfer_type=${param.transfer_type}&origin=${param.origin}&destination=${param.destination}&origin_coordinate=${param.origin_coordinate}&destination_coordinate=${param.destination_coordinate}&total_passanger=${param.total_passanger}&transfer_date_time=${param.transfer_date_time}&administrative_area_level_3=${param.administrative_area_level_3}&administrative_area_level_4=${param.administrative_area_level_4}`;
 
-      if(param.origin_place_id && param.destination_place_id) {
-        request += `&origin_place_id=${param.origin_place_id}&destination_place_id=${param.destination_place_id}`
+      if (param.origin_place_id && param.destination_place_id) {
+        request += `&origin_place_id=${param.origin_place_id}&destination_place_id=${param.destination_place_id}`;
       }
 
-      const action = await api(`/api/customer/vechiles-recomendation-by-distance?${request}`, {
-        method: "GET",
-      });
+      const action = await api(
+        `/api/customer/vechiles-recomendation-by-distance?${request}`,
+        {
+          method: "GET",
+        }
+      );
 
       if (!action.ok) {
         GlobalUtility.TriggerExceptionFetchApi(action);
@@ -125,17 +137,19 @@ export class AirportTransferAction {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error(error);
-      return this.handleFetchError<Array<VechileRecomendationResponse>>(error.response || error);
+      return this.handleFetchError<Array<VechileRecomendationResponse>>(
+        error.response || error
+      );
     }
   }
 
   static async AddBookingVechileData(
-    param : CheckoutBookingCarDataCompleteParamater
+    param: CheckoutBookingCarDataCompleteParamater
   ): Promise<AirportTransferActionResponse<string>> {
     try {
       const action = await api(`/api/customer/booking-data`, {
         method: "POST",
-        body: JSON.stringify(param)
+        body: JSON.stringify(param),
       });
 
       if (!action.ok) {
@@ -151,14 +165,17 @@ export class AirportTransferAction {
   }
 
   static async CheckoutToPayment(
-    param : CheckoutToPaymentParamater,
+    param: CheckoutToPaymentParamater,
     bookingUuid: string
   ): Promise<AirportTransferActionResponse<CheckoutBookingResponse | string>> {
     try {
-      const action = await api(`/api/customer/checkout-booking-data/${bookingUuid}`, {
-        method: "POST",
-        body: JSON.stringify(param)
-      });
+      const action = await api(
+        `/api/customer/checkout-booking-data/${bookingUuid}`,
+        {
+          method: "POST",
+          body: JSON.stringify(param),
+        }
+      );
 
       if (!action.ok) {
         GlobalUtility.TriggerExceptionFetchApi(action);
@@ -168,7 +185,30 @@ export class AirportTransferAction {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error(error);
-      return this.handleFetchError<CheckoutBookingResponse | string>(error.response || error);
+      return this.handleFetchError<CheckoutBookingResponse | string>(
+        error.response || error
+      );
     }
-  }  
+  }
+
+  static async GetCustomerTransactionList(): Promise<
+    AirportTransferActionResponse<Array<TransactionListResponse>>
+  > {
+    try {
+      const action = await api(`/api/customer/airport-transfer/transaction`, {
+        method: "GET",
+      });
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
+      }
+
+      const result =
+        this.handleResponse<Array<TransactionListResponse>>(action);
+      return result;
+    } catch (error: any) {
+      return this.handleFetchError<Array<TransactionListResponse>>(
+        error.response || error
+      );
+    }
+  }
 }
