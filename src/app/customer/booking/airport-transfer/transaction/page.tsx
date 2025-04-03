@@ -12,7 +12,7 @@ export default async function AirportTransferBookingTransaction() {
   const data = await AirportTransferActionServer.GetCustomerTransactionList();
 
   const bookingItems = data.data;
- 
+    console.log(bookingItems)
   return (
     <>
       <LargeNavbar />
