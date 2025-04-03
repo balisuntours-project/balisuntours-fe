@@ -1,17 +1,24 @@
 "use client";
 
+import { AirportTransferAction } from "@/app/actions/airport-transfer/action";
 import { DynamicDialog } from "@/app/global-components/utility-components/dynamic-content.dialog";
 import { CircleHelp } from "lucide-react";
 
+const handleTest = async() => {
+  const data = await AirportTransferAction.GetCustomerTransactionList();
+  console.log(data.data)
+  console.log(data.success)
+}
+
 export function GoodToKnowFlying() {
   return (
-    <div className="fixed bottom-4 right-4 h-14 w-14 rounded-full bg-blue-600 text-white flex md:hidden items-center justify-center shadow-lg hover:bg-blue-700 transition">
+    <div className="fixed bottom-4 right-4 h-14 w-14 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-lg hover:bg-blue-700 transition">
       <DynamicDialog
         useSmallVersion={true}
         trigger={<CircleHelp className="w-8 h-8" />}
       >
         <div className=" h-auto bg-[#EFF7E8] rounded-xl p-5 sm:flex flex-col gap-6">
-          <span className="text-base text-black font-bold text-center">
+          <span onClick={() => handleTest()} className="text-base text-black font-bold text-center">
             Good to know ?!
           </span>
           <div className="text-start">
