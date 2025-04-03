@@ -33,12 +33,12 @@ export async function middleware(request: NextRequest) {
         response.cookies.set("refresh", result.refresh_token.value, {
           path: "/",
           domain: process.env.TOP_LEVEL_DOMAIN,
-          // maxAge: result.refresh_token.ttl,
-          // httpOnly: result.access_token.http_only ? true : false,
-          // secure: result.access_token.secure ? true : false,
           maxAge: result.refresh_token.ttl,
-          httpOnly: result.refresh_token.http_only ? true : false,
-          secure: result.refresh_token.secure ? true : false,
+          httpOnly: result.access_token.http_only ? true : false,
+          secure: result.access_token.secure ? true : false,
+          // maxAge: result.refresh_token.ttl,
+          // httpOnly: result.refresh_token.http_only ? true : false,
+          // secure: result.refresh_token.secure ? true : false,
           sameSite: "lax",
         });
         response.cookies.set("google-login", result["google-login"].value, {
