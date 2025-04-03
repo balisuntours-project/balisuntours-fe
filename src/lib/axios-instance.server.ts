@@ -56,7 +56,7 @@ const apiServer = async (
     //   }
 
     // Untuk status lain, kembalikan response
-    console.log(response)
+    //console.log(response)
     return response;
   } catch (error) {
     console.log(error)

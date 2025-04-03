@@ -43,7 +43,6 @@ export class AirportTransferActionServer {
     response: Response
   ): Promise<AirportTransferActionServerResponse<T>> {
     let finalResponse: any = {};
-
     //lakukan ini karena jika tidak bada build runtime akan error (karena cookie next header tidak dapat dirender static, page ini static karena /customer/booking tidaka da dynamic param seperti slug)
     if (response instanceof Response) {
       try {
@@ -191,6 +190,7 @@ export class AirportTransferActionServer {
   static async GetCustomerTransactionList(): Promise<
     AirportTransferActionServerResponse<Array<TransactionListResponse>>
   > {
+   
     try {
       const action = await apiServer(
         `/api/customer/airport-transfer/transaction`,
@@ -198,12 +198,12 @@ export class AirportTransferActionServer {
           method: "GET",
         }
       );
-
       if (!action.ok) {
         GlobalUtility.TriggerExceptionFetchApi(action);
       }
 
-      return this.handleResponse<Array<TransactionListResponse>>(action);
+      const result = this.handleResponse<Array<TransactionListResponse>>(action);
+      return result
     } catch (error: any) {
       return this.handleFetchError<Array<TransactionListResponse>>(
         error.response || error
