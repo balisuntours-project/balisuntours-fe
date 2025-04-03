@@ -2,6 +2,7 @@
 import { notFound } from "next/navigation";
 import { TransactionStatusContent } from "./components/transaction-status.content";
 import { BookingServerAction } from "@/app/actions/booking/action.server";
+import { NotFoundTransactionStatusContent } from "./components/not-found-transaction.content";
 
 export default async function ActivityTransactionStatus({
   searchParams,
@@ -15,13 +16,23 @@ export default async function ActivityTransactionStatus({
       orderIdParam as string
     );
 
-    if (!result.success) {
-      notFound();
-    }
+    // if (!result.success) {
+    //   notFound();
+    // }
 
-    data = result.data;
+    if(result.success) {
+        data = result.data;
+    }
   } else {
     notFound();
   }
-  return <TransactionStatusContent data={data} />;
+  return (
+    <>
+    {data ? (
+        <TransactionStatusContent data={data} />
+    ) : (
+        <NotFoundTransactionStatusContent bookingId={orderIdParam as string} />
+    )}
+    </>
+  );
 }

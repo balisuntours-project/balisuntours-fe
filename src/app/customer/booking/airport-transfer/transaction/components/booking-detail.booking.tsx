@@ -26,7 +26,7 @@ export function BookingDetail({
   return (
     <>
       <div className="md:col-span-3 flex flex-col gap-5">
-        {bookingsData.length > 0 && bookingsData.map((booking, key) => (
+        {bookingsData.length > 0 && bookingsData?.map((booking, key) => (
           <div
             key={key}
             className="h-auto bg-gray-200 bg-opacity-20 rounded-lg"

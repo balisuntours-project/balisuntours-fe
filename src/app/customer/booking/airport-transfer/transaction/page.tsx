@@ -7,14 +7,9 @@ import { Car } from "lucide-react";
 import { GoodToKnowFlying } from "./utility-components/good-to-know-flying.button";
 import { BookingDetail } from "./components/booking-detail.booking";
 import { AirportTransferActionServer } from "@/app/actions/airport-transfer/action.server";
-import { notFound } from "next/navigation";
 
 export default async function AirportTransferBookingTransaction() {
   const data = await AirportTransferActionServer.GetCustomerTransactionList();
-
-  if(!data.success) {
-    notFound()
-  }
 
   const bookingItems = data.data;
  
@@ -25,7 +20,7 @@ export default async function AirportTransferBookingTransaction() {
         <GoodToKnowFlying />
         <div className="booking-section">
           <div className="sm:grid sm:grid-cols-5 lg:grid-cols-4 sm:gap-8 lg:w-[90%] mx-auto items-start mb-11">
-            {bookingItems && bookingItems.length > 0 ? (
+            {Array.isArray(bookingItems) && bookingItems.length > 0 ? (
               <BookingDetail bookingsData={bookingItems} />
             ) : (
               <div className="md:col-span-3">
