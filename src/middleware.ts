@@ -14,7 +14,9 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname == "/customer/booking/activities/transaction" ||
     request.nextUrl.pathname == "/customer/booking/activities/unconfirmed" ||
     request.nextUrl.pathname == "/customer/checkout" ||
-    request.nextUrl.pathname == "/customer/airport-transfer/checkout" 
+    request.nextUrl.pathname == "/customer/airport-transfer/checkout" ||
+    request.nextUrl.pathname == "/customer/activities/transaction-status" ||
+    request.nextUrl.pathname == "/customer/airport-transfer/transaction-status" 
   ) {
     const token = request.cookies.get("assec")?.value;
 
