@@ -4,8 +4,8 @@ import type { Metadata } from "next";
 
 
 export const metadata: Metadata = {
-    title: "Bali Sun Tours - Airport Transfer",
-    description: "Bali Sun Tours Airport Transfer Page",
+    title: "Bali Airport Transfer - Benoa Transfer",
+    description: "Bali Sun Tours Airport Transfer and Benoa Transfer service page",
   };
 
   

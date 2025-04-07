@@ -103,7 +103,7 @@ export function VechileServiceAirportTransfer() {
                       <div className="flex gap-1 items-center">
                         <Luggage className="h-4 w-4" />
                         <span className="text-gray-500 my-auto">
-                          {vechile.total_seat}
+                          {vechile.total_luggage}
                         </span>
                       </div>
                     </div>
