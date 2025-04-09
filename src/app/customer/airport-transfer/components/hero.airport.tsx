@@ -12,7 +12,7 @@ export function HeroSectionAirportTransfer({
        <div className="w-full max-w-full mx-auto hidden md:block">
        <div className="flex items-center justify-center p-0 h-full">
           <Image
-            src="/808-banner.jpg"
+            src="/airport-banner.jpg"
             alt={`airport-transfer-hero-banner`}
             layout="fill"
             objectFit="cover"

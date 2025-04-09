@@ -22,6 +22,7 @@ import { CurrencyListEnum, HttpStatus } from "@/lib/global.enum";
 import { useBookingStore } from "@/app/store/booking.store";
 import { CurrencyAction } from "@/app/actions/currency/action";
 import { useDetailActivityStore } from "@/app/store/detail-activity.store";
+import { InfoButton } from "@/components/custom-ui/info.button";
 
 export function CheckoutCard() {
   const selectedCar = useAirportTransferStore((state) => state.selectedCar);
@@ -185,14 +186,22 @@ export function CheckoutCard() {
                     <FilterCard fromPopup={true} />
                   </DynamicDialog>
                 </div>
+              </div>
+            </div>
+            <div className="grid grid-cols-12 gap-2">
+              <div className="col-span-6">
                 <DynamicDialog
                   trigger={
-                    <div className="flex gap-1 justify-end items-center cursor-pointer">
-                      <CarFront className="h-6 w-6 " />
-                      <span className="text-sm underline text-blue-500">
-                        {selectedCar.length}
-                      </span>
-                    </div>
+                    // <div className="flex gap-1 justify-end items-center cursor-pointer">
+                    //   <CarFront className="h-6 w-6 " />
+                    //   <span className="text-sm underline text-blue-500">
+                    //     {selectedCar.length}
+                    //   </span>
+                    // </div>
+                    <InfoButton
+                      title={`Selected car(${selectedCar.length})`}
+                      rouded="rounded-lg w-full"
+                    />
                   }
                 >
                   {selectedCar.length > 0 ? (
@@ -206,12 +215,14 @@ export function CheckoutCard() {
                   )}
                 </DynamicDialog>
               </div>
+              <div className="col-span-6">
+                <AuthButton
+                  onClick={() => handleBookingCar()}
+                  title="Book now"
+                  rouded="rounded-lg w-full"
+                />
+              </div>
             </div>
-            <AuthButton
-              onClick={() => handleBookingCar()}
-              title="Book now"
-              rouded="rounded-lg w-full"
-            />
           </div>
         </div>
       </div>

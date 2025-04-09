@@ -83,7 +83,7 @@ export function CheckoutAmountSectionAirportTransfer({
                     </div>
                     <div className="flex gap-1 items-center">
                       <Luggage className="h-4 w-4" />
-                      <span className=" my-auto">{vechile.total_seat}</span>
+                      <span className=" my-auto">{vechile.total_luggage}</span>
                     </div>
                     <div className="flex gap-1 items-center">
                       <CarFront className="h-4 w-4" />
