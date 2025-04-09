@@ -99,7 +99,7 @@ export class GlobalUtility {
       newMoneyFormat = (money / 1000).toFixed(1);
     }
 
-    return "Rp." + newMoneyFormat.replace(".", ",") + "k"; // Ganti titik dengan koma untuk format IDR
+    return "IDR " + newMoneyFormat.replace(".", ",") + "k"; // Ganti titik dengan koma untuk format IDR
   }
 
   static ConvertionCurrencyFormat(
