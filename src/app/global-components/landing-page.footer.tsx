@@ -276,7 +276,7 @@ export function LandingPageFooterSection({className} : {className?: string}) {
                   />
                 </Link>
                 <Link
-                  href="https://www.youtube.com/channel/UC0MUSpwc1cr-qJxQw0LRRPw"
+                  href="https://www.youtube.com/@balisuntour"
                   target="_blank"
                   className="w-6 me-3"
                 >
