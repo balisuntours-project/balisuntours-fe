@@ -72,4 +72,5 @@ export enum CurrencyListSymbolEnum {
 export enum PaymentGatewayEnum {
   IPAYMU = "ipaymu",
   IPAY88 = "ipay88",
+  BAYARIND = "bayarind"
 }
