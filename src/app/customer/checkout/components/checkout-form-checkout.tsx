@@ -7,6 +7,7 @@ import {
   CheckoutPackageOrderDataPayload,
 } from "@/app/paramaters/booking/paramater";
 import {
+  CheckoutBookingBayarindResponse,
   CheckoutBookingIpay88Response,
   CheckoutBookingIpaymuResponse,
   CheckoutBookingResponse,
@@ -255,6 +256,10 @@ export function CheckoutForm({
           paymentGatewayPayload.signature,
           paymentGatewayPayload.checkout_url
         );
+      } else if (finalResult.payment_gateway == PaymentGatewayEnum.BAYARIND) {
+        const paymentGatewayPayload =
+          finalResult.payload as CheckoutBookingBayarindResponse;
+        router.push(paymentGatewayPayload.next_url);
       }
       setIsLoading(false);
     } else {
@@ -277,12 +282,11 @@ export function CheckoutForm({
         const finalResult = result.data as CheckoutBookingResponse;
 
         //untuk case waiting activity
-        if(!finalResult.payment_gateway) {
+        if (!finalResult.payment_gateway) {
           const paymentGatewayPayload =
             finalResult.payload as CheckoutBookingIpaymuResponse;
           router.push(paymentGatewayPayload.next_url);
         }
-
 
         //untuk case self confirmation activity
         if (finalResult.payment_gateway == PaymentGatewayEnum.IPAYMU) {
@@ -348,7 +352,7 @@ export function CheckoutForm({
                         <FormLabel className="font-bold">Your name</FormLabel>
                         <FormControl>
                           <Input
-                           id="customer-name"
+                            id="customer-name"
                             placeholder="Enter your name"
                             required
                             {...field}
@@ -400,7 +404,7 @@ export function CheckoutForm({
                         <FormLabel className="font-bold">Email</FormLabel>
                         <FormControl>
                           <Input
-                           id="customer-email"
+                            id="customer-email"
                             type="email"
                             placeholder="yukikato@gmail.com"
                             required

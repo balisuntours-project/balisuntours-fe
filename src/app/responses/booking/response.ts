@@ -105,6 +105,10 @@ export interface CheckoutBookingIpay88Response {
     checkout_url: string,
 }
 
+export interface CheckoutBookingBayarindResponse {
+    next_url : string,
+}
+
 export interface TransactionStatusResponse {
     status: BookingPaymentStatusEnum,
     order_id: string

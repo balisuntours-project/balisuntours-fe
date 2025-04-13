@@ -38,6 +38,7 @@ import { useLoaderStore } from "@/app/store/loader.store";
 import { AirportTransferAction } from "@/app/actions/airport-transfer/action";
 import { useToast } from "@/hooks/use-toast";
 import {
+  CheckoutBookingBayarindResponse,
   CheckoutBookingIpay88Response,
   CheckoutBookingIpaymuResponse,
   CheckoutBookingResponse,
@@ -208,6 +209,10 @@ export function CheckoutDetailAirportTransfer({
           paymentGatewayPayload.signature,
           paymentGatewayPayload.checkout_url
         );
+      } else if (finalResult.payment_gateway == PaymentGatewayEnum.BAYARIND) {
+        const paymentGatewayPayload =
+          finalResult.payload as CheckoutBookingBayarindResponse;
+        router.push(paymentGatewayPayload.next_url);
       }
     }
 
@@ -268,7 +273,9 @@ export function CheckoutDetailAirportTransfer({
             </div>
 
             {/* Additional service */}
-            {additionalServiceItem && <div className="mt-4 md:mt-6 pb-4">{additionalServiceItem}</div>}
+            {additionalServiceItem && (
+              <div className="mt-4 md:mt-6 pb-4">{additionalServiceItem}</div>
+            )}
 
             <div className="mt-4 md:mt-6 pb-4">
               <div className="flex flex-col">
