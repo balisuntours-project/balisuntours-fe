@@ -55,5 +55,16 @@ export function PaymentStatusBooking({
         Canceled
       </Badge>
     );
+  } else if (
+    status == BookingPaymentStatusEnum.failed
+  ) {
+    return (
+      <Badge
+        variant="secondary"
+        className="lg:w-auto h-10 p-4 bg-[#cfc0c4] hover:bg-[#cfc0c4]/80 text-white text-base text-center flex justify-center items-center font-bold"
+      >
+        Failed
+      </Badge>
+    );
   }
 }

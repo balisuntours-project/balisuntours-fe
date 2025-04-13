@@ -1,14 +1,18 @@
 "use client";
 
+import { BookingPaymentStatusEnum } from "@/app/enums/booking/booking.enum";
 import { TransactionStatusResponse } from "@/app/responses/airport-transfer/response";
 import { Button } from "@/components/ui/button";
 import { GlobalUtility } from "@/lib/global.utility";
-import { AlertTriangle, Check, XCircle } from "lucide-react";
+import { AlertTriangle, Check, Clock, XCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-export function TransactionStatusContent({data} : {data: TransactionStatusResponse}) {
-    
+export function TransactionStatusContent({
+  data,
+}: {
+  data: TransactionStatusResponse;
+}) {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full text-center animate-fadeIn">
@@ -38,14 +42,27 @@ export function TransactionStatusContent({data} : {data: TransactionStatusRespon
           </div>
         )}
 
-        {data.status === "failed" || data.status == "cancel" && (
-          <div className="text-red-500 mb-6">
-            <XCircle className="w-16 h-16 mx-auto animate-bounce" />
+        {data.status === "failed" ||
+          (data.status == "cancel" && (
+            <div className="text-red-500 mb-6">
+              <XCircle className="w-16 h-16 mx-auto animate-bounce" />
+              <h2 className="text-2xl font-bold text-gray-800">
+                Payment Status Failed
+              </h2>
+              <p className="text-gray-600 mt-2">
+                Your payment is failed, please consider to make a new booking.
+              </p>
+            </div>
+          ))}
+
+        {data.status === BookingPaymentStatusEnum.pending && (
+          <div className="text-yellow-500 mb-6">
+            <Clock className="w-16 h-16 mx-auto animate-bounce" />
             <h2 className="text-2xl font-bold text-gray-800">
-              Payment Status Failed
+              Payment on Pending!
             </h2>
             <p className="text-gray-600 mt-2">
-              Your payment is failed, please consider to make a new booking.
+              The payment on process. Please consider to wait for a minutes.
             </p>
           </div>
         )}
@@ -70,7 +87,9 @@ export function TransactionStatusContent({data} : {data: TransactionStatusRespon
           <div className="flex justify-between items-center">
             <div>
               <p className="text-white text-xs uppercase">Card Holder</p>
-              <p className="text-white font-semibold">{data.customer_account_name}</p>
+              <p className="text-white font-semibold">
+                {data.customer_account_name}
+              </p>
             </div>
             <div>
               <p className="text-white text-xs uppercase">Valid Thru</p>
@@ -88,25 +107,31 @@ export function TransactionStatusContent({data} : {data: TransactionStatusRespon
             <strong>Email:</strong> {data.customer_account_email}
           </p>
           <p>
-            <strong>Total Amount:</strong> {GlobalUtility.IdrCurrencyFormat(data.amount)} {/* (
+            <strong>Total Amount:</strong>{" "}
+            {GlobalUtility.IdrCurrencyFormat(data.amount)}{" "}
+            {/* (
             {data.currencyAmount}) */}
           </p>
           <p>
             <strong>Payment Method:</strong> Credit Card
           </p>
           <p>
-            <strong>Transaction Date:</strong> {GlobalUtility.FormatBeautifullDate(data.created_at, true)}
+            <strong>Transaction Date:</strong>{" "}
+            {GlobalUtility.FormatBeautifullDate(data.created_at, true)}
           </p>
           {data.status === "berhasil" && (
             <p>
-              <strong>Paid At:</strong> {GlobalUtility.FormatBeautifullDate(data.paid_at, true)}
+              <strong>Paid At:</strong>{" "}
+              {GlobalUtility.FormatBeautifullDate(data.paid_at, true)}
             </p>
           )}
         </div>
 
         {/* Tombol Kembali ke Home */}
         <div className="mt-6 w-full max-w-full flex">
-          <Link href={"/"}  className="bg-gradient-to-r from-[#EB5E00] to-orange-500 text-white px-4 py-2 rounded hover:shadow-lg hover:from-orange-600 hover:to-orange-400 transition w-full"
+          <Link
+            href={"/"}
+            className="bg-gradient-to-r from-[#EB5E00] to-orange-500 text-white px-4 py-2 rounded hover:shadow-lg hover:from-orange-600 hover:to-orange-400 transition w-full"
           >
             Back to Home
           </Link>
