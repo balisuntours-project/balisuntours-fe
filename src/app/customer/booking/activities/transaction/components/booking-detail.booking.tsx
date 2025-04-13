@@ -148,7 +148,7 @@ export function BookingDetail({
                         (list) => list !== booking.order_id
                       )
                         ? booking.status
-                        : BookingPaymentStatusEnum.cancel
+                        : BookingPaymentStatusEnum.failed
                     }
                   />
 
