@@ -142,13 +142,14 @@ export function BookingDetail({
             <div className="p-6">
               <div className="grid grid-cols-5 gap-5 lg:items-start">
                 <div className="flex flex-col gap-2 lg:ml-auto col-span-5 lg:col-span-2 lg:order-2">
+                
                   <PaymentStatusBooking
                     status={
                       listOnCanceledBooking.every(
                         (list) => list !== booking.order_id
                       )
                         ? booking.status
-                        : BookingPaymentStatusEnum.failed
+                        : BookingPaymentStatusEnum.cancel
                     }
                   />
 

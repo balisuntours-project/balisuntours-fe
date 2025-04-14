@@ -7,7 +7,8 @@ export enum BookingPaymentStatusEnum {
   unconfirmed = "admin confirmation",
   confirmed = "confirmed",
   failed = "failed",
-  notFound = "not found"
+  notFound = "not found",
+  awaitingPaymentVerification = "payment verification"
 }
 
 export enum ReviewValidPayloadEnum {

@@ -16,7 +16,7 @@ export function TransactionStatusContent({
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full text-center animate-fadeIn">
         {/* Icon dan Pesan Status */}
-        {data.status === "berhasil" && (
+        {data.status === BookingPaymentStatusEnum.paid && (
           <div className="text-green-500 mb-6">
             <Check className="w-16 h-16 mx-auto animate-bounce" />
             <h2 className="text-2xl font-bold text-gray-800">
@@ -28,7 +28,7 @@ export function TransactionStatusContent({
           </div>
         )}
 
-        {data.status === "expired" && (
+        {data.status === BookingPaymentStatusEnum.expired && (
           <div className="text-red-500 mb-6">
             <AlertTriangle className="w-16 h-16 mx-auto animate-bounce" />
             <h2 className="text-2xl font-bold text-gray-800">
@@ -48,23 +48,40 @@ export function TransactionStatusContent({
               Payment on Pending!
             </h2>
             <p className="text-gray-600 mt-2">
+              The payment waiting for traveller action.
+            </p>
+          </div>
+        )}
+
+        {data.status === BookingPaymentStatusEnum.awaitingPaymentVerification && (
+          <div className="text-yellow-500 mb-6">
+            <Clock className="w-16 h-16 mx-auto animate-bounce" />
+            <h2 className="text-2xl font-bold text-gray-800">
+              Payment Waiting for Bank Verification!
+            </h2>
+            <p className="text-gray-600 mt-2">
               The payment on process. Please consider to wait for a minutes.
             </p>
           </div>
         )}
 
-        {data.status === "failed" ||
-          (data.status == "cancel" && (
-            <div className="text-red-500 mb-6">
-              <XCircle className="w-16 h-16 mx-auto animate-bounce" />
-              <h2 className="text-2xl font-bold text-gray-800">
-                Payment Status Failed
-              </h2>
-              <p className="text-gray-600 mt-2">
-                Your payment is failed, please consider to make a new booking.
-              </p>
-            </div>
-          ))}
+        {(data.status === BookingPaymentStatusEnum.failed ||
+          data.status == BookingPaymentStatusEnum.cancel) && (
+          <div className="text-red-500 mb-6">
+            <XCircle className="w-16 h-16 mx-auto animate-bounce" />
+            <h2 className="text-2xl font-bold text-gray-800">
+              Payment Status{" "}
+              {data.status === BookingPaymentStatusEnum.failed
+                ? "Failed"
+                : "Canceled"}
+            </h2>
+            <p className="text-gray-600 mt-2">
+              {data.status === BookingPaymentStatusEnum.failed
+                ? "Your payment is failed, please consider to make a new booking."
+                : "Your payment is canceled, interest with other activities?"}
+            </p>
+          </div>
+        )}
 
         {/* Kartu Kredit */}
         <div className="credit-card mt-8 mb-6 mx-auto w-full max-w-xs p-4 rounded-lg shadow-md transition-transform transform hover:scale-105 duration-300 ease-in-out bg-gradient-to-r from-blue-500 to-blue-600">
