@@ -3,6 +3,7 @@
 import {
   BookingDetailResponse,
   BookingResponse,
+  CheckoutBookingBayarindResponse,
   CheckoutBookingIpay88Response,
   CheckoutBookingIpaymuResponse,
   CheckoutBookingResponse,
@@ -118,7 +119,6 @@ export function BookingDetailUnconfirmed({
     const checkout = await BookingAction.CheckoutUnconfirmedBooking(payload);
     setIsloading(false);
     if (checkout.success) {
-    
       const finalResult = checkout.data as CheckoutBookingResponse;
 
       if (finalResult.payment_gateway == PaymentGatewayEnum.IPAYMU) {
@@ -133,13 +133,17 @@ export function BookingDetailUnconfirmed({
           paymentGatewayPayload.signature,
           paymentGatewayPayload.checkout_url
         );
+      } else if (finalResult.payment_gateway == PaymentGatewayEnum.BAYARIND) {
+        const paymentGatewayPayload =
+          finalResult.payload as CheckoutBookingBayarindResponse;
+        router.push(paymentGatewayPayload.next_url);
       }
     } else {
       const finalResult = checkout.data as string; //errror response from backend
-        toast({
-          description: `${finalResult}`,
-          variant: "danger",
-        });
+      toast({
+        description: `${finalResult}`,
+        variant: "danger",
+      });
     }
   };
 
