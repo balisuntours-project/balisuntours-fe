@@ -110,7 +110,7 @@ export function CheckoutAmountSectionAirportTransfer({
             </span>
             <div className="flex flex-col">
               <span className="text-base">
-                Total {bookingData.total_passanger} Passanger
+                Total {bookingData.total_passanger} Passenger
               </span>
               <span className="text-base">
                 {GlobalUtility.FormatBeautifullDate(

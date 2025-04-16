@@ -512,12 +512,12 @@ export function SearchVechileInputFormCard() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-gray-700 text-sm font-semibold">
-                        Passanger
+                        Passenger
                       </FormLabel>
                       <FormControl>
                         <Input
                           className="border text-base border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                          placeholder="Total passanger"
+                          placeholder="Total passenger"
                           type="text"
                           {...field}
                         />

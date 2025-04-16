@@ -1,6 +1,7 @@
 import { z } from "zod";
 
-const TravellerDataSchema = z
+const 
+TravellerDataSchema = z
   .object({
     email: z.string().min(5, {
       message: "Enter valid email",

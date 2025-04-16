@@ -44,6 +44,8 @@ import { BookingAction } from "@/app/actions/booking/action";
 import { CurrencyListEnum, PaymentGatewayEnum } from "@/lib/global.enum";
 import { useRouter } from "next/navigation";
 import { BookingUtility } from "@/lib/booking.utility";
+import { Checkbox } from "@/components/ui/checkbox";
+import Link from "next/link";
 
 export function CheckoutForm({
   userData,
@@ -69,6 +71,7 @@ export function CheckoutForm({
   const setIsLoading = useLoaderStore((state) => state.setIsLoading);
   const currencyValue = useBookingStore((state) => state.currencyValue);
   const checkoutAmount = useBookingStore((state) => state.checkoutAmount);
+  const [checkTermCondition, setCheckTermCondition] = useState(false)
 
   const router = useRouter();
   const { toast } = useToast();
@@ -165,6 +168,7 @@ export function CheckoutForm({
   const handleCheckoutBooking = async (
     values: z.infer<typeof TravellerDataSchema>
   ) => {
+
     setIsCheckoutButtonTriggered(true);
     const mappingPackageOrderpayload: Array<CheckoutPackageOrderDataPayload> =
       [];
@@ -187,6 +191,14 @@ export function CheckoutForm({
           break;
         }
 
+        if (!checkTermCondition) {
+          toast({
+            description: `Please accept term and conditions box!`,
+            variant: "info",
+          });
+          return;
+        }
+        
         const payload: CheckoutPackageOrderDataPayload = {
           base_uuid: key,
           self_confirmation: value.checkoutPayload.self_confirmation,
@@ -229,6 +241,7 @@ export function CheckoutForm({
       phone: values.phone,
       packageOrderData: mappingPackageOrderpayload,
       cartData: checkoutCartData,
+      accept_tnc: checkTermCondition
     };
 
     setFinalBookingPayload(postPayload);
@@ -416,6 +429,41 @@ export function CheckoutForm({
                       </FormItem>
                     )}
                   />
+                </div>
+
+                <div className="flex flex-col col-span-2 mt-2 md:mt-0">
+                  <FormItem>
+                    <div className="flex items-center space-x-2">
+                      <FormControl>
+                        <Checkbox
+                          id="terms"
+                          onCheckedChange={(e) =>
+                            setCheckTermCondition(!!e)
+                          }
+                          className="border data-[state=checked]:bg-[#EB5E00] data-[state=checked]:text-white focus:outline-none focus:ring focus:border-blue-300"
+                        />
+                      </FormControl>
+                      <FormLabel
+                        htmlFor="terms"
+                        className="font-bold cursor-pointer text-[0.7rem] md:text-[0.8rem]"
+                      >
+                        I agree to the{" "}
+                        <Link
+                          href={`/policy/term-conditions`}
+                          passHref
+                          legacyBehavior
+                        >
+                          <a
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 underline hover:text-blue-800"
+                          >
+                            Terms and Conditions
+                          </a>
+                        </Link>
+                      </FormLabel>
+                    </div>
+                  </FormItem>
                 </div>
               </div>
               <div className="flex flex-col gap-4 mt-6">
