@@ -56,4 +56,5 @@ export interface CheckoutToPaymentParamater {
   customer_email: string,
   additional_request?: string,
   additional_service?: Array<Pick<AdditionalServiceItemResponseWithQty, "qty" | "uuid">>,
+  accept_tnc: boolean
 }

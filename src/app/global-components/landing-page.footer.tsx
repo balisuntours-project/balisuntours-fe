@@ -263,7 +263,7 @@ export function LandingPageFooterSection({className} : {className?: string}) {
                   />
                 </Link>
                 <Link
-                  href="https://api.whatsapp.com/send?phone=6281936109809"
+                  href="https://api.whatsapp.com/send?phone=6285211005008"
                   target="_blank"
                   className="w-6 me-3"
                 >

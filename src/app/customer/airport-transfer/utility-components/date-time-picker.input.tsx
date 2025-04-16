@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { GlobalUtility } from "@/lib/global.utility";
+import { Label } from "@/components/ui/label";
 
 interface DateTimePickerProps {
   selectedDate: Date | undefined;
@@ -83,6 +84,9 @@ export function DateTimePicker({
           initialFocus
         />
         <div className="p-3 border-t">
+          <Label>
+            Select time
+          </Label>
           <Input
             type="time"
             value={time}

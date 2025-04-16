@@ -46,6 +46,8 @@ import {
 import { useRouter } from "next/navigation";
 import { PaymentGatewayEnum } from "@/lib/global.enum";
 import { BookingUtility } from "@/lib/booking.utility";
+import { Checkbox } from "@/components/ui/checkbox";
+import Link from "next/link";
 
 export function CheckoutDetailAirportTransfer({
   bookingUuid,
@@ -100,6 +102,7 @@ export function CheckoutDetailAirportTransfer({
   const setOnClickCheckout = useAirportTransferStore(
     (state) => state.setOnClickCheckout
   );
+  const [checkTermCondition, setCheckTermCondition] = useState(false);
   const [additionalServiceTotalAmount, setAdditionalServiceTotalAmount] =
     useState(0);
 
@@ -144,6 +147,14 @@ export function CheckoutDetailAirportTransfer({
       return;
     }
 
+    if (!checkTermCondition) {
+      toast({
+        description: `Please accept term and conditions box!`,
+        variant: "info",
+      });
+      return;
+    }
+
     const mappingAdditionalService = selectedAdditionalService.map(
       (service) => {
         return {
@@ -165,6 +176,7 @@ export function CheckoutDetailAirportTransfer({
         mappingAdditionalService.length > 0
           ? mappingAdditionalService
           : undefined,
+      accept_tnc: checkTermCondition
     });
 
     setOnClickCheckout(true);
@@ -477,6 +489,40 @@ export function CheckoutDetailAirportTransfer({
                           >
                             Request message are to long
                           </p>
+                        </FormItem>
+                      </div>
+                      <div className="flex flex-col col-span-12 mt-2 md:mt-0">
+                        <FormItem>
+                          <div className="flex items-center space-x-2">
+                            <FormControl>
+                              <Checkbox
+                                id="terms"
+                                onCheckedChange={(e) =>
+                                  setCheckTermCondition(!!e)
+                                }
+                                className="border data-[state=checked]:bg-[#EB5E00] data-[state=checked]:text-white focus:outline-none focus:ring focus:border-blue-300"
+                              />
+                            </FormControl>
+                            <FormLabel
+                              htmlFor="terms"
+                              className="font-bold cursor-pointer text-[0.7rem] md:text-[0.8rem]"
+                            >
+                              I agree to the{" "}
+                              <Link
+                                href={`/policy/term-conditions`}
+                                passHref
+                                legacyBehavior
+                              >
+                                <a
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-blue-600 underline hover:text-blue-800"
+                                >
+                                  Terms and Conditions
+                                </a>
+                              </Link>
+                            </FormLabel>
+                          </div>
                         </FormItem>
                       </div>
                     </div>
