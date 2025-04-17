@@ -20,6 +20,14 @@ const EditCarSchema = z.object({
     .number()
     .int()
     .min(1, "Min charge applies from (?) km"),
+  increment_start_km: z.coerce
+    .number()
+    .int()
+    .min(1, "Fill increment percentage charge"),
+  increment_price_rate_percentage: z.coerce
+    .number()
+    .min(0, "Fill percetange of increment")
+    .max(100, "Max percentage is 100"),
 });
 
 export { EditCarSchema };

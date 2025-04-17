@@ -48,6 +48,9 @@ import { PaymentGatewayEnum } from "@/lib/global.enum";
 import { BookingUtility } from "@/lib/booking.utility";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
+import { DynamicDialogWithTrigger } from "@/app/global-components/utility-components/dynamic-content-without-trigger.dialog";
+import { PaymentChannelList } from "@/app/global-components/utility-components/payment-channel";
+import { BayarindPaymentChannelEnum } from "@/app/enums/bayarind/bayarind.enum";
 
 export function CheckoutDetailAirportTransfer({
   bookingUuid,
@@ -102,6 +105,11 @@ export function CheckoutDetailAirportTransfer({
   const setOnClickCheckout = useAirportTransferStore(
     (state) => state.setOnClickCheckout
   );
+   const setDynamicDialogOpen = useLoaderStore(
+      (state) => state.setDynamicDialogOpen
+    );
+  
+
   const [checkTermCondition, setCheckTermCondition] = useState(false);
   const [additionalServiceTotalAmount, setAdditionalServiceTotalAmount] =
     useState(0);
@@ -176,9 +184,14 @@ export function CheckoutDetailAirportTransfer({
         mappingAdditionalService.length > 0
           ? mappingAdditionalService
           : undefined,
-      accept_tnc: checkTermCondition
+      accept_tnc: checkTermCondition,
     });
 
+    if (process.env.MAIN_PAYMENT_GATEWAY == "bayarind") {
+      setDynamicDialogOpen(true);
+      return;
+    }
+    
     setOnClickCheckout(true);
   };
 
@@ -249,8 +262,63 @@ export function CheckoutDetailAirportTransfer({
     }
   }, [selectedAdditionalService]);
 
+
+   const handleBayarindCheckoutBooking = async (paymentChannel: BayarindPaymentChannelEnum) => {
+      if (!checkoutPaymentData) {
+        toast({
+          description: `Please fill the necessary form field!`,
+          variant: "info",
+        });
+        return;
+      }
+  
+      checkoutPaymentData.bayarind_payment_channel = paymentChannel
+      setIsLoading(true);
+      const result = await AirportTransferAction.CheckoutToPayment(
+        checkoutPaymentData,
+        bookingUuid
+      );
+  
+      if (!result.success) {
+        setIsLoading(false);
+        setOnClickCheckout(false);
+        toast({
+          description: `${result.data}`,
+          variant: "danger",
+        });
+        return;
+      }
+  
+      if (result.success) {
+        const finalResult = result.data as CheckoutBookingResponse;
+        if (finalResult.payment_gateway == PaymentGatewayEnum.IPAYMU) {
+          const paymentGatewayPayload =
+            finalResult.payload as CheckoutBookingIpaymuResponse;
+          router.push(paymentGatewayPayload.next_url);
+        } else if (finalResult.payment_gateway == PaymentGatewayEnum.IPAY88) {
+          const paymentGatewayPayload =
+            finalResult.payload as CheckoutBookingIpay88Response;
+          BookingUtility.handleIpay88Checkout(
+            paymentGatewayPayload.checkout_id,
+            paymentGatewayPayload.signature,
+            paymentGatewayPayload.checkout_url
+          );
+        } else if (finalResult.payment_gateway == PaymentGatewayEnum.BAYARIND) {
+          const paymentGatewayPayload =
+            finalResult.payload as CheckoutBookingBayarindResponse;
+          router.push("/customer/payment/qris?code=" + paymentGatewayPayload.next_url);
+        }
+      }
+  
+      setIsLoading(false);
+      setOnClickCheckout(false);
+    };
+
   return (
     <>
+      <DynamicDialogWithTrigger>
+        <PaymentChannelList onCheckoutChannel={handleBayarindCheckoutBooking} />
+      </DynamicDialogWithTrigger>
       <TextLoader title="Hold a second" text="Redirecting to payment page..." />
       <div className="lg:grid lg:grid-cols-12 lg:gap-6 items-start">
         <div className="col-span-8 bg-white rounded-lg h-auto shadow-lg sm:mb-6">

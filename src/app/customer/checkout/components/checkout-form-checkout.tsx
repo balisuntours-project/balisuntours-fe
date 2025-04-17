@@ -48,6 +48,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import { DynamicDialogWithTrigger } from "@/app/global-components/utility-components/dynamic-content-without-trigger.dialog";
 import { PaymentChannelList } from "@/app/global-components/utility-components/payment-channel";
+import { BayarindPaymentChannelEnum } from "@/app/enums/bayarind/bayarind.enum";
 
 export function CheckoutForm({
   userData,
@@ -260,8 +261,15 @@ export function CheckoutForm({
       return;
     }
 
+    await handlePostCheckoutBooking(postPayload);
+    return;
+  };
+
+  const handlePostCheckoutBooking = async (
+    payload: CheckoutFinalPayloadParamater
+  ) => {
     setIsLoading(true);
-    const result = await BookingAction.CheckoutBooking(postPayload);
+    const result = await BookingAction.CheckoutBooking(payload);
 
     //setIsCheckoutButtonTriggered(false)
     if (result.success) {
@@ -281,7 +289,9 @@ export function CheckoutForm({
       } else if (finalResult.payment_gateway == PaymentGatewayEnum.BAYARIND) {
         const paymentGatewayPayload =
           finalResult.payload as CheckoutBookingBayarindResponse;
-        router.push(paymentGatewayPayload.next_url);
+        router.push(
+          "/customer/payment/qris?code=" + paymentGatewayPayload.next_url
+        );
       }
       setIsLoading(false);
     } else {
@@ -292,7 +302,21 @@ export function CheckoutForm({
         variant: "danger",
       });
     }
-    return;
+  };
+
+  const handleBayarindCheckoutBooking = async (
+    paymentChannel: BayarindPaymentChannelEnum
+  ) => {
+    if (!finalBookingPayload) {
+      toast({
+        description: `Please retry click checkout button!`,
+        variant: "info",
+      });
+      return;
+    }
+
+    finalBookingPayload.bayarind_payment_channel = paymentChannel;
+    await handlePostCheckoutBooking(finalBookingPayload);
   };
 
   const handleCheckoutWaitingBooking = async () => {
@@ -345,7 +369,7 @@ export function CheckoutForm({
   return (
     <>
       <DynamicDialogWithTrigger>
-        <PaymentChannelList finalBookingPayload={finalBookingPayload} />
+        <PaymentChannelList onCheckoutChannel={handleBayarindCheckoutBooking} />
       </DynamicDialogWithTrigger>
       <TextLoader title="Wait a second" text="Redirecting to payment page..." />
       <UnTriggeredConfirmationDialog

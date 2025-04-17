@@ -59,7 +59,9 @@ export function StoreCarForm({
       driver_free_waiting_time_in_minutes: 30,
       price_per_km: 5000,
       minimum_charge: 100000,
-      mininum_charge_applies_until_km: 2
+      mininum_charge_applies_until_km: 2,
+      increment_start_km: 20,
+      increment_price_rate_percentage: 0
     },
   });
 
@@ -123,6 +125,8 @@ export function StoreCarForm({
       price_per_km: values.price_per_km,
       minimum_charge: values.minimum_charge,
       mininum_charge_applies_until_km: values.mininum_charge_applies_until_km,
+      increment_start_km: values.increment_start_km,
+      increment_price_rate_percentage: values.increment_price_rate_percentage,
     };
 
     const formData = new FormData();
@@ -408,6 +412,50 @@ export function StoreCarForm({
                       <FormControl>
                         <Input
                           id="cut-off-time"
+                          type="number"
+                          placeholder="2"
+                          {...field}
+                          className={CHECKOUT_INPUT_STYLE}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="flex flex-col col-span-4">
+                <FormField
+                  control={storeVechileForm.control}
+                  name="increment_price_rate_percentage"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="">Price per km percentage</FormLabel>
+                      <FormControl>
+                        <Input
+                          id="percentage-price-per-km"
+                          type="number"
+                          placeholder="2"
+                          {...field}
+                          className={CHECKOUT_INPUT_STYLE}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="flex flex-col col-span-4">
+                <FormField
+                  control={storeVechileForm.control}
+                  name="increment_start_km"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="">Percentage up to km</FormLabel>
+                      <FormControl>
+                        <Input
+                          id="percentage-up-to-km"
                           type="number"
                           placeholder="2"
                           {...field}

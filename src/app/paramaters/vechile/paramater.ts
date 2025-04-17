@@ -14,4 +14,6 @@ export interface NewVechileParamater {
     price_per_km: number,
     minimum_charge: number,
     mininum_charge_applies_until_km: number,
+    increment_start_km: number,
+    increment_price_rate_percentage: number,
 }
