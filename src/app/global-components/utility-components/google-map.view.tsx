@@ -152,10 +152,10 @@ export function GoogleMapViewComponent({
   const markerIcon = "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"; // URL Icon marker
 
   const baliBounds = {
-    north: -8.409517,
-    south: -8.903239,
-    east: 115.744076,
-    west: 114.421349,
+    north: -8.0,         // Lebih ke utara (dekat Laut Bali)
+    south: -9.2,         // Tambah jauh ke selatan (cover Nusa Penida)
+    east: 116.0,         // Tambah ke timur (cover ujung timur Bali & Nusa Penida)
+    west: 114.35,        // Tambah ke barat (cover Gilimanuk & perbatasan Jawa)
   };
 
   if (!isLoaded) return loaderComponent ?? <div>Loading...</div>;
@@ -175,7 +175,7 @@ export function GoogleMapViewComponent({
               ),
                types: ["establishment"],
               strictBounds: true, // Batasi pencarian hanya dalam Bali
-              componentRestrictions: { country: "ID" }, // Batasi ke Indonesia
+              componentRestrictions: { country: "id" }, // Batasi ke Indonesia
             }}
           >
             <div className="relative">

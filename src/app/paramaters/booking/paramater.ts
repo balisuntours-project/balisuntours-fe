@@ -74,6 +74,8 @@ export interface CheckoutPackageOrderDataPayload
   > {}
 
 export interface CheckoutFinalPayloadParamater {
+  accept_tnc: boolean;
+  bayarind_payment_channel?: string;
   firstName: string;
   lastName: string;
   cartData: Array<string>;
