@@ -46,6 +46,8 @@ import { useRouter } from "next/navigation";
 import { BookingUtility } from "@/lib/booking.utility";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
+import { DynamicDialogWithTrigger } from "@/app/global-components/utility-components/dynamic-content-without-trigger.dialog";
+import { PaymentChannelList } from "@/app/global-components/utility-components/payment-channel";
 
 export function CheckoutForm({
   userData,
@@ -71,7 +73,10 @@ export function CheckoutForm({
   const setIsLoading = useLoaderStore((state) => state.setIsLoading);
   const currencyValue = useBookingStore((state) => state.currencyValue);
   const checkoutAmount = useBookingStore((state) => state.checkoutAmount);
-  const [checkTermCondition, setCheckTermCondition] = useState(false)
+  const [checkTermCondition, setCheckTermCondition] = useState(false);
+  const setDynamicDialogOpen = useLoaderStore(
+    (state) => state.setDynamicDialogOpen
+  );
 
   const router = useRouter();
   const { toast } = useToast();
@@ -168,7 +173,6 @@ export function CheckoutForm({
   const handleCheckoutBooking = async (
     values: z.infer<typeof TravellerDataSchema>
   ) => {
-
     setIsCheckoutButtonTriggered(true);
     const mappingPackageOrderpayload: Array<CheckoutPackageOrderDataPayload> =
       [];
@@ -198,7 +202,7 @@ export function CheckoutForm({
           });
           return;
         }
-        
+
         const payload: CheckoutPackageOrderDataPayload = {
           base_uuid: key,
           self_confirmation: value.checkoutPayload.self_confirmation,
@@ -241,13 +245,18 @@ export function CheckoutForm({
       phone: values.phone,
       packageOrderData: mappingPackageOrderpayload,
       cartData: checkoutCartData,
-      accept_tnc: checkTermCondition
+      accept_tnc: checkTermCondition,
     };
 
     setFinalBookingPayload(postPayload);
 
     if (checkIsThereAnyNeedConfirmationPackage(mappingPackageOrderpayload)) {
       setWaitingPackageAvailable(true);
+      return;
+    }
+
+    if (process.env.MAIN_PAYMENT_GATEWAY == "bayarind") {
+      setDynamicDialogOpen(true);
       return;
     }
 
@@ -283,6 +292,7 @@ export function CheckoutForm({
         variant: "danger",
       });
     }
+    return;
   };
 
   const handleCheckoutWaitingBooking = async () => {
@@ -334,6 +344,9 @@ export function CheckoutForm({
 
   return (
     <>
+      <DynamicDialogWithTrigger>
+        <PaymentChannelList finalBookingPayload={finalBookingPayload} />
+      </DynamicDialogWithTrigger>
       <TextLoader title="Wait a second" text="Redirecting to payment page..." />
       <UnTriggeredConfirmationDialog
         openState={waitingPackageAvailable}
@@ -437,9 +450,7 @@ export function CheckoutForm({
                       <FormControl>
                         <Checkbox
                           id="terms"
-                          onCheckedChange={(e) =>
-                            setCheckTermCondition(!!e)
-                          }
+                          onCheckedChange={(e) => setCheckTermCondition(!!e)}
                           className="border data-[state=checked]:bg-[#EB5E00] data-[state=checked]:text-white focus:outline-none focus:ring focus:border-blue-300"
                         />
                       </FormControl>
