@@ -20,6 +20,8 @@ export interface GetSingleVechileResponse {
     driver_free_waiting_time_in_minutes: number,
     price_per_km: number,
     minimum_charge: number,
+    increment_start_km: number,
+    increment_price_rate_percentage: number,
     mininum_charge_applies_until_km: number,
     vechile_category: VechileCategoryOfVechileResponse,
     vechile_main_photo_file: Omit<VechileMainPhotoResponse, "type"> | undefined
