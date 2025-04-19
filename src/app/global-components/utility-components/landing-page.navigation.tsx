@@ -8,6 +8,21 @@ export function LandingPageNavigationUtility() {
       <CardHeader>
         <div className="grid grid-cols-4 gap-4 text-center">
           <Link
+            href={`/customer/airport-transfer`}
+            target="__blank"
+            rel="noreferrer"
+            className="flex flex-col items-center gap-2 col-span-1"
+          >
+            <Image
+              src="/arrival.png"
+              width={50}
+              height={50}
+              className="h-[40px] w-[40px] md:h-[40px] md:w-[40px] object-cover"
+              alt="Rental Car"
+            />
+            <h2 className="text-xs md:text-sm">Airport Transfer</h2>
+          </Link>
+          <Link
             href={`https://808.rent`}
             target="__blank"
             rel="noreferrer"
@@ -22,7 +37,7 @@ export function LandingPageNavigationUtility() {
             />
             <h2 className="text-xs md:text-sm">Car Rental</h2>
           </Link>
-          <Link
+          {/* <Link
             href={"#best-category"}
             className="flex flex-col items-center gap-2 col-span-1"
           >
@@ -34,7 +49,7 @@ export function LandingPageNavigationUtility() {
               alt="Best Category"
             />
             <h2 className="text-xs md:text-sm">Best Category</h2>
-          </Link>
+          </Link> */}
           <Link
             href={`/customer/activities`}
             className="flex flex-col items-center gap-2 col-span-1"
