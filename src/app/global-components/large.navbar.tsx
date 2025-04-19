@@ -33,6 +33,20 @@ export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
             {!forAdmin && (
               <NavigationMenu>
                 <NavigationMenuList className="space-x-[-20px] md:space-x-0">
+                  <NavigationMenuItem className="hidden md:block">
+                    <Link
+                      href={`/customer/airport-transfer`}
+                      passHref
+                      legacyBehavior
+                    >
+                      <NavigationMenuLink
+                      target="_blank"
+                        className={navigationMenuTriggerStyle()}
+                      >
+                        Airport Transfer
+                      </NavigationMenuLink>
+                    </Link>
+                  </NavigationMenuItem>
                   <NavigationMenuItem>
                     <NavigationMenuTrigger>
                       <span className="hidden md:block">Bookings</span>
@@ -41,7 +55,7 @@ export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
                     <NavigationMenuContent>
                       <ul className="grid gap-3 p-3 md:p-6 w-[180px] max-w-[180px] md:max-w-max md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                         <div className="flex flex-col gap-2 md:hidden">
-                        <Link
+                          <Link
                             href="/customer/booking/airport-transfer/transaction"
                             className="flex items-center gap-2 text-xs md:text-base  cursor-pointer hover:text-blue-500"
                           >
@@ -80,7 +94,7 @@ export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
                           </NavigationMenuLink>
                         </li>
                         <div className="hidden md:block">
-                        <Link
+                          <Link
                             href="/customer/booking/airport-transfer/transaction"
                             className="flex items-center gap-2 text-sm md:text-base  cursor-pointer hover:text-blue-500"
                           >
