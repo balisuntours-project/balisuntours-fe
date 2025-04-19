@@ -55,7 +55,7 @@ export function VechileServiceAirportTransfer() {
           <CheckoutCard />
         </div>
         <div className="block lg:hidden">
-        <CheckoutCard />
+          <CheckoutCard />
         </div>
         <div className="col-span-12 lg:col-span-9">
           <div className="rounded-lg px-6 flex flex-col gap-4">
@@ -71,7 +71,7 @@ export function VechileServiceAirportTransfer() {
                       alt={vechile.name}
                       fallbackSrc="/fallback-image.png"
                       position="relative md:static lg:relative"
-                      classNameProp="rounded-md w-full md:w-[250px] h-[150px] md:h-[150px] object-cover"
+                      classNameProp="rounded-md w-full md:w-[250px] h-[200px] md:h-[150px] object-cover"
                       skeletonClassName="rounded-md"
                       priority={false} // Gambar ini tidak diberi prioritas
                       width={250}
@@ -79,7 +79,7 @@ export function VechileServiceAirportTransfer() {
                     />
                   </div>
                   <div className="col-span-12 md:col-span-6 flex flex-col gap-1">
-                    <div className="flex gap-1 items-center">
+                    <div className="flex flex-col md:flex-row gap-1 items-start">
                       <ActivityTitleCard
                         customSizeText="text-base md:text-base"
                         title={vechile.name}
@@ -200,17 +200,19 @@ export function VechileServiceAirportTransfer() {
                     </div>
                   </div>
                   <div className="col-span-12 md:col-span-3 my-auto">
-                    <div className="flex ml-auto w-1/2 md:ml-0 md:w-full items-center justify-center md:flex-col gap-2">
-                      <span className="ml-auto text-black text-end font-bold text-base md:text-lg">
-                        {GlobalUtility.IdrCurrencyFormat(vechile.price)}
-                      </span>
-                      <Button
-                        onClick={() => handleSelectedCar(vechile)}
-                        variant="default"
-                        className="ml-auto rounded-lg flex-1 w-[80px] px-8 md:px-3 lg:px-6 py-2 h-6 bg-gradient-to-r bg-[#65AD2E] hover:bg-[#65AD2E]/80 text-white font-bold hover:shadow-lg"
-                      >
-                        Add car
-                      </Button>
+                    <div className="flex ml-auto w-full md:ml-0 md:w-full items-center justify-center md:flex-col gap-2">
+                      <div className="ml-auto flex md:flex-col gap-2">
+                        <span className=" text-black text-end font-bold text-base md:text-lg">
+                          {GlobalUtility.IdrCurrencyFormat(vechile.price)}
+                        </span>
+                        <Button
+                          onClick={() => handleSelectedCar(vechile)}
+                          variant="default"
+                          className=" rounded-lg  w-[80px] px-8 md:px-3 lg:px-6 py-2 h-6 bg-gradient-to-r bg-[#65AD2E] hover:bg-[#65AD2E]/80 text-white font-bold hover:shadow-lg"
+                        >
+                          Add car
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </div>
