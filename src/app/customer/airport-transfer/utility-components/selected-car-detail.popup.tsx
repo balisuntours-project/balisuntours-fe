@@ -65,7 +65,7 @@ export function SelectedCarDetail({
             src={selectedVechile.vechile_main_photo}
             alt={selectedVechile.name}
             fallbackSrc="/fallback-image.png"
-            classNameProp="rounded-md w-full lg:w-[250px] h-[150px] md:h-[220px] lg:h-[150px] object-cover"
+            classNameProp="rounded-md w-full lg:w-[250px] h-[200px] md:h-[220px] lg:h-[150px] object-cover"
             skeletonClassName="rounded-md"
             priority={false} // Gambar ini tidak diberi prioritas
             width={250}
@@ -80,7 +80,7 @@ export function SelectedCarDetail({
           </div>
         </div>
         <div className="col-span-12 lg:col-span-6 flex flex-col gap-1">
-          <div className="flex gap-1 items-center text-start">
+          <div className="flex flex-col md:flex-row gap-1 items-start">
             <ActivityTitleCard
               customSizeText="text-base lg:text-base"
               title={selectedVechile.name}
@@ -90,7 +90,9 @@ export function SelectedCarDetail({
             </span>
           </div>
           <div className="text-start">
-            <span>{selectedVechile.short_description}</span>
+            <span className="text-sm md:text-base">
+              {selectedVechile.short_description}
+            </span>
           </div>
           <div className="flex gap-2 items-center">
             <div className="flex gap-1 items-center">
