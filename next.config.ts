@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import { config } from "dotenv";
+import { withContentlayer } from 'next-contentlayer'
 
 // Memuat variabel lingkungan dari file .env
 const { parsed } = config();
@@ -43,4 +44,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withContentlayer(nextConfig);
