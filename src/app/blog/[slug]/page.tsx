@@ -3,10 +3,10 @@ import Link from "next/link";
 
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { allPosts } from "contentlayer/generated";
 import { format, parseISO, isValid } from "date-fns";
 import { LargeNavbar } from "@/app/global-components/large.navbar";
 import { LandingPageFooterSection } from "@/app/global-components/landing-page.footer";
+import { allPosts } from ".contentlayer/generated";
 
 export async function generateMetadata({
   params,
@@ -21,7 +21,7 @@ export async function generateMetadata({
     notFound();
   }
 
-  return { title: post.title, description: post.description };
+  return { title: post.title, description: post.description, keywords: post.keywords ?? "" };
 }
 
 export default async function BlogDetailPage({

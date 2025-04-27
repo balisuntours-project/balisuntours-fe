@@ -47,6 +47,20 @@ export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
                       </NavigationMenuLink>
                     </Link>
                   </NavigationMenuItem>
+                  <NavigationMenuItem className="hidden md:block">
+                    <Link
+                      href={`/customer/activities`}
+                      passHref
+                      legacyBehavior
+                    >
+                      <NavigationMenuLink
+                      target="_blank"
+                        className={navigationMenuTriggerStyle()}
+                      >
+                        Activity Tour
+                      </NavigationMenuLink>
+                    </Link>
+                  </NavigationMenuItem>
                   <NavigationMenuItem>
                     <NavigationMenuTrigger>
                       <span className="hidden md:block">Bookings</span>

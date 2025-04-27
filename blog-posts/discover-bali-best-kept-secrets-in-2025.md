@@ -13,6 +13,7 @@ category:
   - Hidden gems
 image: /blog/temple.jpg
 author: Bali Sun Tours
+keywords: hidden gems in Bali, Bali secret spots, best-kept secrets Bali, Bali hidden beaches, Bali waterfalls, Bali peaceful temples, Bali untouched villages, Bali off the beaten path, Bali quiet places
 ---
 
 ## Why Explore Hidden Gems in Bali?

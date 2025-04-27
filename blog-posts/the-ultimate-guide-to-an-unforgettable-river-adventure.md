@@ -13,6 +13,7 @@ category:
   - Adventure
 image: /blog/rafting.jpg
 author: Bali Sun Tours
+keywords: rafting Bali, white water rafting Bali, Bali river adventure, best rafting Bali, rafting safety tips, Bali adventure activities, Bali rafting for beginners, Bali rafting prices, Bali adventure guide
 ---
 
 ## Why You Should Try Rafting in Bali

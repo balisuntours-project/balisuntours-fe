@@ -53,6 +53,11 @@ export const Post = defineDocumentType(() => ({
       description: 'The id of the post',
       required: true,
     },
+    keywords: {
+      type: 'string',
+      description: 'The keyword seo of the post',
+      required: false,
+    },
   },
   computedFields: {
     slug: {
@@ -66,4 +71,5 @@ export const Post = defineDocumentType(() => ({
 export default makeSource({
   contentDirPath: 'blog-posts',
   documentTypes: [Post],
+  disableImportAliasWarning: true, // Disable the warning
 })
