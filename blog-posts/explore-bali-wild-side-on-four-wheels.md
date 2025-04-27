@@ -13,6 +13,7 @@ category:
   - Adventure
 image : /blog/atv.jpg
 author: Bali Sun Tours
+keywords: ATV adventure Bali, Bali off-road experience, Bali ATV tour, Bali ATV ride, Bali adventure tours, Bali exploration, Bali rice fields ATV, Bali forest ATV ride, Bali outdoor adventure
 ---
 
 ## Why You Should Try ATV Riding in Bali
