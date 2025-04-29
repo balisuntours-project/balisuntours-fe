@@ -14,7 +14,7 @@ export default async function UnconfirmedBookingTransaction() {
   return (
     <>
       <LargeNavbar />
-      <div className="mt-24 md:mt-36 px-4 lg:px-0  mb-11 relative">
+      <div className="mt-36 md:mt-36 px-4 lg:px-0  mb-11 relative">
         <UnconfirmedGoodToKnowFlying />
         <div className="booking-section">
           <div className="sm:grid sm:grid-cols-5 lg:grid-cols-4 sm:gap-8 lg:w-[90%] mx-auto items-start mb-11">

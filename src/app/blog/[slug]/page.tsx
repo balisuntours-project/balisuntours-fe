@@ -39,7 +39,7 @@ export default async function BlogDetailPage({
   return (
     <>
       <LargeNavbar />
-      <main className="mt-16 pt-8 pb-16 lg:pt-16 lg:pb-24">
+      <main className="mt-16 pt-11 pb-16 lg:pt-16 lg:pb-24">
         <div className="flex flex-col justify-between px-4 mx-auto max-w-screen-xl">
           <Image
             src={post?.image}

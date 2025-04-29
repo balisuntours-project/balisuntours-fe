@@ -38,6 +38,25 @@ import { useLoaderStore } from "@/app/store/loader.store";
 import { useToast } from "@/hooks/use-toast";
 import { HttpStatus } from "@/lib/global.enum";
 import { ActivityTitleCard } from "@/app/global-components/utility-components/activity-title.card";
+import "react-quill-new/dist/quill.snow.css";
+import dynamic from "next/dynamic";
+
+const modules = {
+  toolbar: [
+    ['bold'],          // tombol bold
+    ['link'],          // tombol link
+  ],
+}
+
+// Dynamic import untuk ReactQuill
+const ReactQuill = dynamic(() => import("react-quill-new"), {
+  ssr: false,
+  loading: () => (
+    <div className="animate-pulse">
+      <div className="h-12 bg-gray-200 mt-3 rounded-md"></div>
+    </div>
+  ),
+});
 
 export function StoreCarForm({
   vechileCategories,
@@ -72,13 +91,13 @@ export function StoreCarForm({
   const setSelectedPostVechileImage = useVechileStore(
     (state) => state.setSelectedPostVechileImage
   );
-  const [shortDescription, setShortDescription] = useState<string | null>(null);
+  const [shortDescription, setShortDescription] = useState<string>("");
   const shortDescriptionRef = useRef<HTMLParagraphElement>(null);
   const shortDescriptionTextareaRef = useRef<HTMLTextAreaElement>(null);
-  const handleAdditionalRequestChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
+  const handleShortDescriptionChange = (
+    quilString: string
   ) => {
-    setShortDescription(e.target.value);
+    setShortDescription(quilString);
     const textarea = shortDescriptionTextareaRef.current;
     if (textarea) {
       textarea.style.height = "auto"; // Reset dulu agar tidak terus bertambah
@@ -94,8 +113,8 @@ export function StoreCarForm({
       });
       return;
     }
-
-    if (!shortDescription || shortDescription.length > 253) {
+    
+    if (shortDescription == "" || shortDescription.length > 253) {
       if (shortDescriptionRef.current) {
         shortDescriptionRef.current.classList.remove("hidden");
         shortDescriptionRef.current.classList.add("block");
@@ -251,13 +270,14 @@ export function StoreCarForm({
                 <FormItem>
                   <FormLabel className="">Short car description</FormLabel>
                   <FormControl>
-                    <Textarea
+                    {/* <Textarea
                       ref={shortDescriptionTextareaRef}
-                      onChange={(e) => handleAdditionalRequestChange(e)}
+                      onChange={(e) => handleShortDescriptionChange(e)}
                       id="customer-additional-request"
                       placeholder="Super comfy seat..."
                       className={CHECKOUT_INPUT_STYLE}
-                    />
+                    /> */}
+                    <ReactQuill modules={modules} formats={["bold" , "link"]} theme="snow" value={shortDescription} onChange={(e) => handleShortDescriptionChange(e)} />
                   </FormControl>
                   <p
                     className="short-description text-sm text-red-500 hidden"

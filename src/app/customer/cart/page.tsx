@@ -13,7 +13,7 @@ export default async function Cart() {
   return (
     <>
       <LargeNavbar />
-      <div className="pt-11 md:pt-22 lg:pt-24">
+      <div className="pt-20 md:pt-22 lg:pt-24">
         <div className="cart-section">
           {cartItems ? (
             <CartItemsList items={cartItems} />

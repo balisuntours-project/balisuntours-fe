@@ -47,7 +47,7 @@ export default async function PreviewActivity({
       <SetRecentlyViewedActivityToStorage
         activity={dataForRecentlyShowedActivity}
       />
-      <div className="pt-11 md:pt-32 lg:pt-32 relative">
+      <div className="pt-20 md:pt-32 lg:pt-32 relative">
         <div className="md:container flex flex-col md:px-8  md:pt-11 pb-11 w-full">
           <div className="flex flex-col md:flex-col-reverse">
             <DetailActivityHero

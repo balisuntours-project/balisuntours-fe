@@ -89,11 +89,17 @@ export function VechileServiceAirportTransfer() {
                       </span>
                     </div>
                     <div>
-                      <span className="text-sm md:text-base">
+                      <div
+                       className="text-xs md:text-sm"
+                        dangerouslySetInnerHTML={{
+                          __html: vechile.short_description,
+                        }}
+                      />
+                      {/* <span className="text-sm md:text-base">
                         {vechile.short_description}
-                      </span>
+                      </span> */}
                     </div>
-                    <div className="flex gap-2 items-center">
+                    <div className="flex gap-2 items-center text-xs md:text-sm">
                       <div className="flex gap-1 items-center">
                         <User className="h-4 w-4" />
                         <span className="text-gray-500 my-auto">
@@ -112,7 +118,7 @@ export function VechileServiceAirportTransfer() {
                         trigger={
                           <ToolTipText
                             title={
-                              <span className="rounded-md text-start text-sm md:text-base  bg-gray-100 text-green-600 px-1">
+                              <span className="rounded-md text-start text-xs md:text-sm  bg-gray-100 text-green-600 px-1">
                                 Instant confirmation
                               </span>
                             }
@@ -134,7 +140,7 @@ export function VechileServiceAirportTransfer() {
                         trigger={
                           <ToolTipText
                             title={
-                              <span className="rounded-md text-start text-sm md:text-base  bg-gray-100 text-green-600 px-1 ">
+                              <span className="rounded-md text-start text-xs md:text-sm  bg-gray-100 text-green-600 px-1 ">
                                 Free waiting time
                               </span>
                             }
@@ -159,7 +165,7 @@ export function VechileServiceAirportTransfer() {
                         trigger={
                           <ToolTipText
                             title={
-                              <span className="rounded-md text-start text-sm md:text-base bg-gray-100 text-secondary px-1">
+                              <span className="rounded-md text-start text-xs md:text-sm bg-gray-100 text-secondary px-1">
                                 Meet & Greet
                               </span>
                             }
@@ -181,7 +187,7 @@ export function VechileServiceAirportTransfer() {
                         trigger={
                           <ToolTipText
                             title={
-                              <span className="rounded-md text-start text-sm md:text-base bg-gray-100 text-secondary px-1">
+                              <span className="rounded-md text-start text-xs md:text-sm bg-gray-100 text-secondary px-1">
                                 English-speaking driver
                               </span>
                             }

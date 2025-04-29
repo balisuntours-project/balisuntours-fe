@@ -13,7 +13,7 @@ export default async function AllActivities() {
   return (
     <>
       <LargeNavbar />
-      <div className="pt-11 md:pt-22 lg:pt-24">
+      <div className="pt-20 md:pt-22 lg:pt-24">
         <div className="">
           <AllActivitiesHero />
           <div className="container flex flex-col gap-4 md:gap-11 px-3 md:px-8  pt-11 pb-11">

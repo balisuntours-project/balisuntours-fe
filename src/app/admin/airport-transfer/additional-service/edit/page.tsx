@@ -27,7 +27,7 @@ export default async function EditAdditionalServicePage({
   return (
     <>
       <LargeNavbar forAdmin={true} />
-      <div className="pt-11 md:pt-22 lg:pt-28">
+      <div className="pt-20 md:pt-22 lg:pt-28">
         <div className="px-4 pb-11">
           <EditAdditinalServiceForm currentData={data} serviceUuid={serviceUuidParam as string} />
         </div>
