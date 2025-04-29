@@ -38,52 +38,47 @@ export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
             {!forAdmin && (
               <NavigationMenu>
                 <NavigationMenuList className="space-x-[-20px] md:space-x-0">
-                  <NavigationMenuItem className="hidden md:block">
-                    <Link
-                      href={
-                        pathname == "/customer/airport-transfer"
-                          ? "#"
-                          : `/customer/airport-transfer`
-                      }
-                      passHref
-                      legacyBehavior
-                    >
-                      <NavigationMenuLink
-                        target="_blank"
-                        onClick={(e) => {
-                          if (pathname == "/customer/airport-transfer") {
-                            e.preventDefault();
-                          }
-                        }}
-                        className={navigationMenuTriggerStyle()}
+                  {pathname != "/customer/airport-transfer" && (
+                    <NavigationMenuItem className="hidden md:block">
+                      <Link
+                        href={
+                          pathname == "/customer/airport-transfer"
+                            ? "#"
+                            : `/customer/airport-transfer`
+                        }
+                        passHref
+                        legacyBehavior
                       >
-                        Airport Transfer
-                      </NavigationMenuLink>
-                    </Link>
-                  </NavigationMenuItem>
-                  <NavigationMenuItem className="hidden md:block">
-                    <Link
-                      href={
-                        pathname == "/customer/activities"
-                          ? "#"
-                          : `/customer/activities`
-                      }
-                      passHref
-                      legacyBehavior
-                    >
-                      <NavigationMenuLink
-                        target="_blank"
-                        onClick={(e) => {
-                          if (pathname == "/customer/activities") {
-                            e.preventDefault();
-                          }
-                        }}
-                        className={navigationMenuTriggerStyle()}
+                        <NavigationMenuLink
+                          target="_blank"
+                          onClick={(e) => {
+                            if (pathname == "/customer/airport-transfer") {
+                              e.preventDefault();
+                            }
+                          }}
+                          className={navigationMenuTriggerStyle()}
+                        >
+                          Airport Transfer
+                        </NavigationMenuLink>
+                      </Link>
+                    </NavigationMenuItem>
+                  )}
+                  {pathname == "/customer/airport-transfer" && (
+                    <NavigationMenuItem className="hidden md:block">
+                      <Link
+                        href={"/customer/activities"}
+                        passHref
+                        legacyBehavior
                       >
-                        Activity & Tour
-                      </NavigationMenuLink>
-                    </Link>
-                  </NavigationMenuItem>
+                        <NavigationMenuLink
+                          target="_blank"
+                          className={navigationMenuTriggerStyle()}
+                        >
+                          Tour & Activity
+                        </NavigationMenuLink>
+                      </Link>
+                    </NavigationMenuItem>
+                  )}
                   <NavigationMenuItem>
                     <NavigationMenuTrigger>
                       <span className="hidden md:block">Bookings</span>
@@ -187,53 +182,43 @@ export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
           {!forAdmin && (
             <NavigationMenu>
               <NavigationMenuList className="space-x-0 md:space-x-0">
-                <NavigationMenuItem className="block">
-                  <Link
-                    href={
-                      pathname == "/customer/airport-transfer"
-                        ? "#"
-                        : `/customer/airport-transfer`
-                    }
-                    passHref
-                    legacyBehavior
-                  >
-                    <NavigationMenuLink
-                      target="_blank"
-                      onClick={(e) => {
-                        if (pathname == "/customer/airport-transfer") {
-                          e.preventDefault();
-                        }
-                      }}
-                      className={navigationMenuTriggerStyle()}
+                {pathname != "/customer/airport-transfer" && (
+                  <NavigationMenuItem className="block">
+                    <Link
+                      href={
+                        pathname == "/customer/airport-transfer"
+                          ? "#"
+                          : `/customer/airport-transfer`
+                      }
+                      passHref
+                      legacyBehavior
                     >
-                      Airport Transfer
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem className="block">
-                  <Link
-                    href={
-                      pathname == "/customer/activities"
-                        ? "#"
-                        : `/customer/activities`
-                    }
-                    passHref
-                    legacyBehavior
-                  >
-                    <NavigationMenuLink
-                      target="_blank"
-                      onClick={(e) => {
-                        if (pathname == "/customer/activities") {
-                          e.preventDefault();
-                        }
-                      }}
-                      className={navigationMenuTriggerStyle()}
-                    >
-                      Activity & Tour
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-               
+                      <NavigationMenuLink
+                        target="_blank"
+                        onClick={(e) => {
+                          if (pathname == "/customer/airport-transfer") {
+                            e.preventDefault();
+                          }
+                        }}
+                        className={navigationMenuTriggerStyle()}
+                      >
+                        Airport Transfer
+                      </NavigationMenuLink>
+                    </Link>
+                  </NavigationMenuItem>
+                )}
+                {pathname == "/customer/airport-transfer" && (
+                  <NavigationMenuItem className="block">
+                    <Link href={`/customer/activities`} passHref legacyBehavior>
+                      <NavigationMenuLink
+                        target="_blank"
+                        className={navigationMenuTriggerStyle()}
+                      >
+                        Activity & Tour
+                      </NavigationMenuLink>
+                    </Link>
+                  </NavigationMenuItem>
+                )}
               </NavigationMenuList>
             </NavigationMenu>
           )}
