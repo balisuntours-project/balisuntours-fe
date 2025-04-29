@@ -8,7 +8,7 @@ export default function AiportTransferPage() {
   return (
     <>
       <LargeNavbar />
-      <div className="pt-11 md:pt-22 lg:pt-24">
+      <div className="pt-20 md:pt-22 lg:pt-24">
         <div className="pb-4 md:pb-4 lg:pb-0">
           <HeroSectionAirportTransfer>
             <SearchVechileInputFormCard />

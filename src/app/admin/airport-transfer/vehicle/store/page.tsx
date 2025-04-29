@@ -22,7 +22,7 @@ export default async function AdminAirportTransferStore() {
   return (
     <>
       <LargeNavbar forAdmin={true} />
-      <div className="pt-11 md:pt-22 lg:pt-28">
+      <div className="pt-20 md:pt-22 lg:pt-28">
         <div className="px-4 pb-11">
           <StoreCarForm vechileMainPhotos={vechileMainPhotos} vechileCategories={vechileCategories} />
         </div>

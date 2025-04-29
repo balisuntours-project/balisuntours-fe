@@ -90,11 +90,17 @@ export function SelectedCarDetail({
             </span>
           </div>
           <div className="text-start">
-            <span className="text-sm md:text-base">
+            <div
+              className="text-xs md:text-sm"
+              dangerouslySetInnerHTML={{
+                __html: selectedVechile.short_description,
+              }}
+            />
+            {/* <span className="text-sm md:text-base">
               {selectedVechile.short_description}
-            </span>
+            </span> */}
           </div>
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 items-center text-xs md:text-sm">
             <div className="flex gap-1 items-center">
               <User className="h-4 w-4" />
               <span className="text-gray-500 my-auto">
@@ -109,18 +115,18 @@ export function SelectedCarDetail({
             </div>
           </div>
           <div className="flex gap-2">
-            <span className="rounded-md text-start text-sm lg:text-base  bg-gray-100 text-green-600 px-1">
+            <span className="rounded-md text-start text-xs lg:text-sm  bg-gray-100 text-green-600 px-1">
               Instant confirmation
             </span>
-            <span className="rounded-md text-start text-sm lg:text-base  bg-gray-100 text-green-600 px-1 ">
+            <span className="rounded-md text-start text-xs lg:text-sm  bg-gray-100 text-green-600 px-1 ">
               Free waiting time
             </span>
           </div>
           <div className="flex gap-2">
-            <span className="rounded-md text-start text-sm lg:text-base bg-gray-100 text-secondary px-1">
+            <span className="rounded-md text-start text-xs lg:text-sm bg-gray-100 text-secondary px-1">
               Meet & Greet
             </span>
-            <span className="rounded-md text-start text-sm lg:text-base bg-gray-100 text-secondary px-1">
+            <span className="rounded-md text-start text-xs lg:text-sm bg-gray-100 text-secondary px-1">
               English-speaking driver
             </span>
           </div>

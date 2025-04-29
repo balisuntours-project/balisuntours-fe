@@ -1,3 +1,5 @@
+"use client";
+
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -11,11 +13,14 @@ import { ArrowRight, ShoppingCart, TicketCheck } from "lucide-react";
 import Image from "next/image";
 import { LoginButtonNavbar } from "./utility-components/login-button.navbar";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
+  const pathname = usePathname();
+
   return (
     <nav className="fixed top-0 w-full bg-white shadow-sm z-50">
-      <div className="max-w-full mx-auto px-4 py-4 md:px-6 lg:px-28 lg:py-4">
+      <div className="max-w-full mx-auto px-4 pt-4 md:px-6 lg:px-28 lg:py-4">
         <div className="flex justify-between items-center sm:py-5 lg:py-3">
           {/* Left - Company Icon */}
           <Link href="/" className="flex-shrink-0">
@@ -35,12 +40,21 @@ export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
                 <NavigationMenuList className="space-x-[-20px] md:space-x-0">
                   <NavigationMenuItem className="hidden md:block">
                     <Link
-                      href={`/customer/airport-transfer`}
+                      href={
+                        pathname == "/customer/airport-transfer"
+                          ? "#"
+                          : `/customer/airport-transfer`
+                      }
                       passHref
                       legacyBehavior
                     >
                       <NavigationMenuLink
-                      target="_blank"
+                        target="_blank"
+                        onClick={(e) => {
+                          if (pathname == "/customer/airport-transfer") {
+                            e.preventDefault();
+                          }
+                        }}
                         className={navigationMenuTriggerStyle()}
                       >
                         Airport Transfer
@@ -49,15 +63,24 @@ export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
                   </NavigationMenuItem>
                   <NavigationMenuItem className="hidden md:block">
                     <Link
-                      href={`/customer/activities`}
+                      href={
+                        pathname == "/customer/activities"
+                          ? "#"
+                          : `/customer/activities`
+                      }
                       passHref
                       legacyBehavior
                     >
                       <NavigationMenuLink
-                      target="_blank"
+                        target="_blank"
+                        onClick={(e) => {
+                          if (pathname == "/customer/activities") {
+                            e.preventDefault();
+                          }
+                        }}
                         className={navigationMenuTriggerStyle()}
                       >
-                        Activity Tour
+                        Activity & Tour
                       </NavigationMenuLink>
                     </Link>
                   </NavigationMenuItem>
@@ -156,6 +179,64 @@ export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
 
             <LoginButtonNavbar forAdmin={forAdmin} />
           </div>
+        </div>
+        <div className="-mx-4 md:-mx-6 mt-2 sm:mt-0 lg:-mx-28 block sm:hidden">
+          <hr className="border-gray-300" />
+        </div>
+        <div className="flex justify-center items-center sm:hidden">
+          {!forAdmin && (
+            <NavigationMenu>
+              <NavigationMenuList className="space-x-0 md:space-x-0">
+                <NavigationMenuItem className="block">
+                  <Link
+                    href={
+                      pathname == "/customer/airport-transfer"
+                        ? "#"
+                        : `/customer/airport-transfer`
+                    }
+                    passHref
+                    legacyBehavior
+                  >
+                    <NavigationMenuLink
+                      target="_blank"
+                      onClick={(e) => {
+                        if (pathname == "/customer/airport-transfer") {
+                          e.preventDefault();
+                        }
+                      }}
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      Airport Transfer
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem className="block">
+                  <Link
+                    href={
+                      pathname == "/customer/activities"
+                        ? "#"
+                        : `/customer/activities`
+                    }
+                    passHref
+                    legacyBehavior
+                  >
+                    <NavigationMenuLink
+                      target="_blank"
+                      onClick={(e) => {
+                        if (pathname == "/customer/activities") {
+                          e.preventDefault();
+                        }
+                      }}
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      Activity & Tour
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+               
+              </NavigationMenuList>
+            </NavigationMenu>
+          )}
         </div>
       </div>
     </nav>
