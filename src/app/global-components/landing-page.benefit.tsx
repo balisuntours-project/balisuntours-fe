@@ -74,7 +74,7 @@ export function LandingPageBenefit() {
           </CarouselItem>
 
           {/* Carousel Item 4 */}
-          <CarouselItem className="basis-[40%] md:basis-[29%] lg:basis-1/4">
+          <CarouselItem className="basis-[40%] md:basis-[35%] lg:basis-1/4">
             <div className="flex flex-col gap-3">
               <Image
                 src="/unforgetable-moment.png"
