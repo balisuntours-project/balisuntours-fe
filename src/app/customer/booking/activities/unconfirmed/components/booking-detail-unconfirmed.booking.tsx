@@ -33,6 +33,9 @@ import { useLoaderStore } from "@/app/store/loader.store";
 import { TextLoader } from "@/app/global-components/utility-components/text-loader.popup";
 import { useRouter } from "next/navigation";
 import { BookingUtility } from "@/lib/booking.utility";
+import { BayarindPaymentChannelEnum } from "@/app/enums/bayarind/bayarind.enum";
+import { DynamicDialogWithTrigger } from "@/app/global-components/utility-components/dynamic-content-without-trigger.dialog";
+import { PaymentChannelList } from "@/app/global-components/utility-components/payment-channel";
 
 export function BookingDetailUnconfirmed({
   bookingsData,
@@ -43,6 +46,11 @@ export function BookingDetailUnconfirmed({
 
   const setSelectedBooking = useBookingStore(
     (state) => state.setSelectedBooking
+  );
+  const [finalBookingPayload, setFinalBookingPayload] =
+    useState<CheckoutUnconfirmedBookingParamater>();
+  const setDynamicDialogOpen = useLoaderStore(
+    (state) => state.setDynamicDialogOpen
   );
 
   const [currentCanceledBookingOrderId, setCurrentCanceledBookingOrderId] =
@@ -99,6 +107,21 @@ export function BookingDetailUnconfirmed({
   const setIsloading = useLoaderStore((state) => state.setIsLoading);
   const router = useRouter();
 
+  const handleBayarindCheckoutBooking = async (
+    paymentChannel: BayarindPaymentChannelEnum
+  ) => {
+    if (!finalBookingPayload) {
+      toast({
+        description: `Please retry click checkout button!`,
+        variant: "info",
+      });
+      return;
+    }
+
+    finalBookingPayload.bayarind_payment_channel = paymentChannel;
+    await handlePostCheckoutBooking(finalBookingPayload);
+  };
+
   const handleCheckoutBooking = async (booking: BookingDetailResponse) => {
     const mappingPackage = Object.entries(
       bookingsData.packages[booking.order_id].packages
@@ -115,6 +138,19 @@ export function BookingDetailUnconfirmed({
       package: mappingPackage,
     };
 
+    setFinalBookingPayload(payload);
+
+    if (process.env.MAIN_PAYMENT_GATEWAY == "bayarind") {
+      setDynamicDialogOpen(true);
+      return;
+    }
+
+    await handlePostCheckoutBooking(payload);
+  };
+
+  const handlePostCheckoutBooking = async (
+    payload: CheckoutUnconfirmedBookingParamater
+  ) => {
     setIsloading(true);
     const checkout = await BookingAction.CheckoutUnconfirmedBooking(payload);
     setIsloading(false);
@@ -136,7 +172,16 @@ export function BookingDetailUnconfirmed({
       } else if (finalResult.payment_gateway == PaymentGatewayEnum.BAYARIND) {
         const paymentGatewayPayload =
           finalResult.payload as CheckoutBookingBayarindResponse;
-        router.push(paymentGatewayPayload.next_url);
+        if (
+          paymentGatewayPayload.payment_channel ==
+          BayarindPaymentChannelEnum.qris
+        ) {
+          router.push(
+            "/customer/payment/qris?code=" + paymentGatewayPayload.next_url
+          );
+        } else {
+          router.push(paymentGatewayPayload.next_url);
+        }
       }
     } else {
       const finalResult = checkout.data as string; //errror response from backend
@@ -149,6 +194,9 @@ export function BookingDetailUnconfirmed({
 
   return (
     <>
+      <DynamicDialogWithTrigger>
+        <PaymentChannelList onCheckoutChannel={handleBayarindCheckoutBooking} />
+      </DynamicDialogWithTrigger>
       <TextLoader title="Hold a second" text="We are preparing your book!" />
       {sourceItems.length > 0 ? (
         <div className="md:col-span-3 flex flex-col gap-5">

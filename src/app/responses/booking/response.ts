@@ -4,6 +4,7 @@ import { ActivityPackageTypeEnum } from "@/app/enums/activity/activity.enum"
 import { BookingPriceResponse } from "../activity-package-price/response"
 import { CheckoutDataPackageResponse } from "../activity-package/response"
 import { PaymentGatewayEnum } from "@/lib/global.enum"
+import { BayarindPaymentChannelEnum } from "@/app/enums/bayarind/bayarind.enum"
 
 export interface BookingResponse {
     bookings: Array<BookingDetailResponse>,
@@ -91,7 +92,7 @@ export interface CheckoutUserDataRespnse {
 
 export interface CheckoutBookingResponse{
     payment_gateway : PaymentGatewayEnum|null,
-    payload: CheckoutBookingIpay88Response | CheckoutBookingIpaymuResponse
+    payload: CheckoutBookingIpay88Response | CheckoutBookingIpaymuResponse | CheckoutBookingBayarindResponse
 }
 
 export interface CheckoutBookingIpaymuResponse {
@@ -107,6 +108,7 @@ export interface CheckoutBookingIpay88Response {
 
 export interface CheckoutBookingBayarindResponse {
     next_url : string,
+    payment_channel : BayarindPaymentChannelEnum,
 }
 
 export interface TransactionStatusResponse {
