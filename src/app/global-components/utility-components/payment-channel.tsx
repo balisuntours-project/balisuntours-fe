@@ -3,19 +3,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CreditCard, QrCode } from "lucide-react";
-import { useLoaderStore } from "@/app/store/loader.store";
-import { CheckoutFinalPayloadParamater } from "@/app/paramaters/booking/paramater";
-import { useToast } from "@/hooks/use-toast";
-import { BookingAction } from "@/app/actions/booking/action";
-import {
-  CheckoutBookingBayarindResponse,
-  CheckoutBookingIpay88Response,
-  CheckoutBookingIpaymuResponse,
-  CheckoutBookingResponse,
-} from "@/app/responses/booking/response";
-import { PaymentGatewayEnum } from "@/lib/global.enum";
-import { useRouter } from "next/navigation";
-import { BookingUtility } from "@/lib/booking.utility";
 import { TextLoader } from "./text-loader.popup";
 import { BayarindPaymentChannelEnum } from "@/app/enums/bayarind/bayarind.enum";
 

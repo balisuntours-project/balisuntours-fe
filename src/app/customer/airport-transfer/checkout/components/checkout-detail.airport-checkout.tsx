@@ -105,10 +105,9 @@ export function CheckoutDetailAirportTransfer({
   const setOnClickCheckout = useAirportTransferStore(
     (state) => state.setOnClickCheckout
   );
-   const setDynamicDialogOpen = useLoaderStore(
-      (state) => state.setDynamicDialogOpen
-    );
-  
+  const setDynamicDialogOpen = useLoaderStore(
+    (state) => state.setDynamicDialogOpen
+  );
 
   const [checkTermCondition, setCheckTermCondition] = useState(false);
   const [additionalServiceTotalAmount, setAdditionalServiceTotalAmount] =
@@ -191,7 +190,7 @@ export function CheckoutDetailAirportTransfer({
       setDynamicDialogOpen(true);
       return;
     }
-    
+
     setOnClickCheckout(true);
   };
 
@@ -262,57 +261,67 @@ export function CheckoutDetailAirportTransfer({
     }
   }, [selectedAdditionalService]);
 
+  const handleBayarindCheckoutBooking = async (
+    paymentChannel: BayarindPaymentChannelEnum
+  ) => {
+    if (!checkoutPaymentData) {
+      toast({
+        description: `Please fill the necessary form field!`,
+        variant: "info",
+      });
+      return;
+    }
 
-   const handleBayarindCheckoutBooking = async (paymentChannel: BayarindPaymentChannelEnum) => {
-      if (!checkoutPaymentData) {
-        toast({
-          description: `Please fill the necessary form field!`,
-          variant: "info",
-        });
-        return;
-      }
-  
-      checkoutPaymentData.bayarind_payment_channel = paymentChannel
-      setIsLoading(true);
-      const result = await AirportTransferAction.CheckoutToPayment(
-        checkoutPaymentData,
-        bookingUuid
-      );
-  
-      if (!result.success) {
-        setIsLoading(false);
-        setOnClickCheckout(false);
-        toast({
-          description: `${result.data}`,
-          variant: "danger",
-        });
-        return;
-      }
-  
-      if (result.success) {
-        const finalResult = result.data as CheckoutBookingResponse;
-        if (finalResult.payment_gateway == PaymentGatewayEnum.IPAYMU) {
-          const paymentGatewayPayload =
-            finalResult.payload as CheckoutBookingIpaymuResponse;
-          router.push(paymentGatewayPayload.next_url);
-        } else if (finalResult.payment_gateway == PaymentGatewayEnum.IPAY88) {
-          const paymentGatewayPayload =
-            finalResult.payload as CheckoutBookingIpay88Response;
-          BookingUtility.handleIpay88Checkout(
-            paymentGatewayPayload.checkout_id,
-            paymentGatewayPayload.signature,
-            paymentGatewayPayload.checkout_url
-          );
-        } else if (finalResult.payment_gateway == PaymentGatewayEnum.BAYARIND) {
-          const paymentGatewayPayload =
-            finalResult.payload as CheckoutBookingBayarindResponse;
-          router.push("/customer/payment/qris?code=" + paymentGatewayPayload.next_url);
-        }
-      }
-  
+    checkoutPaymentData.bayarind_payment_channel = paymentChannel;
+    setIsLoading(true);
+    const result = await AirportTransferAction.CheckoutToPayment(
+      checkoutPaymentData,
+      bookingUuid
+    );
+
+    if (!result.success) {
       setIsLoading(false);
       setOnClickCheckout(false);
-    };
+      toast({
+        description: `${result.data}`,
+        variant: "danger",
+      });
+      return;
+    }
+
+    if (result.success) {
+      const finalResult = result.data as CheckoutBookingResponse;
+      if (finalResult.payment_gateway == PaymentGatewayEnum.IPAYMU) {
+        const paymentGatewayPayload =
+          finalResult.payload as CheckoutBookingIpaymuResponse;
+        router.push(paymentGatewayPayload.next_url);
+      } else if (finalResult.payment_gateway == PaymentGatewayEnum.IPAY88) {
+        const paymentGatewayPayload =
+          finalResult.payload as CheckoutBookingIpay88Response;
+        BookingUtility.handleIpay88Checkout(
+          paymentGatewayPayload.checkout_id,
+          paymentGatewayPayload.signature,
+          paymentGatewayPayload.checkout_url
+        );
+      } else if (finalResult.payment_gateway == PaymentGatewayEnum.BAYARIND) {
+        const paymentGatewayPayload =
+          finalResult.payload as CheckoutBookingBayarindResponse;
+        if (
+          paymentGatewayPayload.payment_channel ==
+          BayarindPaymentChannelEnum.qris
+        ) {
+          router.push(
+            "/customer/payment/qris?code=" + paymentGatewayPayload.next_url
+          );
+        } else {
+          router.push(paymentGatewayPayload.next_url);
+        }
+      }
+    }
+
+    setIsLoading(false);
+    setOnClickCheckout(false);
+  };
 
   return (
     <>

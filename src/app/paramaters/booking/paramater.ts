@@ -15,6 +15,7 @@ export interface CancelBookingParamater {
 
 export interface CheckoutUnconfirmedBookingParamater {
   order: BookingDetailResponse;
+  bayarind_payment_channel?: string,
   package: {
     [key: string]: CheckoutUnconfirmedBookingPackageData;
   };
@@ -76,6 +77,7 @@ export interface CheckoutPackageOrderDataPayload
 export interface CheckoutFinalPayloadParamater {
   accept_tnc: boolean;
   bayarind_payment_channel?: string;
+  include_waiting_booking?: boolean;
   firstName: string;
   lastName: string;
   cartData: Array<string>;

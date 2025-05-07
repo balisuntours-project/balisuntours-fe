@@ -289,9 +289,16 @@ export function CheckoutForm({
       } else if (finalResult.payment_gateway == PaymentGatewayEnum.BAYARIND) {
         const paymentGatewayPayload =
           finalResult.payload as CheckoutBookingBayarindResponse;
-        router.push(
-          "/customer/payment/qris?code=" + paymentGatewayPayload.next_url
-        );
+        if (
+          paymentGatewayPayload.payment_channel ==
+          BayarindPaymentChannelEnum.qris
+        ) {
+          router.push(
+            "/customer/payment/qris?code=" + paymentGatewayPayload.next_url
+          );
+        } else {
+          router.push(paymentGatewayPayload.next_url);
+        }
       }
       setIsLoading(false);
     } else {
@@ -322,12 +329,13 @@ export function CheckoutForm({
   const handleCheckoutWaitingBooking = async () => {
     setWaitingPackageAvailable(false);
     if (finalBookingPayload) {
+      finalBookingPayload.include_waiting_booking = true // set true
       setIsLoading(true);
       const result = await BookingAction.CheckoutBooking(finalBookingPayload);
 
       if (result.success) {
         const finalResult = result.data as CheckoutBookingResponse;
-
+        
         //untuk case waiting activity
         if (!finalResult.payment_gateway) {
           const paymentGatewayPayload =
@@ -335,20 +343,6 @@ export function CheckoutForm({
           router.push(paymentGatewayPayload.next_url);
         }
 
-        //untuk case self confirmation activity
-        if (finalResult.payment_gateway == PaymentGatewayEnum.IPAYMU) {
-          const paymentGatewayPayload =
-            finalResult.payload as CheckoutBookingIpaymuResponse;
-          router.push(paymentGatewayPayload.next_url);
-        } else if (finalResult.payment_gateway == PaymentGatewayEnum.IPAY88) {
-          const paymentGatewayPayload =
-            finalResult.payload as CheckoutBookingIpay88Response;
-          BookingUtility.handleIpay88Checkout(
-            paymentGatewayPayload.checkout_id,
-            paymentGatewayPayload.signature,
-            paymentGatewayPayload.checkout_url
-          );
-        }
         setIsLoading(false);
       } else {
         setIsLoading(false);
