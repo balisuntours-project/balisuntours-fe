@@ -14,6 +14,7 @@ import { GlobalUtility } from "@/lib/global.utility";
 import { FormEvent, useEffect, useState } from "react";
 import { useCheckoutBookingProvider } from "../provider/checkout-booking.provider";
 import { CHECKOUT_INPUT_STYLE } from "@/lib/global.constant";
+import { CheckoutForMFreeVoucherNotificationContent } from "./checkout-form-free-voucher.notification";
 
 export function CheckoutFormFreeTourType({
   pickupTimeList,
@@ -37,7 +38,9 @@ export function CheckoutFormFreeTourType({
   const isCheckoutButtonTriggered = useBookingStore(
     (state) => state.isCheckoutButtonTriggered
   );
-  const setIsCheckoutButtonTriggered = useBookingStore((state) => state.setIsCheckoutButtonTriggered);
+  const setIsCheckoutButtonTriggered = useBookingStore(
+    (state) => state.setIsCheckoutButtonTriggered
+  );
 
   const [minimumSpendMessage, setMinimumSpendMessage] = useState("");
   const validateInputFlatPrice = (event: FormEvent<HTMLInputElement>) => {
@@ -78,50 +81,57 @@ export function CheckoutFormFreeTourType({
   };
 
   //diambil dari context provider
-  const { planningItineraryRef, pickupTimeRef, freeTourServiceRef, textAreaNoteRef, textAreaPlannedPlaceRef } =
-    useCheckoutBookingProvider();
+  const {
+    planningItineraryRef,
+    pickupTimeRef,
+    freeTourServiceRef,
+    textAreaNoteRef,
+    textAreaPlannedPlaceRef,
+  } = useCheckoutBookingProvider();
 
-    const handlePlannedPlaceToVisitChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      const textarea = textAreaPlannedPlaceRef.current;
-      if (textarea) {
-        textarea.style.height = "auto"; // Reset dulu agar tidak terus bertambah
-        textarea.style.height = `${Math.min(textarea.scrollHeight, 300)}px`; // Sesuaikan dengan konten
-      }
-  
-      setBookingScopedState(
-        baseUuid,
-        "checkoutPayload",
-        scopedBookingState.checkoutPayload
-          ? {
-              ...scopedBookingState.checkoutPayload,
-              planned_place_to_visit: e.target.value,
-            }
-          : undefined
-      )
+  const handlePlannedPlaceToVisitChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const textarea = textAreaPlannedPlaceRef.current;
+    if (textarea) {
+      textarea.style.height = "auto"; // Reset dulu agar tidak terus bertambah
+      textarea.style.height = `${Math.min(textarea.scrollHeight, 300)}px`; // Sesuaikan dengan konten
     }
-  
-    const handleNoteChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      const textarea = textAreaNoteRef.current;
-      if (textarea) {
-        textarea.style.height = "auto"; // Reset dulu agar tidak terus bertambah
-        textarea.style.height = `${Math.min(textarea.scrollHeight, 300)}px`; // Sesuaikan dengan konten
-      }
-  
-      setBookingScopedState(
-        baseUuid,
-        "checkoutPayload",
-        scopedBookingState.checkoutPayload
-          ? {
-              ...scopedBookingState.checkoutPayload,
-              note: e.target.value,
-            }
-          : undefined
-      )
+
+    setBookingScopedState(
+      baseUuid,
+      "checkoutPayload",
+      scopedBookingState.checkoutPayload
+        ? {
+            ...scopedBookingState.checkoutPayload,
+            planned_place_to_visit: e.target.value,
+          }
+        : undefined
+    );
+  };
+
+  const handleNoteChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const textarea = textAreaNoteRef.current;
+    if (textarea) {
+      textarea.style.height = "auto"; // Reset dulu agar tidak terus bertambah
+      textarea.style.height = `${Math.min(textarea.scrollHeight, 300)}px`; // Sesuaikan dengan konten
     }
+
+    setBookingScopedState(
+      baseUuid,
+      "checkoutPayload",
+      scopedBookingState.checkoutPayload
+        ? {
+            ...scopedBookingState.checkoutPayload,
+            note: e.target.value,
+          }
+        : undefined
+    );
+  };
 
   useEffect(() => {
     if (isCheckoutButtonTriggered) {
-        setIsCheckoutButtonTriggered(false)
+      setIsCheckoutButtonTriggered(false);
       if (
         planningItineraryRef.current &&
         !scopedBookingState.checkoutPayload?.planned_place_to_visit
@@ -165,17 +175,28 @@ export function CheckoutFormFreeTourType({
 
   useEffect(() => {
     if (scopedBookingState.checkoutPayload) {
-      if (scopedBookingState.checkoutPayload.pickup_time && pickupTimeRef.current) {
+      if (
+        scopedBookingState.checkoutPayload.pickup_time &&
+        pickupTimeRef.current
+      ) {
         pickupTimeRef.current.classList.add("hidden");
         pickupTimeRef.current.classList.remove("block");
       }
 
-      if (scopedBookingState.checkoutPayload.planned_place_to_visit && planningItineraryRef.current) {
+      if (
+        scopedBookingState.checkoutPayload.planned_place_to_visit &&
+        planningItineraryRef.current
+      ) {
         planningItineraryRef.current.classList.add("hidden");
         planningItineraryRef.current.classList.remove("block");
       }
 
-      if (scopedBookingState.checkoutPayload.free_tour_traveller_spend && scopedBookingState.checkoutPayload.free_tour_traveller_spend > minCost && freeTourServiceRef.current) {
+      if (
+        scopedBookingState.checkoutPayload.free_tour_traveller_spend &&
+        scopedBookingState.checkoutPayload.free_tour_traveller_spend >
+          minCost &&
+        freeTourServiceRef.current
+      ) {
         freeTourServiceRef.current.classList.add("hidden");
         freeTourServiceRef.current.classList.remove("block");
       }
@@ -212,7 +233,7 @@ export function CheckoutFormFreeTourType({
               className="activity-date-info text-xs md:text-sm text-red-500 hidden"
               ref={planningItineraryRef}
             >
-             Where is your planning?
+              Where is your planning?
             </p>
           </div>
 
@@ -305,6 +326,12 @@ export function CheckoutFormFreeTourType({
               placeholder="Leave note for us..."
             ></Textarea>
           </div>
+
+          {scopedBookingState.checkoutPayload?.voucherable && (
+            <CheckoutForMFreeVoucherNotificationContent
+              voucherable={scopedBookingState.checkoutPayload?.voucherable}
+            />
+          )}
         </div>
       </div>
     </>

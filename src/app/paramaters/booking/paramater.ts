@@ -1,4 +1,7 @@
-import { ActivityPackageSelfConfirmationStatus, ActivityPackageTypeEnum } from "@/app/enums/activity/activity.enum";
+import {
+  ActivityPackageSelfConfirmationStatus,
+  ActivityPackageTypeEnum,
+} from "@/app/enums/activity/activity.enum";
 import {
   CheckoutDataPackageResponse,
   CheckoutDepartureResponse,
@@ -8,6 +11,7 @@ import {
   BookingDetailResponse,
   BookingPackageDetailResponse,
 } from "@/app/responses/booking/response";
+import { VoucherableDataCheckoutPage } from "@/app/responses/free-voucher/response";
 
 export interface CancelBookingParamater {
   activity: Array<string>;
@@ -15,7 +19,7 @@ export interface CancelBookingParamater {
 
 export interface CheckoutUnconfirmedBookingParamater {
   order: BookingDetailResponse;
-  bayarind_payment_channel?: string,
+  bayarind_payment_channel?: string;
   package: {
     [key: string]: CheckoutUnconfirmedBookingPackageData;
   };
@@ -54,6 +58,7 @@ export interface CheckoutMappedPackageDataParamater {
   zoom: number;
   auto_complete_value: string | null;
   input_id: string;
+  voucherable: VoucherableDataCheckoutPage | null;
 }
 
 export interface CheckoutPackageOrderDataPayload

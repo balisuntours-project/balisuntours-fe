@@ -2,6 +2,7 @@ import { ActivityItineraryTypeEnum, ActivityPackageSelfConfirmationStatus, Activ
 import { ActivityItineraryResponse } from "../activity-itinerary/response";
 import { ActivityPackagePriceResponse, CheckoutActivityPackagePriceResponse } from "../activity-package-price/response";
 import { ActivityCoordinateResponse } from "../activity/response";
+import { VoucherableDataCheckoutPage } from "../free-voucher/response";
 
 
 
@@ -57,6 +58,7 @@ export interface CheckoutDataPackageResponse {
     prices: Array<CheckoutActivityPackagePriceResponse>,
     self_confirmation: ActivityPackageSelfConfirmationStatus,
     total_qty_for_free_tour: number|null,
+    voucherable: VoucherableDataCheckoutPage|null
     
 }
 
