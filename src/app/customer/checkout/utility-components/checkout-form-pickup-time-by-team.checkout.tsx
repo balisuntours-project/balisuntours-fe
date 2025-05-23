@@ -18,8 +18,11 @@ import {
 } from "@/components/ui/select";
 import { useEffect } from "react";
 import { useCheckoutBookingProvider } from "../provider/checkout-booking.provider";
-import { defaultScopedMapCoordinate, useGoogleMapStore } from "@/app/store/google-map.store";
-
+import {
+  defaultScopedMapCoordinate,
+  useGoogleMapStore,
+} from "@/app/store/google-map.store";
+import { CheckoutForMFreeVoucherNotificationContent } from "./checkout-form-free-voucher.notification";
 
 export function CheckoutFormPickupTimeByTeamType({
   pickupTimeList,
@@ -37,7 +40,9 @@ export function CheckoutFormPickupTimeByTeamType({
   const setBookingScopedState = useBookingStore(
     (state) => state.setScopedState
   );
-  const setIsCheckoutButtonTriggered = useBookingStore((state) => state.setIsCheckoutButtonTriggered);
+  const setIsCheckoutButtonTriggered = useBookingStore(
+    (state) => state.setIsCheckoutButtonTriggered
+  );
 
   const changeValue = (value: string) => {
     setBookingScopedState(
@@ -60,11 +65,8 @@ export function CheckoutFormPickupTimeByTeamType({
 
   useEffect(() => {
     if (isCheckoutButtonTriggered) {
-        setIsCheckoutButtonTriggered(false)
-      if (
-        mapLocationRef.current &&
-        !scopedMapState.mapScopedPayload?.name
-      ) {
+      setIsCheckoutButtonTriggered(false);
+      if (mapLocationRef.current && !scopedMapState.mapScopedPayload?.name) {
         mapLocationRef.current.classList.remove("hidden");
         mapLocationRef.current.classList.add("block");
         mapLocationRef.current.scrollIntoView({
@@ -88,14 +90,11 @@ export function CheckoutFormPickupTimeByTeamType({
   }, [isCheckoutButtonTriggered]);
 
   useEffect(() => {
-    if(scopedMapState.mapScopedPayload) {
-        if (
-            scopedMapState.mapScopedPayload.name &&
-            mapLocationRef.current
-          ) {
-            mapLocationRef.current.classList.add("hidden");
-            mapLocationRef.current.classList.remove("block");
-          }
+    if (scopedMapState.mapScopedPayload) {
+      if (scopedMapState.mapScopedPayload.name && mapLocationRef.current) {
+        mapLocationRef.current.classList.add("hidden");
+        mapLocationRef.current.classList.remove("block");
+      }
     }
 
     if (scopedBookingState.checkoutPayload) {
@@ -120,13 +119,13 @@ export function CheckoutFormPickupTimeByTeamType({
             *Pickup location & map
             <span className="italic">
               (NOTE: Pick-up points outside the
-              <span className="font-bold">{" "}(Coverage Pickup Location){" "}</span>
+              <span className="font-bold"> (Coverage Pickup Location) </span>
               areas will incur additional charges)
             </span>
           </Label>
 
           <div className="relative">
-          <div className="w-full h-[250px] md:h-[400px] mt-2">
+            <div className="w-full h-[250px] md:h-[400px] mt-2">
               <p
                 className="activity-date-info text-xs md:text-sm text-red-500 hidden"
                 ref={mapLocationRef}
@@ -134,7 +133,7 @@ export function CheckoutFormPickupTimeByTeamType({
                 Where will we pick you up?
               </p>
               <GoogleMapViewComponent
-              mapStyle="w-full h-[200px] md:h-[350px]"
+                mapStyle="w-full h-[200px] md:h-[350px]"
                 scopedId={baseUuid}
                 withSearchAutoComplete={true}
                 readonlyMap={false}
@@ -154,7 +153,8 @@ export function CheckoutFormPickupTimeByTeamType({
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel>Pickup time</SelectLabel>
-                    {(Array.isArray(pickupTimeList) && pickupTimeList.length > 0) &&
+                    {Array.isArray(pickupTimeList) &&
+                      pickupTimeList.length > 0 &&
                       pickupTimeList.map((time, key) => (
                         <SelectItem key={key} value={time}>
                           {time}
@@ -169,8 +169,12 @@ export function CheckoutFormPickupTimeByTeamType({
               >
                 What time should we pick you up?
               </p>
-            
             </div>
+            {scopedBookingState.checkoutPayload?.voucherable && (
+              <CheckoutForMFreeVoucherNotificationContent
+                voucherable={scopedBookingState.checkoutPayload?.voucherable}
+              />
+            )}
           </div>
         </div>
       </div>

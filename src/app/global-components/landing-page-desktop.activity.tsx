@@ -16,22 +16,6 @@ export function LandingPageActivityDesktopSection(props: ActivityLandingPage) {
           className="w-full max-w-full pt-5"
         >
           <CarouselContent>
-            {Array.from(props.best_deals_activity).map((activity, index) => (
-              <CarouselItem
-                key={index}
-                className="basis-full md:basis-1/2 lg:basis-1/4"
-              >
-                <div className="p-1">
-                  <ActivityCard
-                    activity={activity}
-                    tags={{
-                      first_tag: "One and Only",
-                      second_tag: "Best Experience",
-                    }}
-                  />
-                </div>
-              </CarouselItem>
-            ))}
             {Array.from(props.popular_activity).map((activity, index) => (
               <CarouselItem
                 key={index}
@@ -42,6 +26,22 @@ export function LandingPageActivityDesktopSection(props: ActivityLandingPage) {
                     activity={activity}
                     tags={{
                       first_tag: "Popular",
+                      second_tag: "Best Experience",
+                    }}
+                  />
+                </div>
+              </CarouselItem>
+            ))}
+             {Array.from(props.best_deals_activity).map((activity, index) => (
+              <CarouselItem
+                key={index}
+                className="basis-full md:basis-1/2 lg:basis-1/4"
+              >
+                <div className="p-1">
+                  <ActivityCard
+                    activity={activity}
+                    tags={{
+                      first_tag: "One and Only",
                       second_tag: "Best Experience",
                     }}
                   />

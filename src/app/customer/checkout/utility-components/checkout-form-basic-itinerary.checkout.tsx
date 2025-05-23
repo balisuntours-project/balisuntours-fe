@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/select";
 import { useEffect } from "react";
 import { useCheckoutBookingProvider } from "../provider/checkout-booking.provider";
+import { CheckoutForMFreeVoucherNotificationContent } from "./checkout-form-free-voucher.notification";
 
 export function CheckoutFormBasicItineraryType({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -206,6 +207,12 @@ export function CheckoutFormBasicItineraryType({
               }}
             />
           </div>
+
+          {scopedBookingState.checkoutPayload?.voucherable && (
+            <CheckoutForMFreeVoucherNotificationContent
+              voucherable={scopedBookingState.checkoutPayload?.voucherable}
+            />
+          )}
         </div>
       </div>
     </>

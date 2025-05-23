@@ -9,7 +9,6 @@ import { CheckoutFormPickupTimeByTeamType } from "../utility-components/checkout
 import { CheckoutFormPickupTimeByTravellerType } from "../utility-components/checkout-form-pickup-time-by-traveller.checkout";
 
 export function CheckoutFormTypeMechanism({
-
   itemPackage,
   minCost,
 }: {

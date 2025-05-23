@@ -18,4 +18,22 @@ export class AuthActionServer {
       throw error; // Agar interceptor tahu refresh gagal
     }
   }
+
+  static async GetUserRole() {
+    try {
+      const response = await apiServer("/api/user", {
+        method: "GET",
+      });
+
+      const finalResult = await response.json();
+
+      return finalResult.data;
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+
+      return {
+        role: "guest"
+      }
+    }
+  }
 }

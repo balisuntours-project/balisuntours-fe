@@ -18,10 +18,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CustomerTitleEnum } from "@/app/enums/airport-transfer/airport-transfer.enum";
 import { Input } from "@/components/ui/input";
 import { CHECKOUT_INPUT_STYLE } from "@/lib/global.constant";
-import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { VechileCategoryResponse } from "@/app/responses/vechile-category/response";

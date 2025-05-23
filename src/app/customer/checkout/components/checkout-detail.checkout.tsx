@@ -60,8 +60,8 @@ export function CheckoutDetail({
 
   //set dulu booking state checkoutnya ke array kosong
   useEffect(() => {
-    cleanUpBookingScopedState()
-  }, [])
+    cleanUpBookingScopedState();
+  }, []);
 
   useEffect(() => {
     setCheckoutActivities(checkoutActivities);
@@ -109,16 +109,12 @@ export function CheckoutDetail({
           let freeTourMinSpend = null;
           let freeTourTravellerSpend = null;
 
-          // if (flatPriceInDollar) {
-          //     pack["final_price_usd"] = flatPriceInDollar;
-          // }
-
           if (item.package_type == ActivityPackageTypeEnum.freeTour) {
             freeTourMinSpend = item.final_price ?? null;
             freeTourTravellerSpend = item.final_price ?? null;
           }
 
-          const payload = {
+          const payload: CheckoutMappedPackageDataParamater = {
             base_uuid: item.base_uuid,
             self_confirmation: item.self_confirmation,
             activity_package_uuid: item.activity_package_uuid,
@@ -155,6 +151,7 @@ export function CheckoutDetail({
             zoom: DEFAULT_ZOOM,
             auto_complete_value: null,
             input_id: `${GlobalUtility.StringToSlug(item.package_title)}`,
+            voucherable: item.voucherable,
           };
 
           packageMappedDataBowl.push(payload);
@@ -187,20 +184,6 @@ export function CheckoutDetail({
       setCheckoutPackageBookingData(packageMappedDataBowl);
     }
   }, [checkoutPackages]);
-
-  // useEffect(() => {
-  //   if(checkoutPackageBookingData) {
-  //     console.log(checkoutPackageBookingData)
-  //     console.log(checkoutPackages)
-  //   }
-  // }, [checkoutPackageBookingData])
-
-  // const [isPackageStateLoaded, setIsPackageStateLoaded] = useState<boolean>(false)
-  // useEffect(() => {
-  //   if(checkoutPackageBookingData) {
-  //     setIsPackageStateLoaded(true)
-  //   }
-  // }, [checkoutPackageBookingData])
 
   return (
     <>

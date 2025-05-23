@@ -15,6 +15,7 @@ import {
   useGoogleMapStore,
 } from "@/app/store/google-map.store";
 import { CHECKOUT_INPUT_STYLE } from "@/lib/global.constant";
+import { CheckoutForMFreeVoucherNotificationContent } from "./checkout-form-free-voucher.notification";
 
 export function CheckoutFormPickupTimeByTravellerType({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -40,10 +41,17 @@ export function CheckoutFormPickupTimeByTravellerType({
     (state) => state.setIsCheckoutButtonTriggered
   );
 
-  const { planningItineraryRef, pickupTimeRef, mapLocationRef, textAreaPlannedPlaceRef, textAreaNoteRef } =
-    useCheckoutBookingProvider();
+  const {
+    planningItineraryRef,
+    pickupTimeRef,
+    mapLocationRef,
+    textAreaPlannedPlaceRef,
+    textAreaNoteRef,
+  } = useCheckoutBookingProvider();
 
-  const handlePlannedPlaceToVisitChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handlePlannedPlaceToVisitChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     const textarea = textAreaPlannedPlaceRef.current;
     if (textarea) {
       textarea.style.height = "auto"; // Reset dulu agar tidak terus bertambah
@@ -59,8 +67,8 @@ export function CheckoutFormPickupTimeByTravellerType({
             planned_place_to_visit: e.target.value,
           }
         : undefined
-    )
-  }
+    );
+  };
 
   const handleNoteChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const textarea = textAreaNoteRef.current;
@@ -78,8 +86,8 @@ export function CheckoutFormPickupTimeByTravellerType({
             note: e.target.value,
           }
         : undefined
-    )
-  }
+    );
+  };
 
   useEffect(() => {
     if (isCheckoutButtonTriggered) {
@@ -232,12 +240,18 @@ export function CheckoutFormPickupTimeByTravellerType({
                 </Label>
                 <Textarea
                   ref={textAreaNoteRef}
-                  onChange={(e) => handleNoteChange(e) }
+                  onChange={(e) => handleNoteChange(e)}
                   className={CHECKOUT_INPUT_STYLE}
                   id="note"
                   placeholder="Leave note for us..."
                 ></Textarea>
               </div>
+
+              {scopedBookingState.checkoutPayload?.voucherable && (
+                <CheckoutForMFreeVoucherNotificationContent
+                  voucherable={scopedBookingState.checkoutPayload?.voucherable}
+                />
+              )}
             </div>
           </div>
         </div>

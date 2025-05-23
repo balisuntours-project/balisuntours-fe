@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { AuthActionServer } from "./app/action/action.server";
 import { cookies } from "next/headers";
+import { CookieSetForMiddleware } from "./lib/cookie-set.middleware";
+import { notFound } from "next/navigation";
 
 
 // This function can be marked `async` if using `await` inside
@@ -21,48 +23,26 @@ export async function middleware(request: NextRequest) {
     const token = request.cookies.get("assec")?.value;
 
     if (!token) {
-      const result = await AuthActionServer.RefreshToken();
+       return CookieSetForMiddleware(response, request, "/customer/signin")
+    }
+  }
 
-      if (result.access_token) {
-        response.cookies.set("assec", result.access_token.value, {
-          path: "/",
-          domain: process.env.TOP_LEVEL_DOMAIN,
-          maxAge: result.access_token.ttl,
-          httpOnly: result.access_token.http_only ? true : false,
-          secure: result.access_token.secure ? true : false,
-          sameSite: "lax",
-        });
-        response.cookies.set("refresh", result.refresh_token.value, {
-          path: "/",
-          domain: process.env.TOP_LEVEL_DOMAIN,
-          // maxAge: result.refresh_token.ttl,
-          // httpOnly: result.access_token.http_only ? true : false,
-          // secure: result.access_token.secure ? true : false,
-          maxAge: result.refresh_token.ttl,
-          httpOnly: result.refresh_token.http_only ? true : false,
-          secure: result.refresh_token.secure ? true : false,
-          sameSite: "lax",
-        });
-        response.cookies.set("google-login", result["google-login"].value, {
-          path: "/",
-          domain: process.env.TOP_LEVEL_DOMAIN,
-          maxAge: result["google-login"].ttl,
-          httpOnly: result["google-login"].http_only ? true : false,
-          secure: result["google-login"].secure ? true : false,
-          sameSite: "lax",
-        });
+  if (
+    request.nextUrl.pathname == "/admin/airport-transfer/vehicle/store" ||
+    request.nextUrl.pathname == "/admin/airport-transfer/vehicle/edit" ||
+    request.nextUrl.pathname == "/admin/free-voucher/attach"
+  ) {
+    const token = request.cookies.get("assec")?.value;
 
-        return response;
-      } else {
-        //hapus cookie2
-        const cookieStore = await cookies();
-        cookieStore.delete("assec")
-        cookieStore.delete("refresh")
-        cookieStore.delete("google-login")
-        
-        // Jika refresh token gagal, redirect ke halaman login
-        return NextResponse.redirect(new URL("/customer/signin", request.url));
+    if(token) {
+      const resultUser = await AuthActionServer.GetUserRole();
+      if(resultUser.role != "admin") {
+       return NextResponse.redirect(new URL("/", request.url));
       }
+    }
+
+    if (!token) {
+        return  CookieSetForMiddleware(response, request, "/internal/signin")
     }
   }
 
@@ -72,7 +52,7 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname == "/internal/signin"
   ) {
     const token = request.cookies.get("assec")?.value;
-
+    
     if (token) {
       return NextResponse.redirect(new URL("/", request.url));
     } else {
