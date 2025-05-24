@@ -38,12 +38,12 @@ export function CheckoutForMFreeVoucherNotificationContent({
                 </p>
                 <p>
                   <strong>Valid for:</strong> {voucherable.expiry_time_in_day}{" "}
-                  days after booking
+                  days after your activity date in Bali
                 </p>
               </div>
 
               <p className="mt-3 text-xs text-gray-500 italic">
-                *Voucher will be sent after booking confirmation.
+                *Voucher code will be sent after booking have been made.
               </p>
             </AccordionContent>
           </AccordionItem>
