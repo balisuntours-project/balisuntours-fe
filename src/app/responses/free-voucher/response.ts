@@ -28,3 +28,27 @@ export interface VoucherableDataCheckoutPage {
     slot: number,
     uuid: string,
 }
+
+export interface FreePackageUnitResponse {
+    title: string,
+    uuid: string,
+    expiry_time_in_day: number,
+    slot: number
+}
+
+export interface AddVoucherPriceResponse {
+  uuid: string;
+  title: string;
+  price: number;
+  price_suffix: string;
+  minimum_qty: number;
+  maximum_qty: number;
+};
+
+export interface AddVoucherPackageResponse {
+  uuid: string;
+  title: string;
+  selected_free_package_unit_uuid: string|null,
+  affected_prices: Array<string>|null,
+  prices: AddVoucherPriceResponse[];
+};
