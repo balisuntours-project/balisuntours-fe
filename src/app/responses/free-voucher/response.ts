@@ -1,3 +1,5 @@
+import { FreeVoucherStatusEnum } from "@/app/enums/free-voucher/free-voucher.enum"
+
 export interface ActivityListResponse {
     uuid: string,
     title: string
@@ -52,3 +54,14 @@ export interface AddVoucherPackageResponse {
   affected_prices: Array<string>|null,
   prices: AddVoucherPriceResponse[];
 };
+
+export interface FreeActivityVoucherResponse {
+    uuid: string,
+    voucher_code: string,
+    available_at: string,
+    expired_at: string,
+    slot: number,
+    status: FreeVoucherStatusEnum,
+    activity: string,
+    sales_wa_number: string
+}

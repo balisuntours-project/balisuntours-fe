@@ -2,6 +2,7 @@
 import { CartItemsResponse } from "@/app/responses/cart/response";
 import {
   AddVoucherPackageResponse,
+  FreeActivityVoucherResponse,
   FreePackageUnitResponse,
 } from "@/app/responses/free-voucher/response";
 import { apiServer } from "@/lib/axios-instance.server";
@@ -156,6 +157,28 @@ export class FreeVoucherServerAction {
     } catch (error: any) {
       console.error(error);
       return this.handleFetchError<Array<FreePackageUnitResponse>>(
+        error.response || error
+      );
+    }
+  }
+
+   static async GetCustomerFreeActivityVouchers(): Promise<
+    FreeVoucherActionResponse<Array<FreeActivityVoucherResponse>>
+  > {
+    try {
+      const action = await apiServer(`/api/customer/activity/free-vouchers`, {
+        method: "GET",
+      });
+
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
+      }
+
+      return this.handleResponse<Array<FreeActivityVoucherResponse>>(action);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error(error);
+      return this.handleFetchError<Array<FreeActivityVoucherResponse>>(
         error.response || error
       );
     }

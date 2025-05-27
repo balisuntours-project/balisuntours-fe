@@ -9,7 +9,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { ArrowRight, ShoppingCart, TicketCheck } from "lucide-react";
+import { ArrowRight, Gift, ShoppingCart, TicketCheck } from "lucide-react";
 import Image from "next/image";
 import { LoginButtonNavbar } from "./utility-components/login-button.navbar";
 import Link from "next/link";
@@ -38,6 +38,30 @@ export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
             {!forAdmin && (
               <NavigationMenu>
                 <NavigationMenuList className="space-x-[-20px] md:space-x-0">
+                  <NavigationMenuItem>
+                    <Link
+                      href={
+                        pathname == "/customer/vouchers"
+                          ? "#"
+                          : `/customer/vouchers`
+                      }
+                      passHref
+                      legacyBehavior
+                    >
+                      <NavigationMenuLink
+                        target="_blank"
+                        onClick={(e) => {
+                          if (pathname == "/customer/vouchers") {
+                            e.preventDefault();
+                          }
+                        }}
+                        className={navigationMenuTriggerStyle()}
+                      >
+                        <span className="hidden md:block">Vouchers</span>
+                        <Gift className="block md:hidden w-8 h-5 stroke-[1.5]" />
+                      </NavigationMenuLink>
+                    </Link>
+                  </NavigationMenuItem>
                   {pathname != "/customer/airport-transfer" && (
                     <NavigationMenuItem className="hidden md:block">
                       <Link
