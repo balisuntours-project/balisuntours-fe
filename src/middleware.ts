@@ -5,25 +5,38 @@ import { cookies } from "next/headers";
 import { CookieSetForMiddleware } from "./lib/cookie-set.middleware";
 import { notFound } from "next/navigation";
 
-
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
+  // Daftar path yang tidak perlu diarahkan ke halaman maintenance
+  const excludedMaintenancePaths = ["/maintenance", "/favicon.ico", "/_next", "/api"];
+  const isExcluded = excludedMaintenancePaths.some((path) => request.nextUrl.pathname.startsWith(path))
+
+  if (process.env.MAINTENANCE == "true" && !isExcluded) {
+    const maintenanceUrl = request.nextUrl.clone()
+    maintenanceUrl.pathname = '/maintenance'
+    return NextResponse.redirect(maintenanceUrl)
+  }
+
+
   const response = NextResponse.next();
   // Cocokkan route yang perlu login dan memakai SSR untuk fetch api
   if (
     request.nextUrl.pathname == "/customer/cart" ||
-    request.nextUrl.pathname == "/customer/booking/airport-transfer/transaction" ||
+    request.nextUrl.pathname ==
+      "/customer/booking/airport-transfer/transaction" ||
     request.nextUrl.pathname == "/customer/booking/activities/transaction" ||
     request.nextUrl.pathname == "/customer/booking/activities/unconfirmed" ||
     request.nextUrl.pathname == "/customer/checkout" ||
     request.nextUrl.pathname == "/customer/airport-transfer/checkout" ||
     request.nextUrl.pathname == "/customer/activities/transaction-status" ||
-    request.nextUrl.pathname == "/customer/airport-transfer/transaction-status" 
+    request.nextUrl.pathname ==
+      "/customer/airport-transfer/transaction-status" ||
+    request.nextUrl.pathname == "/customer/vouchers"
   ) {
     const token = request.cookies.get("assec")?.value;
 
     if (!token) {
-       return CookieSetForMiddleware(response, request, "/customer/signin")
+      return CookieSetForMiddleware(response, request, "/customer/signin");
     }
   }
 
@@ -34,15 +47,15 @@ export async function middleware(request: NextRequest) {
   ) {
     const token = request.cookies.get("assec")?.value;
 
-    if(token) {
+    if (token) {
       const resultUser = await AuthActionServer.GetUserRole();
-      if(resultUser.role != "admin") {
-       return NextResponse.redirect(new URL("/", request.url));
+      if (resultUser.role != "admin") {
+        return NextResponse.redirect(new URL("/", request.url));
       }
     }
 
     if (!token) {
-        return  CookieSetForMiddleware(response, request, "/internal/signin")
+      return CookieSetForMiddleware(response, request, "/internal/signin");
     }
   }
 
@@ -52,7 +65,7 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname == "/internal/signin"
   ) {
     const token = request.cookies.get("assec")?.value;
-    
+
     if (token) {
       return NextResponse.redirect(new URL("/", request.url));
     } else {
