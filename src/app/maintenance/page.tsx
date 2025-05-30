@@ -1,14 +1,6 @@
-// app/maintenance/page.tsx (jika pakai app dir)
-// atau pages/maintenance.tsx (jika pakai pages dir)
 
-import { AlertTriangle } from "lucide-react";
 import { Metadata } from "next";
 import Image from "next/image";
-
-export const metadata: Metadata = {
-  title: "Maintenance | Your Website",
-  description: "We’re currently performing scheduled maintenance.",
-};
 
 export default function MaintenancePage() {
   return (

@@ -108,7 +108,7 @@ export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
                       <span className="hidden md:block">Bookings</span>
                       <TicketCheck className="block md:hidden w-5 h-5 stroke-[1.5]" />
                     </NavigationMenuTrigger>
-                    <NavigationMenuContent>
+                    <NavigationMenuContent className="dropdown-booking">
                       <ul className="grid gap-3 p-3 md:p-6 w-[180px] max-w-[180px] md:max-w-max md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                         <div className="flex flex-col gap-2 md:hidden">
                           <Link
@@ -199,12 +199,12 @@ export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
             <LoginButtonNavbar forAdmin={forAdmin} />
           </div>
         </div>
-        <div className="-mx-4 md:-mx-6 mt-2 sm:mt-0 lg:-mx-28 block sm:hidden">
+        <div className="additional-nav -mx-4 md:-mx-6 mt-2 sm:mt-0 lg:-mx-28 block sm:hidden">
           <hr className="border-gray-300" />
         </div>
         <div className="flex justify-center items-center sm:hidden">
           {!forAdmin && (
-            <NavigationMenu>
+            <NavigationMenu className="z-[1]">
               <NavigationMenuList className="space-x-0 md:space-x-0">
                 {pathname != "/customer/airport-transfer" && (
                   <NavigationMenuItem className="block">
