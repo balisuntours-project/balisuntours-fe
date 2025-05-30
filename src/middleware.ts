@@ -15,6 +15,8 @@ export async function middleware(request: NextRequest) {
     const maintenanceUrl = request.nextUrl.clone()
     maintenanceUrl.pathname = '/maintenance'
     return NextResponse.redirect(maintenanceUrl)
+  }else if(process.env.MAINTENANCE == "false" && request.nextUrl.pathname == "/maintenance") {
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
 

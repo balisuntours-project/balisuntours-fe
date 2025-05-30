@@ -3,7 +3,7 @@ import { LargeNavbar } from "@/app/global-components/large.navbar";
 
 import { EmptyContent } from "@/app/global-components/utility-components/empty-content.page";
 import Link from "next/link";
-import { Car } from "lucide-react";
+import { Car, Gift } from "lucide-react";
 import { FreeVoucherServerAction } from "@/app/actions/free-voucher/action.server";
 import { VoucherComponent } from "./components/voucher.component";
 
@@ -18,13 +18,13 @@ export default async function FreeVouchersPage() {
       <div className="mt-36 md:mt-36 px-4 lg:px-0  mb-11 relative">
        
         <div className="booking-section">
-          <div className="sm:grid sm:grid-cols-5 lg:grid-cols-4 sm:gap-8 lg:w-[90%] mx-auto items-start mb-11">
+          <div className=" sm:gap-8 lg:w-[90%] mx-auto items-start mb-11">
             {Array.isArray(freeVouchers) && freeVouchers.length > 0 ? (
               <VoucherComponent vouchers={freeVouchers} />
             ) : (
-              <div className="md:col-span-3">
+              <div className="mx-auto">
                 <EmptyContent
-                  emptyText="Seems your booking history empty!"
+                  emptyText="Seems you don't have vouchers yet!"
                   suggestionElement={
                     <p>
                       {" "}
@@ -38,7 +38,7 @@ export default async function FreeVouchersPage() {
                     </p>
                   }
                 >
-                  <Car className="w-full h-full" />
+                  <Gift className="w-full h-full" />
                 </EmptyContent>
               </div>
             )}
