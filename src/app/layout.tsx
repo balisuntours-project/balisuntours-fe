@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import Script from "next/script";
 
+export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
   title: "Bali Tour Company : Explore Bali Tours and Activities",
   description:

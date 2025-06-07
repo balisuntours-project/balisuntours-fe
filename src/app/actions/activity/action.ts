@@ -245,6 +245,10 @@ export class ActivityAction {
     try {
       const action = await api("/api/customer/sitemap/activity", {
         method: "GET",
+        cache: "force-cache",
+        next: {
+          revalidate: 60 //revalidate selama 1 menit
+        }
       });
 
       if (!action.ok) {
@@ -287,10 +291,10 @@ export class ActivityAction {
     try {
       const action = await api(`/api/customer/search/activity`, {
         method: "GET",
-        cache: "force-cache",
-        next: {
-          revalidate: 3600, // 1hour
-        },
+        // cache: "force-cache",
+        // next: {
+        //   revalidate: 3600, // 1hour
+        // },
       });
 
       if (!action.ok) {
