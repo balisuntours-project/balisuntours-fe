@@ -19,7 +19,7 @@ const api = async (
     "from-next": "allowed", // custom header
     ...(token && { Authorization: `Bearer ${token}` }), // jika ada token, tambahkan Authorization header
   };
-
+ 
   // Menggabungkan baseURL dengan url yang diberikan
   const fullUrl = `${baseURL}${url}`;
 
@@ -31,6 +31,7 @@ const api = async (
   // Opsi default untuk fetch
   const config: FetchOptions = {
     method: options.method || "GET",
+    cache: options.cache || "no-store",
     headers,
     credentials: "include", // Kirim cookie
     ...options, // Merge dengan opsi tambahan

@@ -36,6 +36,7 @@ const apiServer = async (
   // Opsi default untuk fetch
   const config: FetchOptions = {
     method: options.method || "GET",
+    cache: options.cache || "no-store",
     headers,
     credentials: "include", // Kirim cookie
     ...options, // Merge dengan opsi tambahan

@@ -26,7 +26,8 @@ export interface Activity {
     map_location:string,
     coordinate_location: ActivityCoordinateResponse,
     zoom_map: number,
-    more_reviews_url: string|null
+    more_reviews_url: string|null,
+    is_voucherable?: boolean
 }
 
 export interface ActivityCoordinateResponse {

@@ -1,9 +1,7 @@
-import {
-  ActivityCardProps,
-} from "@/app/paramaters/activity/paramater";
+import { ActivityCardProps } from "@/app/paramaters/activity/paramater";
 import { Card, CardContent } from "@/components/ui/card";
 import { GlobalUtility } from "@/lib/global.utility";
-import { Star, TicketCheck } from "lucide-react";
+import { Gift, Star, TicketCheck } from "lucide-react";
 import { FC } from "react";
 import { ActivityTitleCard } from "./activity-title.card";
 import Link from "next/link";
@@ -34,6 +32,32 @@ const ActivityBestCategoryCard: FC<ActivityCardProps> = ({
         >
           {/* Bagian Gambar */}
           <div className={`relative w-full`}>
+           {activity.is_voucherable && (
+             <div className="absolute top-1 right-1.5 sm:top-1.5 sm:right-2 z-10 flex items-stretch">
+              {/* Segitiga pita di kiri */}
+              <div className="w-0 h-0 border-t-[8px] border-t-transparent border-b-[8px] border-b-transparent border-r-[5px] border-r-yellow-400 sm:border-t-[12px] sm:border-b-[12px] sm:border-r-[8px]"></div>
+
+              {/* Tag utama */}
+              <div
+                className="bg-yellow-400 text-white text-[6px] sm:text-[10px] 
+                leading-[9px] sm:leading-[12px] font-semibold 
+                px-1 py-[1px] sm:px-2 sm:py-[3px] 
+                rounded-r-md shadow-md uppercase 
+                max-w-[110px] sm:max-w-none 
+                overflow-hidden flex items-center"
+              >
+                {/* Mobile: Icon + short text */}
+                <div className="flex items-center gap-[2px] sm:hidden w-full">
+                  <Gift className="w-[10px] h-[10px] stroke-[1.5]" />
+                  <span className="leading-[9px]">Activity Voucher</span>
+                </div>
+
+                {/* Desktop: Full text */}
+                <span className="hidden sm:block">Free Activity Voucher</span>
+              </div>
+            </div>
+           )}
+
             <ImageWithLoader
               src={activity.image}
               alt={activity.title}
