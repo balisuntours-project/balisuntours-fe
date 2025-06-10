@@ -4,8 +4,10 @@ import { AllActivitiesHero } from "./components/all-activities.hero";
 import { AllActivitiesFilterBox } from "./components/all-activities.filter";
 import { ActivityAction } from "@/app/actions/activity/action";
 import { AllActivitiesList } from "./components/all-activities.activity";
+import { notFound } from "next/navigation";
 
 export default async function AllActivities() {
+  notFound();
   const data = await ActivityAction.GetAllActivities();
 
   const activities = data.data;

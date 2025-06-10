@@ -9,8 +9,10 @@ export default async function CheckoutBooking({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  notFound();
   const cartUuidsParam = (await searchParams)?.cart_data;
-  let data = null
+  //let data = null
+  const data : any = null
   if (cartUuidsParam) {
     const result = await BookingServerAction.GetBookingCheckoutData(
       cartUuidsParam as string
@@ -20,7 +22,7 @@ export default async function CheckoutBooking({
       notFound()
     }
 
-    data = result.data
+  //  data = result.data
   }else {
     notFound()
   }

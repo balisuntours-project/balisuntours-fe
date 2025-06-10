@@ -62,13 +62,13 @@ export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
                       </NavigationMenuLink>
                     </Link>
                   </NavigationMenuItem>
-                  {pathname != "/customer/airport-transfer" && (
+                  {pathname != "/airport-transfer" && (
                     <NavigationMenuItem className="hidden md:block">
                       <Link
                         href={
-                          pathname == "/customer/airport-transfer"
+                          pathname == "/airport-transfer"
                             ? "#"
-                            : `/customer/airport-transfer`
+                            : `/airport-transfer`
                         }
                         passHref
                         legacyBehavior
@@ -76,7 +76,7 @@ export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
                         <NavigationMenuLink
                           target="_blank"
                           onClick={(e) => {
-                            if (pathname == "/customer/airport-transfer") {
+                            if (pathname == "/airport-transfer") {
                               e.preventDefault();
                             }
                           }}
@@ -87,10 +87,10 @@ export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
                       </Link>
                     </NavigationMenuItem>
                   )}
-                  {pathname == "/customer/airport-transfer" && (
+                  {pathname == "/airport-transfer" && (
                     <NavigationMenuItem className="hidden md:block">
                       <Link
-                        href={"/customer/activities"}
+                        href={"/"}
                         passHref
                         legacyBehavior
                       >
@@ -119,14 +119,14 @@ export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
                             <span>Your Airport Transfer Booking</span>
                           </Link>
                           <Link
-                            href="/customer/booking/activities/transaction"
+                            href="/customer/booking/experiences/transaction"
                             className="flex items-center gap-2 text-xs md:text-base  cursor-pointer hover:text-blue-500"
                           >
                             <ArrowRight className="w-3 h-3" />
                             <span>Your Activities Booking</span>
                           </Link>
                           <Link
-                            href="/customer/booking/activities/unconfirmed"
+                            href="/customer/booking/experiences/unconfirmed"
                             className="flex items-center gap-2 text-xs md:text-base cursor-pointer hover:text-blue-500"
                           >
                             <ArrowRight className="w-3 h-3" />
@@ -158,14 +158,14 @@ export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
                             <span>Your Airport Transfer Booking</span>
                           </Link>
                           <Link
-                            href="/customer/booking/activities/transaction"
+                            href="/customer/booking/experiences/transaction"
                             className="flex items-center gap-2 text-sm md:text-base  cursor-pointer hover:text-blue-500"
                           >
                             <ArrowRight className="w-3 h-3" />
                             <span>Your Activities Booking</span>
                           </Link>
                           <Link
-                            href="/customer/booking/activities/unconfirmed"
+                            href="/customer/booking/experiences/unconfirmed"
                             className="flex items-center gap-2 text-sm md:text-base cursor-pointer hover:text-blue-500"
                           >
                             <ArrowRight className="w-3 h-3" />
@@ -206,13 +206,13 @@ export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
           {!forAdmin && (
             <NavigationMenu className="z-[1]">
               <NavigationMenuList className="space-x-0 md:space-x-0">
-                {pathname != "/customer/airport-transfer" && (
+                {pathname != "/airport-transfer" && (
                   <NavigationMenuItem className="block">
                     <Link
                       href={
-                        pathname == "/customer/airport-transfer"
+                        pathname == "/airport-transfer"
                           ? "#"
-                          : `/customer/airport-transfer`
+                          : `/airport-transfer`
                       }
                       passHref
                       legacyBehavior
@@ -220,7 +220,7 @@ export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
                       <NavigationMenuLink
                         target="_blank"
                         onClick={(e) => {
-                          if (pathname == "/customer/airport-transfer") {
+                          if (pathname == "/airport-transfer") {
                             e.preventDefault();
                           }
                         }}
@@ -231,9 +231,9 @@ export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
                     </Link>
                   </NavigationMenuItem>
                 )}
-                {pathname == "/customer/airport-transfer" && (
+                {pathname == "/airport-transfer" && (
                   <NavigationMenuItem className="block">
-                    <Link href={`/customer/activities`} passHref legacyBehavior>
+                    <Link href={`/`} passHref legacyBehavior>
                       <NavigationMenuLink
                         target="_blank"
                         className={navigationMenuTriggerStyle()}

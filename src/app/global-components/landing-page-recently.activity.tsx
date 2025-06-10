@@ -35,7 +35,8 @@ export function LandingRecentlyViewedActivity() {
                   className=" basis-[30%] md:basis-[22%] lg:basis-1/6"
                 >
                   <Link
-                    href={`/customer/preview/activity/${activity.slug}`}
+                    //href={`/customer/preview/activity/${activity.slug}`}
+                    href={`/experiences/${activity.slug}`}
                     passHref
                     legacyBehavior
                   >

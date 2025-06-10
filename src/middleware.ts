@@ -1,9 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { AuthActionServer } from "./app/action/action.server";
-import { cookies } from "next/headers";
 import { CookieSetForMiddleware } from "./lib/cookie-set.middleware";
-import { notFound } from "next/navigation";
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
@@ -26,13 +24,13 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname == "/customer/cart" ||
     request.nextUrl.pathname ==
       "/customer/booking/airport-transfer/transaction" ||
-    request.nextUrl.pathname == "/customer/booking/activities/transaction" ||
-    request.nextUrl.pathname == "/customer/booking/activities/unconfirmed" ||
-    request.nextUrl.pathname == "/customer/checkout" ||
+    request.nextUrl.pathname == "/customer/booking/experiences/transaction" ||
+    request.nextUrl.pathname == "/customer/booking/experiences/unconfirmed" ||
+    request.nextUrl.pathname == "/customer/experiences/checkout" ||
     request.nextUrl.pathname == "/customer/airport-transfer/checkout" ||
-    request.nextUrl.pathname == "/customer/activities/transaction-status" ||
+    request.nextUrl.pathname == "/customer/booking/experiences/transaction-status" ||
     request.nextUrl.pathname ==
-      "/customer/airport-transfer/transaction-status" ||
+      "/customer/booking/airport-transfer/transaction-status" ||
     request.nextUrl.pathname == "/customer/vouchers"
   ) {
     const token = request.cookies.get("assec")?.value;
