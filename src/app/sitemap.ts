@@ -33,7 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
-      url: `${process.env.APP_URL ?? baseUrl}/customer/activities`,
+      url: `${process.env.APP_URL ?? baseUrl}/experiences`,
       lastModified: new Date(),
       changeFrequency: "monthly", // Sama seperti di atas
       priority: 0.8,
@@ -41,7 +41,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Halaman dinamis dengan slug
     ...(activitySlugs.success
       ? activitySlugs.data.map((activity) => ({
-          url: `${process.env.APP_URL ?? baseUrl}/customer/preview/activity/${
+          url: `${process.env.APP_URL ?? baseUrl}/experiences/${
             activity.slug
           }`,
           lastModified: new Date(),

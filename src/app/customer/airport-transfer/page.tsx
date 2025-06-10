@@ -3,8 +3,10 @@ import { HeroSectionAirportTransfer } from "./components/hero.airport";
 import { SearchVechileInputFormCard } from "./utility-components/search-vechile-form.card";
 import { DataSectionAirportTransfer } from "./components/data-section.airport";
 import { LandingPageFooterSection } from "@/app/global-components/landing-page.footer";
+import { notFound } from "next/navigation";
 
 export default function AiportTransferPage() {
+  notFound();
   return (
     <>
       <LargeNavbar />

@@ -17,7 +17,8 @@ const ActivityCard: FC<ActivityCardProps> = ({
 }) => {
   return (
     <Link
-      href={`/customer/preview/activity/${activity.slug}`}
+      // href={`/customer/preview/activity/${activity.slug}`}
+      href={`/experiences/${activity.slug}`}
       passHref
       legacyBehavior
     >

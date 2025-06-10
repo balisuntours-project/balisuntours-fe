@@ -62,7 +62,7 @@ function PackageTypeMechanism({
           </span>
           <Link
             target="__blank"
-            href={`/customer/preview/activity/${
+            href={`/experiences/${
               item.activity_slug
             }?package=${GlobalUtility.StringToSlugEncodedString(
               item.package_title
@@ -117,7 +117,7 @@ function PackageTypeMechanism({
 
           <Link
             target="__blank"
-            href={`/customer/preview/activity/${
+            href={`/experiences/${
               item.activity_slug
             }?package=${GlobalUtility.StringToSlugEncodedString(
               item.package_title
@@ -154,7 +154,7 @@ function PackageTypeMechanism({
 
           <Link
             target="__blank"
-            href={`/customer/preview/activity/${
+            href={`/experiences/${
               item.activity_slug
             }?package=${GlobalUtility.StringToSlugEncodedString(
               item.package_title
@@ -212,7 +212,7 @@ function PackageTypeMechanism({
           </span>
           <Link
             target="__blank"
-            href={`/customer/preview/activity/${
+            href={`/experiences/${
               item.activity_slug
             }?package=${GlobalUtility.StringToSlugEncodedString(
               item.package_title

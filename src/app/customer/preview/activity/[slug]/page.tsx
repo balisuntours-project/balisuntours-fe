@@ -21,6 +21,7 @@ export default async function PreviewActivity({
 }: {
   params: Promise<DetailActivityParamater>;
 }) {
+  notFound();
   const slug = (await params).slug;
 
   const data = await ActivityActionServer.GetPreviewDetailActivity(slug);
