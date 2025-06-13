@@ -1,4 +1,4 @@
-import { StoreFreeVoucherParamater, UpdatePackageVoucherableParamater } from "@/app/paramaters/free-voucher/paramater";
+import { EditFreeVoucherParamater, StoreFreeVoucherParamater, UpdatePackageVoucherableParamater } from "@/app/paramaters/free-voucher/paramater";
 import { ActivityListResponse, AddVoucherPackageResponse, FreePackageUnitResponse, NewFreeVoucherResponse, PackageListResponse, PriceListResponse } from "@/app/responses/free-voucher/response";
 import { api } from "@/lib/axios-instance";
 import { GlobalUtility } from "@/lib/global.utility";
@@ -162,6 +162,32 @@ export class FreeVoucherAction {
     } catch (error: any) {
       console.error(error);
       return this.handleFetchError<Array<NewFreeVoucherResponse>>(
+        error.response || error
+      );
+    }
+  }
+
+   static async EditFreeVoucher(payload: EditFreeVoucherParamater, uuid: string): Promise<
+    FreeVoucherActionResponse<void>
+  > {
+    try {
+      const action = await api(
+        `/api/admin/free-package-unit/${uuid}`,
+        {
+          method: "PUT",
+          body: JSON.stringify(payload),
+        }
+      );
+
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
+      }
+
+      return this.handleResponse<void>(action);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error(error);
+      return this.handleFetchError<void>(
         error.response || error
       );
     }

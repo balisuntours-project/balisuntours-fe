@@ -35,7 +35,8 @@ export interface FreePackageUnitResponse {
     title: string,
     uuid: string,
     expiry_time_in_day: number,
-    slot: number
+    slot: number,
+    is_published: boolean
 }
 
 export interface AddVoucherPriceResponse {

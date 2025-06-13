@@ -70,7 +70,7 @@ export function SearchBoxComponent({
     if (isShowList.length < 1) {
       return;
     }
-    router.push(`/customer/activities?title=${isShowList}`);
+    router.push(`/experiences?title=${isShowList}`);
   };
 
   useEffect(() => {
@@ -150,7 +150,7 @@ export function SearchBoxComponent({
               activityTitles.map((activity) => (
                 <CommandItem key={activity.uuid} asChild>
                   <Link
-                    href={`/customer/preview/activity/${activity.slug}`}
+                    href={`/experiences/${activity.slug}`}
                     target="_blank"
                   >
                     {activity.title}
