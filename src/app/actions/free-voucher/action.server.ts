@@ -162,6 +162,28 @@ export class FreeVoucherServerAction {
     }
   }
 
+  static async GetSingleFreePackageUnit(uuid: string): Promise<
+    FreeVoucherActionResponse<FreePackageUnitResponse>
+  > {
+    try {
+      const action = await apiServer(`/api/admin/free-package-unit/${uuid}`, {
+        method: "GET",
+      });
+
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
+      }
+
+      return this.handleResponse<FreePackageUnitResponse>(action);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error(error);
+      return this.handleFetchError<FreePackageUnitResponse>(
+        error.response || error
+      );
+    }
+  }
+
    static async GetCustomerFreeActivityVouchers(): Promise<
     FreeVoucherActionResponse<Array<FreeActivityVoucherResponse>>
   > {

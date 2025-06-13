@@ -8,7 +8,7 @@ export function LandingPageNavigationUtility() {
       <CardHeader>
         <div className="grid grid-cols-4 gap-4 text-center">
           <Link
-            href={`/customer/airport-transfer`}
+            href={`/airport-transfer`}
             target="__blank"
             rel="noreferrer"
             className="flex flex-col items-center gap-2 col-span-1"
@@ -51,7 +51,7 @@ export function LandingPageNavigationUtility() {
             <h2 className="text-xs md:text-sm">Best Category</h2>
           </Link> */}
           <Link
-            href={`/customer/activities`}
+            href={`/experiences`}
             className="flex flex-col items-center gap-2 col-span-1"
           >
             <Image
