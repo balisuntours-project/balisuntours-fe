@@ -1,0 +1,18 @@
+services:
+  frontend:
+    container_name: frontend
+    shm_size: 2gb
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    restart: always
+    networks:
+      - network
+
+networks:
+  network:
+    driver: bridge
+
+
