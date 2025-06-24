@@ -2,9 +2,7 @@ services:
   frontend:
     container_name: frontend
     shm_size: 2gb
-    build: 
-      context: .
-      dockerfile: Dockerfile
+    image: ${CI_APPLICATION_REPOSITORY}
     ports:
       - "3000:3000"
     restart: always
@@ -14,5 +12,3 @@ services:
 networks:
   network:
     driver: bridge
-
-

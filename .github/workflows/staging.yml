@@ -1,0 +1,98 @@
+name: Staging Release
+
+on:
+  push:
+    tags:
+      - "release-staging-*"
+env:
+  ENVIRONMENT: staging
+  DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  SSH_PRIVATE_KEY: ${{ secrets.STAGING_SSH_PRIVATE_KEY }}
+  SSH_SERVER_IP: ${{ secrets.STAGING_SSH_SERVER_IP }}
+  SSH_USERNAME: ${{ secrets.STAGING_SSH_USERNAME }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Extract branch name
+        id: extract_branch
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+
+      - name: Create .env file from GitHub secrets
+        run: |
+            echo '${{ vars.ENV_STAGING }}' > .env
+
+      - name: Docker login
+        run: echo "${DOCKER_TOKEN}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+
+      - name: Build and push
+        id: build
+        run: |
+            export CHART_REGEX="^\([a-z0-9-]\+\)-\([0-9]\+.[0-9]\+.[0-9]\+\(-\(alpha\|beta\|rc\|patch\).[0-9]\+\)\?\)$"
+            export GITTAG=$(echo "${{ steps.extract_branch.outputs.branch }}" | awk -F'/' '{print $3}')
+            export GITTAGVERSION=$(echo "$GITTAG" | sed -n "s/${CHART_REGEX}/\2/p")
+            export NEW_VERSION="v$GITTAGVERSION-${ENVIRONMENT}"
+            echo "building image..."
+            docker build --build-arg="MODULE_ACCESS_TOKEN=${GITHUB_TOKEN}" --build-arg="COMMIT_HASH=${GITHUB_SHA}" --build-arg="RELEASE_TAG=${GITTAG}"  -t ${DOCKER_USERNAME}/private:ecommerce-fe-$NEW_VERSION .
+            echo "pushing image..."
+            docker push ${DOCKER_USERNAME}/private:ecommerce-fe-$NEW_VERSION
+            echo "tag current docker image to latest"
+            docker tag ${DOCKER_USERNAME}/private:ecommerce-fe-$NEW_VERSION ${DOCKER_USERNAME}/private:ecommerce-fe-latest-${ENVIRONMENT}
+            echo "pushing latest image"
+            docker push ${DOCKER_USERNAME}/private:ecommerce-fe-latest-${ENVIRONMENT}
+  deploy:
+    needs: [build-and-push]
+    runs-on: [self-hosted, staging]
+  
+    steps:
+      - name: Ensure repository exists and update it
+        run: |
+          REPO_NAME="${{ github.event.repository.name }}"
+          REPO_DIR="/home/repo_dequa_net/deployment/$REPO_NAME"
+
+          if [ ! -d "$REPO_DIR/.git" ]; then
+            echo "Repository does not exist. Cloning..."
+            git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git "$REPO_DIR"
+          else
+            echo "Repository exists. Pulling latest changes..."
+            cd "$REPO_DIR"
+            git reset --hard
+            git clean -fd
+            git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+            git pull origin ${{ github.ref_name }}
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+      - name: Docker login
+        run: echo "${DOCKER_TOKEN}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+  
+      - name: Pull latest image
+        run: docker pull ${DOCKER_USERNAME}/private:ecommerce-fe-latest-${ENVIRONMENT}
+  
+      - name: Generate docker-compose.yml from template
+        run: |
+          export CI_APPLICATION_REPOSITORY=${DOCKER_USERNAME}/private:ecommerce-fe-latest-${ENVIRONMENT}
+          envsubst < /home/repo_dequa_net/deployment/${{ github.event.repository.name }}/docker-compose-template.yml > /home/repo_dequa_net/deployment/${{ github.event.repository.name }}/docker-compose.yml
+  
+      - name: Stop existing containers
+        run: docker compose -f /home/repo_dequa_net/deployment/${{ github.event.repository.name }}/docker-compose.yml down
+  
+      - name: Remove old image
+        run: docker image prune -f
+      
+      - name: Remove public asset
+        run: docker volume rm ${{ github.event.repository.name }}_public || true
+  
+      - name: Start container
+        run: docker compose -f /home/repo_dequa_net/deployment/${{ github.event.repository.name }}/docker-compose.yml up -d --remove-orphans
+  
+      - name: Verify running containers
+        run: docker ps -a
