@@ -19,12 +19,14 @@ export function SearchBoxComponent({
   listClassName,
   showSearchIcon = true,
   showListResult = true,
+  defaultSearchBoxValue = "",
 }: {
   className?: string;
   inputClassName?: string;
   listClassName?: string;
   showSearchIcon?: boolean;
   showListResult?: boolean;
+  defaultSearchBoxValue?: string;
 }) {
   const [placeHolders, setPlaceHolders] = useState<Array<string>>([]);
   const [currentPlaceholder, setCurrentPlaceholder] = useState<string>(
@@ -76,6 +78,7 @@ export function SearchBoxComponent({
   useEffect(() => {
     getAllActivitiesTitle();
     getPopularActivityPlaceholder();
+    setSearchBoxValue(defaultSearchBoxValue);
   }, []);
 
   useEffect(() => {
