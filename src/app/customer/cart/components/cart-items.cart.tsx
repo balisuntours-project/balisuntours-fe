@@ -79,7 +79,7 @@ export function CartItemsList({ items }: { items: CartItemsResponse | null }) {
       // console.log(selectedUuidCarts)
       setIsLoading(false);
       if (checkForFreeTourValidation.status_code == HttpStatus.OK) {
-        router.push(`/customer/checkout?cart_data=${stringCartPayload}`);
+        router.push(`/customer/experiences/checkout?cart_data=${stringCartPayload}`);
       } else {
         toast({
           description: `${checkForFreeTourValidation.data}`,
