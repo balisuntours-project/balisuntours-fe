@@ -329,12 +329,16 @@ export class ActivityAction {
     }
   }
 
-  static async GetRandomRecomendedActivity(): Promise<
+  static async GetRandomRecomendedActivity(skipedUuid: string, take: number = 5): Promise<
   ActivityActionResponse<Array<Activity>>
 > {
   try {
-    const action = await api(`/api/customer/recomendation-random/activity?take=${5}`, {
+    const action = await api(`/api/customer/recomendation-random/activity?take=${take}&skip_activity_uuid=${skipedUuid}`, {
       method: "GET",
+      cache: "force-cache",
+      next: {
+        revalidate: 3600 //1 jam 
+      }
     });
 
     if (!action.ok) {

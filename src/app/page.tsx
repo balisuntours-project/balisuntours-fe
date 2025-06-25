@@ -13,6 +13,7 @@ import { ActivityAction } from "./actions/activity/action";
 import { ActivityCategoryAction } from "./actions/category/action";
 import { LandingRecentlyViewedActivity } from "./global-components/landing-page-recently.activity";
 import { LandingPageRentalVechileSection } from "./global-components/landing-page.rental";
+import { ActivityActionServer } from "./actions/activity/action.server";
 
 export default async function Home() {
   const batchResult = await Promise.allSettled([
@@ -33,6 +34,15 @@ export default async function Home() {
     batchResult[1].status === "fulfilled" ? batchResult[1].value.data : [];
   const bestCategory: Array<ActivityBestCategory> =
     batchResult[2].status === "fulfilled" ? batchResult[2].value.data : [];
+
+    const fillerPageActivity = async() : Promise<void> => {
+        const result = await ActivityAction.GetRandomRecomendedActivity(popularActivity[0].uuid, 1);
+        if (result.success) {
+          popularActivity.push(result.data[0]);
+        }
+    }
+
+    await fillerPageActivity(); // panggil filler function untuk menambahkan activity
 
   const getActivityFromBestCategory = async (): Promise<
     Record<string, BestActivityCategoryNameAndListActivity>
