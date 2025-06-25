@@ -7,10 +7,11 @@ import { ActivityLandingPage } from "../paramaters/activity/paramater";
 import ActivityCard from "./utility-components/activity.card";
 
 export function LandingPageActivityMobileSection(props: ActivityLandingPage) {
+  console.log(props.best_deals_activity)
   return (
     <>
       <div className="block md:hidden">
-        {props.best_deals_activity.length > 0 && (
+        {props.popular_activity.length > 0 && (
           <div>
             <h1 className="font-bold text-xl">
               Best Experience, Ultra Comfortable
@@ -92,7 +93,7 @@ export function LandingPageActivityMobileSection(props: ActivityLandingPage) {
               </div>
             );
           })}
-          {Array.from(props.best_deals_activity).map((activity, key) => (
+          {/* {Array.from(props.best_deals_activity).map((activity, key) => (
             <div key={activity.uuid + key + "mb"} className="p-1 col-span-2">
               <ActivityCard
                 activity={activity}
@@ -104,7 +105,7 @@ export function LandingPageActivityMobileSection(props: ActivityLandingPage) {
                 showTags={false}
               />
             </div>
-          ))}
+          ))} */}
         </div>
       </div>
     </>

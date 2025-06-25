@@ -32,7 +32,7 @@ export function LandingPageActivityDesktopSection(props: ActivityLandingPage) {
                 </div>
               </CarouselItem>
             ))}
-             {Array.from(props.best_deals_activity).map((activity, index) => (
+             {/* {Array.from(props.best_deals_activity).map((activity, index) => (
               <CarouselItem
                 key={index}
                 className="basis-full md:basis-1/2 lg:basis-1/4"
@@ -47,7 +47,7 @@ export function LandingPageActivityDesktopSection(props: ActivityLandingPage) {
                   />
                 </div>
               </CarouselItem>
-            ))}
+            ))} */}
           </CarouselContent>
           <CarouselPrevious />
           <CarouselNext />

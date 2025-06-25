@@ -91,6 +91,7 @@ export interface CheckoutFinalPayloadParamater {
   activity: Array<CheckoutDataActivityResponse>;
   package: Array<CheckoutDataPackageResponse>;
   packageOrderData: Array<CheckoutPackageOrderDataPayload>;
+  exchange_coin_amount?: number;
 }
 
 export interface CheckoutFreeTourTypeViewParamater {

@@ -247,6 +247,7 @@ export function CheckoutForm({
       packageOrderData: mappingPackageOrderpayload,
       cartData: checkoutCartData,
       accept_tnc: checkTermCondition,
+      exchange_coin_amount: 1200, //hardcode for now
     };
 
     setFinalBookingPayload(postPayload);
