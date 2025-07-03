@@ -184,6 +184,7 @@ export function CheckoutDetailAirportTransfer({
           ? mappingAdditionalService
           : undefined,
       accept_tnc: checkTermCondition,
+      exchange_coin_amount: 1200
     });
 
     if (process.env.MAIN_PAYMENT_GATEWAY == "bayarind") {

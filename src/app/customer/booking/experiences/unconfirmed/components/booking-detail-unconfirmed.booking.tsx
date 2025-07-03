@@ -6,6 +6,7 @@ import {
   CheckoutBookingBayarindResponse,
   CheckoutBookingIpay88Response,
   CheckoutBookingIpaymuResponse,
+  CheckoutBookingNoPaymentGateway,
   CheckoutBookingResponse,
 } from "@/app/responses/booking/response";
 
@@ -69,7 +70,7 @@ export function BookingDetailUnconfirmed({
     const activityUuids: Array<string> = Object.entries(
       bookingsData.packages[orderId].packages
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    ).flatMap(([key, value]) => {
+    ).flatMap(([_, value]) => {
       return value.activity_uuid;
     });
 
@@ -133,6 +134,9 @@ export function BookingDetailUnconfirmed({
       return acc;
     }, {} as { [key: string]: CheckoutUnconfirmedBookingPackageData });
 
+    //test coin
+    booking.exchange_coin_amount = 1200
+
     const payload: CheckoutUnconfirmedBookingParamater = {
       order: booking,
       package: mappingPackage,
@@ -182,6 +186,10 @@ export function BookingDetailUnconfirmed({
         } else {
           router.push(paymentGatewayPayload.next_url);
         }
+      }else if(!finalResult.payment_gateway) {
+         const paymentGatewayPayload =
+          finalResult.payload as CheckoutBookingNoPaymentGateway; // sebenarnya tidak ada payment gateway type
+        router.push(paymentGatewayPayload.next_url)
       }
     } else {
       const finalResult = checkout.data as string; //errror response from backend

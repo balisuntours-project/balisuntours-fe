@@ -7,9 +7,16 @@ import {
 } from "@/app/responses/airport-transfer/response";
 import { useAirportTransferStore } from "@/app/store/airport-transfer.store";
 import { useBookingStore } from "@/app/store/booking.store";
+import { useCoinStore } from "@/app/store/coin.store";
 import { CurrencyListEnum } from "@/lib/global.enum";
 import { GlobalUtility } from "@/lib/global.utility";
-import { ArrowLeftCircle, ArrowRightCircle, CarFront, Luggage, User } from "lucide-react";
+import {
+  ArrowLeftCircle,
+  ArrowRightCircle,
+  CarFront,
+  Luggage,
+  User,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 
 export function CheckoutAmountSectionAirportTransfer({
@@ -21,6 +28,9 @@ export function CheckoutAmountSectionAirportTransfer({
 }) {
   const currencyValue = useBookingStore((state) => state.currencyValue);
   const setCurrencyValue = useBookingStore((state) => state.setCurrencyValue);
+  const coinDiscountAmount = useCoinStore((state) => state.coinDiscountAmount);
+  const addedCoinAmount = useCoinStore((state) => state.addedCoinAmount);
+  const setCheckoutAmount = useBookingStore((state) => state.setCheckoutAmount);
 
   const selectedAdditionalService = useAirportTransferStore(
     (state) => state.selectedAdditionalService
@@ -36,10 +46,12 @@ export function CheckoutAmountSectionAirportTransfer({
       });
 
       setAdditionalServiceTotalAmount(totalAmount);
+      setCheckoutAmount(bookingData.total_amount + totalAmount);
     }
   }, [selectedAdditionalService]);
 
   useEffect(() => {
+    setCheckoutAmount(bookingData.total_amount);
     setCurrencyValue(CurrencyListEnum.usd);
   }, []);
   return (
@@ -143,11 +155,11 @@ export function CheckoutAmountSectionAirportTransfer({
             <span className="text-gray-500">Amount</span>
             <span className="ml-auto text-[#EB5E00] text-end text-xl font-extrabold">
               {GlobalUtility.IdrCurrencyFormat(
-                bookingData.total_amount + additionalServiceTotalAmount
+                (bookingData.total_amount + additionalServiceTotalAmount) - coinDiscountAmount
               )}{" "}
               {currencyValue &&
                 `(${GlobalUtility.ConvertionCurrencyFormat(
-                  bookingData.total_amount + additionalServiceTotalAmount,
+                  (bookingData.total_amount + additionalServiceTotalAmount) - coinDiscountAmount,
                   currencyValue,
                   CurrencyListEnum.usd
                 )})`}
