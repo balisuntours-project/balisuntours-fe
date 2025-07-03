@@ -50,7 +50,7 @@ jobs:
   deploy:
     needs: [build-and-push]
     runs-on: [self-hosted, production]
-
+  
     steps:
       - name: Ensure repository exists and update it
         run: |
@@ -70,29 +70,29 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+  
       - name: Docker login
         run: echo "${DOCKER_TOKEN}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-
+  
       - name: Pull latest image
         run: docker pull ${DOCKER_USERNAME}/private:ecommerce-fe-latest-${ENVIRONMENT}
-
+  
       - name: Generate docker-compose.yml from template
         run: |
           export CI_APPLICATION_REPOSITORY=${DOCKER_USERNAME}/private:ecommerce-fe-latest-${ENVIRONMENT}
           envsubst < /home/repo_dequa_net/deployment/${{ github.event.repository.name }}/docker-compose-template.yml > /home/repo_dequa_net/deployment/${{ github.event.repository.name }}/docker-compose.yml
-
+  
       - name: Stop existing containers
         run: docker compose -f /home/repo_dequa_net/deployment/${{ github.event.repository.name }}/docker-compose.yml down
-
+  
       - name: Remove old image
         run: docker image prune -f
-
+      
       - name: Remove public asset
         run: docker volume rm ${{ github.event.repository.name }}_public || true
-
+  
       - name: Start container
         run: docker compose -f /home/repo_dequa_net/deployment/${{ github.event.repository.name }}/docker-compose.yml up -d --remove-orphans
-
+  
       - name: Verify running containers
         run: docker ps -a
