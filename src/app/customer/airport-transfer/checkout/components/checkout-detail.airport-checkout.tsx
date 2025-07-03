@@ -1,7 +1,7 @@
 "use client";
 
 import { GlobalUtility } from "@/lib/global.utility";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, Coins } from "lucide-react";
 import { CheckoutAmountSectionAirportTransfer } from "./checkout-amount-section.airport-checkout";
 import { Input } from "@/components/ui/input";
 import { CHECKOUT_INPUT_STYLE } from "@/lib/global.constant";
@@ -44,13 +44,20 @@ import {
   CheckoutBookingResponse,
 } from "@/app/responses/booking/response";
 import { useRouter } from "next/navigation";
-import { PaymentGatewayEnum } from "@/lib/global.enum";
+import { CurrencyListEnum, PaymentGatewayEnum } from "@/lib/global.enum";
 import { BookingUtility } from "@/lib/booking.utility";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import { DynamicDialogWithTrigger } from "@/app/global-components/utility-components/dynamic-content-without-trigger.dialog";
 import { PaymentChannelList } from "@/app/global-components/utility-components/payment-channel";
 import { BayarindPaymentChannelEnum } from "@/app/enums/bayarind/bayarind.enum";
+import { ApplyCoinDiscountForm } from "@/app/global-components/utility-components/apply-coin-discount.form";
+import { DynamicDialog } from "@/app/global-components/utility-components/dynamic-content.dialog";
+import { Badge } from "@/components/ui/badge";
+import { CoinAction } from "@/app/actions/coin/action";
+import { CoinConfigurationResponse } from "@/app/responses/coin/response";
+import { useBookingStore } from "@/app/store/booking.store";
+import { useCoinStore } from "@/app/store/coin.store";
 
 export function CheckoutDetailAirportTransfer({
   bookingUuid,
@@ -83,6 +90,12 @@ export function CheckoutDetailAirportTransfer({
   const [additionalRequest, setAdditionalRequest] = useState<string | null>(
     null
   );
+
+  const currencyValue = useBookingStore((state) => state.currencyValue);
+  const setCurrencyValue = useBookingStore((state) => state.setCurrencyValue);
+  const coinDiscountAmount = useCoinStore((state) => state.coinDiscountAmount);
+  const addedCoinAmount = useCoinStore((state) => state.addedCoinAmount);
+  const setCheckoutAmount = useBookingStore((state) => state.setCheckoutAmount);
 
   const flightNumberRef = useRef<HTMLParagraphElement>(null);
   const additinalRequestRef = useRef<HTMLParagraphElement>(null);
@@ -258,6 +271,7 @@ export function CheckoutDetailAirportTransfer({
       });
 
       setAdditionalServiceTotalAmount(totalAmount);
+      setCheckoutAmount(bookingData.total_amount + totalAmount);
     }
   }, [selectedAdditionalService]);
 
@@ -322,6 +336,33 @@ export function CheckoutDetailAirportTransfer({
     setIsLoading(false);
     setOnClickCheckout(false);
   };
+
+  const [coinBalance, setCoinBalance] = useState<number>(0);
+
+  const [coinConfig, setCoinConfig] = useState<
+    CoinConfigurationResponse | undefined
+  >(undefined);
+
+  const getCoinConfiguration = async () => {
+    const result = await CoinAction.CoinConfiguration();
+    if (result.success) {
+      setCoinConfig(result.data);
+    }
+  };
+
+  const getUserCoinBalance = async () => {
+    const result = await CoinAction.CoinBalance();
+    if (result.success) {
+      setCoinBalance(result.data.balance);
+    }
+  };
+
+  useEffect(() => {
+    setCheckoutAmount(bookingData.total_amount);
+    setCurrencyValue(CurrencyListEnum.usd);
+    getUserCoinBalance();
+    getCoinConfiguration();
+  }, []);
 
   return (
     <>
@@ -568,6 +609,44 @@ export function CheckoutDetailAirportTransfer({
                           </p>
                         </FormItem>
                       </div>
+                      <div className="border col-span-12 border-yellow-500 bg-yellow-50 flex flex-col gap-4 rounded-xl shadow-sm">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 py-6 px-4">
+                          <div className="flex items-center gap-4">
+                            <div className="rounded-full bg-yellow-400 p-3 text-white">
+                              <Coins className="w-6 h-6" />
+                            </div>
+                            <div>
+                              <h4 className="text-bold text-yellow-800 text-lg font-bold">
+                                Your Coin Balance
+                              </h4>
+                              <span className="text-sm text-yellow-700">
+                                You have{" "}
+                                <Badge className="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1">
+                                  {coinBalance} Coins
+                                </Badge>{" "}
+                                available to use.
+                              </span>
+                            </div>
+                          </div>
+                          <DynamicDialog
+                            trigger={
+                              <Button
+                                variant="default"
+                                className="bg-yellow-500 hover:bg-yellow-600 text-white"
+                                type="button"
+                              >
+                                Apply Coins to Transaction
+                              </Button>
+                            }
+                            useSmallVersion={true}
+                          >
+                            <ApplyCoinDiscountForm
+                              coinAmount={coinBalance}
+                              coinConfig={coinConfig}
+                            />
+                          </DynamicDialog>
+                        </div>
+                      </div>
                       <div className="flex flex-col col-span-12 mt-2 md:mt-0">
                         <FormItem>
                           <div className="flex items-center space-x-2">
@@ -616,15 +695,18 @@ export function CheckoutDetailAirportTransfer({
                           <span className="text-gray-500">Amount</span>
                           <span className="ml-auto text-[#EB5E00] text-end text-xl font-extrabold">
                             {GlobalUtility.IdrCurrencyFormat(
-                              bookingData.total_amount +
-                                additionalServiceTotalAmount
+                              (bookingData.total_amount +
+                                additionalServiceTotalAmount) -
+                                coinDiscountAmount
                             )}{" "}
-                            {/* {currencyValue &&
+                            {currencyValue &&
                               `(${GlobalUtility.ConvertionCurrencyFormat(
-                                checkoutAmount,
+                               ( bookingData.total_amount +
+                                  additionalServiceTotalAmount) -
+                                  coinDiscountAmount,
                                 currencyValue,
                                 CurrencyListEnum.usd
-                              )})`} */}
+                              )})`}
                           </span>
                         </div>
                         <hr />

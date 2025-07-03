@@ -10,6 +10,7 @@ import {
   CheckoutBookingBayarindResponse,
   CheckoutBookingIpay88Response,
   CheckoutBookingIpaymuResponse,
+  CheckoutBookingNoPaymentGateway,
   CheckoutBookingResponse,
   CheckoutUserDataRespnse,
 } from "@/app/responses/booking/response";
@@ -17,7 +18,7 @@ import { useBookingStore } from "@/app/store/booking.store";
 import { useGoogleMapStore } from "@/app/store/google-map.store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { TravellerDataSchema } from "../validation/traveller-data.validation";
@@ -49,6 +50,15 @@ import Link from "next/link";
 import { DynamicDialogWithTrigger } from "@/app/global-components/utility-components/dynamic-content-without-trigger.dialog";
 import { PaymentChannelList } from "@/app/global-components/utility-components/payment-channel";
 import { BayarindPaymentChannelEnum } from "@/app/enums/bayarind/bayarind.enum";
+import { Card, CardContent } from "@/components/ui/card";
+import { Coins } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { DynamicDialog } from "@/app/global-components/utility-components/dynamic-content.dialog";
+import { Label } from "@/components/ui/label";
+import { ApplyCoinDiscountForm } from "@/app/global-components/utility-components/apply-coin-discount.form";
+import { CoinAction } from "@/app/actions/coin/action";
+import { CoinConfigurationResponse } from "@/app/responses/coin/response";
+import { useCoinStore } from "@/app/store/coin.store";
 
 export function CheckoutForm({
   userData,
@@ -74,6 +84,8 @@ export function CheckoutForm({
   const setIsLoading = useLoaderStore((state) => state.setIsLoading);
   const currencyValue = useBookingStore((state) => state.currencyValue);
   const checkoutAmount = useBookingStore((state) => state.checkoutAmount);
+   const coinDiscountAmount = useCoinStore((state) => state.coinDiscountAmount);
+   const addedCoinAmount = useCoinStore((state) => state.addedCoinAmount);
   const [checkTermCondition, setCheckTermCondition] = useState(false);
   const setDynamicDialogOpen = useLoaderStore(
     (state) => state.setDynamicDialogOpen
@@ -247,7 +259,7 @@ export function CheckoutForm({
       packageOrderData: mappingPackageOrderpayload,
       cartData: checkoutCartData,
       accept_tnc: checkTermCondition,
-      exchange_coin_amount: 1200, //hardcode for now
+       ...(addedCoinAmount ? { exchange_coin_amount: Number(addedCoinAmount) } : {})
     };
 
     setFinalBookingPayload(postPayload);
@@ -300,6 +312,10 @@ export function CheckoutForm({
         } else {
           router.push(paymentGatewayPayload.next_url);
         }
+      } else if (!finalResult.payment_gateway) {
+        const paymentGatewayPayload =
+          finalResult.payload as CheckoutBookingNoPaymentGateway;
+        router.push(paymentGatewayPayload.next_url);
       }
       setIsLoading(false);
     } else {
@@ -330,13 +346,13 @@ export function CheckoutForm({
   const handleCheckoutWaitingBooking = async () => {
     setWaitingPackageAvailable(false);
     if (finalBookingPayload) {
-      finalBookingPayload.include_waiting_booking = true // set true
+      finalBookingPayload.include_waiting_booking = true; // set true
       setIsLoading(true);
       const result = await BookingAction.CheckoutBooking(finalBookingPayload);
 
       if (result.success) {
         const finalResult = result.data as CheckoutBookingResponse;
-        
+
         //untuk case waiting activity
         if (!finalResult.payment_gateway) {
           const paymentGatewayPayload =
@@ -360,6 +376,31 @@ export function CheckoutForm({
       });
     }
   };
+
+  const [coinBalance, setCoinBalance] = useState<number>(0);
+
+  const [coinConfig, setCoinConfig] = useState<
+    CoinConfigurationResponse | undefined
+  >(undefined);
+
+  const getCoinConfiguration = async () => {
+    const result = await CoinAction.CoinConfiguration();
+    if (result.success) {
+      setCoinConfig(result.data);
+    }
+  };
+
+  const getUserCoinBalance = async () => {
+    const result = await CoinAction.CoinBalance();
+    if (result.success) {
+      setCoinBalance(result.data.balance);
+    }
+  };
+
+  useEffect(() => {
+    getUserCoinBalance();
+    getCoinConfiguration()
+  }, []);
 
   return (
     <>
@@ -496,6 +537,41 @@ export function CheckoutForm({
                   </FormItem>
                 </div>
               </div>
+              <div className="border border-yellow-500 bg-yellow-50 flex flex-col gap-4 mt-6 rounded-xl shadow-sm">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 py-6 px-4">
+                  <div className="flex items-center gap-4">
+                    <div className="rounded-full bg-yellow-400 p-3 text-white">
+                      <Coins className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h4 className="text-bold text-yellow-800 text-lg font-bold">
+                        Your Coin Balance
+                      </h4>
+                      <span className="text-sm text-yellow-700">
+                        You have{" "}
+                        <Badge className="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1">
+                          {coinBalance} Coins
+                        </Badge>{" "}
+                        available to use.
+                      </span>
+                    </div>
+                  </div>
+                  <DynamicDialog
+                    trigger={
+                      <Button
+                        variant="default"
+                        className="bg-yellow-500 hover:bg-yellow-600 text-white"
+                        type="button"
+                      >
+                        Apply Coins to Transaction
+                      </Button>
+                    }
+                    useSmallVersion={true}
+                  >
+                    <ApplyCoinDiscountForm coinAmount={coinBalance} coinConfig={coinConfig} />
+                  </DynamicDialog>
+                </div>
+              </div>
               <div className="flex flex-col gap-4 mt-6">
                 <div
                   className={
@@ -508,10 +584,10 @@ export function CheckoutForm({
                     <span className="text-gray-500">Amount</span>
                     {checkoutAmount && (
                       <span className="ml-auto text-[#EB5E00] text-end text-xl font-extrabold">
-                        {GlobalUtility.IdrCurrencyFormat(checkoutAmount)}{" "}
+                        {GlobalUtility.IdrCurrencyFormat(checkoutAmount - coinDiscountAmount)}{" "}
                         {currencyValue &&
                           `(${GlobalUtility.ConvertionCurrencyFormat(
-                            checkoutAmount,
+                            checkoutAmount - coinDiscountAmount,
                             currencyValue,
                             CurrencyListEnum.usd
                           )})`}

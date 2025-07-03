@@ -8,11 +8,12 @@ import {
   CheckoutBookingResponse,
   CheckoutUnconfirmedBookingResponse,
 } from "@/app/responses/booking/response";
+import { CoinConfigurationResponse, UserCoinBalanceResponse } from "@/app/responses/coin/response";
 import { api } from "@/lib/axios-instance";
 import { GlobalUtility } from "@/lib/global.utility";
 import { AxiosError } from "axios";
 
-export interface BookingActionResponse<T> {
+export interface CoinActionResponse<T> {
   success: boolean;
   status_code: number;
   data: T;
@@ -31,10 +32,10 @@ interface ErrorServerObject {
     | string;
 }
 
-export class BookingAction {
+export class CoinAction {
   private static async handleResponse<T>(
     response: Response
-  ): Promise<BookingActionResponse<T>> {
+  ): Promise<CoinActionResponse<T>> {
     const finalResponse = await response.json();
 
     return {
@@ -48,7 +49,7 @@ export class BookingAction {
 
   private static async handleFetchError<T>(
     response: Response
-  ): Promise<BookingActionResponse<T>> {
+  ): Promise<CoinActionResponse<T>> {
     const finalResponse = (await response.json()) as ErrorServerObject; // Parsing response JSON ke ErrorServerObject
 
     let message = "Unknown error occurred";
@@ -81,7 +82,7 @@ export class BookingAction {
 
   private static handleError<T>(
     error: AxiosError<ErrorServerObject>
-  ): BookingActionResponse<T> {
+  ): CoinActionResponse<T> {
     let message: string = "An unknown error occurred";
     if (error.response?.data?.errors) {
       const errorMessageRaw = error.response.data.errors;
@@ -112,75 +113,43 @@ export class BookingAction {
     };
   }
 
-  static async CancelBooking(
-    bookingUuid: string,
-    payload: CancelBookingParamater
-  ): Promise<BookingActionResponse<void>> {
+  static async CoinConfiguration(): Promise<
+    CoinActionResponse<CoinConfigurationResponse>
+  > {
     try {
-      const action = await api(
-        `/api/customer/order/waiting/cancel/${bookingUuid}`,
-        {
-          method: "PUT",
-          body: JSON.stringify(payload),
-        }
-      );
-
-      if (!action.ok) {
-        GlobalUtility.TriggerExceptionFetchApi(action);
-      }
-
-      const result = this.handleResponse<void>(action);
-
-      return result;
-    } catch (error: any) {
-      return this.handleFetchError<void>(error.response || error);
-    }
-  }
-
-  static async CheckoutUnconfirmedBooking(
-    payload: CheckoutUnconfirmedBookingParamater
-  ): Promise<BookingActionResponse<CheckoutBookingResponse | string>> {
-    try {
-   
-      const action = await api(`/api/customer/order/waiting/checkout`, {
-        method: "POST",
-        body: JSON.stringify(payload),
+      const action = await api(`/api/customer/coin-configuration`, {
+        method: "GET",
       });
 
       if (!action.ok) {
         GlobalUtility.TriggerExceptionFetchApi(action);
       }
 
-      const result =
-        this.handleResponse<CheckoutBookingResponse | string>(action);
+      const result = this.handleResponse<CoinConfigurationResponse>(action);
 
       return result;
     } catch (error: any) {
-      return this.handleFetchError<CheckoutBookingResponse | string>(
-        error.response || error
-      );
+      return this.handleFetchError<CoinConfigurationResponse>(error.response || error);
     }
   }
 
-  static async CheckoutBooking(
-    payload: CheckoutFinalPayloadParamater
-  ): Promise<BookingActionResponse<CheckoutBookingResponse | string>> {
+  static async CoinBalance(): Promise<
+    CoinActionResponse<UserCoinBalanceResponse>
+  > {
     try {
-      const action = await api(`/api/customer/payment`, {
-        method: "POST",
-        body: JSON.stringify(payload),
+      const action = await api(`/api/customer/coin-balance`, {
+        method: "GET",
       });
 
       if (!action.ok) {
         GlobalUtility.TriggerExceptionFetchApi(action);
       }
 
-      return this.handleResponse<CheckoutBookingResponse | string>(action);
+      const result = this.handleResponse<UserCoinBalanceResponse>(action);
+
+      return result;
     } catch (error: any) {
-      console.error(error);
-      return this.handleFetchError<CheckoutBookingResponse | string>(
-        error.response || error
-      );
+      return this.handleFetchError<UserCoinBalanceResponse>(error.response || error);
     }
   }
 }

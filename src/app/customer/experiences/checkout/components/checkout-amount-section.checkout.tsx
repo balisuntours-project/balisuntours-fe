@@ -3,6 +3,7 @@ import { ImageWithLoader } from "@/app/global-components/utility-components/with
 import { CheckoutDataPackageResponse } from "@/app/responses/activity-package/response";
 import { CheckoutDataActivityResponse } from "@/app/responses/activity/response";
 import { useBookingStore } from "@/app/store/booking.store";
+import { useCoinStore } from "@/app/store/coin.store";
 import { CurrencyListEnum } from "@/lib/global.enum";
 import { GlobalUtility } from "@/lib/global.utility";
 
@@ -19,6 +20,7 @@ export function CheckoutAmountSection({
 
   const currencyValue = useBookingStore((state) => state.currencyValue);
   const checkoutAmount = useBookingStore((state) => state.checkoutAmount);
+   const coinDiscountAmount = useCoinStore((state) => state.coinDiscountAmount);
   return (
     <>
       <div
@@ -152,10 +154,10 @@ export function CheckoutAmountSection({
             <span className="text-gray-500">Amount</span>
             {checkoutAmount && (
               <span className="ml-auto text-[#EB5E00] text-end text-xl font-extrabold">
-                {GlobalUtility.IdrCurrencyFormat(checkoutAmount)}{" "}
+                {GlobalUtility.IdrCurrencyFormat(checkoutAmount - coinDiscountAmount)}{" "}
                 {currencyValue &&
                   `(${GlobalUtility.ConvertionCurrencyFormat(
-                    checkoutAmount,
+                    checkoutAmount - coinDiscountAmount,
                     currencyValue,
                     CurrencyListEnum.usd
                   )})`}

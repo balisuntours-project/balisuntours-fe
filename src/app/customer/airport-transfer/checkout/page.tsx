@@ -10,6 +10,7 @@ export default async function AirportTransferCheckoutPage({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+ 
   const bookingUuidParam = (await searchParams)?.booking_uuid;
   let data = null;
   let additionalServiceItem = null

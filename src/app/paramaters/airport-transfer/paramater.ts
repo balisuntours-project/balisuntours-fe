@@ -58,4 +58,5 @@ export interface CheckoutToPaymentParamater {
   additional_service?: Array<Pick<AdditionalServiceItemResponseWithQty, "qty" | "uuid">>,
   accept_tnc: boolean,
   bayarind_payment_channel?: string;
+  exchange_coin_amount?: number
 }
