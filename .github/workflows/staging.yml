@@ -2,8 +2,8 @@ name: Staging Release
 
 on:
   push:
-    tags:
-      - "release-staging-*"
+    branches:
+      - main
 env:
   ENVIRONMENT: staging
   DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
