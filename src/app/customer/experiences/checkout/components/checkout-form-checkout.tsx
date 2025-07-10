@@ -537,7 +537,7 @@ export function CheckoutForm({
                   </FormItem>
                 </div>
               </div>
-              <div className="border border-yellow-500 bg-yellow-50 flex flex-col gap-4 mt-6 rounded-xl shadow-sm">
+              {/* <div className="border border-yellow-500 bg-yellow-50 flex flex-col gap-4 mt-6 rounded-xl shadow-sm">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 py-6 px-4">
                   <div className="flex items-center gap-4">
                     <div className="rounded-full bg-yellow-400 p-3 text-white">
@@ -571,7 +571,7 @@ export function CheckoutForm({
                     <ApplyCoinDiscountForm coinAmount={coinBalance} coinConfig={coinConfig} />
                   </DynamicDialog>
                 </div>
-              </div>
+              </div> */}
               <div className="flex flex-col gap-4 mt-6">
                 <div
                   className={
