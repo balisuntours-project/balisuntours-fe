@@ -19,7 +19,7 @@ export function LandingPageRentalVechileSection() {
             className="flex flex-col items-center gap-2 col-span-1"
           >
              <ImageWithLoader
-            src="/808-banner.jpg"
+            src="/808-banner.png"
             alt="Vehicle rental banner"
             fallbackSrc="/fallback-image.png"
             classNameProp="row-span-1 w-full md:h-[100%] bg-gray-500 rounded-lg object-cover cursor-pointer"
