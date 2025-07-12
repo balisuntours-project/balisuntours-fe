@@ -41,6 +41,7 @@ import {
   CheckoutBookingBayarindResponse,
   CheckoutBookingIpay88Response,
   CheckoutBookingIpaymuResponse,
+  CheckoutBookingNoPaymentGateway,
   CheckoutBookingResponse,
 } from "@/app/responses/booking/response";
 import { useRouter } from "next/navigation";
@@ -58,6 +59,7 @@ import { CoinAction } from "@/app/actions/coin/action";
 import { CoinConfigurationResponse } from "@/app/responses/coin/response";
 import { useBookingStore } from "@/app/store/booking.store";
 import { useCoinStore } from "@/app/store/coin.store";
+import { UnTriggeredConfirmationDialog } from "@/app/global-components/utility-components/untriggered-confirmation.dialog";
 
 export function CheckoutDetailAirportTransfer({
   bookingUuid,
@@ -122,6 +124,7 @@ export function CheckoutDetailAirportTransfer({
     (state) => state.setDynamicDialogOpen
   );
 
+  const [discountReachedMax, setDiscountReachedMax] = useState<boolean>(false);
   const [checkTermCondition, setCheckTermCondition] = useState(false);
   const [additionalServiceTotalAmount, setAdditionalServiceTotalAmount] =
     useState(0);
@@ -197,7 +200,15 @@ export function CheckoutDetailAirportTransfer({
           ? mappingAdditionalService
           : undefined,
       accept_tnc: checkTermCondition,
+      ...(addedCoinAmount
+        ? { exchange_coin_amount: Number(addedCoinAmount) }
+        : {}),
     });
+
+    if((bookingData.total_amount + additionalServiceTotalAmount) - coinDiscountAmount == 0) {
+      setDiscountReachedMax(true)
+      return
+    }
 
     if (process.env.MAIN_PAYMENT_GATEWAY == "bayarind") {
       setDynamicDialogOpen(true);
@@ -205,6 +216,22 @@ export function CheckoutDetailAirportTransfer({
     }
 
     setOnClickCheckout(true);
+  };
+
+   const handleOnConfirmReachedDiscountBooking = async () => {
+    setDiscountReachedMax(false);
+    if (!checkoutPaymentData) {
+      toast({
+        description: `Please retry click checkout button!`,
+        variant: "info",
+      });
+      return;
+    }
+
+    checkoutPaymentData.bayarind_payment_channel =
+      BayarindPaymentChannelEnum.creditCard; //isi filler cc untuk case bayarind
+    setCheckoutPaymentData(checkoutPaymentData)
+    await handleCheckoutToPayment();
   };
 
   const handleCheckoutToPayment = async () => {
@@ -249,6 +276,10 @@ export function CheckoutDetailAirportTransfer({
       } else if (finalResult.payment_gateway == PaymentGatewayEnum.BAYARIND) {
         const paymentGatewayPayload =
           finalResult.payload as CheckoutBookingBayarindResponse;
+        router.push(paymentGatewayPayload.next_url);
+      } else if (!finalResult.payment_gateway) {
+        const paymentGatewayPayload =
+          finalResult.payload as CheckoutBookingNoPaymentGateway;
         router.push(paymentGatewayPayload.next_url);
       }
     }
@@ -330,6 +361,10 @@ export function CheckoutDetailAirportTransfer({
         } else {
           router.push(paymentGatewayPayload.next_url);
         }
+      } else if (!finalResult.payment_gateway) {
+        const paymentGatewayPayload =
+          finalResult.payload as CheckoutBookingNoPaymentGateway;
+        router.push(paymentGatewayPayload.next_url);
       }
     }
 
@@ -369,6 +404,13 @@ export function CheckoutDetailAirportTransfer({
       <DynamicDialogWithTrigger>
         <PaymentChannelList onCheckoutChannel={handleBayarindCheckoutBooking} />
       </DynamicDialogWithTrigger>
+      <UnTriggeredConfirmationDialog
+        openState={discountReachedMax}
+        dialogTitle="Hold on!"
+        dialogDescription={`You will receive a 100% discount for this booking. ${addedCoinAmount} coins will be deducted from your balance, and no additional payment is required.`}
+        onClick={() => handleOnConfirmReachedDiscountBooking()}
+        onClickCancel={() => setDiscountReachedMax(false)}
+      />
       <TextLoader title="Hold a second" text="Redirecting to payment page..." />
       <div className="lg:grid lg:grid-cols-12 lg:gap-6 items-start">
         <div className="col-span-8 bg-white rounded-lg h-auto shadow-lg sm:mb-6">
@@ -609,7 +651,7 @@ export function CheckoutDetailAirportTransfer({
                           </p>
                         </FormItem>
                       </div>
-                      {/* <div className="border col-span-12 border-yellow-500 bg-yellow-50 flex flex-col gap-4 rounded-xl shadow-sm">
+                      <div className="border col-span-12 border-yellow-500 bg-yellow-50 flex flex-col gap-4 rounded-xl shadow-sm">
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 py-6 px-4">
                           <div className="flex items-center gap-4">
                             <div className="rounded-full bg-yellow-400 p-3 text-white">
@@ -646,7 +688,7 @@ export function CheckoutDetailAirportTransfer({
                             />
                           </DynamicDialog>
                         </div>
-                      </div> */}
+                      </div>
                       <div className="flex flex-col col-span-12 mt-2 md:mt-0">
                         <FormItem>
                           <div className="flex items-center space-x-2">
@@ -695,14 +737,14 @@ export function CheckoutDetailAirportTransfer({
                           <span className="text-gray-500">Amount</span>
                           <span className="ml-auto text-[#EB5E00] text-end text-xl font-extrabold">
                             {GlobalUtility.IdrCurrencyFormat(
-                              (bookingData.total_amount +
-                                additionalServiceTotalAmount) -
+                              bookingData.total_amount +
+                                additionalServiceTotalAmount -
                                 coinDiscountAmount
                             )}{" "}
                             {currencyValue &&
                               `(${GlobalUtility.ConvertionCurrencyFormat(
-                               ( bookingData.total_amount +
-                                  additionalServiceTotalAmount) -
+                                bookingData.total_amount +
+                                  additionalServiceTotalAmount -
                                   coinDiscountAmount,
                                 currencyValue,
                                 CurrencyListEnum.usd

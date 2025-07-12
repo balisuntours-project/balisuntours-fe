@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { BookingPackageDynamicPropertyResponse } from "../responses/booking/response";
 import { ReviewDataParamater } from "../paramaters/activity-review/paramater";
-import { CheckoutMappedPackageDataParamater } from "../paramaters/booking/paramater";
+import { CheckoutMappedPackageDataParamater, UnconfirmedBookingDiscountCoinParamater } from "../paramaters/booking/paramater";
 import { CheckoutDataActivityResponse } from "../responses/activity/response";
 import { CheckoutDataPackageResponse } from "../responses/activity-package/response";
 import { CurrencyAction } from "../actions/currency/action";
@@ -22,6 +22,10 @@ interface BookingStoreState {
   reviewItems: {
     [key: string]: ReviewDataParamater;
   };
+  unconfirmedBookingDiscount: {
+    [key: string] : UnconfirmedBookingDiscountCoinParamater
+  }
+
   isOnSubmit: boolean;
 
   checkoutPackageBookingData: Array<CheckoutMappedPackageDataParamater>;
@@ -52,6 +56,11 @@ interface BookingStoreStateAction {
   setReviewItems: (
     updateFn: (reviews: { [key: string]: ReviewDataParamater }) => {
       [key: string]: ReviewDataParamater;
+    }
+  ) => void;
+  setUnconfirmedBookingDiscount: (
+    updateFn: (bookings: { [key: string]: UnconfirmedBookingDiscountCoinParamater }) => {
+      [key: string]: UnconfirmedBookingDiscountCoinParamater;
     }
   ) => void;
   setIsOnSubmit: (status: boolean) => void;
@@ -114,6 +123,10 @@ export const useBookingStore = create<
   reviewItems: {},
   setReviewItems: (UpdateFn) =>
     set((state) => ({ reviewItems: UpdateFn(state.reviewItems) })),
+
+  unconfirmedBookingDiscount: {},
+  setUnconfirmedBookingDiscount: (UpdateFn) =>
+    set((state) => ({ unconfirmedBookingDiscount: UpdateFn(state.unconfirmedBookingDiscount) })),
 
   isOnSubmit: false,
   setIsOnSubmit: (status: boolean) => set({ isOnSubmit: status }),

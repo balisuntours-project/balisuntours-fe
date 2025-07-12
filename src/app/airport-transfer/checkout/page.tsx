@@ -10,9 +10,11 @@ export default async function AirportTransferCheckoutPage({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+
+  notFound()
   const bookingUuidParam = (await searchParams)?.booking_uuid;
-  let data = null;
-  let additionalServiceItem = null
+  let data : any = null;
+  let additionalServiceItem : any = null
   if (bookingUuidParam) {
     const result = await AirportTransferActionServer.GetBookedVechileData(
       bookingUuidParam as string

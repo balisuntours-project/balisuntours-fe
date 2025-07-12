@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-  CancelBookingParamater,
-  CheckoutFinalPayloadParamater,
-  CheckoutUnconfirmedBookingParamater,
-} from "@/app/paramaters/booking/paramater";
-import {
-  CheckoutBookingResponse,
-  CheckoutUnconfirmedBookingResponse,
+  BookingResponse,
+  CheckoutDataResponse,
+  TransactionStatusResponse,
 } from "@/app/responses/booking/response";
-import { CoinConfigurationResponse, CoinHistoryTransactionResponse, UserCoinBalanceResponse } from "@/app/responses/coin/response";
-import { api } from "@/lib/axios-instance";
+import {
+  CoinConfigurationResponse,
+  UserCoinBalanceResponse,
+} from "@/app/responses/coin/response";
+import { apiServer } from "@/lib/axios-instance.server";
 import { GlobalUtility } from "@/lib/global.utility";
 import { AxiosError } from "axios";
 
@@ -32,7 +31,7 @@ interface ErrorServerObject {
     | string;
 }
 
-export class CoinAction {
+export class CoinServerAction {
   private static async handleResponse<T>(
     response: Response
   ): Promise<CoinActionResponse<T>> {
@@ -50,7 +49,16 @@ export class CoinAction {
   private static async handleFetchError<T>(
     response: Response
   ): Promise<CoinActionResponse<T>> {
-    const finalResponse = (await response.json()) as ErrorServerObject; // Parsing response JSON ke ErrorServerObject
+    let finalResponse: any = {};
+
+    //lakukan ini karena jika tidak bada build runtime akan error (karena cookie next header tidak dapat dirender static, page ini static karena /customer/booking tidaka da dynamic param seperti slug)
+    if (response instanceof Response) {
+      try {
+        finalResponse = await response.json();
+      } catch {
+        finalResponse = {};
+      }
+    }
 
     let message = "Unknown error occurred";
 
@@ -117,7 +125,7 @@ export class CoinAction {
     CoinActionResponse<CoinConfigurationResponse>
   > {
     try {
-      const action = await api(`/api/customer/coin-configuration`, {
+      const action = await apiServer(`/api/customer/coin-configuration`, {
         method: "GET",
       });
 
@@ -129,7 +137,9 @@ export class CoinAction {
 
       return result;
     } catch (error: any) {
-      return this.handleFetchError<CoinConfigurationResponse>(error.response || error);
+      return this.handleFetchError<CoinConfigurationResponse>(
+        error.response || error
+      );
     }
   }
 
@@ -137,7 +147,7 @@ export class CoinAction {
     CoinActionResponse<UserCoinBalanceResponse>
   > {
     try {
-      const action = await api(`/api/customer/coin-balance`, {
+      const action = await apiServer(`/api/customer/coin-balance`, {
         method: "GET",
       });
 
@@ -149,47 +159,9 @@ export class CoinAction {
 
       return result;
     } catch (error: any) {
-      return this.handleFetchError<UserCoinBalanceResponse>(error.response || error);
-    }
-  }
-
-  static async CoinHistory(subDaysFilter: number): Promise<
-    CoinActionResponse<Array<CoinHistoryTransactionResponse>>
-  > {
-    try {
-      const action = await api(`/api/customer/coin-history?filter_sub_days=${subDaysFilter}`, {
-        method: "GET",
-      });
-
-      if (!action.ok) {
-        GlobalUtility.TriggerExceptionFetchApi(action);
-      }
-
-      const result = this.handleResponse<Array<CoinHistoryTransactionResponse>>(action);
-
-      return result;
-    } catch (error: any) {
-      return this.handleFetchError<Array<CoinHistoryTransactionResponse>>(error.response || error);
-    }
-  }
-
-   static async ReservedCoinHistory(): Promise<
-    CoinActionResponse<Array<CoinHistoryTransactionResponse>>
-  > {
-    try {
-      const action = await api(`/api/customer/reserved-coin-history`, {
-        method: "GET",
-      });
-
-      if (!action.ok) {
-        GlobalUtility.TriggerExceptionFetchApi(action);
-      }
-
-      const result = this.handleResponse<Array<CoinHistoryTransactionResponse>>(action);
-
-      return result;
-    } catch (error: any) {
-      return this.handleFetchError<Array<CoinHistoryTransactionResponse>>(error.response || error);
+      return this.handleFetchError<UserCoinBalanceResponse>(
+        error.response || error
+      );
     }
   }
 }

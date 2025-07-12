@@ -2,7 +2,7 @@
 "use client";
 
 import { CurrencyAction } from "@/app/actions/currency/action";
-import { ActivityPackageTypeEnum } from "@/app/enums/activity/activity.enum";
+import { ActivityPackageSelfConfirmationStatus, ActivityPackageTypeEnum } from "@/app/enums/activity/activity.enum";
 import { CheckoutMappedPackageDataParamater } from "@/app/paramaters/booking/paramater";
 import { CheckoutDataPackageResponse } from "@/app/responses/activity-package/response";
 import { useBookingStore } from "@/app/store/booking.store";
@@ -10,7 +10,7 @@ import { DEFAULT_LAT, DEFAULT_LNG, DEFAULT_ZOOM } from "@/lib/global.constant";
 import { CurrencyListEnum } from "@/lib/global.enum";
 import { GlobalUtility } from "@/lib/global.utility";
 import { CheckCircle } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { CheckoutFormTypeMechanism } from "./checkout-form-type-condition.checkout";
 import { useGoogleMapStore } from "@/app/store/google-map.store";
 import { CheckoutDataActivityResponse } from "@/app/responses/activity/response";
@@ -80,6 +80,7 @@ export function CheckoutDetail({
     }
   };
 
+  const [anyWaitingConfirmationPackage, setAnyWaitingConfirmationPackage] = useState(false)
   useEffect(() => {
     if (checkoutPackages) {
       setCurrencyValue(CurrencyListEnum.usd);
@@ -179,6 +180,10 @@ export function CheckoutDetail({
             });
           }
         }
+
+        if(item.self_confirmation == ActivityPackageSelfConfirmationStatus.waiting && !anyWaitingConfirmationPackage) {
+          setAnyWaitingConfirmationPackage(true)
+        }
       });
 
       setCheckoutPackageBookingData(packageMappedDataBowl);
@@ -216,7 +221,7 @@ export function CheckoutDetail({
             ))}
 
             {/* Travaeller information section */}
-            <CheckoutForm minCost={minCost} userData={userData} />
+            <CheckoutForm minCost={minCost} userData={userData} anyWaitingConfirmationPackage={anyWaitingConfirmationPackage} />
           </div>
         </div>
 

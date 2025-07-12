@@ -113,3 +113,9 @@ export interface CheckoutBasicItineraryPayloadData {
   departure_additional_information: string;
   pickup_time_list: Array<string>;
 }
+
+export interface UnconfirmedBookingDiscountCoinParamater {
+  discount_amount: number,
+  added_coin: string,
+  amount: number,
+}

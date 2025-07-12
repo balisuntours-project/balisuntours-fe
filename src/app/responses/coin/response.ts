@@ -1,4 +1,7 @@
-import { CoinRoundingTypeEnum } from "@/app/enums/coin/coin.enum";
+import {
+  CoinHistoryFlterEnum,
+  CoinRoundingTypeEnum,
+} from "@/app/enums/coin/coin.enum";
 
 export interface CoinConfigurationResponse {
   coin_earned_percentage: number;
@@ -9,6 +12,19 @@ export interface CoinConfigurationResponse {
 }
 
 export interface UserCoinBalanceResponse {
-    uuid: string,
-    balance: number
+  uuid: string;
+  balance: number;
 }
+
+export interface CoinHistoryTransactionResponse {
+  uuid: string;
+  amount: number;
+  coin_convertion: string;
+  status: string;
+  category_status: CoinHistoryFlterEnum;
+  log_text: string;
+  description: string | null;
+  booking_id: string | null;
+  created_at: string;
+}
+
