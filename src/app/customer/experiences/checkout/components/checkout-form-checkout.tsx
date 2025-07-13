@@ -63,9 +63,11 @@ import { useCoinStore } from "@/app/store/coin.store";
 export function CheckoutForm({
   userData,
   minCost,
+  anyWaitingConfirmationPackage = false,
 }: {
   userData: CheckoutUserDataRespnse;
   minCost: number;
+  anyWaitingConfirmationPackage: boolean;
 }) {
   const scopedBookingState = useBookingStore(
     (state) => state.bookingScopedState
@@ -84,12 +86,14 @@ export function CheckoutForm({
   const setIsLoading = useLoaderStore((state) => state.setIsLoading);
   const currencyValue = useBookingStore((state) => state.currencyValue);
   const checkoutAmount = useBookingStore((state) => state.checkoutAmount);
-   const coinDiscountAmount = useCoinStore((state) => state.coinDiscountAmount);
-   const addedCoinAmount = useCoinStore((state) => state.addedCoinAmount);
+  const coinDiscountAmount = useCoinStore((state) => state.coinDiscountAmount);
+  const addedCoinAmount = useCoinStore((state) => state.addedCoinAmount);
   const [checkTermCondition, setCheckTermCondition] = useState(false);
   const setDynamicDialogOpen = useLoaderStore(
     (state) => state.setDynamicDialogOpen
   );
+
+  const [discountReachedMax, setDiscountReachedMax] = useState<boolean>(false);
 
   const router = useRouter();
   const { toast } = useToast();
@@ -249,7 +253,7 @@ export function CheckoutForm({
       return;
     }
 
-    const postPayload = {
+    const postPayload: CheckoutFinalPayloadParamater = {
       activity: checkoutActivities,
       package: checkoutPackages,
       firstName: values.name,
@@ -259,13 +263,20 @@ export function CheckoutForm({
       packageOrderData: mappingPackageOrderpayload,
       cartData: checkoutCartData,
       accept_tnc: checkTermCondition,
-       ...(addedCoinAmount ? { exchange_coin_amount: Number(addedCoinAmount) } : {})
+      ...(addedCoinAmount
+        ? { exchange_coin_amount: Number(addedCoinAmount) }
+        : {}),
     };
 
     setFinalBookingPayload(postPayload);
 
     if (checkIsThereAnyNeedConfirmationPackage(mappingPackageOrderpayload)) {
       setWaitingPackageAvailable(true);
+      return;
+    }
+
+    if (checkoutAmount - coinDiscountAmount == 0) {
+      setDiscountReachedMax(true);
       return;
     }
 
@@ -276,6 +287,21 @@ export function CheckoutForm({
 
     await handlePostCheckoutBooking(postPayload);
     return;
+  };
+
+  const handleOnConfirmReachedDiscountBooking = async () => {
+    setDiscountReachedMax(false);
+    if (!finalBookingPayload) {
+      toast({
+        description: `Please retry click checkout button!`,
+        variant: "info",
+      });
+      return;
+    }
+
+    finalBookingPayload.bayarind_payment_channel =
+      BayarindPaymentChannelEnum.creditCard; //isi sebagai filler cc untuk case bayarind
+    await handlePostCheckoutBooking(finalBookingPayload);
   };
 
   const handlePostCheckoutBooking = async (
@@ -399,7 +425,7 @@ export function CheckoutForm({
 
   useEffect(() => {
     getUserCoinBalance();
-    getCoinConfiguration()
+    getCoinConfiguration();
   }, []);
 
   return (
@@ -414,6 +440,14 @@ export function CheckoutForm({
         dialogDescription={waitingPackageMessage}
         onClick={() => handleCheckoutWaitingBooking()}
         onClickCancel={() => setWaitingPackageAvailable(false)}
+      />
+
+      <UnTriggeredConfirmationDialog
+        openState={discountReachedMax}
+        dialogTitle="Hold on!"
+        dialogDescription={`You will receive a 100% discount for this booking. ${addedCoinAmount} coins will be deducted from your balance, and no additional payment is required.`}
+        onClick={() => handleOnConfirmReachedDiscountBooking()}
+        onClickCancel={() => setDiscountReachedMax(false)}
       />
       <div className="mt-6">
         <span className="text-bold text-black text-lg font-bold">
@@ -504,6 +538,47 @@ export function CheckoutForm({
                   />
                 </div>
 
+                {!anyWaitingConfirmationPackage && (
+                  <div className="border border-yellow-500 bg-yellow-50 flex flex-col col-span-2 gap-4 rounded-xl shadow-sm">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 py-6 px-4">
+                      <div className="flex items-center gap-4">
+                        <div className="rounded-full bg-yellow-400 p-3 text-white">
+                          <Coins className="w-6 h-6" />
+                        </div>
+                        <div>
+                          <h4 className="text-bold text-yellow-800 text-lg font-bold">
+                            Your Coin Balance
+                          </h4>
+                          <span className="text-sm text-yellow-700">
+                            You have{" "}
+                            <Badge className="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1">
+                              {coinBalance} Coins
+                            </Badge>{" "}
+                            available to use.
+                          </span>
+                        </div>
+                      </div>
+                      <DynamicDialog
+                        trigger={
+                          <Button
+                            variant="default"
+                            className="bg-yellow-500 hover:bg-yellow-600 text-white"
+                            type="button"
+                          >
+                            Apply Coins to Transaction
+                          </Button>
+                        }
+                        useSmallVersion={true}
+                      >
+                        <ApplyCoinDiscountForm
+                          coinAmount={coinBalance}
+                          coinConfig={coinConfig}
+                        />
+                      </DynamicDialog>
+                    </div>
+                  </div>
+                )}
+
                 <div className="flex flex-col col-span-2 mt-2 md:mt-0">
                   <FormItem>
                     <div className="flex items-center space-x-2">
@@ -537,41 +612,7 @@ export function CheckoutForm({
                   </FormItem>
                 </div>
               </div>
-              {/* <div className="border border-yellow-500 bg-yellow-50 flex flex-col gap-4 mt-6 rounded-xl shadow-sm">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 py-6 px-4">
-                  <div className="flex items-center gap-4">
-                    <div className="rounded-full bg-yellow-400 p-3 text-white">
-                      <Coins className="w-6 h-6" />
-                    </div>
-                    <div>
-                      <h4 className="text-bold text-yellow-800 text-lg font-bold">
-                        Your Coin Balance
-                      </h4>
-                      <span className="text-sm text-yellow-700">
-                        You have{" "}
-                        <Badge className="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1">
-                          {coinBalance} Coins
-                        </Badge>{" "}
-                        available to use.
-                      </span>
-                    </div>
-                  </div>
-                  <DynamicDialog
-                    trigger={
-                      <Button
-                        variant="default"
-                        className="bg-yellow-500 hover:bg-yellow-600 text-white"
-                        type="button"
-                      >
-                        Apply Coins to Transaction
-                      </Button>
-                    }
-                    useSmallVersion={true}
-                  >
-                    <ApplyCoinDiscountForm coinAmount={coinBalance} coinConfig={coinConfig} />
-                  </DynamicDialog>
-                </div>
-              </div> */}
+
               <div className="flex flex-col gap-4 mt-6">
                 <div
                   className={
@@ -584,7 +625,9 @@ export function CheckoutForm({
                     <span className="text-gray-500">Amount</span>
                     {checkoutAmount && (
                       <span className="ml-auto text-[#EB5E00] text-end text-xl font-extrabold">
-                        {GlobalUtility.IdrCurrencyFormat(checkoutAmount - coinDiscountAmount)}{" "}
+                        {GlobalUtility.IdrCurrencyFormat(
+                          checkoutAmount - coinDiscountAmount
+                        )}{" "}
                         {currencyValue &&
                           `(${GlobalUtility.ConvertionCurrencyFormat(
                             checkoutAmount - coinDiscountAmount,

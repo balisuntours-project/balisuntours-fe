@@ -29,6 +29,7 @@ import { UnconfirmedEmptyContent } from "../utility-components/unconfirmed-empty
 import {
   CheckoutUnconfirmedBookingPackageData,
   CheckoutUnconfirmedBookingParamater,
+  UnconfirmedBookingDiscountCoinParamater,
 } from "@/app/paramaters/booking/paramater";
 import { useLoaderStore } from "@/app/store/loader.store";
 import { TextLoader } from "@/app/global-components/utility-components/text-loader.popup";
@@ -37,6 +38,15 @@ import { BookingUtility } from "@/lib/booking.utility";
 import { BayarindPaymentChannelEnum } from "@/app/enums/bayarind/bayarind.enum";
 import { DynamicDialogWithTrigger } from "@/app/global-components/utility-components/dynamic-content-without-trigger.dialog";
 import { PaymentChannelList } from "@/app/global-components/utility-components/payment-channel";
+import { ApplyCoinDiscountForm } from "@/app/global-components/utility-components/apply-coin-discount.form";
+import { CoinAction } from "@/app/actions/coin/action";
+import { CoinConfigurationResponse } from "@/app/responses/coin/response";
+import { UnTriggeredConfirmationDialog } from "@/app/global-components/utility-components/untriggered-confirmation.dialog";
+
+interface DiscountCoinBookingParamater {
+  uuid: string;
+  amount: number;
+}
 
 export function BookingDetailUnconfirmed({
   bookingsData,
@@ -97,6 +107,33 @@ export function BookingDetailUnconfirmed({
     }
   };
 
+  const [coinBalance, setCoinBalance] = useState<number>(0);
+  const [discountReachedMax, setDiscountReachedMax] = useState<boolean>(false);
+  const [currentAddedCoin, setCurrentAddedCoin] = useState<number>(0);
+
+  const [coinConfig, setCoinConfig] = useState<
+    CoinConfigurationResponse | undefined
+  >(undefined);
+
+  const getCoinConfiguration = async () => {
+    const result = await CoinAction.CoinConfiguration();
+    if (result.success) {
+      setCoinConfig(result.data);
+    }
+  };
+
+  const getUserCoinBalance = async () => {
+    const result = await CoinAction.CoinBalance();
+    if (result.success) {
+      setCoinBalance(result.data.balance);
+    }
+  };
+
+  useEffect(() => {
+    getUserCoinBalance();
+    getCoinConfiguration();
+  }, []);
+
   useEffect(() => {
     if (currentCanceledBookingOrderId) {
       setClientBookingList((prev) =>
@@ -124,6 +161,9 @@ export function BookingDetailUnconfirmed({
   };
 
   const handleCheckoutBooking = async (booking: BookingDetailResponse) => {
+    setCurrentAddedCoin(
+      Number(unconfirmedBookingDiscount[booking.uuid].added_coin)
+    );
     const mappingPackage = Object.entries(
       bookingsData.packages[booking.order_id].packages
     ).reduce((acc, [key, value]) => {
@@ -134,8 +174,14 @@ export function BookingDetailUnconfirmed({
       return acc;
     }, {} as { [key: string]: CheckoutUnconfirmedBookingPackageData });
 
-    //test coin
-    booking.exchange_coin_amount = 1200
+    if (
+      unconfirmedBookingDiscount[booking.uuid].added_coin &&
+      Number(unconfirmedBookingDiscount[booking.uuid].added_coin) > 0
+    ) {
+      booking.exchange_coin_amount = Number(
+        unconfirmedBookingDiscount[booking.uuid].added_coin
+      );
+    }
 
     const payload: CheckoutUnconfirmedBookingParamater = {
       order: booking,
@@ -186,10 +232,10 @@ export function BookingDetailUnconfirmed({
         } else {
           router.push(paymentGatewayPayload.next_url);
         }
-      }else if(!finalResult.payment_gateway) {
-         const paymentGatewayPayload =
-          finalResult.payload as CheckoutBookingNoPaymentGateway; // sebenarnya tidak ada payment gateway type
-        router.push(paymentGatewayPayload.next_url)
+      } else if (!finalResult.payment_gateway) {
+        const paymentGatewayPayload =
+          finalResult.payload as CheckoutBookingNoPaymentGateway;
+        router.push(paymentGatewayPayload.next_url);
       }
     } else {
       const finalResult = checkout.data as string; //errror response from backend
@@ -199,6 +245,31 @@ export function BookingDetailUnconfirmed({
       });
     }
   };
+
+  const setUnconfirmedBookingDiscount = useBookingStore(
+    (state) => state.setUnconfirmedBookingDiscount
+  );
+  const unconfirmedBookingDiscount = useBookingStore(
+    (state) => state.unconfirmedBookingDiscount
+  );
+
+  useEffect(() => {
+    setUnconfirmedBookingDiscount(() => {
+      const newState: {
+        [key: string]: UnconfirmedBookingDiscountCoinParamater;
+      } = {};
+
+      sourceItems.forEach((item) => {
+        newState[item.uuid] = {
+          discount_amount: 0,
+          added_coin: "",
+          amount: Number(item.amount),
+        };
+      });
+
+      return newState;
+    });
+  }, [sourceItems]);
 
   return (
     <>
@@ -305,7 +376,11 @@ export function BookingDetailUnconfirmed({
                 <div className="mx-auto flex flex-col lg:flex-row gap-3 lg:gap-11">
                   <div className="w-[100%] lg:ms-auto lg:text-end lg:w-[40%] lg:order-2">
                     <span className="text-lg font-extrabold text-black">
-                      {GlobalUtility.IdrCurrencyFormat(Number(booking.amount))}
+                      {GlobalUtility.IdrCurrencyFormat(
+                        Number(booking.amount) -
+                          (unconfirmedBookingDiscount[booking.uuid]
+                            ?.discount_amount ?? 0)
+                      )}
                     </span>
                   </div>
 
@@ -324,21 +399,44 @@ export function BookingDetailUnconfirmed({
                         Cancel
                       </Button>
                     </ConfirmationDialog>
-                    {booking.status == BookingPaymentStatusEnum.confirmed && (
-                      <ConfirmationDialog
-                        onClick={() => handleCheckoutBooking(booking)}
-                        dialogTitle="Checkout booking?"
-                        dialogDescription="Yoi will redirected to payment page!"
-                      >
-                        <Button
-                          type="button"
-                          rel="noopener noreferrer"
-                          className="w-auto lg:w-auto text-white cursor-pointer text-sm md:text-base px-4 py-[8px] lg:py-[6px] bg-[#008000]  hover:bg-[#008000] hover:opacity-90 rounded-md text-center"
-                        >
-                          Checkout
-                        </Button>
-                      </ConfirmationDialog>
-                    )}
+                    {booking.status === BookingPaymentStatusEnum.confirmed &&
+                      (unconfirmedBookingDiscount[booking.uuid] ? (
+                        Number(booking.amount) -
+                          unconfirmedBookingDiscount[booking.uuid]
+                            .discount_amount ===
+                        0 ? (
+                          <ConfirmationDialog
+                            onClick={() => handleCheckoutBooking(booking)}
+                            dialogTitle="Checkout booking?"
+                            dialogDescription={`You will receive a 100% discount for this booking. ${
+                              unconfirmedBookingDiscount[booking.uuid]
+                                .added_coin
+                            } coins will be deducted from your balance, and no additional payment is required!`}
+                          >
+                            <Button
+                              type="button"
+                              rel="noopener noreferrer"
+                              className="w-auto lg:w-auto text-white cursor-pointer text-sm md:text-base px-4 py-[8px] lg:py-[6px] bg-[#008000]  hover:bg-[#008000] hover:opacity-90 rounded-md text-center"
+                            >
+                              Checkout
+                            </Button>
+                          </ConfirmationDialog>
+                        ) : (
+                          <ConfirmationDialog
+                            onClick={() => handleCheckoutBooking(booking)}
+                            dialogTitle="Checkout booking?"
+                            dialogDescription="You will be redirected to the payment page!"
+                          >
+                            <Button
+                              type="button"
+                              rel="noopener noreferrer"
+                              className="w-auto lg:w-auto text-white cursor-pointer text-sm md:text-base px-4 py-[8px] lg:py-[6px] bg-[#008000]  hover:bg-[#008000] hover:opacity-90 rounded-md text-center"
+                            >
+                              Checkout
+                            </Button>
+                          </ConfirmationDialog>
+                        )
+                      ) : null)}
 
                     {booking.status == BookingPaymentStatusEnum.unconfirmed && (
                       <Button
@@ -346,6 +444,36 @@ export function BookingDetailUnconfirmed({
                         className="w-auto lg:w-auto cursor-not-allowed text-sm md:text-base px-4 py-[8px] lg:py-[6px] bg-[#cfc0c4] hover:bg-[#cfc0c4]/80 text-white hover:opacity-90 rounded-md text-center"
                       >
                         Checkout
+                      </Button>
+                    )}
+
+                    {booking.status == BookingPaymentStatusEnum.confirmed && (
+                      <DynamicDialog
+                        trigger={
+                          <Button
+                            variant="default"
+                            className="bg-yellow-500 hover:bg-yellow-600 text-white"
+                            type="button"
+                          >
+                            Apply Coins
+                          </Button>
+                        }
+                        useSmallVersion={true}
+                      >
+                        <ApplyCoinDiscountForm
+                          coinAmount={coinBalance}
+                          coinConfig={coinConfig}
+                          unconfirmedBookingUuid={booking.uuid}
+                        />
+                      </DynamicDialog>
+                    )}
+
+                    {booking.status == BookingPaymentStatusEnum.unconfirmed && (
+                      <Button
+                        type="button"
+                        className="w-auto lg:w-auto cursor-not-allowed text-sm md:text-base px-4 py-[8px] lg:py-[6px] bg-[#cfc0c4] hover:bg-[#cfc0c4]/80 text-white hover:opacity-90 rounded-md text-center"
+                      >
+                        Apply Coins
                       </Button>
                     )}
                   </div>

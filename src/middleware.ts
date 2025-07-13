@@ -31,10 +31,11 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname == "/customer/booking/experiences/transaction-status" ||
     request.nextUrl.pathname ==
       "/customer/booking/airport-transfer/transaction-status" ||
-    request.nextUrl.pathname == "/customer/vouchers"
+    request.nextUrl.pathname == "/customer/vouchers" ||
+    request.nextUrl.pathname == "/customer/coin" 
   ) {
     const token = request.cookies.get("assec")?.value;
-
+    // const refresh = request.cookies.get("refresh")?.value;
     if (!token) {
       return CookieSetForMiddleware(response, request, "/customer/signin");
     }

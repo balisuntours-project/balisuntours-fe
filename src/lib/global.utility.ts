@@ -179,7 +179,7 @@ export class GlobalUtility {
         formattedDate += ` at ${formattedTime}`; // Gabungkan tanggal dan waktu
       }
 
-    return formattedDate;
+      return formattedDate;
     } catch (error) {
       console.error("Error parsing date:", error);
       return "Invalid date";
@@ -282,5 +282,13 @@ export class GlobalUtility {
     const doc = new DOMParser().parseFromString(html, "text/html");
     const textContent = doc.body.textContent || ""; // Ambil teks dari konten HTML
     return textContent.trim().length === 0; // Cek apakah teks kosong
+  }
+
+  static FormatBeautifyCoin(coin: number | string): string {
+    const value = typeof coin === "string" ? parseFloat(coin) : coin;
+
+    if (isNaN(value)) return "0";
+
+    return value.toLocaleString("en-US");
   }
 }

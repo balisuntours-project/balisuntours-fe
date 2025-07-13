@@ -28,8 +28,9 @@ export function CheckoutAmountSectionAirportTransfer({
 }) {
   const currencyValue = useBookingStore((state) => state.currencyValue);
   const setCurrencyValue = useBookingStore((state) => state.setCurrencyValue);
+  const checkoutAmount = useBookingStore((state) => state.checkoutAmount);
   const coinDiscountAmount = useCoinStore((state) => state.coinDiscountAmount);
-  const addedCoinAmount = useCoinStore((state) => state.addedCoinAmount);
+
   const setCheckoutAmount = useBookingStore((state) => state.setCheckoutAmount);
 
   const selectedAdditionalService = useAirportTransferStore(
@@ -54,6 +55,7 @@ export function CheckoutAmountSectionAirportTransfer({
     setCheckoutAmount(bookingData.total_amount);
     setCurrencyValue(CurrencyListEnum.usd);
   }, []);
+
   return (
     <>
       <div

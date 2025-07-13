@@ -5,7 +5,7 @@ import { AuthButton } from "@/components/custom-ui/auth.button";
 import { CircleUserRound } from "lucide-react";
 import { LoginDialog } from "./login-dialog";
 import { GlobalUtility } from "@/lib/global.utility";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuthStore } from "@/app/store/auth.store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -16,6 +16,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { CoinAction } from "@/app/actions/coin/action";
 
 export function LoginButtonNavbar({ forAdmin }: { forAdmin?: boolean }) {
   const setShowLoginDialog = useLandingPageStore(
@@ -29,6 +30,18 @@ export function LoginButtonNavbar({ forAdmin }: { forAdmin?: boolean }) {
     //console.log(loginStatus)
     setIsLogin(loginStatus ? true : false);
   }, []);
+
+  const [coinBalance, setCoinBalance] = useState<number|undefined>(undefined)
+  const getUserCoinBalance = async() => {
+    const result = await CoinAction.CoinBalance()
+    if(result.success) {
+      setCoinBalance(result.data.balance)
+    }
+  }
+
+  useEffect(() => {
+    getUserCoinBalance()
+  }, [isLogin])
 
   function ShowLoginButtonOrProfilePicture() {
     if (isLogin) {
@@ -48,6 +61,12 @@ export function LoginButtonNavbar({ forAdmin }: { forAdmin?: boolean }) {
             {!forAdmin && (
               <>
                 <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <span className="text-yellow-600">
+                      🪙 {coinBalance ? GlobalUtility.FormatBeautifyCoin(coinBalance) : "Login to view"}
+                  </span>
+                </DropdownMenuItem>
+                  <DropdownMenuSeparator />
                 <DropdownMenuItem>Profile</DropdownMenuItem>
               </>
             )}

@@ -44,7 +44,7 @@ export function DynamicDialog({
           className={`${
             !useSmallVersion
               ? "max-w-[340px] md:max-w-2xl lg:max-w-5xl "
-              : "max-w-[340px] md:max-w-xl lg:max-w-3xl "
+              : "max-w-[90%] md:max-w-xl lg:max-w-3xl "
           } rounded-lg w-full px-4 py-8 sm:px-8 sm:py-8 md:px-10 md:py-10 max-h-[90vh] overflow-y-auto`}
         >
           <DialogHeader>
