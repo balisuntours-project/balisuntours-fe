@@ -9,6 +9,7 @@ import {
 
 import { GoogleMapDialogComponent } from "@/app/global-components/utility-components/google-map.dialog";
 import Image from "next/image";
+import { GlobalUtility } from "@/lib/global.utility";
 
 export function DetailActivityTitle(props: DetailActivityTitleParamater) {
   return (
@@ -89,7 +90,7 @@ export function DetailActivityTitle(props: DetailActivityTitleParamater) {
               <div className="flex gap-1 items-center">
                 <div className="flex items-center">
                   <span className="text-[#EB5E00] font-bold">
-                    {props.rating}
+                    {GlobalUtility.FormatRatingToDecimal(props.rating)}
                   </span>
                   <span className="font-bold ms-[2px]">
                     ({props.total_participant} reviews)

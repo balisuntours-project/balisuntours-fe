@@ -108,7 +108,7 @@ const ActivityCard: FC<ActivityCardProps> = ({
             <div className="flex items-center gap-1 mt-2 w-full">
               <Star className="text-yellow-500 w-4 h-4 stroke-[1.5] md:w-auto md:h-auto" />
               <span className="text-xs md:text-sm font-medium">
-                {activity.rating}
+                {GlobalUtility.FormatRatingToDecimal(activity.rating)}
               </span>
               <span className="text-xs md:text-sm text-gray-500">
                 ({activity.total_participant})
