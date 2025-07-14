@@ -120,10 +120,18 @@ export function PackageListPackage(props: {
     }
   }, [packageParam]);
 
+  useEffect(() => {
+    if (props.packages.length > 0) {
+      selectPackageAction(props.packages[0], {
+        itineraries: props.packages[0].itineraries,
+      });
+    }
+  }, [props.packages]);
+
   return (
     <>
       <div className="mt-2 flex gap-4 flex-wrap">
-        {props.packages.map((packageData, key) => (
+        {props.packages.map((packageData, _) => (
           <div
             key={packageData.uuid}
             onClick={() =>

@@ -291,4 +291,11 @@ export class GlobalUtility {
 
     return value.toLocaleString("en-US");
   }
+
+  static FormatRatingToDecimal(rawRating: string | number): string {
+    const rating = Number(rawRating);
+    if (isNaN(rating)) return "5.0"; // fallback jika tidak valid
+
+    return rating % 1 === 0 ? rating.toFixed(1) : rating.toString();
+  }
 }

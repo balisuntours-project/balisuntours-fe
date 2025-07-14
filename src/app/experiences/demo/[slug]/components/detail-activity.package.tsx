@@ -51,7 +51,7 @@ export function DetailActivityPackage(props: DetailActivityPackageParamater) {
               <DynamicDialog
                 trigger={
                   <span className="text-blue-500 underline block md:hidden text-sm">
-                    Show me full hightlight
+                    Show me full detail
                   </span>
                 }
                 title="Highlight"
