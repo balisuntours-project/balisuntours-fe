@@ -7,7 +7,9 @@ interface CoinStoreState {
   coinDiscountAmount: number;
   filterFromDate: Date;
   filterToDate: Date;
-  filterType: CoinHistoryFlterEnum
+  filterType: CoinHistoryFlterEnum;
+  onTransferCoin: boolean;
+  amountOnTransferCoin: number;
 }
 
 interface CoinStoreStateAction {
@@ -16,6 +18,8 @@ interface CoinStoreStateAction {
   setFilterFromDate: (date: Date) => void;
   setFilterToDate: (date: Date) => void;
   setFilterType: (type: CoinHistoryFlterEnum) => void;
+  setOnTransferCoin: (status: boolean) => void;
+  setAmountOnTransferCoin: (coin: number) => void;
 }
 
 export const useCoinStore = create<CoinStoreState & CoinStoreStateAction>(
@@ -28,7 +32,12 @@ export const useCoinStore = create<CoinStoreState & CoinStoreStateAction>(
     setFilterFromDate: (date: Date) => set({ filterFromDate: date }),
     filterToDate: new Date(),
     setFilterToDate: (date: Date) => set({ filterToDate: date }),
-    filterType : CoinHistoryFlterEnum.All,
-    setFilterType: (type: CoinHistoryFlterEnum) => set({filterType : type})
+    filterType: CoinHistoryFlterEnum.All,
+    setFilterType: (type: CoinHistoryFlterEnum) => set({ filterType: type }),
+    onTransferCoin: false,
+    setOnTransferCoin: (status: boolean) => set({ onTransferCoin: status }),
+    amountOnTransferCoin: 0,
+    setAmountOnTransferCoin: (coin: number) =>
+      set({ amountOnTransferCoin: coin }),
   })
 );

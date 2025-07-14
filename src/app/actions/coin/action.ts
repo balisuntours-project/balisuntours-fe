@@ -4,6 +4,7 @@ import {
   CheckoutFinalPayloadParamater,
   CheckoutUnconfirmedBookingParamater,
 } from "@/app/paramaters/booking/paramater";
+import { TransferCoinParamater } from "@/app/paramaters/coin/paramater";
 import {
   CheckoutBookingResponse,
   CheckoutUnconfirmedBookingResponse,
@@ -190,6 +191,47 @@ export class CoinAction {
       return result;
     } catch (error: any) {
       return this.handleFetchError<Array<CoinHistoryTransactionResponse>>(error.response || error);
+    }
+  }
+
+  static async FindUserBeforeTransferCoin(email: string): Promise<
+    CoinActionResponse<string>
+  > {
+    try {
+      const action = await api(`/api/customer/find-user?email=${email}`, {
+        method: "GET",
+      });
+
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
+      }
+
+      const result = this.handleResponse<string>(action);
+
+      return result;
+    } catch (error: any) {
+      return this.handleFetchError<string>(error.response || error);
+    }
+  }
+
+  static async TransferCoin(payload: TransferCoinParamater): Promise<
+    CoinActionResponse<string>
+  > {
+    try {
+      const action = await api(`/api/customer/transfer-coin`, {
+        method: "POST",
+        body: JSON.stringify(payload)
+      });
+
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
+      }
+
+      const result = this.handleResponse<string>(action);
+
+      return result;
+    } catch (error: any) {
+      return this.handleFetchError<string>(error.response || error);
     }
   }
 }
