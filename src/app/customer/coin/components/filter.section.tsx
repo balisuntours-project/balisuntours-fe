@@ -22,6 +22,8 @@ export function CoinHistoryFilterSection() {
   const setFilterFromDate = useCoinStore((state) => state.setFilterFromDate);
   const setFilterToDate = useCoinStore((state) => state.setFilterToDate);
   const setFilterType = useCoinStore((state) => state.setFilterType);
+  const onTransferCoin = useCoinStore((state) => state.onTransferCoin);
+  const setOnTransferCoin = useCoinStore((state) => state.setOnTransferCoin);
 
   const [filterSubDayRange, setFilterSubDayRange] = useState<number>(7); //default 7
 
@@ -53,6 +55,14 @@ export function CoinHistoryFilterSection() {
     }
     setOnFetchHistories(false);
   };
+
+  useEffect(() => {
+    if (onTransferCoin) {
+      setFilterType(CoinHistoryFlterEnum.All);
+      handleFetchCoinHistory();
+      setOnTransferCoin(false);
+    }
+  }, [onTransferCoin]);
 
   useEffect(() => {
     handleFetchCoinHistory();
@@ -146,7 +156,7 @@ export function CoinHistoryFilterSection() {
               Reserved
             </TabsTrigger>
           </TabsList>
-           <ScrollBar orientation="horizontal" />
+          <ScrollBar orientation="horizontal" />
         </ScrollArea>
 
         {onFetchHistories ? (
