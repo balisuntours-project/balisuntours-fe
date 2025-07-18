@@ -8,9 +8,6 @@ env:
   ENVIRONMENT: staging
   DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-  SSH_PRIVATE_KEY: ${{ secrets.STAGING_SSH_PRIVATE_KEY }}
-  SSH_SERVER_IP: ${{ secrets.STAGING_SSH_SERVER_IP }}
-  SSH_USERNAME: ${{ secrets.STAGING_SSH_USERNAME }}
 
 jobs:
   build-and-push:
