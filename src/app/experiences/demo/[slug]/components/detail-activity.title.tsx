@@ -10,6 +10,11 @@ import {
 import { GoogleMapDialogComponent } from "@/app/global-components/utility-components/google-map.dialog";
 import Image from "next/image";
 import { GlobalUtility } from "@/lib/global.utility";
+import Link from "next/link";
+import {
+  NavigationMenuLink,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
 
 export function DetailActivityTitle(props: DetailActivityTitleParamater) {
   return (
@@ -67,22 +72,34 @@ export function DetailActivityTitle(props: DetailActivityTitleParamater) {
           </div>
 
           <div className="sm:mt-3 lg:mt-6 mb-3">
-            <div className="flex gap-2 md:hidden mt-3 justify-start items-start">
+            <div className="flex md:hidden mt-3 justify-start items-start">
               <div className="relative w-[100px] h-[32px] grayscale hover:grayscale-0 transition duration-300">
-                <Image
-                  src="/partner/tripadvisor-badge.png"
-                  alt="Tripadvisor Badge"
-                  fill
-                  className="object-contain"
-                />
+                <Link
+                  href={props.more_reviews_url as string}
+                  
+                  target="_blank"
+                >
+                   <Image
+                      src="/partner/tripadvisor-badge.png"
+                      alt="Tripadvisor Badge"
+                      fill
+                      className="object-contain"
+                    />
+                </Link>
               </div>
               <div className="relative w-[100px] h-[32px] grayscale hover:grayscale-0 transition duration-300">
-                <Image
-                  src="/partner/tripadvisor-badge.png"
-                  alt="Tripadvisor Badge"
-                  fill
-                  className="object-contain"
-                />
+                <Link
+                  href="https://share.google/vNg6ghWtnNY7TQumk"
+                  
+                  target="_blank"
+                >
+                   <Image
+                      src="/partner/google-badge.png"
+                      alt="Google Badge"
+                      fill
+                      className="object-contain"
+                    />
+                </Link>
               </div>
             </div>
             <div className="stars flex flex-row gap-1 mt-3 items-start text-sm md:text-base">
@@ -102,22 +119,34 @@ export function DetailActivityTitle(props: DetailActivityTitleParamater) {
                 <span className="text-gray-500 text-sm md:text-base">
                   {props.ordered}+ booked
                 </span>
-                <div className="hidden md:flex gap-2 -mt-1 justify-start items-start">
+                <div className="hidden md:flex -mt-1 justify-start items-start">
                   <div className="relative w-[100px] h-[32px] grayscale hover:grayscale-0 transition duration-300">
-                    <Image
-                      src="/partner/tripadvisor-badge.png"
-                      alt="Tripadvisor Badge"
-                      fill
-                      className="object-contain"
-                    />
+                    <Link
+                      href={props.more_reviews_url as string}
+                      
+                      target="_blank"
+                    >
+                      <Image
+                          src="/partner/tripadvisor-badge.png"
+                          alt="Tripadvisor Badge"
+                          fill
+                          className="object-contain"
+                        />
+                    </Link>
                   </div>
                   <div className="relative w-[100px] h-[32px] grayscale hover:grayscale-0 transition duration-300">
-                    <Image
-                      src="/partner/tripadvisor-badge.png"
-                      alt="Tripadvisor Badge"
-                      fill
-                      className="object-contain"
-                    />
+                    <Link
+                      href="https://share.google/vNg6ghWtnNY7TQumk"
+                      
+                      target="_blank"
+                    >
+                       <Image
+                          src="/partner/google-badge.png"
+                          alt="Google Badge"
+                          fill
+                          className="object-contain"
+                        />
+                    </Link>
                   </div>
                 </div>
               </div>

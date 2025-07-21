@@ -10,7 +10,7 @@ import { CommentReviewer } from "../utility-components/comment.reviewer";
 export function DetailActivityReviews(props: DetailActivityReviewParamater) {
   return (
     <>
-      <div className="mt-6">
+      <div className="mt-6 md:mt-11">
         <h2 className="text-xl md:text-2xl lg:text-3xl font-extrabold">
           What People Say
           <span className="text-base lg:text-xl ms-1 font-bold text-gray-400">
@@ -18,7 +18,7 @@ export function DetailActivityReviews(props: DetailActivityReviewParamater) {
           </span>
         </h2>
         {props.reviews && props.reviews.length > 0 ? (
-          <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-11">
+          <div className="mt-4 grid grid-cols-2 md:grid-cols-2 gap-8 md:gap-11">
             {props.reviews.map((review, key) => (
               <div
                 key={key}

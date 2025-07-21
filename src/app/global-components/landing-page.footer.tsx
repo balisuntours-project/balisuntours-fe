@@ -172,41 +172,41 @@ export function LandingPageFooterSection({className} : {className?: string}) {
               <div className="mb-2 md:mb-0 text-xs md:text-sm uppercase font-bold">
                 Accepted Payment
               </div>
-              <div className="md:flex-auto mt-3 flex-row flex">
-                <div className="w-6 me-3">
+              <div className=" items-center flex-row flex">
+                <div className="w-[60px] me-3">
                   <Image
                     src="/visa.png"
                     alt="Visa"
                     width="100"
                     height="100"
-                    className="w-[60px] h-[35px]"
+                    className="w-full h-[15px]"
                   />
                 </div>
                 <div className="w-11 me-3 flex items-center justify-center">
                   <Image
-                    src="/master-card.png"
+                    src="/mastercard.png"
                     alt="Master Card"
                     width="100"
                     height="100"
                     className="w-full h-[25px]"
                   />
                 </div>
-                <div className="w-6 me-3">
+                <div className="w-[40px] me-3">
                   <Image
                     src="/jcb.png"
                     alt="JCB"
                     width="100"
                     height="100"
-                    className="w-[60px] h-[35px]"
+                    className="w-full h-[25px]"
                   />
                 </div>
-                <div className="w-6 me-3">
+                <div className="w-[60px] me-3">
                   <Image
-                    src="/america-ex.png"
-                    alt="America Ex"
+                    src="/QRIS.png"
+                    alt="QRIS"
                     width="100"
                     height="100"
-                    className="w-[60px] h-[35px]"
+                    className="w-full h-[50px]"
                   />
                 </div>
               </div>

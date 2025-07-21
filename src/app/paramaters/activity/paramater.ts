@@ -74,6 +74,7 @@ export interface DetailActivityTitleParamater
     | "activity_categories"
     | "activity_address"
     | "coordinate_location"
+    | "more_reviews_url"
   > {}
 
 export interface DetailActivityHeroParamater
@@ -131,4 +132,12 @@ export interface RecentlyOrRecomendedActivityParamater {
   title: string;
   smaller_price: number;
   viewed_on: Date | string;
+}
+
+export interface ActivityBannerAndGalleriesParamater {
+    uuid: string,
+    url: string,
+    video_duration_in_seconds?: number,
+    video_thumbnail_url?: string,
+    title: string|null,
 }

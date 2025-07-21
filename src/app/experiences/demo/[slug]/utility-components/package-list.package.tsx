@@ -78,10 +78,8 @@ export function PackageListPackage(props: {
       setSelectedItinerary(itinerary);
       setCleanCalender(true);
       initiatetePricesFromSelectedPackage(packageData.prices);
-
       const getValidBookDate =
         await ActivityPackageAction.GetPackageValidDateToBook(packageData.uuid);
-      console.log(getValidBookDate);
 
       setDiffDaysNumber(getValidBookDate.data ?? 1);
     } else {
@@ -134,11 +132,12 @@ export function PackageListPackage(props: {
         {props.packages.map((packageData, _) => (
           <div
             key={packageData.uuid}
-            onClick={() =>
+            onClick={() => (
               selectPackageAction(packageData, {
                 itineraries: packageData.itineraries,
-              })
-            }
+              }),
+              setAutoSelectOnPackageSearchParam(true)
+            )}
             className={`p-2 rounded-lg px-4 cursor-pointer hover:bg-[#FFEDE0]/80 ${
               selectedPackage?.uuid === packageData.uuid
                 ? "bg-[#EFF7E8] border-2 border-solid border-[#65ad2e]"

@@ -92,6 +92,7 @@ export interface CheckoutFinalPayloadParamater {
   package: Array<CheckoutDataPackageResponse>;
   packageOrderData: Array<CheckoutPackageOrderDataPayload>;
   exchange_coin_amount?: number;
+  birth_day?: string
 }
 
 export interface CheckoutFreeTourTypeViewParamater {

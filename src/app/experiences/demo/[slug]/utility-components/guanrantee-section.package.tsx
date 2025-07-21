@@ -18,7 +18,7 @@ export const GuaranteeSection = () => {
 
         <div className="grid sm:grid-cols-2 gap-2 text-left max-w-full">
           {guarantees.map((item, index) => (
-            <div key={index} className="flex items-start gap-3 px-2 py-2 md:py-4 rounded-lg shadow-sm">
+            <div key={index} className="flex items-start gap-3 px-2 py-2 md:py-2 rounded-lg shadow-sm">
               <ShieldCheck className="text-[#EB5E00] w-6 h-6 shrink-0" />
               <span className="text-base md:text-lg text-emerald-900">{item}</span>
             </div>

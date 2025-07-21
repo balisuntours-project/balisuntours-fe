@@ -103,22 +103,26 @@ export interface CheckoutBookingResponse {
 export interface CheckoutBookingIpaymuResponse {
   next_url: string;
   session_id?: string;
+  booking_id: string
 }
 
 export interface CheckoutBookingIpay88Response {
   checkout_id: string;
   signature: string;
   checkout_url: string;
+  booking_id: string
 }
 
 export interface CheckoutBookingBayarindResponse {
   next_url: string;
   payment_channel: BayarindPaymentChannelEnum;
+  booking_id: string
 }
 
 export interface CheckoutBookingNoPaymentGateway {
   // untuk kasus 100% discount
   next_url: string;
+  booking_id: string
 }
 
 export interface TransactionStatusResponse {
