@@ -13,6 +13,9 @@ import { ActivityDateProvider } from "../provider/activity-booking-date.provider
 import { DetailActivityReviews } from "./detail-activity.review";
 import { GlobalUtility } from "@/lib/global.utility";
 import { DynamicDialog } from "@/app/global-components/utility-components/dynamic-content.dialog";
+import { HowItWorkPackage } from "../utility-components/how-it-work.package";
+import { SpecialOfferPackage } from "../utility-components/special-offer.package";
+import { GuaranteeSection } from "../utility-components/guanrantee-section.package";
 
 export function DetailActivityPackage(props: DetailActivityPackageParamater) {
   const setPackages = useDetailActivityStore((state) => state.setPackages);
@@ -65,6 +68,16 @@ export function DetailActivityPackage(props: DetailActivityPackageParamater) {
                 additional_description={props.additional_description}
                 activity_galleries={props.activity_galleries}
               />
+              <DetailActivityReviews
+                reviews={props.reviews}
+                more_reviews_url={props.more_reviews_url}
+              />
+
+              <div className="hidden md:block">
+                <HowItWorkPackage />
+                <SpecialOfferPackage />
+                <GuaranteeSection />
+              </div>
             </div>
           </div>
           {/* End Description & Itinerary section */}
@@ -99,6 +112,7 @@ export function DetailActivityPackage(props: DetailActivityPackageParamater) {
               </div>
             </div>
           </div>
+
           <div className="flex flex-col-reverse md:flex-col md:col-span-12">
             <div className="block md:hidden">
               <WhatToExceptActivity
@@ -109,10 +123,12 @@ export function DetailActivityPackage(props: DetailActivityPackageParamater) {
 
             <div>
               {onMobile == true && <PackageItineraries />}
-              <DetailActivityReviews
-                reviews={props.reviews}
-                more_reviews_url={props.more_reviews_url}
-              />
+              <div className="block md:hidden">
+                <DetailActivityReviews
+                  reviews={props.reviews}
+                  more_reviews_url={props.more_reviews_url}
+                />
+              </div>
             </div>
           </div>
         </div>

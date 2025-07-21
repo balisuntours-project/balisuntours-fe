@@ -60,7 +60,7 @@ export default async function PreviewActivityExperience({
               activity_galleries={activity.activity_galleries}
               is_published={activity.is_published}
             />
-
+          
             <div className="px-5 md:px-0">
               <DetailActivityTitle
                 title={activity.title}
@@ -74,6 +74,7 @@ export default async function PreviewActivityExperience({
                 ordered={activity.ordered}
                 activity_categories={activity.activity_categories}
                 coordinate_location={activity.coordinate_location}
+                more_reviews_url={activity.more_reviews_url ?? "https://www.tripadvisor.com/Attraction_Review-g297701-d4441302-Reviews-Bali_Sun_Tours-Ubud_Gianyar_Regency_Bali.html"}
               />
             </div>
           </div>
@@ -90,22 +91,15 @@ export default async function PreviewActivityExperience({
               more_reviews_url={activity.more_reviews_url}
             />
           </div>
-          <div className="px-5 md:px-0">
+          <div className="block md:hidden px-5 md:px-0">
             <HowItWorkPackage />   
           </div>
-           <div className="px-5 md:px-0">
-            <TrustSocialProofPackage />   
-          </div>
-          <div className="px-5 md:px-0">
+          <div className="block md:hidden px-5 md:px-0">
             <SpecialOfferPackage />   
           </div>
-           <div className="px-5 md:px-0">
+           <div className="block md:hidden px-5 md:px-0">
             <GuaranteeSection />   
           </div>
-           <div className="px-5 md:px-0">
-            <FAQSectionPackage />   
-          </div>
-
           <div className="px-5 md:px-0">
             <ActivitySuggestion popular_activity={randomActivity.data} />
           </div>

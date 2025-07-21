@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { BookingPaymentStatusEnum } from "@/app/enums/booking/booking.enum";
 import {
   CancelBookingParamater,
   CheckoutFinalPayloadParamater,
@@ -141,7 +142,6 @@ export class BookingAction {
     payload: CheckoutUnconfirmedBookingParamater
   ): Promise<BookingActionResponse<CheckoutBookingResponse | string>> {
     try {
-   
       const action = await api(`/api/customer/order/waiting/checkout`, {
         method: "POST",
         body: JSON.stringify(payload),
@@ -151,8 +151,9 @@ export class BookingAction {
         GlobalUtility.TriggerExceptionFetchApi(action);
       }
 
-      const result =
-        this.handleResponse<CheckoutBookingResponse | string>(action);
+      const result = this.handleResponse<CheckoutBookingResponse | string>(
+        action
+      );
 
       return result;
     } catch (error: any) {
@@ -181,6 +182,28 @@ export class BookingAction {
       return this.handleFetchError<CheckoutBookingResponse | string>(
         error.response || error
       );
+    }
+  }
+
+  static async CheckActivityBookingTransactionStatus(
+    bookingId: string
+  ): Promise<BookingActionResponse<BookingPaymentStatusEnum>> {
+    try {
+      const action = await api(
+        `/api/customer/activity-transaction-status?booking_id=${bookingId}`,
+        {
+          method: "GET",
+        }
+      );
+
+      if (!action.ok) {
+        GlobalUtility.TriggerExceptionFetchApi(action);
+      }
+
+      return this.handleResponse<BookingPaymentStatusEnum>(action);
+    } catch (error: any) {
+      console.error(error);
+      return this.handleFetchError<BookingPaymentStatusEnum>(error.response || error);
     }
   }
 }

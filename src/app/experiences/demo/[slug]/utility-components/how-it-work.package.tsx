@@ -2,11 +2,9 @@ export function HowItWorkPackage() {
   const steps = [
     { icon: "📱", text: "Book Online" },
     { icon: "🚐", text: "Hotel Pickup" },
-    { icon: "👣", text: "Easy Walk to River" },
-    { icon: "🦺", text: "Safety Briefing + Gear" },
-    { icon: "🛶", text: "2-Hour Rafting" },
-    { icon: "🍱", text: "Lunch + Hotel Drop-Off" },
-  ];
+    { icon: "🏝️", text: "Enjoy Your Tour" }, 
+    { icon: "🍱", text: "Hotel Drop-Off" },
+];
   return (
     <>
       <section className="mt-6 md:mt-11 ">
@@ -18,7 +16,7 @@ export function HowItWorkPackage() {
             {steps.map((step, index) => (
               <div
                 key={index}
-                className="flex items-start gap-3 bg-background px-2 py-2 md:py-4 rounded-lg shadow-sm"
+                className="flex items-start gap-3 bg-background px-2 py-2 md:py-2 rounded-lg shadow-sm"
               >
                 <div className="text-xl md:text-2xl">{step.icon}</div>
                 <div className="text-base sm:text-lg font-medium">

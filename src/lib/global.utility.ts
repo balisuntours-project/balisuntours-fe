@@ -298,4 +298,29 @@ export class GlobalUtility {
 
     return rating % 1 === 0 ? rating.toFixed(1) : rating.toString();
   }
+
+  static CheckAnyVideoFormat(url: string) {
+    // Daftar format video yang didukung (case insensitive)
+    const videoFormats = [
+      "mp4",
+      "webm",
+      "mov",
+      "mkv",
+      "avi",
+      "wmv",
+      "flv",
+      "mpeg",
+      "3gp",
+    ];
+
+    // Ekstrak ekstensi dari URL
+    const extension = url.split(".").pop()?.toLowerCase();
+
+    // Cek jika ekstensi ada dalam daftar format video
+    if (extension && videoFormats.includes(extension)) {
+      return extension;
+    }
+
+    return false;
+  }
 }

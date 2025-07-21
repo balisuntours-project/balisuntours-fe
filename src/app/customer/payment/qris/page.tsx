@@ -1,9 +1,8 @@
+
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import Head from "next/head";
-import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
+import { QRISBookingStatusChecker } from "./components/booking-status.checker";
 
 export default async function QrisPaymentPage({
   searchParams,
@@ -11,11 +10,14 @@ export default async function QrisPaymentPage({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const qrisImageUrl = (await searchParams)?.code;
-  if (!qrisImageUrl) {
+  const bookingId = (await searchParams)?.booking_id;
+  if (!qrisImageUrl || !bookingId) {
     notFound();
   }
+
   return (
     <>
+    <QRISBookingStatusChecker bookingId={bookingId as string} />
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br px-4 py-12">
         <Card className="w-full max-w-md shadow-xl border-none rounded-2xl bg-white">
           <CardContent className="p-6 flex flex-col items-center text-center">

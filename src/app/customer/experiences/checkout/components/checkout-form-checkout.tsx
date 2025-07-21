@@ -59,6 +59,15 @@ import { ApplyCoinDiscountForm } from "@/app/global-components/utility-component
 import { CoinAction } from "@/app/actions/coin/action";
 import { CoinConfigurationResponse } from "@/app/responses/coin/response";
 import { useCoinStore } from "@/app/store/coin.store";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useBirthDayStore } from "@/app/store/birth-day.store";
+import { BirthDateInput } from "@/app/global-components/utility-components/birth-date.input";
 
 export function CheckoutForm({
   userData,
@@ -94,7 +103,7 @@ export function CheckoutForm({
   );
 
   const [discountReachedMax, setDiscountReachedMax] = useState<boolean>(false);
-
+  const birthDayMonth = useBirthDayStore((state) => state.birthDayMonth);
   const router = useRouter();
   const { toast } = useToast();
   const [finalBookingPayload, setFinalBookingPayload] =
@@ -212,6 +221,19 @@ export function CheckoutForm({
           break;
         }
 
+        if (birthDayMonth) {
+          console.log(birthDayMonth)
+          const validate = birthDayMonth.split("-");
+          if (validate.length != 2 || !validate[1]) {
+            toast({
+              description: `Please fill birth month and birth day`,
+              variant: "info",
+            });
+
+            return;
+          }
+        }
+
         if (!checkTermCondition) {
           toast({
             description: `Please accept term and conditions box!`,
@@ -263,6 +285,7 @@ export function CheckoutForm({
       packageOrderData: mappingPackageOrderpayload,
       cartData: checkoutCartData,
       accept_tnc: checkTermCondition,
+      ...(birthDayMonth ? {birth_day: birthDayMonth} : {}),
       ...(addedCoinAmount
         ? { exchange_coin_amount: Number(addedCoinAmount) }
         : {}),
@@ -333,7 +356,10 @@ export function CheckoutForm({
           BayarindPaymentChannelEnum.qris
         ) {
           router.push(
-            "/customer/payment/qris?code=" + paymentGatewayPayload.next_url
+            "/customer/payment/qris?code=" +
+              paymentGatewayPayload.next_url +
+              "&booking_id=" +
+              paymentGatewayPayload.booking_id
           );
         } else {
           router.push(paymentGatewayPayload.next_url);
@@ -536,6 +562,9 @@ export function CheckoutForm({
                       </FormItem>
                     )}
                   />
+                </div>
+                <div className="flex flex-col col-span-2 gap-4">
+                  <BirthDateInput />
                 </div>
 
                 {!anyWaitingConfirmationPackage && (

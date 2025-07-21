@@ -69,6 +69,7 @@ export default async function PreviewActivityExperience({
                 ordered={activity.ordered}
                 activity_categories={activity.activity_categories}
                 coordinate_location={activity.coordinate_location}
+                more_reviews_url={activity.more_reviews_url}
               />
             </div>
           </div>
