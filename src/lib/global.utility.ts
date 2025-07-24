@@ -84,7 +84,7 @@ export class GlobalUtility {
     }
   }
 
-  static IdrCurrencyFormat(money: number) {
+  static IdrCurrencyFormatOld(money: number) {
     // Menghilangkan angka nol di belakang koma jika ada
     money = parseInt(money.toString().replace(/\.\d+$/, ""));
     let newMoneyFormat: string = "";
@@ -100,6 +100,25 @@ export class GlobalUtility {
     }
 
     return "IDR " + newMoneyFormat.replace(".", ",") + "k"; // Ganti titik dengan koma untuk format IDR
+  }
+
+  static IdrCurrencyFormat(amount: number | string): string {
+    // Konversi ke number jika input string
+    const numAmount = typeof amount === 'string' 
+        ? parseFloat(amount.replace(/[^\d]/g, '')) 
+        : amount;
+    
+    // Format dengan pemisah ribuan (,) dan tanpa desimal
+    const formatted = new Intl.NumberFormat('id-ID', {
+        style: 'decimal',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+    }).format(numAmount);
+    
+    // Ganti titik (.) dengan koma (,) sebagai pemisah ribuan
+    const withComma = formatted.replace(/\./g, ',');
+
+    return `Rp ${withComma}`;
   }
 
   static ConvertionCurrencyFormat(
