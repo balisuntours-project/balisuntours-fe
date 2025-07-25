@@ -23,6 +23,7 @@ import { useBookingStore } from "@/app/store/booking.store";
 import { CurrencyAction } from "@/app/actions/currency/action";
 import { useDetailActivityStore } from "@/app/store/detail-activity.store";
 import { InfoButton } from "@/components/custom-ui/info.button";
+import { WhatsappFixedBadge } from "@/app/global-components/utility-components/whatsapp-fixed.badge";
 
 export function CheckoutCard() {
   const selectedCar = useAirportTransferStore((state) => state.selectedCar);
@@ -30,6 +31,8 @@ export function CheckoutCard() {
 
   const setIsLoading = useLoaderStore((state) => state.setIsLoading);
   const setShowAuthPopup = useAuthPopupStore((state) => state.setShowAuthPopup);
+  const setTriggerNextRouteAfterLogin = useAuthPopupStore((state) => state.setTriggerNextRouteAfterLogin);
+  const triggerNextRouteAfterLogin = useAuthPopupStore((state) => state.triggerNextRouteAfterLogin);
   const currencyValue = useBookingStore((state) => state.currencyValue);
   const setCurrencyValue = useBookingStore((state) => state.setCurrencyValue);
   const totalPriceInFormattedCurrency = useDetailActivityStore(
@@ -137,6 +140,13 @@ export function CheckoutCard() {
       setTotalPrice(0);
     }
   }, [selectedCar]);
+
+  useEffect(() => {
+    if(triggerNextRouteAfterLogin) {
+      setTriggerNextRouteAfterLogin(undefined)
+      handleBookingCar()
+    }
+  }, [triggerNextRouteAfterLogin])
   return (
     <>
       <div className="z-50"></div>
@@ -160,8 +170,8 @@ export function CheckoutCard() {
             </div>
           </div>
         </div>
-
-        <div className="fixed lg:relative bottom-0 lg:bottom-auto left-0 lg:left-auto w-full rounded-t-2xl lg:rounded-t-none border-t lg:border-t-0 border-gray-300 bg-white h-auto p-6 lg:p-0 z-20 lg:z-auto">
+ 
+        <div className="fixed lg:relative bottom-0 lg:bottom-auto left-0 lg:left-auto w-full rounded-t-2xl lg:rounded-t-none border-t lg:border-t-0 border-gray-300 bg-white h-auto p-6 lg:p-0 z-10 lg:z-auto">
           <div className="md:mt-3 w-full flex flex-col gap-2">
             <div className="flex gap-3 w-full">
               <div className="flex justify-start">

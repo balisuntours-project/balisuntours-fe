@@ -26,15 +26,19 @@ export function PackageItineraries() {
   const autoSelectOnPackageSearchParam = useDetailActivityStore(
     (state) => state.autoSelectOnPackageSearchParam
   );
+   const setAutoSelectOnPackageSearchParam = useDetailActivityStore(
+    (state) => state.setAutoSelectOnPackageSearchParam
+  );
 
   const itinerarySectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (autoSelectOnPackageSearchParam) {
+      setAutoSelectOnPackageSearchParam(false)
       if (itinerarySectionRef.current) {
         itinerarySectionRef.current.scrollIntoView({
           behavior: "smooth",
-          block: "center",
+          block: "start",
         });
       }
     }
@@ -94,9 +98,9 @@ export function PackageItineraries() {
               ActivityPackageSelfConfirmationStatus.self && (
               <div
                 v-show="
-                                  packageDetail.self_confirmation_text !=
-                                  'Instant'
-                              "
+                    packageDetail.self_confirmation_text !=
+                    'Instant'
+                "
                 className="flex-1 text-sm text-center p-2 font-bold rounded bg-[#FFEDE0] text-[#D65600]"
               >
                 Confirmation time ({selectedPackage?.confirmation_time})
@@ -108,7 +112,7 @@ export function PackageItineraries() {
             <div className="py-2">
               <Accordion
                 type="multiple"
-                defaultValue={["itinerary"]}
+                defaultValue={["itinerary", "include", "exclude", "eligibility", "additional_information"]}
                 className="border-0"
               >
                 <AccordionItem value="itinerary">

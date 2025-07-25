@@ -202,11 +202,11 @@ export function LandingPageFooterSection({className} : {className?: string}) {
                 </div>
                 <div className="w-[60px] me-3">
                   <Image
-                    src="/QRIS.png"
-                    alt="QRIS"
+                    src="/qris.webp"
+                    alt="Qris"
                     width="100"
                     height="100"
-                    className="w-full h-[50px]"
+                    className="w-full h-[70px]"
                   />
                 </div>
               </div>

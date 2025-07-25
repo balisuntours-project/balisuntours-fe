@@ -41,9 +41,8 @@ export function BirthDateInput() {
           };
 
           const handleChangeBirthDay = (value: string) => {
-            if(value == "0" && !birthDay) {
-               
-                value = "1"
+            if (value == "0" && !birthDay) {
+              value = "1";
             }
             setBirthDay(value);
             if (!birthMonth) {
@@ -52,14 +51,18 @@ export function BirthDateInput() {
           };
 
           useEffect(() => {
-          setBirthDayMonth(`${birthMonth}-${birthDay.length == 1 ? `0${birthDay}` : birthDay}`)
+            setBirthDayMonth(
+              `${birthMonth}-${
+                birthDay.length == 1 ? `0${birthDay}` : birthDay
+              }`
+            );
           }, [birthMonth, birthDay]);
 
           useEffect(() => {
-            if(birthDayMonth == "-") {
-                setBirthDayMonth("")
+            if (birthDayMonth == "-") {
+              setBirthDayMonth("");
             }
-          }, [birthDayMonth])
+          }, [birthDayMonth]);
 
           return (
             <FormItem>
@@ -78,14 +81,14 @@ export function BirthDateInput() {
                   <SelectContent>
                     <SelectItem value="01">January</SelectItem>
                     <SelectItem value="02">February</SelectItem>
-                    <SelectItem value="03">Maret</SelectItem>
+                    <SelectItem value="03">March</SelectItem>
                     <SelectItem value="04">April</SelectItem>
-                    <SelectItem value="05">Mei</SelectItem>
-                    <SelectItem value="06">Juni</SelectItem>
-                    <SelectItem value="07">Juli</SelectItem>
-                    <SelectItem value="08">Agustus</SelectItem>
+                    <SelectItem value="05">May</SelectItem>
+                    <SelectItem value="06">June</SelectItem>
+                    <SelectItem value="07">July</SelectItem>
+                    <SelectItem value="08">August</SelectItem>
                     <SelectItem value="09">September</SelectItem>
-                    <SelectItem value="10">Oktober</SelectItem>
+                    <SelectItem value="10">October</SelectItem>
                     <SelectItem value="11">November</SelectItem>
                     <SelectItem value="12">December</SelectItem>
                     {/* ... other months ... */}

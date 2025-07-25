@@ -41,7 +41,7 @@ export function CheckoutSectionPackage(props: {
   );
 
   const setShowAuthPopup = useAuthPopupStore((state) => state.setShowAuthPopup);
-  const showAuthPopup = useAuthPopupStore((state) => state.showAuthPopup);
+  const triggerNextRouteAfterLogin = useAuthPopupStore((state) => state.triggerNextRouteAfterLogin);
 
   const setIsLoading = useLoaderStore((state) => state.setIsLoading);
 
@@ -72,15 +72,6 @@ export function CheckoutSectionPackage(props: {
 
       return false;
     }
-
-    // if(!selectedPackage) {
-    //     toast({
-    //         description: `Please select a package first!`,
-    //         variant: "info",
-    //       });
-
-    //       return false
-    // }
 
     let allPriceEmpty: boolean = true;
     if (selectedPrices) {
@@ -129,6 +120,8 @@ export function CheckoutSectionPackage(props: {
     return storeCart;
   };
 
+  const [buttonAction, setButtonAction] = useState<string>("")
+
   const handleAddToCartAction = async () => {
     const saveFromValidation = makeSureDateAndQtyNotEmpty();
 
@@ -157,7 +150,7 @@ export function CheckoutSectionPackage(props: {
 
       if (storeCart.status_code == HttpStatus.UNAUTHORIZED) {
         setShowAuthPopup(true);
-
+        setButtonAction("cart")
         return;
       }
 
@@ -179,9 +172,8 @@ export function CheckoutSectionPackage(props: {
     setIsLoading(true);
 
     const storeCart = await storeCartAction();
-    
+    const stringCartPayload = JSON.stringify(storeCart.data);
     if (storeCart.status_code == HttpStatus.CREATED) {
-      const stringCartPayload = JSON.stringify(storeCart.data);
       const checkForFreeTourValidation = await CartAction.FreeTourValidation(
         stringCartPayload
       );
@@ -211,7 +203,7 @@ export function CheckoutSectionPackage(props: {
 
       if (storeCart.status_code == HttpStatus.UNAUTHORIZED) {
         setShowAuthPopup(true);
-
+        setButtonAction("booking")
         return;
       }
 
@@ -238,6 +230,19 @@ export function CheckoutSectionPackage(props: {
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+
+  const setTriggerNextRouteAfterLogin = useAuthPopupStore((state) => state.setTriggerNextRouteAfterLogin);
+  useEffect(() => {
+    if(triggerNextRouteAfterLogin) {
+      setTriggerNextRouteAfterLogin(undefined)
+      if(buttonAction == "cart") {
+        handleAddToCartAction()
+      }else if(buttonAction == "booking") {
+        handleBookAction()
+      }
+    } 
+  }, [triggerNextRouteAfterLogin, buttonAction])
 
   const CheckoutButtonContent = (
     <div

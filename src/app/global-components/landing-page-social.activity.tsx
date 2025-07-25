@@ -48,7 +48,7 @@ export function LandingPageSocial() {
             {logos.map((logo, index) => (
               <div
                 key={index}
-                className="relative w-[120px] h-[40px] grayscale hover:grayscale-0 transition duration-300"
+                className="relative w-[80px] md:w-[120px] h-[25px] md:h-[40px] grayscale hover:grayscale-0 transition duration-300"
               >
                 <Image
                   src={logo.src}

@@ -19,16 +19,17 @@ export function LoginDialog() {
   );
   const onLoginDialog = useLandingPageStore((state) => state.onLoginDialog);
 
-  const showBrowserPopup = useAuthStore(
-    (state) => state.showBrowserPopupDialog
-  );
-  const setShowBrowserPopupDialog = useAuthStore(
-    (state) => state.setShowBrowserPopupDialog
-  );
+  // const showBrowserPopup = useAuthStore(
+  //   (state) => state.showBrowserPopupDialog
+  // );
+  // const setShowBrowserPopupDialog = useAuthStore(
+  //   (state) => state.setShowBrowserPopupDialog
+  // );
 
-  const setIsLogin = useAuthStore((state) => state.setIsLogin);
+  // const setIsLogin = useAuthStore((state) => state.setIsLogin);
 
   const setShowAuthPopup = useAuthPopupStore((state) => state.setShowAuthPopup);
+  const setTriggerNextRouteAfterLogin = useAuthPopupStore((state) => state.setTriggerNextRouteAfterLogin);
   const showAuthPopup = useAuthPopupStore((state) => state.showAuthPopup);
 
   // useEffect(() => {
@@ -67,7 +68,7 @@ export function LoginDialog() {
   <PollingLoginDialogPopUpToken />
     <Dialog
       open={showLoginDialog || showAuthPopup}
-      onOpenChange={() => (setShowLoginDialog(false), setShowAuthPopup(false))}
+      onOpenChange={() => (setShowLoginDialog(false), setShowAuthPopup(false), setTriggerNextRouteAfterLogin(undefined))}
       modal={true}
     >
       <DialogContent className="max-w-[95%] md:max-w-[425px] xl:max-w-[480px] rounded-lg shadow-lg p-8 overflow-y-scroll max-h-screen scrollbar-hide">

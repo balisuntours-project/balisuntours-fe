@@ -14,6 +14,7 @@ import Image from "next/image";
 import { LoginButtonNavbar } from "./utility-components/login-button.navbar";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { GlobalUtility } from "@/lib/global.utility";
 
 export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
   const pathname = usePathname();
@@ -32,7 +33,7 @@ export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
               className="w-[150px] h-[35px] md:w-[200px] md:h-[45px]"
             />
           </Link>
-
+         
           {/* Right - Nav Links and Login Button */}
           <div className="flex md:flex md:space-x-8 items-center">
             {!forAdmin && (
@@ -99,6 +100,7 @@ export function LargeNavbar({ forAdmin }: { forAdmin?: boolean }) {
                           className={navigationMenuTriggerStyle()}
                         >
                           Tour & Activity
+                        
                         </NavigationMenuLink>
                       </Link>
                     </NavigationMenuItem>
