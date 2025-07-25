@@ -103,20 +103,19 @@ export class GlobalUtility {
   }
 
   static IdrCurrencyFormat(amount: number | string): string {
-    // Konversi ke number jika input string
-    const numAmount = typeof amount === 'string' 
-        ? parseFloat(amount.replace(/[^\d]/g, '')) 
+    //convert ke number jika input string dan tetap izinkan tanda titik (desimal)
+    const numAmount =
+      typeof amount === "string"
+        ? parseFloat(amount.replace(/[^\d.]/g, ""))
         : amount;
-    
-    // Format dengan pemisah ribuan (,) dan tanpa desimal
-    const formatted = new Intl.NumberFormat('id-ID', {
-        style: 'decimal',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
+
+    const formatted = new Intl.NumberFormat("id-ID", {
+      style: "decimal",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
     }).format(numAmount);
-    
-    // Ganti titik (.) dengan koma (,) sebagai pemisah ribuan
-    const withComma = formatted.replace(/\./g, ',');
+
+    const withComma = formatted.replace(/\./g, ",");
 
     return `Rp ${withComma}`;
   }

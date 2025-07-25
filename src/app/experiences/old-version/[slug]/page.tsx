@@ -13,12 +13,6 @@ import { DetailActivityPackage } from "./components/detail-activity.package";
 import { LandingPageFooterSection } from "@/app/global-components/landing-page.footer";
 import { SetRecentlyViewedActivityToStorage } from "./components/set-previewed-storage.activity";
 import { ActivitySuggestion } from "./components/activity-suggestion";
-import { HowItWorkPackage } from "./utility-components/how-it-work.package";
-import { TrustSocialProofPackage } from "./utility-components/trust-social-proof.package";
-import { SpecialOfferPackage } from "./utility-components/special-offer.package";
-import { GuaranteeSection } from "./utility-components/guanrantee-section.package";
-import { FAQSectionPackage } from "./utility-components/faq.package";
-import { WhatsappDynamicMessagePackage } from "./utility-components/whatsapp-dynamic-message.package";
 
 export { generateMetadata };
 
@@ -61,7 +55,7 @@ export default async function PreviewActivityExperience({
               activity_galleries={activity.activity_galleries}
               is_published={activity.is_published}
             />
-          
+
             <div className="px-5 md:px-0">
               <DetailActivityTitle
                 title={activity.title}
@@ -92,15 +86,6 @@ export default async function PreviewActivityExperience({
               more_reviews_url={activity.more_reviews_url}
             />
           </div>
-          <div className="block md:hidden px-5 md:px-0">
-            <HowItWorkPackage />   
-          </div>
-          <div className="block md:hidden px-5 md:px-0">
-            <SpecialOfferPackage />   
-          </div>
-           <div className="block md:hidden px-5 md:px-0">
-            <GuaranteeSection />   
-          </div>
           <div className="px-5 md:px-0">
             <ActivitySuggestion popular_activity={randomActivity.data} />
           </div>
@@ -110,8 +95,6 @@ export default async function PreviewActivityExperience({
         <div className="container flex flex-col gap-11 px-3 md:px-8  pt-11 pb-11">
           <LandingPageFooterSection className="mb-20 md:mb-0" />
         </div>
-
-        <WhatsappDynamicMessagePackage activityName={activity.title} />
       </div>
     </>
   );

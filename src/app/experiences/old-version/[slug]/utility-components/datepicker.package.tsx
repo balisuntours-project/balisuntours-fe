@@ -33,6 +33,7 @@ export function DatePickerPackage() {
       // Pastikan hanya mengambil tanggal tanpa waktu, dan format ke UTC
       const utcDate = startOfDay(selectedDate);
       const formattedDate = format(utcDate, "yyyy-MM-dd"); // Format tanggal ke string UTC
+      console.log("Formatted Date:", formattedDate);
       setSelectedDate(new Date(formattedDate)); // Simpan tanggal yang diformat kembali ke state
     }
     setIsOpen(false); // Tutup Popover setelah tanggal dipilih

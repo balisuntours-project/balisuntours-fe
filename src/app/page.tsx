@@ -16,6 +16,9 @@ import { LandingPageRentalVechileSection } from "./global-components/landing-pag
 import { ActivityActionServer } from "./actions/activity/action.server";
 import { LandingPageSocial } from "./global-components/landing-page-social.activity";
 import { LandingPageFAQ } from "./global-components/landing-page-faq.activity";
+import Link from "next/link";
+import Image from "next/image";
+import { WhatsappFixedBadge } from "./global-components/utility-components/whatsapp-fixed.badge";
 
 export default async function Home() {
   const batchResult = await Promise.allSettled([
@@ -37,14 +40,17 @@ export default async function Home() {
   const bestCategory: Array<ActivityBestCategory> =
     batchResult[2].status === "fulfilled" ? batchResult[2].value.data : [];
 
-    const fillerPageActivity = async() : Promise<void> => {
-        const result = await ActivityAction.GetRandomRecomendedActivity(popularActivity[0].uuid, 1);
-        if (result.success) {
-          popularActivity.push(result.data[0]);
-        }
+  const fillerPageActivity = async (): Promise<void> => {
+    const result = await ActivityAction.GetRandomRecomendedActivity(
+      popularActivity[0].uuid,
+      1
+    );
+    if (result.success) {
+      popularActivity.push(result.data[0]);
     }
+  };
 
-    await fillerPageActivity(); // panggil filler function untuk menambahkan activity
+  await fillerPageActivity(); // panggil filler function untuk menambahkan activity
 
   const getActivityFromBestCategory = async (): Promise<
     Record<string, BestActivityCategoryNameAndListActivity>
@@ -78,7 +84,7 @@ export default async function Home() {
     <>
       <LargeNavbar />
       <div className="pt-20 md:pt-22 lg:pt-24">
-        <div className="">
+        <div className="relative">
           <LandingPageHeroSection />
           <div className="container flex flex-col gap-11 px-3 md:px-8  pt-11 pb-11">
             <LandingRecentlyViewedActivity />
@@ -99,6 +105,8 @@ export default async function Home() {
           <div className="container flex flex-col gap-11 px-3 md:px-8  pt-11 pb-11">
             <LandingPageFooterSection />
           </div>
+
+          <WhatsappFixedBadge templateMessage="Hi Bali SUN Tours, I'm interested in your luxury services. Could you send me your best recommendations?" />        
         </div>
       </div>
     </>

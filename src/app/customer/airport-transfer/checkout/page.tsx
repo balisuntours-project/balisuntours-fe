@@ -4,6 +4,7 @@ import { SmallNavbar } from "@/app/global-components/small.navbar";
 import { notFound } from "next/navigation";
 import { CheckoutDetailAirportTransfer } from "./components/checkout-detail.airport-checkout";
 import { AdditionalServiceItemSection } from "./components/utility-components/additional-service-item.section";
+import { WhatsappFixedBadge } from "@/app/global-components/utility-components/whatsapp-fixed.badge";
 
 export default async function AirportTransferCheckoutPage({
   searchParams,
@@ -51,6 +52,7 @@ export default async function AirportTransferCheckoutPage({
         <div className="container flex flex-col gap-11 px-3 md:px-8  pt-11 pb-11">
           <LandingPageFooterSection className="mb-40 md:mb-0" />
         </div>
+        <WhatsappFixedBadge bottomHeightAfterComponent="bottom-[30%] md:bottom-4" templateMessage="Hi Bali SUN Tours, if i just completed my booking payment, when should I expect to receive my confirmation details?" />
       </div>
     </>
   );

@@ -48,6 +48,7 @@ export function RegisterForm({ onClick }: { onClick?: () => void }) {
     (state) => state.setShowBrowserPopupDialog
   );
   const setShowAuthPopup = useAuthPopupStore((state) => state.setShowAuthPopup);
+  const setTriggerNextRouteAfterLogin = useAuthPopupStore((state) => state.setTriggerNextRouteAfterLogin);
   const [onLoadRegister, setOnLoadRegister] = useState(false);
   const setIsLogin = useAuthStore((state) => state.setIsLogin);
 
@@ -62,6 +63,7 @@ export function RegisterForm({ onClick }: { onClick?: () => void }) {
       setIsLogin(true);
       setShowLoginDialog(false);
       setShowAuthPopup(false);
+      setTriggerNextRouteAfterLogin(true)
     } else {
       toast({
         description: `Something went wrong, try signup with google instead!`,

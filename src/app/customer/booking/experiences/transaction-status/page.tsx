@@ -26,6 +26,7 @@ export default async function ActivityTransactionStatus({
   } else {
     notFound();
   }
+  
   return (
     <>
     {data ? (

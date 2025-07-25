@@ -65,7 +65,7 @@ export async function GET(req: NextRequest) {
   }
 
   return NextResponse.json(
-    { message: "Success login, close the page" /* status_code: 200 */ },
+    // { message: "Success login, close the page" /* status_code: 200 */ },
     { status: 200 }
   );
 }

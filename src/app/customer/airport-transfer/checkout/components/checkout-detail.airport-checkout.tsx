@@ -651,7 +651,7 @@ export function CheckoutDetailAirportTransfer({
                           </p>
                         </FormItem>
                       </div>
-                      <div className="border col-span-12 border-yellow-500 bg-yellow-50 flex flex-col gap-4 rounded-xl shadow-sm">
+                      <div className="border col-span-12 border-yellow-500 bg-yellow-50 flex flex-col gap-4 rounded-xl shadow-sm mt-4 md:mt-0">
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 py-6 px-4">
                           <div className="flex items-center gap-4">
                             <div className="rounded-full bg-yellow-400 p-3 text-white">
@@ -724,7 +724,7 @@ export function CheckoutDetailAirportTransfer({
                         </FormItem>
                       </div>
                     </div>
-                    <div className="flex flex-col gap-4 mt-6">
+                    <div className="flex flex-col gap-4 md:mt-6">
                       <div
                         className={
                           //  GlobalUtility.CheckScreenOnMobile()

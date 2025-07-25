@@ -46,6 +46,7 @@ export function LoginForm({onClick} : {onClick?: () => void}) {
     (state) => state.setShowBrowserPopupDialog
   );
   const setShowAuthPopup = useAuthPopupStore((state) => state.setShowAuthPopup);
+  const setTriggerNextRouteAfterLogin = useAuthPopupStore((state) => state.setTriggerNextRouteAfterLogin);
   const [onLoadLogin, setOnLoadLogin] = useState(false)
   const setIsLogin = useAuthStore((state) => state.setIsLogin);
 
@@ -58,6 +59,7 @@ export function LoginForm({onClick} : {onClick?: () => void}) {
       setIsLogin(true)
       setShowLoginDialog(false);
       setShowAuthPopup(false);
+      setTriggerNextRouteAfterLogin(true)
     } else {
       toast({
         description: `Well, we can't found your account!`,

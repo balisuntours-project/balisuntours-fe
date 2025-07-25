@@ -17,6 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { CoinAction } from "@/app/actions/coin/action";
+import Link from "next/link";
 
 export function LoginButtonNavbar({ forAdmin }: { forAdmin?: boolean }) {
   const setShowLoginDialog = useLandingPageStore(
@@ -62,9 +63,11 @@ export function LoginButtonNavbar({ forAdmin }: { forAdmin?: boolean }) {
               <>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                  <span className="text-yellow-600">
-                      🪙 {coinBalance ? GlobalUtility.FormatBeautifyCoin(coinBalance) : "Login to view"}
+                  <Link href="/customer/coin" target="_blank">
+                    <span className="text-yellow-600">
+                      🪙 {coinBalance != undefined ? GlobalUtility.FormatBeautifyCoin(coinBalance) : "Login to view"}
                   </span>
+                  </Link>
                 </DropdownMenuItem>
                   <DropdownMenuSeparator />
                 <DropdownMenuItem>Profile</DropdownMenuItem>

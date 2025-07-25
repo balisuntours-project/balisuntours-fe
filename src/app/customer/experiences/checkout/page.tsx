@@ -3,6 +3,7 @@ import { SmallNavbar } from "@/app/global-components/small.navbar";
 import { CheckoutDetail } from "./components/checkout-detail.checkout";
 import { notFound } from "next/navigation";
 import { LandingPageFooterSection } from "@/app/global-components/landing-page.footer";
+import { WhatsappFixedBadge } from "@/app/global-components/utility-components/whatsapp-fixed.badge";
 
 export default async function CheckoutBooking({
   searchParams,
@@ -10,21 +11,20 @@ export default async function CheckoutBooking({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const cartUuidsParam = (await searchParams)?.cart_data;
-  let data = null
+  let data = null;
   if (cartUuidsParam) {
     const result = await BookingServerAction.GetBookingCheckoutData(
       cartUuidsParam as string
     );
 
-    if(!result.success) {
-      notFound()
+    if (!result.success) {
+      notFound();
     }
 
-    data = result.data
-  }else {
-    notFound()
+    data = result.data;
+  } else {
+    notFound();
   }
-  
 
   return (
     <>
@@ -32,15 +32,21 @@ export default async function CheckoutBooking({
       <div className="mt-11 absolute top-[20%]">
         <div className="lg:w-[90%] mx-auto px-5 pb-16">
           {data && (
-            <CheckoutDetail cartData={JSON.parse(data.cart_data)} userData={data.user_data} minCost={data.min_cost} checkoutActivities={data.activity} checkoutPackages={data.package} />
+            <CheckoutDetail
+              cartData={JSON.parse(data.cart_data)}
+              userData={data.user_data}
+              minCost={data.min_cost}
+              checkoutActivities={data.activity}
+              checkoutPackages={data.package}
+            />
           )}
         </div>
         <hr />
         <div className="container flex flex-col gap-11 px-3 md:px-8  pt-11 pb-11">
           <LandingPageFooterSection className="mb-40 md:mb-0" />
         </div>
+        <WhatsappFixedBadge bottomHeightAfterComponent="bottom-[30%] md:bottom-4" templateMessage="Hi Bali SUN Tours, if i just completed my booking payment, when should I expect to receive my confirmation details?" />
       </div>
-     
     </>
   );
 }
