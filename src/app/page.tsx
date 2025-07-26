@@ -16,8 +16,6 @@ import { LandingPageRentalVechileSection } from "./global-components/landing-pag
 import { ActivityActionServer } from "./actions/activity/action.server";
 import { LandingPageSocial } from "./global-components/landing-page-social.activity";
 import { LandingPageFAQ } from "./global-components/landing-page-faq.activity";
-import Link from "next/link";
-import Image from "next/image";
 import { WhatsappFixedBadge } from "./global-components/utility-components/whatsapp-fixed.badge";
 
 export default async function Home() {

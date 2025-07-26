@@ -128,7 +128,7 @@ const ActivityCard: FC<ActivityCardProps> = ({
             <div className="flex-grow"></div>
 
             {/* From Price */}
-            <div className="mt-auto pt-4">
+            <div className="mt-auto pt-4"> {/* pt-4 */}
               <span className="text-sm md:text-lg font-semibold text-green-600">
                 From {GlobalUtility.IdrCurrencyFormat(activity.smaller_price)}
               </span>

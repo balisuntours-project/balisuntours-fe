@@ -25,7 +25,7 @@ export function ActivitySuggestion(props: ActivitySuggestionType) {
             {Array.from(props.popular_activity).map((activity, index) => (
               <CarouselItem
                 key={index}
-                className="basis-[45%] md:basis-[40%] lg:basis-1/4"
+                className="basis-[50%] md:basis-[40%] lg:basis-1/4"
               >
                 <div>
                   <ActivityCard
