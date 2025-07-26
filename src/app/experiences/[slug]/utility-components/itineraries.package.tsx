@@ -83,7 +83,7 @@ export function PackageItineraries() {
   return (
     <>
       {selectedPackage && (
-        <div ref={itinerarySectionRef} className="h-auto w-full md:mt-11">
+        <div ref={itinerarySectionRef} className="h-auto w-full md:mt-11 scroll-mt-[80px] md:scroll-mt-[100px]">
           <span className="text-xl font-semibold text-black">
             Package Details
           </span>

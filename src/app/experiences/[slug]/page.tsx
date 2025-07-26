@@ -19,6 +19,7 @@ import { SpecialOfferPackage } from "./utility-components/special-offer.package"
 import { GuaranteeSection } from "./utility-components/guanrantee-section.package";
 import { FAQSectionPackage } from "./utility-components/faq.package";
 import { WhatsappDynamicMessagePackage } from "./utility-components/whatsapp-dynamic-message.package";
+import { GlobalUtility } from "@/lib/global.utility";
 
 export { generateMetadata };
 
@@ -36,11 +37,11 @@ export default async function PreviewActivityExperience({
   }
 
   const activity = data.data;
- 
+  const isVideo = GlobalUtility.CheckAnyVideoFormat(activity.activity_main_photo.url)
   const dataForRecentlyShowedActivity: RecentlyOrRecomendedActivityParamater = {
     slug: activity.slug,
     title: activity.title,
-    image: activity.activity_main_photo.url,
+    image: isVideo ? (activity.activity_main_photo.video_thumbnail_url ?? activity.activity_galleries[0].url) : activity.activity_main_photo.url,
     smaller_price: activity.smaller_price,
     viewed_on: new Date(),
   };

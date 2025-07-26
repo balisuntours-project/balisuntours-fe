@@ -124,7 +124,7 @@ const ActivityBestCategoryCard: FC<ActivityCardProps> = ({
 
             {/* From Price */}
             <div className="mt-auto pt-1 md:pt-4">
-              <span className="text-xs md:text-sm font-semibold text-green-600">
+              <span className="text-[11px] md:text-sm font-semibold text-green-600">
                 From {GlobalUtility.IdrCurrencyFormat(activity.smaller_price)}
               </span>
             </div>
