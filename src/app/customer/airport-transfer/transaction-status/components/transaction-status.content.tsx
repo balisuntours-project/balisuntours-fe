@@ -1,6 +1,9 @@
 "use client";
 
+import { BayarindPaymentChannelEnum } from "@/app/enums/bayarind/bayarind.enum";
 import { BookingPaymentStatusEnum } from "@/app/enums/booking/booking.enum";
+import { CCIllustration } from "@/app/global-components/utility-components/cc.illustration";
+import { QrisIllustration } from "@/app/global-components/utility-components/qris.illustration";
 import { TransactionStatusResponse } from "@/app/responses/airport-transfer/response";
 import { Button } from "@/components/ui/button";
 import { GlobalUtility } from "@/lib/global.utility";
@@ -60,7 +63,8 @@ export function TransactionStatusContent({
           </div>
         )}
 
-        {data.status === BookingPaymentStatusEnum.pending && (
+        {(data.status === BookingPaymentStatusEnum.pending ||
+          data.status === BookingPaymentStatusEnum.choosePaymentMethod) && (
           <div className="text-yellow-500 mb-6">
             <Clock className="w-16 h-16 mx-auto animate-bounce" />
             <h2 className="text-2xl font-bold text-gray-800">
@@ -86,35 +90,12 @@ export function TransactionStatusContent({
         )}
 
         {/* Kartu Kredit */}
-        <div className="credit-card mt-8 mb-6 mx-auto w-full max-w-xs p-4 rounded-lg shadow-md transition-transform transform hover:scale-105 duration-300 ease-in-out bg-gradient-to-r from-blue-500 to-blue-600">
-          <div className="flex justify-between items-center mb-4 mt-4">
-            <h4 className="text-white font-bold text-lg">Credit Card</h4>
-            <div className="w-12 h-8 bg-white rounded-sm flex items-center justify-center shadow-md">
-              <Image
-                src="/bst-logo.png"
-                alt="Company Logo"
-                width={25}
-                height={25}
-                className="w-11"
-              />
-            </div>
-          </div>
-          <p className="text-white text-left tracking-wider mb-4">
-            **** **** **** 1234
-          </p>
-          <div className="flex justify-between items-center">
-            <div>
-              <p className="text-white text-xs uppercase">Card Holder</p>
-              <p className="text-white font-semibold">
-                {data.customer_account_name}
-              </p>
-            </div>
-            <div>
-              <p className="text-white text-xs uppercase">Valid Thru</p>
-              <p className="text-white font-semibold">--/--</p>
-            </div>
-          </div>
-        </div>
+        {(data.payment_channel == BayarindPaymentChannelEnum.creditCard || !data.payment_channel) && (
+          <CCIllustration name={data.customer_account_name} />
+        )}
+        {data.payment_channel == BayarindPaymentChannelEnum.qris && (
+          <QrisIllustration name={data.customer_account_name} />
+        )}
 
         {/* Detail Transaksi */}
         <div className="text-left">
@@ -131,7 +112,7 @@ export function TransactionStatusContent({
             {data.currencyAmount}) */}
           </p>
           <p>
-            <strong>Payment Method:</strong> Credit Card
+             <strong>Payment Method:</strong> {data.payment_channel == BayarindPaymentChannelEnum.creditCard ? "Credit Card" : "QRIS"}
           </p>
           <p>
             <strong>Transaction Date:</strong>{" "}

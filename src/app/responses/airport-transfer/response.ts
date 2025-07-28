@@ -2,6 +2,7 @@ import {
   GetPriceMethodTypeEnum,
   TransferTypeEnum,
 } from "@/app/enums/airport-transfer/airport-transfer.enum";
+import { BayarindPaymentChannelEnum } from "@/app/enums/bayarind/bayarind.enum";
 import { BookingPaymentStatusEnum } from "@/app/enums/booking/booking.enum";
 import { CoordinatParamater } from "@/app/paramaters/google-map/paramater";
 
@@ -72,6 +73,7 @@ export interface AdditionalServiceItemResponseWithQty
 
 export interface TransactionStatusResponse {
   status: BookingPaymentStatusEnum;
+  payment_channel: BayarindPaymentChannelEnum | null;
   booking_id: string;
   created_at: string;
   paid_at: string;

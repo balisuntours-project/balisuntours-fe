@@ -127,6 +127,7 @@ export interface CheckoutBookingNoPaymentGateway {
 
 export interface TransactionStatusResponse {
   status: BookingPaymentStatusEnum;
+  payment_channel: BayarindPaymentChannelEnum | null;
   order_id: string;
   created_at: string;
   paid_at: string;
