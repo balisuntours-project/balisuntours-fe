@@ -149,9 +149,13 @@ export function DetailActivityHero(props: DetailActivityHeroParamater) {
               poster={props.activity_main_photo?.video_thumbnail_url}
               preload="none"
               autoPlay
+              playsInline
               muted
               loop={true} // Video tetap di-loop
               className={`w-full sm:h-[400px] rounded-lg lg:h-[500px] object-cover opacity-100 transition-opacity duration-500`}
+              ref={(el) => {
+                if (el) el.muted = true; // <--- ini penting untuk iOS Safari
+              }}
             >
               <source
                 src={props.activity_main_photo?.url}
