@@ -34,8 +34,7 @@ export function DetailActivityHero(props: DetailActivityHeroParamater) {
   const bannerImage: Array<ActivityBannerAndGalleriesParamater> = [
     {
       url: props.activity_main_photo.url,
-      video_thumbnail_url:
-        props.activity_main_photo.video_thumbnail_url,
+      video_thumbnail_url: props.activity_main_photo.video_thumbnail_url,
       video_duration_in_seconds:
         props.activity_main_photo.video_duration_in_seconds,
       uuid: props.activity_main_photo.uuid,
@@ -79,13 +78,17 @@ export function DetailActivityHero(props: DetailActivityHeroParamater) {
     if (swiperRef.current) {
       const currentSlideIndex = swiperRef.current.realIndex;
       const currentItem = bannerImage[currentSlideIndex];
-      const isVideo = currentItem ? GlobalUtility.CheckAnyVideoFormat(currentItem.url) : false;
+      const isVideo = currentItem
+        ? GlobalUtility.CheckAnyVideoFormat(currentItem.url)
+        : false;
 
       clearVideoTimer(); // Bersihkan timer sebelumnya
 
       if (isVideo) {
         stopAutoplay(); // Matikan autoplay
-        const videoDuration = currentItem.video_duration_in_seconds ? (currentItem.video_duration_in_seconds * 1000) - 4000 : 26000; // Dapatkan durasi video (24 - 4 (4 detik durasi delay))
+        const videoDuration = currentItem.video_duration_in_seconds
+          ? currentItem.video_duration_in_seconds * 1000 - 4000
+          : 26000; // Dapatkan durasi video (24 - 4 (4 detik durasi delay))
 
         // Mulai ulang video dari awal
         const videoElement = videoRefs.current[currentSlideIndex];
@@ -147,15 +150,12 @@ export function DetailActivityHero(props: DetailActivityHeroParamater) {
           {isVideo ? (
             <video
               poster={props.activity_main_photo?.video_thumbnail_url}
-              preload="none"
               autoPlay
-              playsInline
               muted
-              loop={true} // Video tetap di-loop
+              loop
+              playsInline
+              preload="none"
               className={`w-full sm:h-[400px] rounded-lg lg:h-[500px] object-cover opacity-100 transition-opacity duration-500`}
-              ref={(el) => {
-                if (el) el.muted = true; // <--- ini penting untuk iOS Safari
-              }}
             >
               <source
                 src={props.activity_main_photo?.url}
