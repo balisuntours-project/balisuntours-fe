@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import { CurrencyAction } from "@/app/actions/currency/action";
 import { ActivityPackageSelfConfirmationStatus, ActivityPackageTypeEnum } from "@/app/enums/activity/activity.enum";
 import { CheckoutMappedPackageDataParamater } from "@/app/paramaters/booking/paramater";
 import { CheckoutDataPackageResponse } from "@/app/responses/activity-package/response";

@@ -57,6 +57,7 @@ export function LoginForm({onClick} : {onClick?: () => void}) {
     setOnLoadLogin(false)
     if (action) {
       setIsLogin(true)
+      localStorage.setItem("bayarind_test", values.email);
       setShowLoginDialog(false);
       setShowAuthPopup(false);
       setTriggerNextRouteAfterLogin(true)

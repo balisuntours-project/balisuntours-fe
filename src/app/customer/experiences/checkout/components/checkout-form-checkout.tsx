@@ -222,7 +222,7 @@ export function CheckoutForm({
         }
 
         if (birthDayMonth) {
-          console.log(birthDayMonth)
+      
           const validate = birthDayMonth.split("-");
           if (validate.length != 2 || !validate[1]) {
             toast({
@@ -303,7 +303,7 @@ export function CheckoutForm({
       return;
     }
 
-    if (process.env.MAIN_PAYMENT_GATEWAY == "bayarind") {
+    if (process.env.MAIN_PAYMENT_GATEWAY == "bayarind" || localStorage.getItem("bayarind_test") == "bayarind123@gmail.com") {
       setDynamicDialogOpen(true);
       return;
     }
