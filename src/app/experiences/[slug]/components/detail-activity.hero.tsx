@@ -229,7 +229,7 @@ export function DetailActivityHero(props: DetailActivityHeroParamater) {
                           // Loader ditampilkan sampai video siap
 
                           <ImageWithLoader
-                            src={item.url}
+                            src={item.video_thumbnail_url ?? item.url}
                             alt="main-banner"
                             fallbackSrc="/fallback-image.png"
                             classNameProp="zoom-animation w-full object-cover h-[400px]"
@@ -242,11 +242,14 @@ export function DetailActivityHero(props: DetailActivityHeroParamater) {
                           ref={(el) => {
                             if (el) videoRefs.current[index] = el; // Simpan reference video
                           }}
-                          poster={item?.video_thumbnail_url}
-                          preload="none"
+                          poster={
+                            props.activity_main_photo?.video_thumbnail_url
+                          }
                           autoPlay
                           muted
-                          loop={true} // Video tetap di-loop
+                          loop
+                          playsInline
+                          preload="none"
                           className={`w-full h-[400px] object-cover ${
                             isVideoLoaded[index] ? "opacity-100" : "opacity-0"
                           } transition-opacity duration-500`}
