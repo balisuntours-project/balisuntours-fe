@@ -63,6 +63,16 @@ export function FooterNavbarSection() {
                         </Link>
                       </div>
                     </NavigationMenuItem>
+                      <NavigationMenuItem>
+                      <div className={navigationMenuTriggerStyle()}>
+                        <Link href="/help-center" passHref legacyBehavior>
+                          <a target="_blank">
+                            <span className="hidden md:inline">Help Center</span>
+                            <HandHelping className="inline md:hidden w-6 h-6 md:w-auto md:h-auto stroke-[1.5]" />
+                          </a>
+                        </Link>
+                      </div>
+                    </NavigationMenuItem>
                   </NavigationMenuList>
                 </NavigationMenu>
               }

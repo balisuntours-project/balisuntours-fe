@@ -198,18 +198,18 @@ export const LandingPageFAQ = () => {
   return (
 <section className="mt-6 md:mt-11">
   <div className="max-w-full">
-    <h2 className="text-xl md:text-2xl lg:text-3xl font-extrabold text-gray-900 mb-6 md:mb-8">
+    <h2 className="font-bold text-xl md:text-3xl">
       Frequently Asked Questions
     </h2>
 
-    <div className="space-y-2">
+    <div className="space-y-2 pt-5">
       {faqs.map((category, categoryIndex) => (
         <Accordion key={categoryIndex} type="single" collapsible>
           <AccordionItem value={`category-${categoryIndex}`} className="border-b border-gray-200">
             <AccordionTrigger className="py-3 hover:no-underline">
               <div className="flex items-center gap-2">
                 <ChevronDown className="h-4 w-4 shrink-0 text-[#EB5E00] transition-transform duration-200" />
-                <h3 className="text-base font-bold text-gray-900 md:text-lg">
+                <h3 className="text-sm font-bold text-gray-900 md:text-base">
                   {category.category}
                 </h3>
               </div>
@@ -233,7 +233,7 @@ export const LandingPageFAQ = () => {
                           <span className="text-left text-gray-900">{faq.question}</span>
                         </div>
                       </AccordionTrigger>
-                      <AccordionContent className="text-sm text-gray-600 pb-2 pl-6">
+                      <AccordionContent className="text-xs md:text-sm text-gray-600 pb-2 pl-6">
                         {faq.answer.split("\n").map((paragraph, i) => (
                           <p key={i} className="mb-2 last:mb-0">
                             {paragraph}
