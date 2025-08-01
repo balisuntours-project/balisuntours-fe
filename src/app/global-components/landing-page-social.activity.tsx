@@ -73,18 +73,18 @@ export function LandingPageSocial() {
     <>
       <section className=" md:mt-6 ">
         <div className="max-w-full">
-          <h2 className="text-xl md:text-2xl lg:text-3xl font-extrabold">
+          <h2 className="text-xl md:text-3xl font-extrabold">
             Trusted by Thousands
           </h2>
 
-          <div className="mt-4 space-y-2 mb-8 text-muted-foreground text-base sm:text-lg font-medium text-left">
+          <div className="pt-5 space-y-2 mb-8 text-muted-foreground text-base sm:text-lg font-medium text-left">
             {trustPoints.map((point, index) => (
               <div key={index} className="flex gap-2">
                 <CheckCircle
                   strokeWidth={2.75}
-                  className="h-full w-full max-h-6 max-w-6 text-[#EB5E00] text-2xl items-center"
+                  className="h-full w-full max-h-5 max-w-5 text-[#EB5E00] items-center"
                 />
-                <span>{point}</span>
+                <span className="text-sm md:text-base">{point}</span>
               </div>
             ))}
           </div>
