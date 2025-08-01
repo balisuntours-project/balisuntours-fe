@@ -97,7 +97,6 @@ export default async function Home() {
             />
             <LandingPageRentalVechileSection />
             <LandingPageSocial />
-            <LandingPageFAQ />
           </div>
           <hr />
           <div className="container flex flex-col gap-11 px-3 md:px-8  pt-11 pb-11">
