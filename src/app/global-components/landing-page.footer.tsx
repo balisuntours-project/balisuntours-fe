@@ -157,6 +157,7 @@ export function LandingPageFooterSection({className} : {className?: string}) {
                 >
                   Charity <span className="text-teal-600  md:p-1"></span>
                 </a>
+                 <span className="block md:hidden mx-1 border-r-2 border-gray-300 h-3 py-auto items-center" />
                   <a
                   className="pb-2 md:pb-0 md:my-2 block text-[10px] md:text-xs hover:text-[#65AD2E]"
                   target="_blank"
