@@ -4,7 +4,7 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { Goal, HandHelping, Handshake } from "lucide-react";
+import { Goal, HandHelping, Handshake, ShieldQuestion } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -68,7 +68,7 @@ export function FooterNavbarSection() {
                         <Link href="/help-center" passHref legacyBehavior>
                           <a target="_blank">
                             <span className="hidden md:inline">Help Center</span>
-                            <HandHelping className="inline md:hidden w-6 h-6 md:w-auto md:h-auto stroke-[1.5]" />
+                            <ShieldQuestion className="inline md:hidden w-6 h-6 md:w-auto md:h-auto stroke-[1.5]" />
                           </a>
                         </Link>
                       </div>
