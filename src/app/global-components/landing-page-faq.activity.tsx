@@ -98,9 +98,14 @@ export const LandingPageFAQ = () => {
         },
         {
           question: "How do I contact you for questions or urgent help?",
-          answer:
-            "We're available daily from 08:00 to 22:00 (Bali Time) via:\n\n• WhatsApp (fastest)\n• Email: [your email here]\n• Instagram: @balisuntours",
+          answer: `
+            We're available daily from 08:00 to 22:00 (Bali Time) via:<br/>
+             • WhatsApp (fastest): <a href="https://wa.me/6281936109809" target="_blank" rel="noopener noreferrer">+62 819-3610-9809</a><br/>
+            • Email: <a href="mailto:info@balisuntours.com">info@balisuntours.com</a><br/>
+            • Instagram: <a href="https://instagram.com/balisuntours" target="_blank" rel="noopener noreferrer">@balisuntours</a>
+          `,
         },
+
         {
           question: "Are you a licensed and trusted tour operator?",
           answer:
@@ -196,60 +201,66 @@ export const LandingPageFAQ = () => {
   ];
 
   return (
-<section className="mt-6 md:mt-11">
-  <div className="max-w-full">
-    <h2 className="font-bold text-xl md:text-3xl">
-      Frequently Asked Questions
-    </h2>
+    <section className="mt-6 md:mt-11">
+      <div className="max-w-full">
+        <h2 className="font-bold text-xl md:text-3xl">
+          Frequently Asked Questions
+        </h2>
 
-    <div className="space-y-2 pt-5">
-      {faqs.map((category, categoryIndex) => (
-        <Accordion key={categoryIndex} type="single" collapsible>
-          <AccordionItem value={`category-${categoryIndex}`} className="border-b border-gray-200">
-            <AccordionTrigger className="py-3 hover:no-underline">
-              <div className="flex items-center gap-2">
-                <ChevronDown className="h-4 w-4 shrink-0 text-[#EB5E00] transition-transform duration-200" />
-                <h3 className="text-sm font-bold text-gray-900 md:text-base">
-                  {category.category}
-                </h3>
-              </div>
-            </AccordionTrigger>
-            <AccordionContent className="pb-0">
-              <div className="space-y-1">
-                {category.questions.map((faq, questionIndex) => (
-                  <Accordion 
-                    key={questionIndex} 
-                    type="single" 
-                    collapsible
-                    className="ml-5"
-                  >
-                    <AccordionItem
-                      value={`item-${categoryIndex}-${questionIndex}`}
-                      className="border-none"
-                    >
-                      <AccordionTrigger className="text-sm md:text-base py-2 hover:no-underline">
-                        <div className="flex gap-2 items-center">
-                          <HelpCircle className="h-4 w-4 min-h-4 min-w-4 text-[#EB5E00]" />
-                          <span className="text-left text-gray-900">{faq.question}</span>
-                        </div>
-                      </AccordionTrigger>
-                      <AccordionContent className="text-xs md:text-sm text-gray-600 pb-2 pl-6">
-                        {faq.answer.split("\n").map((paragraph, i) => (
-                          <p key={i} className="mb-2 last:mb-0">
-                            {paragraph}
-                          </p>
-                        ))}
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-                ))}
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      ))}
-    </div>
-  </div>
-</section>
+        <div className="space-y-2 pt-5">
+          {faqs.map((category, categoryIndex) => (
+            <Accordion key={categoryIndex} type="single" collapsible>
+              <AccordionItem
+                value={`category-${categoryIndex}`}
+                className="border-b border-gray-200"
+              >
+                <AccordionTrigger className="py-3 hover:no-underline">
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-sm font-bold text-gray-900 md:text-base">
+                      {category.category}
+                    </h3>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="pb-0">
+                  <div className="space-y-1">
+                    {category.questions.map((faq, questionIndex) => (
+                      <Accordion
+                        key={questionIndex}
+                        type="single"
+                        collapsible
+                        className="ml-5"
+                      >
+                        <AccordionItem
+                          value={`item-${categoryIndex}-${questionIndex}`}
+                          className="border-none"
+                        >
+                          <AccordionTrigger className="text-sm md:text-base py-2 hover:no-underline">
+                            <div className="flex gap-2 items-center">
+                              <HelpCircle className="h-4 w-4 min-h-4 min-w-4 text-[#EB5E00]" />
+                              <span className="text-left text-gray-900">
+                                {faq.question}
+                              </span>
+                            </div>
+                          </AccordionTrigger>
+                          <AccordionContent className="text-xs md:text-sm text-gray-600 pb-2 pl-6">
+                            {faq.answer.split("\n").map((paragraph, i) => (
+                              <p
+                                key={i}
+                                className="mb-2 last:mb-0"
+                                dangerouslySetInnerHTML={{ __html: paragraph }}
+                              />
+                            ))}
+                          </AccordionContent>
+                        </AccordionItem>
+                      </Accordion>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 };
