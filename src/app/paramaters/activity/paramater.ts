@@ -19,11 +19,13 @@ export type ActivityCardProps = {
   showDesciption?: string;
   showTags?: boolean;
   withStyledConfig?: boolean;
+  onlyContent?: boolean;
 };
 
 export interface ActivityTags {
   first_tag: string;
   second_tag: string;
+  third_tag?: string
 }
 
 export interface ActivityLandingPage {
