@@ -1,15 +1,27 @@
-import { CheckCheck, CheckCircle } from "lucide-react";
+"use client";
 import Image from "next/image";
 import Link from "next/link";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useEffect } from "react";
 
 export function LandingPageSocial() {
-  const trustPoints = [
-    "12,000+ guests/year",
-    "4.9★ Google & TripAdvisor Ratings",
-    "Partnered with Aussie travel groups",
-    "Featured in Australian Traveller",
-    "Used by Bali resorts and yoga retreats",
-  ];
+  // const trustPoints = [
+  //   "12,000+ guests/year",
+  //   "4.9★ Google & TripAdvisor Ratings",
+  //   "Partnered with Aussie travel groups",
+  //   "Featured in Australian Traveller",
+  //   "Used by Bali resorts and yoga retreats",
+  // ];
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: false,
+    });
+
+    AOS.refresh();
+  }, []);
 
   const logos = [
     {
@@ -73,39 +85,24 @@ export function LandingPageSocial() {
     <>
       <section className=" md:mt-6 ">
         <div className="max-w-full">
-          <h2 className="text-xl md:text-3xl font-extrabold">
-            Trusted by Thousands
-          </h2>
+          <h2 className="text-xl md:text-3xl font-extrabold">Our Partner</h2>
 
-          <div className="pt-5 space-y-2 mb-8 text-muted-foreground text-base sm:text-lg font-medium text-left">
-            {trustPoints.map((point, index) => (
-              <div key={index} className="flex gap-2">
-                <CheckCircle
-                  strokeWidth={2.75}
-                  className="h-full w-full max-h-5 max-w-5 text-[#EB5E00] items-center"
-                />
-                <span className="text-sm md:text-base">{point}</span>
-              </div>
-            ))}
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-6 mt-6">
+          <div className="flex flex-wrap justify-center py-6 w-full gap-6">
             {logos.map((logo, index) => (
               <div
                 key={index}
-                className="relative w-[80px] md:w-[120px] h-[25px] md:h-[40px] grayscale hover:grayscale-0 transition duration-300"
+                className="flex justify-center items-center w-[calc(23.333%_-_8px)] sm:w-[calc(18%_-_8px)] lg:w-[calc(10%_-_8px)]"
               >
-                <Link
-                  href={logo.ota_url}
-                  target="_blank"
-                >
-                  <Image
-                    src={logo.src}
-                    alt={logo.alt}
-                    fill
-                    className="object-contain"
-                  />
-                </Link>
+                <div data-aos="fade-up" className="relative w-[80px] md:w-[120px] h-[25px] md:h-[40px] grayscale hover:grayscale-0 transition duration-300">
+                  <Link href={logo.ota_url} target="_blank">
+                    <Image
+                      src={logo.src}
+                      alt={logo.alt}
+                      fill
+                      className="object-contain"
+                    />
+                  </Link>
+                </div>
               </div>
             ))}
           </div>

@@ -11,12 +11,11 @@ export function LandingPageActivityMobileSection(props: ActivityLandingPage) {
   return (
     <>
       <div className="block md:hidden">
-        {props.popular_activity.length > 0 && (
+        {/* {props.popular_activity.length > 0 && (
           <div>
             <h1 className="font-bold text-xl">
               Best Experience, Ultra Comfortable
             </h1>
-            {/*  <h1 className="font-bold text-xl">The One And Only</h1> */}
             <div className="pt-3  mb-11">
               <Carousel
                 opts={{
@@ -24,28 +23,6 @@ export function LandingPageActivityMobileSection(props: ActivityLandingPage) {
                 }}
                 className="w-full max-w-full "
               >
-                {/* <CarouselContent>
-                  {Array.from(props.best_deals_activity).map(
-                    (activity, key) => (
-                      <CarouselItem
-                        key={key + activity.uuid}
-                        className="basis-full"
-                      >
-                        <div className="p-1">
-                          <ActivityCard
-                            useMobileHeight={false}
-                            activity={activity}
-                            tags={{
-                              first_tag: "One and Only",
-                              second_tag: "Best Experience",
-                            }}
-                            showDesciption="🌳Explore the mystical temples, walk among the playful residents of nature, and experience the soul of Bali in its most sacred sites."
-                          />
-                        </div>
-                      </CarouselItem>
-                    )
-                  )}
-                </CarouselContent> */}
                 <CarouselContent>
                   <CarouselItem className="basis-full">
                     <div className="p-1">
@@ -64,7 +41,7 @@ export function LandingPageActivityMobileSection(props: ActivityLandingPage) {
               </Carousel>
             </div>
           </div>
-        )}
+        )} */}
 
         <h1
           id="small-best-attractions"

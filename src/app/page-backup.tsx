@@ -17,20 +17,8 @@ import { ActivityActionServer } from "./actions/activity/action.server";
 import { LandingPageSocial } from "./global-components/landing-page-social.activity";
 import { LandingPageFAQ } from "./global-components/landing-page-faq.activity";
 import { WhatsappFixedBadge } from "./global-components/utility-components/whatsapp-fixed.badge";
-import Image from "next/image";
-import ActivityCard from "./global-components/utility-components/activity.card";
-import { allPosts } from "contentlayer/generated";
-import { BlogCard } from "./blog/components/blog-card";
-import TripAdvisorWidget from "./global-components/landing-page.review";
-import Link from "next/link";
-import { LandingPageBlog } from "./global-components/landing-page.blog";
-import { LandingPageAward } from "./global-components/landing-page.award";
-import { LandingPageWhyUs } from "./global-components/landing-why-us.section";
-import { ImageWithLoader } from "./global-components/utility-components/with-loader.image";
-import { LandingPageBestActivity } from "./global-components/landing-best.activity";
-import { LandingPageReadyToExplore } from "./global-components/landing-ready-to-explore.section";
 
-export default async function Home() {
+export default async function HomeBackup() {
   const batchResult = await Promise.allSettled([
     ActivityAction.GetPopularActivity(),
     ActivityAction.GetBestDealActivity(),
@@ -96,45 +84,26 @@ export default async function Home() {
       <div className="pt-20 md:pt-22 lg:pt-24">
         <div className="relative">
           <LandingPageHeroSection />
-          <div className="flex flex-col gap-11 px-[0.75rem] md:px-[4rem]  pt-11 pb-11">
+          <div className="container flex flex-col gap-11 px-3 md:px-8  pt-11 pb-11">
             <LandingRecentlyViewedActivity />
-            <LandingPageBestCategorySection
-              best_category={bestCategory}
-              best_category_activity={activityFromBestCategory}
-            />
-            {/* <LandingPageBenefit /> */}
+            <LandingPageBenefit />
             <LandingPagePopularActivitySection
               best_deals_activity={bestDeals}
               popular_activity={popularActivity}
             />
-
-            {/* Background best product */}
-            <LandingPageBestActivity popularActivity={popularActivity[0]} />
-            {/* Blog */}
-            <LandingPageBlog />
-
-            {/* Award */}
-            <LandingPageAward />
-
-            {/* Why Travel with us */}
-            <LandingPageWhyUs />
-
-            {/* Widget review */}
-            <TripAdvisorWidget />
-
-            <LandingPageSocial />
-
-            {/* Browse tour */}
-          <LandingPageReadyToExplore />
-
+            <LandingPageBestCategorySection
+              best_category={bestCategory}
+              best_category_activity={activityFromBestCategory}
+            />
             <LandingPageRentalVechileSection />
+            <LandingPageSocial />
           </div>
           <hr />
           <div className="container flex flex-col gap-11 px-3 md:px-8  pt-11 pb-11">
             <LandingPageFooterSection />
           </div>
 
-          <WhatsappFixedBadge templateMessage="Hi Bali SUN Tours, I'm interested in your luxury services. Could you send me your best recommendations?" />
+          <WhatsappFixedBadge templateMessage="Hi Bali SUN Tours, I'm interested in your luxury services. Could you send me your best recommendations?" />        
         </div>
       </div>
     </>

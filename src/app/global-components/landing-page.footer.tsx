@@ -2,7 +2,11 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export function LandingPageFooterSection({className} : {className?: string}) {
+export function LandingPageFooterSection({
+  className,
+}: {
+  className?: string;
+}) {
   const tripadvisorHtml = `
     <div id="TA_certificateOfExcellence540" class="TA_certificateOfExcellence">
       <ul id="GUZLx9gWI7c9" class="TA_links VDLPAbhc">
@@ -19,9 +23,8 @@ export function LandingPageFooterSection({className} : {className?: string}) {
     <>
       <div>
         <div className={className}>
-    
-          <div className="w-full md:w-[90%] px-0 sm:px-6 text-gray-800 sm:grid md:grid-cols-3  sm:grid-cols-2 mx-auto">
-            <div className=" md:ps-0 md:pb-0 flex items-start w-[140px] md:w-[180px] h-[140px] md:h-[180px] md:block">
+          <div className="w-full md:w-[100%] px-0 sm:px-6 text-gray-800 sm:flex sm:justify-center sm:gap-14  mx-auto">
+            {/* <div className=" md:ps-0 md:pb-0 flex items-start w-[140px] md:w-[180px] h-[140px] md:h-[180px] md:block">
               <div className=" md:ps-0 md:pb-0" id="tripadvisor-widget">
                 <div
                   id="TA_certificateOfExcellence540"
@@ -46,7 +49,7 @@ export function LandingPageFooterSection({className} : {className?: string}) {
                   </ul>
                 </div>
               </div>
-            </div>
+            </div> */}
             {/*   <div className="px-5 py-3 md:px-0 md:py-5 md:ps-20 md:pe-5">
               <div className="footer-menu mb-2 md:mb-0 text-xs md:text-sm uppercase font-bold">
                 Our Services
@@ -103,11 +106,11 @@ export function LandingPageFooterSection({className} : {className?: string}) {
              
              </div>
             </div> */}
-            <div className="px-5 py-3 md:px-0 md:py-5 md:ps-10 md:pe-5">
+            <div className="px-5 py-3 md:px-0 md:py-5 md:pe-5 col-span-2">
               <div className="mb-2 md:mb-0 text-xs md:text-sm uppercase font-bold">
                 Support Help
               </div>
-              <div className="flex md:flex-col flex-wrap">
+              <div className="flex flex-wrap">
                 <a
                   className="pb-2 md:pb-0 md:my-2 block text-[10px] md:text-xs hover:text-[#65AD2E]"
                   target="_blank"
@@ -157,8 +160,8 @@ export function LandingPageFooterSection({className} : {className?: string}) {
                 >
                   Charity <span className="text-teal-600  md:p-1"></span>
                 </a>
-                 <span className="block md:hidden mx-1 border-r-2 border-gray-300 h-3 py-auto items-center" />
-                  <a
+                <span className="block md:hidden mx-1 border-r-2 border-gray-300 h-3 py-auto items-center" />
+                <a
                   className="pb-2 md:pb-0 md:my-2 block text-[10px] md:text-xs hover:text-[#65AD2E]"
                   target="_blank"
                   href="/help-center"
@@ -176,7 +179,7 @@ export function LandingPageFooterSection({className} : {className?: string}) {
                 </a>
               </div>
             </div>
-            <div className="px-5 py-3 md:px-0 md:py-5">
+            <div className="px-5 py-3 md:px-0 md:py-5 ">
               <div className="mb-2 md:mb-0 text-xs md:text-sm uppercase font-bold">
                 Accepted Payment
               </div>
@@ -241,8 +244,10 @@ export function LandingPageFooterSection({className} : {className?: string}) {
                 booking@balisuntours.com
               </a>
             </div> */}
+            </div>
 
-              <div className="mb-2 md:mb-0 text-xs md:text-sm uppercase font-bold mt-8">
+            <div className="px-5 py-3 md:px-0 md:py-5">
+              <div className="mb-2 md:mb-0 text-xs md:text-sm uppercase font-bold">
                 Follow Us
               </div>
               <div className="md:flex-auto mt-3 flex-row flex">
@@ -316,7 +321,12 @@ export function LandingPageFooterSection({className} : {className?: string}) {
 
         <div className="">
           <div className="flex md:pb-5 px-3 m-auto pt-5 border-t text-gray-800 text-xs md:text-sm flex-col w-full max-w-full items-center">
-            <Link href="/" className="md:my-5 text-black no-underline hover:text-black">© 2013 - 2025 PT. Surya Utama Nirmala</Link>
+            <Link
+              href="/"
+              className="md:my-5 text-black no-underline hover:text-black"
+            >
+              © 2013 - 2025 PT. Surya Utama Nirmala
+            </Link>
           </div>
         </div>
       </div>
